@@ -83,10 +83,10 @@ def test_descriptions_survive_reprofile_and_render(shop_csv, tmp_path):
     assert descriptions.load(out)["tables"]["orders"]["confidence"] == "medium"
     assert _run("render", out) == 0
     story = (out / "data-stories" / "orders.md").read_text(encoding="utf-8")
-    assert "Confidence: **medium**" in story and "Is `amount` in DKK?" in story
+    assert "| **Confidence** | medium |" in story and "Is `amount` in DKK?" in story
     assert 'description_source: "inferred"' in story
     index = (out / "index.md").read_text(encoding="utf-8")
-    assert "One row per order line keyed by" in index and "web shop" in index
+    assert "| **About** | Two linked tables" in index
 
 
 def _lint(profile, tables):
@@ -142,3 +142,42 @@ def test_profile_json_is_valid(shop_csv, tmp_path):
     profile = json.loads((out / "_bijoe" / "profile.json").read_text(encoding="utf-8"))
     assert profile["schema_version"] == 1 and profile["settings"]["include_values"] is False
     assert [t["slug"] for t in profile["tables"]] == ["customers", "orders"]
+
+
+def test_landing_page_layout_and_grain(shop_csv, tmp_path):
+    out = tmp_path / "wiki"
+    _run("profile", shop_csv, "--out", out)
+    data = descriptions.load(out)
+    data["dataset"].update(summary="Sales records for a small web shop.", source="inferred")
+    data["tables"]["customers"].update(
+        grain="One row per customer",
+        definition="A customer is a person who has signed up with the shop, identified by `cust_id`.",
+        description="One row per customer keyed by `cust_id`, with sign-up dates from 2024-01-03 to 2024-04-05.",
+        source="inferred", confidence="medium", evidence=["`cust_id` unique"])
+    descriptions.save(out, data)
+    assert _run("render", out) == 0
+    index = (out / "index.md").read_text(encoding="utf-8")
+    assert index.index("## At a glance") < index.index("## Data stories") < index.index("## Data model")
+    assert "| **About** | Sales records for a small web shop. _(written by AI)_ |" in index
+    assert "| **Sampled rows** | 8 |" in index and "Total rows" not in index
+    assert "One page per table" not in index and "## How to read this wiki" not in index
+    assert "| Table | BEAM✲ | Grain | Description | Sampled rows | Columns |" in index
+    assert "| One row per customer | A customer is a person who has signed up" in index
+    story = (out / "data-stories" / "customers.md").read_text(encoding="utf-8")
+    assert "| **Grain** | One row per customer |" in story
+    assert "| **Sampled rows** | 4 |" in story
+
+
+def test_lint_grain_definition_and_summary(shop_csv, tmp_path):
+    out = tmp_path / "wiki"
+    _run("profile", shop_csv, "--out", out)
+    profile = wiki.load_profile(out)
+    entry = {**descriptions.empty_entry(), "description": "One row per order line keyed by `order_id`, with amounts.",
+             "source": "inferred", "confidence": "high", "evidence": ["`order_id`"],
+             "grain": "Each order line", "definition": "More context needed."}
+    data = {"dataset": {"summary": "The `orders` and customers tables of a shop."}, "tables": {"orders": entry}}
+    msgs = " | ".join(m for _, _, m in descriptions.lint(profile, data))
+    assert "grain should read 'One row per ...'" in msgs
+    assert "summary names tables or columns in `backticks`" in msgs
+    assert "summary names tables (customers, orders)" in msgs
+    assert "definition not written yet" not in msgs  # "More context needed." is a valid answer

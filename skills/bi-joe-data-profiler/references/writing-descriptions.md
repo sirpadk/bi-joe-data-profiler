@@ -16,7 +16,45 @@ does more harm than an honest "unclear".
 Column comments from the source system (shown in the `comment` column of `bijoe evidence`)
 count as strong evidence for an inferred table description. Cite them.
 
-## 2. What a good description says
+## 2. Grain and definition (shown on the landing page)
+
+Every table has two short fields, `grain` and `definition`, which appear in the landing
+page's list of data stories. Keep them short: the landing page may list 100 tables.
+
+**`grain`: what one row is.** Always write it as "One row per …", e.g. "One row per
+customer" or "One row per order line". Base it on what is measured: a unique column
+that is never missing, or a combination of columns, compared with the row count.
+
+**`definition`: what the thing is, in one common-sense sentence.** Read the data the
+way an experienced analyst would: combine the names, the values and the context into the
+most likely meaning. Then state it plainly. For example:
+
+> A customer is a person who has made one or more purchases from the company,
+> identified by `CustomerID`.
+
+Each part of that sentence rests on evidence:
+
+| Part of the definition | Evidence |
+|---|---|
+| a *person* | first and last names, a birth date, gender values `M`/`F`/`Other` |
+| *made one or more purchases* | `TotalOrders` has a minimum of 1 |
+| *identified by `CustomerID`* | unique and never missing |
+
+**The same table name can deserve a different definition.** If that table had company
+names, VAT numbers and no birth dates, the conclusion would be "a business that buys
+from the company". Let the data decide, not the table name.
+
+### Make good guesses, not wild ones
+
+- **A good guess** is the reading most of the evidence points to, which a domain expert
+  would agree with on sight. State it plainly.
+- **A wild guess** depends on facts the data doesn't show, such as who uses the table,
+  why it exists, which system it comes from, or what a code means. Leave those out.
+- **When the evidence doesn't support a sensible definition or grain,** write exactly
+  `More context needed.` Then add an open question saying what would settle it. This
+  is always better than making something up.
+
+## 3. What a good description says
 
 Write two to five sentences, in this order of value. Skip any point you have no evidence for.
 
@@ -39,7 +77,7 @@ Fit the depth to the user's `purpose`, `audience` and `focus` (shown at the top 
 `bijoe evidence`). Someone building a dashboard needs the grain and the time range.
 Someone sourcing data into a warehouse needs the keys and the caveats.
 
-## 3. Hard rules
+## 4. Hard rules
 
 - **Every claim has evidence.** If you can't point to a column, value, count or document,
   leave the claim out. List the facts you relied on in `evidence`, citing exact names
@@ -63,7 +101,7 @@ Someone sourcing data into a warehouse needs the keys and the caveats.
 - **"Unclear" is an acceptable answer.** An honest low-confidence description with good
   open questions is better than a fluent guess.
 
-## 4. Don't state the obvious
+## 5. Don't state the obvious
 
 Don't write any of these (`bijoe check` catches most of them):
 - "The `customers` table contains information about customers." This adds nothing.
@@ -77,7 +115,7 @@ Don't write any of these (`bijoe check` catches most of them):
 **Test:** cover the table name. Would a reader still learn something from your first
 sentence? If not, rewrite it.
 
-## 5. Examples
+## 6. Examples
 
 Weak:
 ```json
@@ -112,13 +150,20 @@ Low confidence, done right:
 }
 ```
 
-## 6. Dataset summary
+## 7. Dataset summary (the "About" row on the landing page)
 
-Write `dataset.summary` last, in two to four sentences:
-- what the data is about as a whole
-- which tables are central and how they connect
-- the time span, if it is known
-- the one thing a reader should know first
+Write `dataset.summary` last, in one to three plain sentences that tell the reader **what
+the data is about as a whole**: the business, the area it covers, and the time span if it
+is known.
 
-The same rules apply. Set `dataset.source` to `inferred`, unless the user gave you the
-summary.
+**Don't** name tables or columns, or explain how tables connect. The data stories and the
+diagram do that. The summary has to read just as well for a database of 100 tables as for
+3. `bijoe check` warns when the summary names a table or uses `backticks`.
+
+Example:
+
+> Reference data for a shoe retailer trading as StepUp: the people who buy from it, what
+> it sells, and where it sells. It holds no sales or other business events.
+
+The same honesty rules apply. Set `dataset.source` to `inferred`, unless the user gave
+you the summary.

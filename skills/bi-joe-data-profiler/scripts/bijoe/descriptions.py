@@ -5,7 +5,10 @@ wiki can be re-generated without losing them, and so they can be checked against
 facts before they are published.
 
 Each table entry:
-    description     the text shown on the data story
+    grain           what one row is: "One row per customer" (or "More context needed.")
+    definition      one common-sense sentence on what the thing is, shown on the landing page
+                    (or "More context needed.")
+    description     the longer text shown on the data story
     source          system_metadata | user_documentation | inferred | pending
     confidence      high | medium | low        (required when source is inferred)
     evidence        list of facts the description is based on  (required when inferred)
@@ -51,10 +54,15 @@ WEAK_PATTERNS: List[Tuple[str, str]] = [
 ]
 
 BACKTICK_RE = re.compile(r"`([^`\n]+)`")
+GRAIN_RE = re.compile(r"^one row (per|for each)\b", re.IGNORECASE)
+#: the honest answer when the evidence does not support a definition or grain
+NEEDS_CONTEXT = "More context needed."
 
 
 def empty_entry() -> Dict[str, Any]:
     return {
+        "grain": "",
+        "definition": "",
         "description": "",
         "source": "pending",
         "confidence": None,
@@ -151,7 +159,14 @@ def lint(profile: Dict[str, Any], data: Dict[str, Any]) -> List[Tuple[str, str, 
     if not (dataset.get("summary") or "").strip():
         problems.append(("todo", "dataset", "dataset summary is still empty"))
     else:
-        _check_text("dataset", dataset["summary"], known, problems)
+        summary = dataset["summary"]
+        _check_text("dataset", summary, known, problems)
+        # The summary must work for 100 tables too: about the data as a whole, no table or column details.
+        if BACKTICK_RE.search(summary):
+            problems.append(("warning", "dataset", "summary names tables or columns in `backticks`; keep it about the data as a whole"))
+        named = [t["name"] for t in profile["tables"] if re.search(rf"\b{re.escape(t['name'])}\b", summary)]
+        if named:
+            problems.append(("warning", "dataset", f"summary names tables ({', '.join(named)}); describe the data as a whole instead"))
 
     for name in by_name:
         if name not in tables:
@@ -186,6 +201,15 @@ def lint(profile: Dict[str, Any], data: Dict[str, Any]) -> List[Tuple[str, str, 
                 problems.append(("error", where, "inferred descriptions need at least one evidence item"))
             if entry.get("confidence") == "low" and not entry.get("open_questions"):
                 problems.append(("warning", where, "low confidence: add open_questions saying what to ask the data owner"))
+        for field in ("grain", "definition"):
+            value = (entry.get(field) or "").strip()
+            if not value:
+                problems.append(("todo", where, f"{field} not written yet"))
+            elif value.rstrip(".").lower() != NEEDS_CONTEXT.rstrip(".").lower():
+                _check_text(f"{where} {field}", value, known, problems)
+        grain = (entry.get("grain") or "").strip()
+        if grain and not GRAIN_RE.match(grain) and grain.rstrip(".").lower() != NEEDS_CONTEXT.rstrip(".").lower():
+            problems.append(("warning", where, f"grain should read 'One row per ...' (or '{NEEDS_CONTEXT}')"))
         for item in entry.get("evidence") or []:
             _check_text(f"{where} evidence", str(item), known, problems)
         notes = (entry.get("ai_notes") or "").strip()

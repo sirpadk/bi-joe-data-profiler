@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import json
 import re
+import shutil
 import unicodedata
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
@@ -112,8 +113,24 @@ def _entry(descriptions: Dict[str, Any], table: str) -> Dict[str, Any]:
 
 # ---- pages ------------------------------------------------------------------
 
+HOW_TO_READ = "how-to-read.md"
+STORY_INTRO = ("_A data story describes one table: what one row is, what it means in business terms, "
+               "and what to watch out for._")
+SOURCE_SHORT = {
+    "system_metadata": "Source system metadata, quoted word for word",
+    "user_documentation": "Documentation from the data owner",
+    "inferred": "Written by AI from the data. Check before relying on it.",
+    "pending": "Not written yet",
+}
 _PLAIN_TYPES = {"text": "text", "integer": "whole number", "decimal": "number", "date": "date",
                 "datetime": "date/time", "boolean": "yes/no", "time": "time", "binary": "binary", "empty": "empty"}
+
+
+def property_table(rows: List[tuple]) -> List[str]:
+    """Paired information is always shown as a two-column property table."""
+    out = ["| | |", "|---|---|"]
+    out.extend(f"| **{_cell(k)}** | {_cell(v)} |" for k, v in rows if v not in (None, ""))
+    return out
 
 
 def _table_names(profile: Dict[str, Any]) -> List[str]:
@@ -147,6 +164,41 @@ def _examples(col: Dict[str, Any], n: int = 3, width: int = 25) -> str:
     return ", ".join(vals)
 
 
+def _pending(text: str) -> str:
+    return text.strip() or "_pending_"
+
+
+def _mermaid_id(name: str, taken: Dict[str, str]) -> str:
+    if name in taken:
+        return taken[name]
+    base = re.sub(r"[^A-Za-z0-9_]", "_", name) or "table"
+    if base[0].isdigit():
+        base = "t_" + base
+    ident, n = base, 2
+    while ident in taken.values():
+        ident = f"{base}_{n}"
+        n += 1
+    taken[name] = ident
+    return ident
+
+
+def er_diagram(profile: Dict[str, Any]) -> List[str]:
+    """Table-level ER diagram (Mermaid), drawn from the measured relationships only."""
+    ids: Dict[str, str] = {}
+    lines = ["```mermaid", "erDiagram"]
+    for t in profile["tables"]:
+        ident = _mermaid_id(t["name"], ids)
+        label = t["name"].replace('"', "'")
+        lines.append(f'    {ident}["{label}"]' if ident != t["name"] else f"    {ident}")
+    by_name = {t["name"]: t for t in profile["tables"]}
+    for r in profile.get("relationships") or []:
+        src = next(c for c in by_name[r["from_table"]]["columns"] if c["name"] == r["from_column"])
+        many = "o|" if src.get("all_values_unique") else "o{"
+        lines.append(f'    {ids[r["to_table"]]} ||--{many} {ids[r["from_table"]]} : ""')
+    lines.append("```")
+    return lines
+
+
 def render_story(table: Dict[str, Any], entry: Dict[str, Any], profile: Dict[str, Any]) -> str:
     source = entry.get("source", "pending")
     description = (entry.get("description") or "").strip()
@@ -155,43 +207,45 @@ def render_story(table: Dict[str, Any], entry: Dict[str, Any], profile: Dict[str
     slugs = _slugs(profile)
     pre = "../"
     table_codes = [c for c in (beam.parse(t, "table") for t in b["table"]) if c]
+    src_code = beam.source_code(table, profile["dataset"])
     meta = metadata_block({
         "bijoe": "data-story",
         "schema_version": SCHEMA_VERSION,
         "dataset": profile["dataset"]["name"],
         "table": table["name"],
-        "rows": table.get("row_count"),
+        "grain": entry.get("grain") or None,
+        "sampled_rows": table.get("profiled_rows"),
         "columns": table.get("column_count"),
         "description_source": source,
         "confidence": entry.get("confidence"),
         "beam_table_codes": [c.text for c in table_codes],
-        "beam_source": beam.source_code(table, profile["dataset"]),
+        "beam_source": src_code,
         "generated_at": profile["generated_at"],
     })
-    out = [f"[← {profile['dataset']['name']} overview](../index.md) · [BEAM✲ annotations](../{beam.PAGE})", "",
-           f"# {table['name']}", ""]
-    tags = []
-    if b["table"]:
-        tags.append(beam.links(b["table"], "table", pre, names) + " _(suggested by AI)_")
-    tags.append(beam.links([beam.source_code(table, profile["dataset"])], "table", pre) + " _(measured)_")
-    out += ["**BEAM✲:** " + " · ".join(tags), "", "## Description", ""]
+    out = [f"[← {profile['dataset']['name']} overview](../index.md) · [BEAM✲ annotations](../{beam.PAGE}) · "
+           f"[How to read this wiki](../{HOW_TO_READ})", "", f"# {table['name']}", ""]
+    codes = beam.links(b["table"], "table", pre, names)
+    props = [
+        ("Grain", _pending(entry.get("grain") or "")),
+        ("Definition", beam.link_prose(_pending(entry.get("definition") or ""), pre)),
+        ("BEAM✲", f"{codes} _(suggested by AI)_" if codes else "_pending_"),
+        (f"Why {codes}" if codes else "", beam.link_prose(b["table_why"], pre) if codes else ""),
+        ("Source", beam.links([src_code], "table", pre) + " _(measured)_"),
+        ("Sampled rows", f"{table.get('profiled_rows', 0):,}"),
+        ("Columns", f"{table.get('column_count', 0):,}"),
+        ("Description source", SOURCE_SHORT[source]),
+        ("Confidence", entry.get("confidence") if source == "inferred" else ""),
+    ]
+    out += property_table(props)
+    out += ["", "## Description", ""]
     if source == "pending":
         out.append("_No description yet. Ask the BI Joe skill to write one, or add it to `_bijoe/descriptions.json`._")
     else:
         out.append(beam.link_prose(description, pre))
-        out.append("")
-        provenance = f"> **Where this comes from:** {SOURCE_LABELS[source]}"
-        if source == "inferred" and entry.get("confidence"):
-            provenance += f" Confidence: **{entry['confidence']}**."
-        out.append(provenance)
         evidence = entry.get("evidence") or []
         if evidence and source != "system_metadata":
-            out.append(">")
-            out.append("> **Based on:**")
-            out.extend(f"> - {beam.link_prose(str(item), pre)}" for item in evidence)
-        if b["table"] and b["table_why"]:
-            why_codes = beam.links(b["table"], "table", pre, names)
-            out += [">", f"> **Why {why_codes}:** {beam.link_prose(b['table_why'], pre)}"]
+            out += ["", "**Based on:**", ""]
+            out.extend(f"- {beam.link_prose(str(item), pre)}" for item in evidence)
     notes = (entry.get("ai_notes") or "").strip()
     if notes and source != "pending":
         out += ["", "### Additional context (written by AI)", "", beam.link_prose(notes, pre)]
@@ -214,17 +268,16 @@ def render_story(table: Dict[str, Any], entry: Dict[str, Any], profile: Dict[str
         sug = _column_suggestion(b["columns"].get(col["name"]), col)
         suggested = beam.links(sug["codes"], "column", pre, names)
         if sug["codes"] and sug["why"]:
-            reasons.append(f"- **{_cell(col['name'])}** {suggested}: {beam.link_prose(sug['why'], pre)}")
+            reasons.append((f"{col['name']} {suggested}", beam.link_prose(sug["why"], pre)))
         row = (f"| {_cell(col['name'])} | {type_cell} | {measured} | {suggested} | "
                f"{col.get('missing_pct', 0):g}% | {col['distinct_count']:,} |")
         if has_values:
             row += f" {_cell(_examples(col))} |"
         out.append(row)
-    sample_note = f" Statistics use the first {table['profiled_rows']:,} rows." if table.get("sampled") else ""
-    out += ["", "**Measured** codes come from the data. **Suggested** codes are AI judgement, "
-                f"with the reasons below.{sample_note} [What do the codes mean?](../{beam.PAGE})"]
+    out += ["", f"**Measured** codes come from the data. **Suggested** codes are AI judgement, with the reasons "
+                f"below. [What do the codes mean?](../{beam.PAGE})"]
     if reasons:
-        out += ["", "**Why the suggestions:**", ""] + reasons
+        out += ["", "### Why the suggestions", ""] + property_table(reasons)
 
     # relationships
     outgoing = [r for r in rels if r["from_table"] == table["name"]]
@@ -248,12 +301,11 @@ def render_index(profile: Dict[str, Any], descriptions: Dict[str, Any]) -> str:
     ds = profile["dataset"]
     tables = profile["tables"]
     names = _table_names(profile)
-    slugs = _slugs(profile)
-    total_rows = sum(t.get("row_count") or 0 for t in tables)
+    sampled_rows = sum(t.get("profiled_rows") or 0 for t in tables)
     dataset_desc = descriptions.get("dataset") or {}
     summary = (dataset_desc.get("summary") or "").strip()
-    sampled = [t["name"] for t in tables if t.get("sampled")]
     rels = profile.get("relationships") or []
+    settings = profile.get("settings") or {}
 
     meta = metadata_block({
         "bijoe": "data-profile-index",
@@ -263,61 +315,36 @@ def render_index(profile: Dict[str, Any], descriptions: Dict[str, Any]) -> str:
         "source_type": ds["source_type"],
         "connector": ds["connector"],
         "tables": len(tables),
-        "total_rows": total_rows,
+        "sampled_rows": sampled_rows,
         "relationships": len(rels),
         "generated_at": profile["generated_at"],
         "generator": f"bi-joe-data-profiler {profile['bijoe_version']}",
     })
-    out = [f"# {ds['name']}: data profile", ""]
-    if summary:
-        out += [beam.link_prose(summary), ""]
-        if dataset_desc.get("source") == "inferred":
-            out += ["> Summary written by AI from the profile below. Check it before you rely on it.", ""]
-    else:
-        out += ["_No summary yet._", ""]
-
-    out += [
-        "## At a glance", "",
-        "| | |", "|---|---|",
-        f"| Source | {_cell(ds['source'])} ({ds['connector']}) |",
-        f"| Tables | {len(tables):,} |",
-        f"| Total rows | {total_rows:,} |",
-        f"| Profiled | {profile['generated_at'][:16].replace('T', ' ')} UTC |",
-    ]
-    settings = profile.get("settings") or {}
-    if settings.get("purpose"):
-        out.append(f"| Purpose | {_cell(settings['purpose'])} |")
-    if sampled:
-        out.append(f"| Sampled | Statistics use the first {settings.get('sample_rows', 0):,} rows of: "
-                   f"{_cell(', '.join(sampled))} |")
-    out += ["", "## Data stories", "", "One page per table.", "",
-            "| Table | BEAM✲ | Rows | Columns | Description |", "|---|---|---:|---:|---|"]
+    about = beam.link_prose(summary) if summary else "_pending_"
+    if summary and dataset_desc.get("source") == "inferred":
+        about += " _(written by AI)_"
+    out = [f"# {ds['name']}: data profile", "", "## At a glance", ""]
+    out += property_table([
+        ("About", about),
+        ("Source", f"{ds['source']} ({ds['connector']})"),
+        ("Tables", f"{len(tables):,}"),
+        ("Sampled rows", f"{sampled_rows:,}"),
+        ("Profiled", f"{profile['generated_at'][:16].replace('T', ' ')} UTC"),
+        ("Purpose", settings.get("purpose") or ""),
+        ("How to read", f"[How to read this wiki]({HOW_TO_READ}) · [BEAM✲ annotations]({beam.PAGE})"),
+    ])
+    out += ["", "## Data stories", "", STORY_INTRO, "",
+            "| Table | BEAM✲ | Grain | Description | Sampled rows | Columns |", "|---|---|---|---|---:|---:|"]
     for t in tables:
         entry = _entry(descriptions, t["name"])
-        if entry["source"] == "pending":
-            desc = "_pending_"
-        else:
-            desc = _cell(beam.link_prose(_first_sentence(entry["description"])))
         link = f"[{_cell(t['name'])}]({STORIES_DIR}/{t['slug']}.md)"
         codes = beam.links(_beam(entry)["table"], "table", "", names)
-        out.append(f"| {link} | {codes} | {_num(t.get('row_count'))} | {t.get('column_count', 0):,} | {desc} |")
-
-    if rels:
-        out += ["", "## How the tables connect (measured)", ""]
-        for r in rels:
-            tag = " " + beam.links(["FK"], "column") if r["coverage_pct"] == 100 else ""
-            out.append(f"- [{_cell(r['from_table'])}]({STORIES_DIR}/{slugs[r['from_table']]}.md) "
-                       f"`{r['from_column']}` → [{_cell(r['to_table'])}]({STORIES_DIR}/{slugs[r['to_table']]}.md) "
-                       f"`{r['to_column']}` ({r['coverage_pct']:g}% of values found){tag}")
-
-    out += ["", "## How to read this wiki", "",
-            "Every description says where it comes from:", ""]
-    for key in ("system_metadata", "user_documentation", "inferred"):
-        out.append(f"- **{key}**: {SOURCE_LABELS[key]}")
-    cv, nd = beam.links(["CV"], "table"), beam.links(["ND"], "column")
-    out += ["", f"Short codes like {cv} or {nd} are **BEAM✲ annotations**. Click any code, "
-                f"or see [all BEAM✲ annotations]({beam.PAGE}).",
-            "", "The measured facts behind this wiki are in [`_bijoe/profile.json`](_bijoe/profile.json)."]
+        grain = _cell(_pending(entry.get("grain") or ""))
+        definition = _cell(beam.link_prose(_pending(entry.get("definition") or "")))
+        out.append(f"| {link} | {codes} | {grain} | {definition} | {t.get('profiled_rows', 0):,} | "
+                   f"{t.get('column_count', 0):,} |")
+    out += ["", "## Data model", "", "_How the tables connect, drawn from the measured relationships._", ""]
+    out += er_diagram(profile)
     out += meta
     return "\n".join(out) + "\n"
 
@@ -344,6 +371,7 @@ def render(out_dir: Path, profile: Dict[str, Any], descriptions: Dict[str, Any])
         if old.name not in keep and _is_generated(old):
             old.unlink()
     beam.copy_page(out_dir)  # the same reference page in every wiki, never regenerated
+    shutil.copyfile(beam.ASSET.parent / HOW_TO_READ, out_dir / HOW_TO_READ)  # static, like the BEAM page
     index = out_dir / "index.md"
     index.write_text(render_index(profile, descriptions), encoding="utf-8", newline="\n")
     written.insert(0, index)

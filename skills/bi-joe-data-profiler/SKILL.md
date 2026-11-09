@@ -13,6 +13,7 @@ get a standardised, trustworthy profile of their data. The output is a Markdown 
 <out>/index.md                   landing page: summary, data stories, how tables connect
 <out>/data-stories/<table>.md    one data story per table: BEAM✲ codes, description, columns, relationships
 <out>/beam-annotations.md        BEAM✲ reference page, copied from assets/ (never write it yourself)
+<out>/how-to-read.md             reading guide, copied from assets/ (never write it yourself)
 <out>/_bijoe/profile.json        measured facts (written by the engine, never by you)
 <out>/_bijoe/descriptions.json   descriptions and BEAM✲ suggestions you write, with their evidence
 ```
@@ -27,8 +28,19 @@ Two rules matter more than anything else here:
 1. **The user decides what matters.** Ask before you assume, but never make them
    answer questions they can't answer. See [setup interview](references/setup-interview.md).
 2. **Never invent, never state the obvious.** Every description is grounded in
-   evidence, labelled with where it came from, and checked. See
-   [writing descriptions](references/writing-descriptions.md).
+   evidence, labelled with where it came from, and checked. Make good, common-sense
+   guesses from what is in the data, never wild ones. When the evidence isn't enough,
+   write `More context needed.` See [writing descriptions](references/writing-descriptions.md).
+
+Two layout principles apply to everything you write:
+
+- **Plan for 100 tables.** A database can have hundreds of tables, so the landing page
+  stays high-level. The dataset summary talks about the data as a whole, with no table
+  names, columns or relationships. Per-table detail belongs on the data stories, and
+  the connections are shown in the diagram.
+- **Paired information goes in a two-column property table** (`| | |`), like
+  "At a glance". This applies whenever you show labels with values: properties,
+  settings, column-to-reason lists.
 
 ## Workflow
 
@@ -73,8 +85,9 @@ to produce the same files by hand. Say clearly that the numbers are approximate.
    `--table <name>` to see one table.
 2. Fill in `<out-dir>/_bijoe/descriptions.json`, following
    [references/writing-descriptions.md](references/writing-descriptions.md):
-   - Write a description for each table.
-   - Write `dataset.summary` last.
+   - For each table, write a `grain` ("One row per …"), a one-sentence common-sense
+     `definition`, and a longer `description`.
+   - Write `dataset.summary` last: a few sentences about the data as a whole.
    - Leave entries with `"source": "system_metadata"` exactly as they are. You may
      add grounded context in `ai_notes`.
    - Fill in each table's `beam` block: the table type code, and column codes with a

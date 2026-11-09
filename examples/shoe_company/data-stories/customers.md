@@ -1,23 +1,32 @@
-[← Shoe company overview](../index.md) · [BEAM✲ annotations](../beam-annotations.md)
+[← Shoe company overview](../index.md) · [BEAM✲ annotations](../beam-annotations.md) · [How to read this wiki](../how-to-read.md)
 
 # Customers
 
-**BEAM✲:** [\[CV\]](../beam-annotations.md#t-cv) _(suggested by AI)_ · [{shoe_company.xlsx: Customers}](../beam-annotations.md#t-source) _(measured)_
+| | |
+|---|---|
+| **Grain** | One row per customer |
+| **Definition** | A customer is a person who has made one or more purchases from the company, identified by `CustomerID`. |
+| **BEAM✲** | [\[CV\]](../beam-annotations.md#t-cv) _(suggested by AI)_ |
+| **Why [\[CV\]](../beam-annotations.md#t-cv)** | One row per `CustomerID` (unique in all 200 rows), with descriptive columns and no validity dates, version numbers or current-flag columns, so the sheet holds only current values. |
+| **Source** | [{shoe_company.xlsx: Customers}](../beam-annotations.md#t-source) _(measured)_ |
+| **Sampled rows** | 200 |
+| **Columns** | 17 |
+| **Description source** | Written by AI from the data. Check before relying on it. |
+| **Confidence** | high |
 
 ## Description
 
 One row per customer, identified by `CustomerID`, with contact details, demographics and loyalty status (`LoyaltyTier`). Each customer has a home store in `PreferredStoreID`, and every value matches a `Stores.StoreID`. Sign-ups run from 2018-01-26 to 2026-09-17. `TotalOrders` and `LifetimeSpend` are totals stored per customer; with no order table in the workbook, they cannot be split by date, product or store.
 
-> **Where this comes from:** Written by AI from the table's name, columns and values. Check it before you rely on it. Confidence: **high**.
->
-> **Based on:**
-> - `CustomerID` unique and never missing across 200 rows
-> - `PreferredStoreID` has 15 distinct values, all found in `Stores.StoreID` (measured relationship)
-> - `SignupDate` min 2018-01-26, max 2026-09-17
-> - `TotalOrders` integer 1-40; `LifetimeSpend` decimal 32.68-3950.48
-> - `LoyaltyTier` values: `Gold` (59), `Platinum` (49), `Bronze` (47), `Silver` (45)
->
-> **Why [\[CV\]](../beam-annotations.md#t-cv):** One row per `CustomerID` (unique in all 200 rows), with descriptive columns and no validity dates, version numbers or current-flag columns, so the sheet holds only current values.
+**Based on:**
+
+- `CustomerID` unique and never missing across 200 rows
+- `PreferredStoreID` has 15 distinct values, all found in `Stores.StoreID` (measured relationship)
+- `SignupDate` min 2018-01-26, max 2026-09-17
+- `TotalOrders` integer 1-40; `LifetimeSpend` decimal 32.68-3950.48
+- `LoyaltyTier` values: `Gold` (59), `Platinum` (49), `Bronze` (47), `Silver` (45)
+- `FirstName`, `LastName`, `BirthDate` and `Gender` (`M`, `F`, `Other`) describe people
+- `TotalOrders` minimum is 1
 
 ### Open questions for the data owner
 
@@ -49,15 +58,17 @@ One row per customer, identified by `CustomerID`, with contact details, demograp
 
 **Measured** codes come from the data. **Suggested** codes are AI judgement, with the reasons below. [What do the codes mean?](../beam-annotations.md)
 
-**Why the suggestions:**
+### Why the suggestions
 
-- **CustomerID** [BK](../beam-annotations.md#c-bk) [MD](../beam-annotations.md#c-md): The source's own identifier for each customer: unique, never missing, `C00001`-style codes.
-- **BirthDate** [FV](../beam-annotations.md#c-fv): A person's date of birth should not change; corrections overwrite it.
-- **SignupDate** [FV](../beam-annotations.md#c-fv): Signing up happens once, so the date should not change.
-- **LoyaltyTier** [!](../beam-annotations.md#c-important): Four tiers (`Gold`, `Platinum`, `Bronze`, `Silver`): the main way to segment customers in a dashboard.
-- **PreferredStoreID** [\[Stores\]](../beam-annotations.md#c-dim): Plays the role of 'preferred store' of the `Stores` dimension; every value matches `Stores.StoreID`.
-- **TotalOrders** [FA](../beam-annotations.md#c-fa) [?](../beam-annotations.md#c-suspect): A count that sums correctly across customers, but it is a stored total, not individual orders, and its as-of date is unknown.
-- **LifetimeSpend** [FA](../beam-annotations.md#c-fa) [?](../beam-annotations.md#c-suspect): An amount that sums across customers. A stored total whose currency, as-of date and treatment of tax and returns are unknown.
+| | |
+|---|---|
+| **CustomerID [BK](../beam-annotations.md#c-bk) [MD](../beam-annotations.md#c-md)** | The source's own identifier for each customer: unique, never missing, `C00001`-style codes. |
+| **BirthDate [FV](../beam-annotations.md#c-fv)** | A person's date of birth should not change; corrections overwrite it. |
+| **SignupDate [FV](../beam-annotations.md#c-fv)** | Signing up happens once, so the date should not change. |
+| **LoyaltyTier [!](../beam-annotations.md#c-important)** | Four tiers (`Gold`, `Platinum`, `Bronze`, `Silver`): the main way to segment customers in a dashboard. |
+| **PreferredStoreID [\[Stores\]](../beam-annotations.md#c-dim)** | Plays the role of 'preferred store' of the `Stores` dimension; every value matches `Stores.StoreID`. |
+| **TotalOrders [FA](../beam-annotations.md#c-fa) [?](../beam-annotations.md#c-suspect)** | A count that sums correctly across customers, but it is a stored total, not individual orders, and its as-of date is unknown. |
+| **LifetimeSpend [FA](../beam-annotations.md#c-fa) [?](../beam-annotations.md#c-suspect)** | An amount that sums across customers. A stored total whose currency, as-of date and treatment of tax and returns are unknown. |
 
 ## Relationships (measured)
 
@@ -74,7 +85,8 @@ bijoe: "data-story"
 schema_version: 1
 dataset: "Shoe company"
 table: "Customers"
-rows: 200
+grain: "One row per customer"
+sampled_rows: 200
 columns: 17
 description_source: "inferred"
 confidence: "high"

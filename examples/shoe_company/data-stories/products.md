@@ -1,22 +1,31 @@
-[← Shoe company overview](../index.md) · [BEAM✲ annotations](../beam-annotations.md)
+[← Shoe company overview](../index.md) · [BEAM✲ annotations](../beam-annotations.md) · [How to read this wiki](../how-to-read.md)
 
 # Products
 
-**BEAM✲:** [\[CV\]](../beam-annotations.md#t-cv) _(suggested by AI)_ · [{shoe_company.xlsx: Products}](../beam-annotations.md#t-source) _(measured)_
+| | |
+|---|---|
+| **Grain** | One row per product |
+| **Definition** | A product is a shoe model in one colour that the company sells or has sold, identified by `ProductID` and `SKU`. |
+| **BEAM✲** | [\[CV\]](../beam-annotations.md#t-cv) _(suggested by AI)_ |
+| **Why [\[CV\]](../beam-annotations.md#t-cv)** | One row per `ProductID` (unique in all 60 rows), with descriptive attributes and no validity dates or version columns. |
+| **Source** | [{shoe_company.xlsx: Products}](../beam-annotations.md#t-source) _(measured)_ |
+| **Sampled rows** | 60 |
+| **Columns** | 14 |
+| **Description source** | Written by AI from the data. Check before relying on it. |
+| **Confidence** | high |
 
 ## Description
 
 One row per product, identified by `ProductID` and a unique `SKU`, covering 8 brands and 8 categories. `UnitPrice` is above `UnitCost` for every product, so margin can be calculated per product. Product names are not unique: `Velora Glide Boots` is three products in different colours, so count and filter by `ProductID`, not by name.
 
-> **Where this comes from:** Written by AI from the table's name, columns and values. Check it before you rely on it. Confidence: **high**.
->
-> **Based on:**
-> - `ProductID` and `SKU` both unique and never missing across 60 rows
-> - `Brand` 8 distinct values, `Category` 8 distinct values
-> - `UnitPrice` > `UnitCost` in all 60 rows (checked separately); price 22.99-227.99, cost 8.23-117.92
-> - `ProductName` 58 distinct in 60 rows; `Velora Glide Boots` appears 3 times (Grey, Green, Blue)
->
-> **Why [\[CV\]](../beam-annotations.md#t-cv):** One row per `ProductID` (unique in all 60 rows), with descriptive attributes and no validity dates or version columns.
+**Based on:**
+
+- `ProductID` and `SKU` both unique and never missing across 60 rows
+- `Brand` 8 distinct values, `Category` 8 distinct values
+- `UnitPrice` > `UnitCost` in all 60 rows (checked separately); price 22.99-227.99, cost 8.23-117.92
+- `ProductName` 58 distinct in 60 rows; `Velora Glide Boots` appears 3 times (Grey, Green, Blue)
+- Each row has one `Color`; `Velora Glide Boots` exists as three products in different colours
+- `IsActive` is `False` for 6 products
 
 ### Open questions for the data owner
 
@@ -45,15 +54,17 @@ One row per product, identified by `ProductID` and a unique `SKU`, covering 8 br
 
 **Measured** codes come from the data. **Suggested** codes are AI judgement, with the reasons below. [What do the codes mean?](../beam-annotations.md)
 
-**Why the suggestions:**
+### Why the suggestions
 
-- **ProductID** [BK](../beam-annotations.md#c-bk) [MD](../beam-annotations.md#c-md): The source's identifier for each product: unique, never missing, `P0001`-style codes.
-- **SKU** [NK](../beam-annotations.md#c-nk) [MD](../beam-annotations.md#c-md): Unique `SKU-639131`-style codes; a SKU is the identifier people use on shelves and boxes.
-- **Category** [!](../beam-annotations.md#c-important): Eight categories: the natural first grouping for product dashboards.
-- **UnitPrice** [NA](../beam-annotations.md#c-na) [?](../beam-annotations.md#c-suspect): A unit price can't be summed; use average, min or max. Its currency is unknown.
-- **UnitCost** [NA](../beam-annotations.md#c-na): A cost per unit can't be summed, for the same reason as the price.
-- **StockQty** [SA](../beam-annotations.md#c-sa): A stock level: it can be summed across products, but not over time.
-- **LaunchDate** [FV](../beam-annotations.md#c-fv) [?](../beam-annotations.md#c-suspect): A launch date should not change, but one value lies in the future.
+| | |
+|---|---|
+| **ProductID [BK](../beam-annotations.md#c-bk) [MD](../beam-annotations.md#c-md)** | The source's identifier for each product: unique, never missing, `P0001`-style codes. |
+| **SKU [NK](../beam-annotations.md#c-nk) [MD](../beam-annotations.md#c-md)** | Unique `SKU-639131`-style codes; a SKU is the identifier people use on shelves and boxes. |
+| **Category [!](../beam-annotations.md#c-important)** | Eight categories: the natural first grouping for product dashboards. |
+| **UnitPrice [NA](../beam-annotations.md#c-na) [?](../beam-annotations.md#c-suspect)** | A unit price can't be summed; use average, min or max. Its currency is unknown. |
+| **UnitCost [NA](../beam-annotations.md#c-na)** | A cost per unit can't be summed, for the same reason as the price. |
+| **StockQty [SA](../beam-annotations.md#c-sa)** | A stock level: it can be summed across products, but not over time. |
+| **LaunchDate [FV](../beam-annotations.md#c-fv) [?](../beam-annotations.md#c-suspect)** | A launch date should not change, but one value lies in the future. |
 
 ---
 
@@ -66,7 +77,8 @@ bijoe: "data-story"
 schema_version: 1
 dataset: "Shoe company"
 table: "Products"
-rows: 60
+grain: "One row per product"
+sampled_rows: 60
 columns: 14
 description_source: "inferred"
 confidence: "high"

@@ -74,7 +74,11 @@ def test_relationship_measured_and_page_copied(shop_csv, tmp_path):
     assert "## Relationships (measured)" in story and "[FK](../beam-annotations.md#c-fk)" in story
     assert "{orders.csv}" in story
     index = (out / "index.md").read_text(encoding="utf-8")
-    assert "## How the tables connect (measured)" in index and "](beam-annotations.md)" in index
+    assert "## Data model" in index and "```mermaid\nerDiagram" in index
+    assert "    customers ||--o{ orders : \"\"" in index  # table level, no column names
+    assert "cust_id" not in index.split("## Data model")[1].split("## Metadata")[0]
+    assert "](beam-annotations.md)" in index and "](how-to-read.md)" in index
+    assert (out / "how-to-read.md").is_file()
 
 
 def test_suggestions_render_as_links_and_md_is_struck(shop_csv, tmp_path):
@@ -91,14 +95,14 @@ def test_suggestions_render_as_links_and_md_is_struck(shop_csv, tmp_path):
     descriptions.save(out, data)
     assert main(["render", str(out)]) == 0
     story = (out / "data-stories" / "customers.md").read_text(encoding="utf-8")
-    assert "**BEAM✲:** [\\[CV\\]](../beam-annotations.md#t-cv) _(suggested by AI)_" in story
+    assert "| **BEAM✲** | [\\[CV\\]](../beam-annotations.md#t-cv) _(suggested by AI)_ |" in story
     assert "[~~MD~~](../beam-annotations.md#c-unavailable)" in story  # country has a gap
     assert "[FV](../beam-annotations.md#c-fv)" in story
     assert "[C2](../beam-annotations.md#c-c)" in story  # measured data type
     assert "a current value [\\[CV\\]](../beam-annotations.md#t-cv) dimension" in story
     assert 'beam_table_codes:\n  - "[CV]"' in story
     index = (out / "index.md").read_text(encoding="utf-8")
-    assert "| [customers](data-stories/customers.md) | [\\[CV\\]](beam-annotations.md#t-cv) |" in index
+    assert "| [customers](data-stories/customers.md) | [\\[CV\\]](beam-annotations.md#t-cv) | _pending_ |" in index
 
 
 def test_lint_beam(shop_csv, tmp_path):

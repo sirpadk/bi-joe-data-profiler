@@ -1,24 +1,32 @@
-[← Shoe company overview](../index.md) · [BEAM✲ annotations](../beam-annotations.md)
+[← Shoe company overview](../index.md) · [BEAM✲ annotations](../beam-annotations.md) · [How to read this wiki](../how-to-read.md)
 
 # Stores
 
-**BEAM✲:** [\[CV\]](../beam-annotations.md#t-cv) _(suggested by AI)_ · [{shoe_company.xlsx: Stores}](../beam-annotations.md#t-source) _(measured)_
+| | |
+|---|---|
+| **Grain** | One row per store |
+| **Definition** | A store is a physical StepUp shop (an outlet, flagship, kiosk or standard store), identified by `StoreID`. |
+| **BEAM✲** | [\[CV\]](../beam-annotations.md#t-cv) _(suggested by AI)_ |
+| **Why [\[CV\]](../beam-annotations.md#t-cv)** | One row per `StoreID` (unique in all 15 rows), with descriptive attributes and no validity dates or version columns. |
+| **Source** | [{shoe_company.xlsx: Stores}](../beam-annotations.md#t-source) _(measured)_ |
+| **Sampled rows** | 15 |
+| **Columns** | 12 |
+| **Description source** | Written by AI from the data. Check before relying on it. |
+| **Confidence** | high |
 
 ## Description
 
 One row per store, identified by `StoreID`, with location, manager, size and `StoreType` (`Outlet`, `Flagship`, `Kiosk` or `Standard`). Stores opened between 2010-10-14 and 2024-02-28, in 9 cities across 8 states, and every store is the preferred store of at least one customer. Two different stores share the name `StepUp Northpoint Houston` (an outlet and a standard store at different addresses), so label stores by `StoreID`, or by name plus address.
 
-> **Where this comes from:** Written by AI from the table's name, columns and values. Check it before you rely on it. Confidence: **high**.
->
-> **Based on:**
-> - `StoreID` unique and never missing across 15 rows
-> - `OpenDate` min 2010-10-14, max 2024-02-28
-> - `City` 9 distinct, `State` 8 distinct
-> - `StoreType` values: `Outlet` (6), `Flagship` (4), `Kiosk` (3), `Standard` (2)
-> - `StoreName` 14 distinct in 15 rows; S007 and S008 share a name (checked separately)
-> - All 15 `StoreID` values appear in `Customers.PreferredStoreID` (measured relationship)
->
-> **Why [\[CV\]](../beam-annotations.md#t-cv):** One row per `StoreID` (unique in all 15 rows), with descriptive attributes and no validity dates or version columns.
+**Based on:**
+
+- `StoreID` unique and never missing across 15 rows
+- `OpenDate` min 2010-10-14, max 2024-02-28
+- `City` 9 distinct, `State` 8 distinct
+- `StoreType` values: `Outlet` (6), `Flagship` (4), `Kiosk` (3), `Standard` (2)
+- `StoreName` 14 distinct in 15 rows; S007 and S008 share a name (checked separately)
+- All 15 `StoreID` values appear in `Customers.PreferredStoreID` (measured relationship)
+- Every store has an address, `SquareFeet` and `Employees`, so it is a physical location
 
 ### Open questions for the data owner
 
@@ -43,13 +51,15 @@ One row per store, identified by `StoreID`, with location, manager, size and `St
 
 **Measured** codes come from the data. **Suggested** codes are AI judgement, with the reasons below. [What do the codes mean?](../beam-annotations.md)
 
-**Why the suggestions:**
+### Why the suggestions
 
-- **StoreID** [BK](../beam-annotations.md#c-bk) [MD](../beam-annotations.md#c-md): The source's identifier for each store, S001 to S015, and the target of `Customers.PreferredStoreID`.
-- **StoreName** [?](../beam-annotations.md#c-suspect): Not unique: two different stores share one name.
-- **OpenDate** [FV](../beam-annotations.md#c-fv): A store opens once, so the date should not change.
-- **StoreType** [!](../beam-annotations.md#c-important): Four store formats (`Outlet`, `Flagship`, `Kiosk`, `Standard`): a natural way to compare stores.
-- **SquareFeet** [\[sq ft\]](../beam-annotations.md#c-uom): The column name states the unit.
+| | |
+|---|---|
+| **StoreID [BK](../beam-annotations.md#c-bk) [MD](../beam-annotations.md#c-md)** | The source's identifier for each store, S001 to S015, and the target of `Customers.PreferredStoreID`. |
+| **StoreName [?](../beam-annotations.md#c-suspect)** | Not unique: two different stores share one name. |
+| **OpenDate [FV](../beam-annotations.md#c-fv)** | A store opens once, so the date should not change. |
+| **StoreType [!](../beam-annotations.md#c-important)** | Four store formats (`Outlet`, `Flagship`, `Kiosk`, `Standard`): a natural way to compare stores. |
+| **SquareFeet [\[sq ft\]](../beam-annotations.md#c-uom)** | The column name states the unit. |
 
 ## Relationships (measured)
 
@@ -66,7 +76,8 @@ bijoe: "data-story"
 schema_version: 1
 dataset: "Shoe company"
 table: "Stores"
-rows: 15
+grain: "One row per store"
+sampled_rows: 15
 columns: 12
 description_source: "inferred"
 confidence: "high"

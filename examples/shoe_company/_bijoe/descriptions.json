@@ -1,13 +1,11 @@
 {
   "_how_to_fill": "Fill each entry following references/writing-descriptions.md in the bi-joe-data-profiler skill. source: system_metadata | user_documentation | inferred | pending. When source is inferred, confidence (high|medium|low) and evidence are required. Put `backticks` only around real table names, column names or observed values. Suggest BEAM annotations in beam{} following references/beam-annotations-guide.md. Then run: bijoe check <dir> and bijoe render <dir>.",
   "dataset": {
-    "summary": "Reference data for a shoe retailer whose stores all trade as StepUp: three current value [CV] dimensions holding 200 customers, 60 products and 15 stores, and no business events. `Customers` links to `Stores` through `PreferredStoreID`, while no other sheet refers to `Products`. With no orders or sales in the workbook, dashboards can show customer, product and store attributes and the per-customer totals, but not sales over time, by product or by store.",
+    "summary": "Reference data for a shoe retailer trading as StepUp: the people who buy from it, what it sells, and where it sells. It holds no sales or other business events.",
     "source": "inferred",
     "evidence": [
-      "Sheets: `Customers` (200 rows), `Products` (60), `Stores` (15)",
-      "All 15 `StoreName` values start with \"StepUp\" (checked separately)",
-      "Every `PreferredStoreID` value matches a `Stores.StoreID` (measured relationship)",
-      "No column in `Customers` or `Stores` refers to `ProductID` or `SKU`"
+      "All 15 store names start with \"StepUp\" (checked separately)",
+      "Three sheets of customers, products and stores; none holds transactions"
     ]
   },
   "tables": {
@@ -20,7 +18,9 @@
         "`PreferredStoreID` has 15 distinct values, all found in `Stores.StoreID` (measured relationship)",
         "`SignupDate` min 2018-01-26, max 2026-09-17",
         "`TotalOrders` integer 1-40; `LifetimeSpend` decimal 32.68-3950.48",
-        "`LoyaltyTier` values: `Gold` (59), `Platinum` (49), `Bronze` (47), `Silver` (45)"
+        "`LoyaltyTier` values: `Gold` (59), `Platinum` (49), `Bronze` (47), `Silver` (45)",
+        "`FirstName`, `LastName`, `BirthDate` and `Gender` (`M`, `F`, `Other`) describe people",
+        "`TotalOrders` minimum is 1"
       ],
       "open_questions": [
         "On what date were `TotalOrders` and `LifetimeSpend` last calculated?",
@@ -80,7 +80,9 @@
             "why": "An amount that sums across customers. A stored total whose currency, as-of date and treatment of tax and returns are unknown."
           }
         }
-      }
+      },
+      "grain": "One row per customer",
+      "definition": "A customer is a person who has made one or more purchases from the company, identified by `CustomerID`."
     },
     "Products": {
       "description": "One row per product, identified by `ProductID` and a unique `SKU`, covering 8 brands and 8 categories. `UnitPrice` is above `UnitCost` for every product, so margin can be calculated per product. Product names are not unique: `Velora Glide Boots` is three products in different colours, so count and filter by `ProductID`, not by name.",
@@ -90,7 +92,9 @@
         "`ProductID` and `SKU` both unique and never missing across 60 rows",
         "`Brand` 8 distinct values, `Category` 8 distinct values",
         "`UnitPrice` > `UnitCost` in all 60 rows (checked separately); price 22.99-227.99, cost 8.23-117.92",
-        "`ProductName` 58 distinct in 60 rows; `Velora Glide Boots` appears 3 times (Grey, Green, Blue)"
+        "`ProductName` 58 distinct in 60 rows; `Velora Glide Boots` appears 3 times (Grey, Green, Blue)",
+        "Each row has one `Color`; `Velora Glide Boots` exists as three products in different colours",
+        "`IsActive` is `False` for 6 products"
       ],
       "open_questions": [
         "One active product has a `LaunchDate` of 2026-11-19, after the profile date. Is that a planned launch or an error?",
@@ -151,7 +155,9 @@
             "why": "A launch date should not change, but one value lies in the future."
           }
         }
-      }
+      },
+      "grain": "One row per product",
+      "definition": "A product is a shoe model in one colour that the company sells or has sold, identified by `ProductID` and `SKU`."
     },
     "Stores": {
       "description": "One row per store, identified by `StoreID`, with location, manager, size and `StoreType` (`Outlet`, `Flagship`, `Kiosk` or `Standard`). Stores opened between 2010-10-14 and 2024-02-28, in 9 cities across 8 states, and every store is the preferred store of at least one customer. Two different stores share the name `StepUp Northpoint Houston` (an outlet and a standard store at different addresses), so label stores by `StoreID`, or by name plus address.",
@@ -163,7 +169,8 @@
         "`City` 9 distinct, `State` 8 distinct",
         "`StoreType` values: `Outlet` (6), `Flagship` (4), `Kiosk` (3), `Standard` (2)",
         "`StoreName` 14 distinct in 15 rows; S007 and S008 share a name (checked separately)",
-        "All 15 `StoreID` values appear in `Customers.PreferredStoreID` (measured relationship)"
+        "All 15 `StoreID` values appear in `Customers.PreferredStoreID` (measured relationship)",
+        "Every store has an address, `SquareFeet` and `Employees`, so it is a physical location"
       ],
       "open_questions": [
         "Is the shared `StoreName` `StepUp Northpoint Houston` intentional (two stores in one mall) or a data entry error?"
@@ -207,7 +214,9 @@
             "why": "The column name states the unit."
           }
         }
-      }
+      },
+      "grain": "One row per store",
+      "definition": "A store is a physical StepUp shop (an outlet, flagship, kiosk or standard store), identified by `StoreID`."
     }
   }
 }
