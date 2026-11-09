@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bi-joe-data-profiler"
+dynamic = ["version"]
+description = "Profile any dataset into a Markdown wiki of data stories, built for AI skills and agents."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+dependencies = []
+
+[project.optional-dependencies]
+excel = ["openpyxl>=3.1"]
+sql = ["sqlalchemy>=2.0"]
+dev = ["pytest>=7"]
+
+[project.scripts]
+bijoe = "bijoe.cli:main"
+
+[tool.setuptools.dynamic]
+version = { attr = "bijoe.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["skills/bi-joe-data-profiler/scripts"]
+include = ["bijoe*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
