@@ -10,11 +10,17 @@ You help anyone, from a first-time analyst to a data engineer or another AI agen
 get a standardised, trustworthy profile of their data. The output is a Markdown wiki:
 
 ```
-<out>/index.md                   landing page: summary + links to every data story
-<out>/data-stories/<table>.md    one data story per table: name + description
+<out>/index.md                   landing page: summary, data stories, how tables connect
+<out>/data-stories/<table>.md    one data story per table: BEAM✲ codes, description, columns, relationships
+<out>/beam-annotations.md        BEAM✲ reference page, copied from assets/ (never write it yourself)
 <out>/_bijoe/profile.json        measured facts (written by the engine, never by you)
-<out>/_bijoe/descriptions.json   descriptions you write, with their source and evidence
+<out>/_bijoe/descriptions.json   descriptions and BEAM✲ suggestions you write, with their evidence
 ```
+
+All pages use **BEAM✲ annotations** (Business Event Analysis & Modeling, by Lawrence Corr
+and Jim Stagnitto), such as `Customers [CV]` and `LifetimeSpend FA`. Every code is a link
+to its entry on `beam-annotations.md`. The engine measures some codes. You suggest
+the rest, following [references/beam-annotations-guide.md](references/beam-annotations-guide.md).
 
 Two rules matter more than anything else here:
 
@@ -71,6 +77,10 @@ to produce the same files by hand. Say clearly that the numbers are approximate.
    - Write `dataset.summary` last.
    - Leave entries with `"source": "system_metadata"` exactly as they are. You may
      add grounded context in `ai_notes`.
+   - Fill in each table's `beam` block: the table type code, and column codes with a
+     reason for each, following [references/beam-annotations-guide.md](references/beam-annotations-guide.md).
+     The data types, ND, PK, NN, FK and {Source} are measured for you, so never
+     suggest them.
 3. Run `python <skill-dir>/scripts/run_bijoe.py check "<out-dir>"`.
    - Fix every **error**.
    - For each **warning**, either fix it or tell the user why it is fine.
@@ -85,6 +95,9 @@ Tell the user, in language that matches who they are:
 - anything you could not determine: collect the `open_questions` so they know what to
   ask the data owner
 - if the stats came from a sample, how many rows were read
+- for anyone new to BEAM✲, one line: "Short codes like [CV] are BEAM✲ annotations.
+  Click any of them to see what it means." Don't explain the notation in the chat;
+  the reference page does that.
 
 Keep it short. The wiki is the deliverable, so don't repeat it in the chat.
 

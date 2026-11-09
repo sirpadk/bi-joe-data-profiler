@@ -1,7 +1,7 @@
 {
   "bijoe_version": "0.1.0",
   "schema_version": 1,
-  "generated_at": "2026-11-09T15:09:51+00:00",
+  "generated_at": "2026-11-09T15:33:46+00:00",
   "dataset": {
     "name": "Shoe company",
     "source": "shoe_company.xlsx",
@@ -554,6 +554,8 @@
           "min": 32.68,
           "max": 3950.48,
           "mean": 1971.1668,
+          "precision": 6,
+          "scale": 2,
           "top_values": [
             {
               "value": "957.24",
@@ -929,6 +931,8 @@
           "min": 22.99,
           "max": 227.99,
           "mean": 115.3067,
+          "precision": 5,
+          "scale": 2,
           "top_values": [
             {
               "value": "143.99",
@@ -965,6 +969,8 @@
           "min": 8.23,
           "max": 117.92,
           "mean": 54.8187,
+          "precision": 5,
+          "scale": 2,
           "top_values": [
             {
               "value": "8.23",
@@ -1516,6 +1522,18 @@
         }
       ],
       "slug": "stores"
+    }
+  ],
+  "relationships": [
+    {
+      "from_table": "Customers",
+      "from_column": "PreferredStoreID",
+      "to_table": "Stores",
+      "to_column": "StoreID",
+      "matched_values": 200,
+      "checked_values": 200,
+      "coverage_pct": 100.0,
+      "sampled": false
     }
   ]
 }

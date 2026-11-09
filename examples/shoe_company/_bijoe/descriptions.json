@@ -1,12 +1,12 @@
 {
-  "_how_to_fill": "Fill each entry following references/writing-descriptions.md in the bi-joe-data-profiler skill. source: system_metadata | user_documentation | inferred | pending. When source is inferred, confidence (high|medium|low) and evidence are required. Put `backticks` only around real table names, column names or observed values. Then run: bijoe check <dir> and bijoe render <dir>.",
+  "_how_to_fill": "Fill each entry following references/writing-descriptions.md in the bi-joe-data-profiler skill. source: system_metadata | user_documentation | inferred | pending. When source is inferred, confidence (high|medium|low) and evidence are required. Put `backticks` only around real table names, column names or observed values. Suggest BEAM annotations in beam{} following references/beam-annotations-guide.md. Then run: bijoe check <dir> and bijoe render <dir>.",
   "dataset": {
-    "summary": "Reference data for a shoe retailer whose stores all trade as StepUp: 200 customers, 60 products and 15 stores. `Customers` links to `Stores` through `PreferredStoreID`, while no other sheet refers to `Products`. The workbook has no orders or sales, so dashboards can show customer, product and store attributes and the per-customer totals, but not sales over time, by product or by store.",
+    "summary": "Reference data for a shoe retailer whose stores all trade as StepUp: three current value [CV] dimensions holding 200 customers, 60 products and 15 stores, and no business events. `Customers` links to `Stores` through `PreferredStoreID`, while no other sheet refers to `Products`. With no orders or sales in the workbook, dashboards can show customer, product and store attributes and the per-customer totals, but not sales over time, by product or by store.",
     "source": "inferred",
     "evidence": [
       "Sheets: `Customers` (200 rows), `Products` (60), `Stores` (15)",
       "All 15 `StoreName` values start with \"StepUp\" (checked separately)",
-      "Every `PreferredStoreID` value matches a `Stores.StoreID` (checked separately)",
+      "Every `PreferredStoreID` value matches a `Stores.StoreID` (measured relationship)",
       "No column in `Customers` or `Stores` refers to `ProductID` or `SKU`"
     ]
   },
@@ -17,17 +17,70 @@
       "confidence": "high",
       "evidence": [
         "`CustomerID` unique and never missing across 200 rows",
-        "`PreferredStoreID` has 15 distinct values, all found in `Stores.StoreID` (checked separately)",
+        "`PreferredStoreID` has 15 distinct values, all found in `Stores.StoreID` (measured relationship)",
         "`SignupDate` min 2018-01-26, max 2026-09-17",
         "`TotalOrders` integer 1-40; `LifetimeSpend` decimal 32.68-3950.48",
         "`LoyaltyTier` values: `Gold` (59), `Platinum` (49), `Bronze` (47), `Silver` (45)"
       ],
       "open_questions": [
         "On what date were `TotalOrders` and `LifetimeSpend` last calculated?",
-        "Does `LifetimeSpend` include tax and returns?",
+        "Does `LifetimeSpend` include tax and returns, and what currency is it in?",
         "`Seattle` is the most common customer city (27) but has no store. Are these online customers?"
       ],
-      "ai_notes": ""
+      "ai_notes": "",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row per `CustomerID` (unique in all 200 rows), with descriptive columns and no validity dates, version numbers or current-flag columns, so the sheet holds only current values.",
+        "columns": {
+          "CustomerID": {
+            "codes": [
+              "BK",
+              "MD"
+            ],
+            "why": "The source's own identifier for each customer: unique, never missing, `C00001`-style codes."
+          },
+          "BirthDate": {
+            "codes": [
+              "FV"
+            ],
+            "why": "A person's date of birth should not change; corrections overwrite it."
+          },
+          "SignupDate": {
+            "codes": [
+              "FV"
+            ],
+            "why": "Signing up happens once, so the date should not change."
+          },
+          "LoyaltyTier": {
+            "codes": [
+              "!"
+            ],
+            "why": "Four tiers (`Gold`, `Platinum`, `Bronze`, `Silver`): the main way to segment customers in a dashboard."
+          },
+          "PreferredStoreID": {
+            "codes": [
+              "[Stores]"
+            ],
+            "why": "Plays the role of 'preferred store' of the `Stores` dimension; every value matches `Stores.StoreID`."
+          },
+          "TotalOrders": {
+            "codes": [
+              "FA",
+              "?"
+            ],
+            "why": "A count that sums correctly across customers, but it is a stored total, not individual orders, and its as-of date is unknown."
+          },
+          "LifetimeSpend": {
+            "codes": [
+              "FA",
+              "?"
+            ],
+            "why": "An amount that sums across customers. A stored total whose currency, as-of date and treatment of tax and returns are unknown."
+          }
+        }
+      }
     },
     "Products": {
       "description": "One row per product, identified by `ProductID` and a unique `SKU`, covering 8 brands and 8 categories. `UnitPrice` is above `UnitCost` for every product, so margin can be calculated per product. Product names are not unique: `Velora Glide Boots` is three products in different colours, so count and filter by `ProductID`, not by name.",
@@ -41,9 +94,64 @@
       ],
       "open_questions": [
         "One active product has a `LaunchDate` of 2026-11-19, after the profile date. Is that a planned launch or an error?",
-        "Should inactive products (`IsActive` = `False`, 6 products) appear in reports?"
+        "Should inactive products (`IsActive` = `False`, 6 products) appear in reports?",
+        "What currency are `UnitPrice` and `UnitCost` in, and is `UnitPrice` before or after tax?"
       ],
-      "ai_notes": ""
+      "ai_notes": "",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row per `ProductID` (unique in all 60 rows), with descriptive attributes and no validity dates or version columns.",
+        "columns": {
+          "ProductID": {
+            "codes": [
+              "BK",
+              "MD"
+            ],
+            "why": "The source's identifier for each product: unique, never missing, `P0001`-style codes."
+          },
+          "SKU": {
+            "codes": [
+              "NK",
+              "MD"
+            ],
+            "why": "Unique `SKU-639131`-style codes; a SKU is the identifier people use on shelves and boxes."
+          },
+          "Category": {
+            "codes": [
+              "!"
+            ],
+            "why": "Eight categories: the natural first grouping for product dashboards."
+          },
+          "UnitPrice": {
+            "codes": [
+              "NA",
+              "?"
+            ],
+            "why": "A unit price can't be summed; use average, min or max. Its currency is unknown."
+          },
+          "UnitCost": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A cost per unit can't be summed, for the same reason as the price."
+          },
+          "StockQty": {
+            "codes": [
+              "SA"
+            ],
+            "why": "A stock level: it can be summed across products, but not over time."
+          },
+          "LaunchDate": {
+            "codes": [
+              "FV",
+              "?"
+            ],
+            "why": "A launch date should not change, but one value lies in the future."
+          }
+        }
+      }
     },
     "Stores": {
       "description": "One row per store, identified by `StoreID`, with location, manager, size and `StoreType` (`Outlet`, `Flagship`, `Kiosk` or `Standard`). Stores opened between 2010-10-14 and 2024-02-28, in 9 cities across 8 states, and every store is the preferred store of at least one customer. Two different stores share the name `StepUp Northpoint Houston` (an outlet and a standard store at different addresses), so label stores by `StoreID`, or by name plus address.",
@@ -55,12 +163,51 @@
         "`City` 9 distinct, `State` 8 distinct",
         "`StoreType` values: `Outlet` (6), `Flagship` (4), `Kiosk` (3), `Standard` (2)",
         "`StoreName` 14 distinct in 15 rows; S007 and S008 share a name (checked separately)",
-        "All 15 `StoreID` values appear in `Customers.PreferredStoreID` (checked separately)"
+        "All 15 `StoreID` values appear in `Customers.PreferredStoreID` (measured relationship)"
       ],
       "open_questions": [
-        "Is the shared name `StepUp Northpoint Houston` intentional (two stores in one mall) or a data entry error?"
+        "Is the shared `StoreName` `StepUp Northpoint Houston` intentional (two stores in one mall) or a data entry error?"
       ],
-      "ai_notes": ""
+      "ai_notes": "",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row per `StoreID` (unique in all 15 rows), with descriptive attributes and no validity dates or version columns.",
+        "columns": {
+          "StoreID": {
+            "codes": [
+              "BK",
+              "MD"
+            ],
+            "why": "The source's identifier for each store, S001 to S015, and the target of `Customers.PreferredStoreID`."
+          },
+          "StoreName": {
+            "codes": [
+              "?"
+            ],
+            "why": "Not unique: two different stores share one name."
+          },
+          "StoreType": {
+            "codes": [
+              "!"
+            ],
+            "why": "Four store formats (`Outlet`, `Flagship`, `Kiosk`, `Standard`): a natural way to compare stores."
+          },
+          "OpenDate": {
+            "codes": [
+              "FV"
+            ],
+            "why": "A store opens once, so the date should not change."
+          },
+          "SquareFeet": {
+            "codes": [
+              "[sq ft]"
+            ],
+            "why": "The column name states the unit."
+          }
+        }
+      }
     }
   }
 }

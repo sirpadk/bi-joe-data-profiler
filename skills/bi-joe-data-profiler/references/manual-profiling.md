@@ -21,7 +21,11 @@ layout and the same honesty rules**, with the limitation stated openly.
    - `_bijoe/profile.json` must hold only what you actually observed. Add
      `"profiled_by": "manual"`, and add `"approximate": true` to every number you didn't
      count exactly.
+   - Copy `assets/beam-annotations.md` from the skill folder into the wiki folder, unchanged.
    - Then write `index.md` and `data-stories/<slug>.md` by hand, following the templates.
+     Link every BEAM✲ code to its anchor, e.g. `[\[CV\]](../beam-annotations.md#t-cv)` or
+     `[FA](../beam-annotations.md#c-fa)`. Without the engine, data types and `ND` are only as
+     good as the rows you read, so mark the column table *approximate*.
 4. **Be honest about the method.** On the landing page, add a row to "At a glance":
    `| Method | Manual review of N rows per table by AI; figures are approximate |`.
    Use `confidence: low` or `medium` unless the evidence is unambiguous.

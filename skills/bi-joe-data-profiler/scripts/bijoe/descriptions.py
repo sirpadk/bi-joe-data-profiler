@@ -11,6 +11,9 @@ Each table entry:
     evidence        list of facts the description is based on  (required when inferred)
     open_questions  what could not be determined and should be asked of the data owner
     ai_notes        optional inferred context added next to a system/user description
+    beam            suggested BEAM✲ annotations (see references/beam-annotations-guide.md):
+                      {"table": ["CV"], "table_why": "...",
+                       "columns": {"BirthDate": {"codes": ["FV"], "why": "..."}}}
 """
 
 from __future__ import annotations
@@ -19,6 +22,8 @@ import json
 import re
 from pathlib import Path
 from typing import Any, Dict, List, Set, Tuple
+
+from . import beam
 
 SOURCES = {"system_metadata", "user_documentation", "inferred", "pending"}
 CONFIDENCE = {"high", "medium", "low"}
@@ -29,6 +34,7 @@ HOW_TO_FILL = (
     "source: system_metadata | user_documentation | inferred | pending. "
     "When source is inferred, confidence (high|medium|low) and evidence are required. "
     "Put `backticks` only around real table names, column names or observed values. "
+    "Suggest BEAM annotations in beam{} following references/beam-annotations-guide.md. "
     "Then run: bijoe check <dir> and bijoe render <dir>."
 )
 
@@ -55,7 +61,12 @@ def empty_entry() -> Dict[str, Any]:
         "evidence": [],
         "open_questions": [],
         "ai_notes": "",
+        "beam": empty_beam(),
     }
+
+
+def empty_beam() -> Dict[str, Any]:
+    return {"table": [], "table_why": "", "columns": {}}
 
 
 def path_for(out_dir: Path) -> Path:
@@ -180,4 +191,43 @@ def lint(profile: Dict[str, Any], data: Dict[str, Any]) -> List[Tuple[str, str, 
         notes = (entry.get("ai_notes") or "").strip()
         if notes:
             _check_text(f"{where} ai_notes", notes, known, problems)
+        _lint_beam(where, by_name[name], entry, [t["name"] for t in profile["tables"]], known, problems)
     return problems
+
+
+def _lint_beam(where: str, table: Dict[str, Any], entry: Dict[str, Any], table_names: List[str],
+               known: Set[str], problems: List[Tuple[str, str, str]]) -> None:
+    b = entry.get("beam") or {}
+    if not b.get("table") and not b.get("columns"):
+        if entry.get("source") != "pending":
+            problems.append(("todo", where, "no BEAM annotations suggested yet"))
+        return
+    for token in b.get("table") or []:
+        code = beam.parse(token, "table", table_names)
+        if code is None:
+            problems.append(("error", where, f"'{token}' is not a BEAM table code"))
+    if b.get("table") and not (b.get("table_why") or "").strip():
+        problems.append(("error", where, "table codes need table_why: the evidence for them"))
+    elif b.get("table_why"):
+        _check_text(f"{where} table_why", b["table_why"], known, problems)
+    columns = {c["name"]: c for c in table["columns"]}
+    questions = " ".join(entry.get("open_questions") or []).lower()
+    for col_name, spec in (b.get("columns") or {}).items():
+        cw = f"{where} column {col_name}"
+        if col_name not in columns:
+            problems.append(("error", cw, "column does not exist in the profile"))
+            continue
+        spec = spec if isinstance(spec, dict) else {"codes": spec}
+        codes = spec.get("codes") or []
+        for token in codes:
+            code = beam.parse(token, "column", table_names)
+            if code is None:
+                problems.append(("error", cw, f"'{token}' is not a BEAM column code"))
+            elif code.base in beam.MEASURED_ONLY and not code.struck:
+                problems.append(("error", cw, f"{token} is measured by the engine; don't suggest it"))
+        if codes and not (spec.get("why") or "").strip():
+            problems.append(("warning", cw, "say why these codes apply"))
+        elif spec.get("why"):
+            _check_text(cw, spec["why"], known, problems)
+        if "?" in codes and col_name.lower() not in questions:
+            problems.append(("warning", cw, "marked ? (suspect) but no open question mentions it"))

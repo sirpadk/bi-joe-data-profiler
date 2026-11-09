@@ -11,7 +11,8 @@ from typing import Any, Dict, List, Optional
 
 from . import SCHEMA_VERSION, __version__, descriptions, wiki
 from .connectors import ConnectorError, available, open_connector, plugin_errors
-from .profiler import profile_source
+from . import beam
+from .profiler import profile_dataset
 
 
 def _say(msg: str = "") -> None:
@@ -36,7 +37,7 @@ def cmd_profile(args: argparse.Namespace) -> int:
             if missing:
                 raise ConnectorError(f"Tables not found: {', '.join(missing)}. Available: {', '.join(names)}")
         _say(f"Profiling {display} with the '{conn.name}' connector...")
-        results = profile_source(
+        results, relationships = profile_dataset(
             conn, tables, args.sample_rows, include_values=not args.no_values,
             progress=lambda name: _say(f"  - {name}"),
         )
@@ -63,6 +64,7 @@ def cmd_profile(args: argparse.Namespace) -> int:
             "focus": args.focus,
         },
         "tables": results,
+        "relationships": relationships,
     }
     profile["settings"] = {k: v for k, v in profile["settings"].items() if v is not None}
     wiki.save_profile(out_dir, profile)
@@ -141,19 +143,32 @@ def evidence_markdown(profile: Dict[str, Any], table_filter: Optional[str] = Non
         out.append(f"- system table comment: {t['comment']!r}" if t.get("comment") else "- system table comment: none")
         if t.get("details"):
             out.append("- details: " + ", ".join(f"{k}={v}" for k, v in t["details"].items()))
+        rels = profile.get("relationships") or []
+        out.append(f"- BEAM measured: {beam.source_code(t, profile['dataset'])}")
         has_comments = any(c.get("comment") for c in t["columns"])
-        head = "| column | declared | inferred | missing % | distinct | range | flags | top values |"
+        head = "| column | declared | inferred | BEAM measured | missing % | distinct | range | flags | top values |"
         if has_comments:
             head += " comment |"
         out += ["", head, "|" + "---|" * (head.count("|") - 1)]
         for c in t["columns"]:
             tops = ", ".join(f"{v['value']} ({v['count']})" for v in c.get("top_values", [])[:5])
+            measured = " ".join(x for x in [beam.data_type_code(c)] + beam.measured_column_codes(t, c, rels) if x)
             row = (f"| {cell(c['name'])} | {cell(c.get('declared_type', ''))} | {c['inferred_type']} | "
-                   f"{c.get('missing_pct', 0)} | {c['distinct_count']:,} | {cell(_range(c))} | "
+                   f"{measured} | {c.get('missing_pct', 0)} | {c['distinct_count']:,} | {cell(_range(c))} | "
                    f"{cell(_flags(c))} | {cell(tops)} |")
             if has_comments:
                 row += f" {cell(c.get('comment', ''))} |"
             out.append(row)
+        mine = [r for r in rels if table_filter is None or table_filter.lower() in
+                (r["from_table"].lower(), r["to_table"].lower())]
+        if mine and (table_filter or t is profile["tables"][-1]):
+            out += ["", "### Relationships (measured)"]
+            for r in mine:
+                out.append(f"- {r['from_table']}.{r['from_column']} → {r['to_table']}.{r['to_column']}: "
+                           f"{r['matched_values']} of {r['checked_values']} values found ({r['coverage_pct']}%)"
+                           + (" [sampled]" if r.get("sampled") else ""))
+    if not table_filter and not (profile.get("relationships") or []):
+        out += ["", "### Relationships (measured)", "- none found by column name and value matching"]
     return "\n".join(out) + "\n"
 
 

@@ -24,6 +24,14 @@ Each data story gives the table's name and a description:
   ranges and values. It labels the description with a confidence level and lists any
   open questions for the data owner.
 - A built-in checker flags descriptions that are invented or that only state the obvious.
+- Tables and columns carry **[BEAM✲](https://modelstorming.com) annotations**, such as
+  `Customers [CV]`, `StockQty SA` or `PreferredStoreID FK`. Every code links to a
+  reference page that is shipped with the skill
+  ([`assets/beam-annotations.md`](skills/bi-joe-data-profiler/assets/beam-annotations.md))
+  and copied into every wiki.
+  - **Measured codes** come from the data: data types, uniqueness, keys and links between
+    tables.
+  - **Suggested codes** are written by the AI, which has to give a reason for each one.
 
 **See a real example:** [`examples/shoe_company`](examples/shoe_company/index.md) was
 built from [`sample/shoe_company.xlsx`](sample/shoe_company.xlsx).

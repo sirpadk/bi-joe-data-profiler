@@ -72,6 +72,8 @@ class ColumnStats:
         self.padded = 0
         self.leading_zero = 0
         self.bool_letters = 0
+        self.int_digits = 0
+        self.scale = 0
         self.types: Counter = Counter()
         self.values: Counter = Counter()
         self.formats: Counter = Counter()
@@ -178,6 +180,13 @@ class ColumnStats:
         length = len(key)
         self.len_min = length if self.len_min is None else min(self.len_min, length)
         self.len_max = length if self.len_max is None else max(self.len_max, length)
+        if kind == "decimal" and "e" not in key.lower():
+            whole, _, frac = key.lstrip("+-").partition(".")
+            frac = frac.rstrip("0") if isinstance(v, float) else frac  # floats: 5.10 prints as 5.1 anyway
+            self.int_digits = max(self.int_digits, len(whole.lstrip("0")) or 1)
+            self.scale = max(self.scale, min(len(frac), 10))
+        elif kind == "integer":
+            self.int_digits = max(self.int_digits, len(key.lstrip("+-").lstrip("0")) or 1)
         if kind in ("integer", "decimal"):
             self.num_min = value if self.num_min is None else min(self.num_min, value)
             self.num_max = value if self.num_max is None else max(self.num_max, value)
@@ -232,6 +241,9 @@ class ColumnStats:
             out["min"] = self.num_min
             out["max"] = self.num_max
             out["mean"] = round(self.num_sum / self.num_count, 4)
+            if inferred == "decimal":
+                out["precision"] = self.int_digits + self.scale
+                out["scale"] = self.scale
         elif inferred in ("date", "datetime") and self.t_min is not None:
             as_date = inferred == "date"
             out["min"] = self.t_min.date().isoformat() if as_date else self.t_min.isoformat(sep=" ")
@@ -255,6 +267,11 @@ class ColumnStats:
 
 def profile_table(connector: Connector, table: str, sample_rows: int, include_values: bool = True,
                   info: Optional[TableInfo] = None) -> Dict[str, Any]:
+    return _profile_table(connector, table, sample_rows, include_values, info)[0]
+
+
+def _profile_table(connector: Connector, table: str, sample_rows: int, include_values: bool = True,
+                   info: Optional[TableInfo] = None) -> Tuple[Dict[str, Any], List[ColumnStats]]:
     info = info or connector.describe_table(table)
     stats = [
         ColumnStats(c.name, i + 1, c.declared_type, c.comment, c.primary_key, c.nullable)
@@ -294,19 +311,80 @@ def profile_table(connector: Connector, table: str, sample_rows: int, include_va
         "details": info.details or None,
         "columns": [c.result(include_values) for c in stats],
     }
-    return {k: v for k, v in result.items() if v is not None}
+    return {k: v for k, v in result.items() if v is not None}, stats
+
+
+# ---- relationships --------------------------------------------------------------
+
+def _norm(name: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", name.lower())
+
+
+def _key_names(table: str, column: str) -> List[str]:
+    """Names a column pointing at table.column could have: StoreID, store_id, StoresID..."""
+    col = _norm(column)
+    names = {col}
+    if col in ("id", "key", "code", "no", "number"):
+        t = _norm(table)
+        names |= {t + col, t.rstrip("s") + col}
+    return [n for n in names if len(n) >= 3]
+
+
+def find_relationships(profiled: List[Tuple[Dict[str, Any], List[ColumnStats]]],
+                       min_coverage: float = 0.5) -> List[Dict[str, Any]]:
+    """Measure links between tables: a column whose name matches another table's unique key
+    (StoreID, PreferredStoreID → Stores.StoreID) and whose values are found there."""
+    targets = []
+    for table, stats in profiled:
+        for st, col in zip(stats, table["columns"]):
+            if col.get("all_values_unique") and not col.get("missing_count") and col["distinct_count"] >= 2 \
+                    and col["inferred_type"] in ("integer", "text"):
+                targets.append((table, st, col, _key_names(table["name"], col["name"])))
+    found = []
+    for table, stats in profiled:
+        for st, col in zip(stats, table["columns"]):
+            non_missing = st.n - st.nulls - st.blanks
+            if not non_missing:
+                continue
+            src = _norm(col["name"])
+            for t_table, t_st, t_col, names in targets:
+                if t_table["name"] == table["name"] and t_col["name"] == col["name"]:
+                    continue
+                if not any(src == n or (src.endswith(n) and len(n) >= 4) for n in names):
+                    continue
+                if col.get("all_values_unique") and t_table["name"] != table["name"] \
+                        and table["row_count"] > t_table["row_count"]:
+                    continue  # 1:1 link: report it once, from the smaller table
+                matched = sum(c for v, c in st.values.items() if v in t_st.values)
+                coverage = matched / non_missing
+                if coverage < min_coverage:
+                    continue
+                found.append({
+                    "from_table": table["name"], "from_column": col["name"],
+                    "to_table": t_table["name"], "to_column": t_col["name"],
+                    "matched_values": matched, "checked_values": non_missing,
+                    "coverage_pct": round(100 * coverage, 2),
+                    "sampled": bool(table.get("sampled") or t_table.get("sampled")),
+                })
+    return found
+
+
+def profile_dataset(connector: Connector, tables: Optional[List[str]] = None, sample_rows: int = 100_000,
+                    include_values: bool = True, progress: Optional[Callable[[str], None]] = None
+                    ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
+    names = connector.list_tables()
+    if tables:
+        wanted = {t.lower() for t in tables}
+        names = [n for n in names if n.lower() in wanted]
+    profiled = []
+    for name in names:
+        if progress:
+            progress(name)
+        profiled.append(_profile_table(connector, name, sample_rows, include_values))
+    return [t for t, _ in profiled], find_relationships(profiled)
 
 
 def profile_source(connector: Connector, tables: Optional[List[str]] = None, sample_rows: int = 100_000,
                    include_values: bool = True,
                    progress: Optional[Callable[[str], None]] = None) -> List[Dict[str, Any]]:
-    names = connector.list_tables()
-    if tables:
-        wanted = {t.lower() for t in tables}
-        names = [n for n in names if n.lower() in wanted]
-    results = []
-    for name in names:
-        if progress:
-            progress(name)
-        results.append(profile_table(connector, name, sample_rows, include_values))
-    return results
+    return profile_dataset(connector, tables, sample_rows, include_values, progress)[0]
