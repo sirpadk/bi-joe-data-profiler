@@ -75,7 +75,7 @@ Run `bijoe connectors` to check that it is listed.
 
 ## Changing the output
 
-The wiki layout, the front matter and the JSON files are a public contract (see
+The wiki layout, the metadata block and the JSON files are a public contract (see
 [`output-format.md`](skills/bi-joe-data-profiler/references/output-format.md)). Agents
 and tools depend on it. If you make a breaking change, bump `SCHEMA_VERSION` in
 `bijoe/__init__.py` and describe the change in the PR.

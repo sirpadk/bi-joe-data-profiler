@@ -6,8 +6,9 @@ Layout:
     <out>/_bijoe/profile.json         measured facts (machine-readable)
     <out>/_bijoe/descriptions.json    written descriptions + provenance
 
-Every page starts with YAML front matter so other AI agents and tools can read the
-wiki without parsing prose.
+Every page ends with a "Metadata" section holding a fenced ```yaml block, so other AI
+agents and tools can read the wiki without parsing prose, while people see the content
+first.
 """
 
 from __future__ import annotations
@@ -70,16 +71,21 @@ def _yaml_value(v: Any) -> str:
     return json.dumps(str(v), ensure_ascii=False)  # JSON strings are valid YAML
 
 
-def front_matter(fields: Dict[str, Any]) -> str:
-    lines = ["---"]
+METADATA_HEADING = "## Metadata"
+
+
+def metadata_block(fields: Dict[str, Any]) -> List[str]:
+    """Closing section of every page: a fenced YAML block with the page's facts."""
+    lines = ["", "---", "", METADATA_HEADING, "",
+             "_Machine-readable facts about this page, for tools and AI agents._", "", "```yaml"]
     for key, value in fields.items():
         if isinstance(value, list):
             lines.append(f"{key}:" + ("" if value else " []"))
             lines.extend(f"  - {_yaml_value(v)}" for v in value)
         else:
             lines.append(f"{key}: {_yaml_value(value)}")
-    lines.append("---")
-    return "\n".join(lines)
+    lines.append("```")
+    return lines
 
 
 def _cell(text: Any) -> str:
@@ -109,7 +115,7 @@ def _entry(descriptions: Dict[str, Any], table: str) -> Dict[str, Any]:
 def render_story(table: Dict[str, Any], entry: Dict[str, Any], profile: Dict[str, Any]) -> str:
     source = entry.get("source", "pending")
     description = (entry.get("description") or "").strip()
-    fm = front_matter({
+    meta = metadata_block({
         "bijoe": "data-story",
         "schema_version": SCHEMA_VERSION,
         "dataset": profile["dataset"]["name"],
@@ -120,7 +126,7 @@ def render_story(table: Dict[str, Any], entry: Dict[str, Any], profile: Dict[str
         "confidence": entry.get("confidence"),
         "generated_at": profile["generated_at"],
     })
-    out = [fm, "", f"[← {profile['dataset']['name']} overview](../index.md)", "", f"# {table['name']}", "",
+    out = [f"[← {profile['dataset']['name']} overview](../index.md)", "", f"# {table['name']}", "",
            "## Description", ""]
     if source == "pending":
         out.append("_No description yet. Ask the BI Joe skill to write one, or add it to `_bijoe/descriptions.json`._")
@@ -143,6 +149,7 @@ def render_story(table: Dict[str, Any], entry: Dict[str, Any], profile: Dict[str
     if questions:
         out += ["", "### Open questions for the data owner", ""]
         out.extend(f"- {q}" for q in questions)
+    out += meta
     return "\n".join(out) + "\n"
 
 
@@ -154,7 +161,7 @@ def render_index(profile: Dict[str, Any], descriptions: Dict[str, Any]) -> str:
     summary = (dataset_desc.get("summary") or "").strip()
     sampled = [t["name"] for t in tables if t.get("sampled")]
 
-    fm = front_matter({
+    meta = metadata_block({
         "bijoe": "data-profile-index",
         "schema_version": SCHEMA_VERSION,
         "dataset": ds["name"],
@@ -166,7 +173,7 @@ def render_index(profile: Dict[str, Any], descriptions: Dict[str, Any]) -> str:
         "generated_at": profile["generated_at"],
         "generator": f"bi-joe-data-profiler {profile['bijoe_version']}",
     })
-    out = [fm, "", f"# {ds['name']}: data profile", ""]
+    out = [f"# {ds['name']}: data profile", ""]
     if summary:
         out += [summary, ""]
         if dataset_desc.get("source") == "inferred":
@@ -200,16 +207,17 @@ def render_index(profile: Dict[str, Any], descriptions: Dict[str, Any]) -> str:
             "Every description says where it comes from:", ""]
     for key in ("system_metadata", "user_documentation", "inferred"):
         out.append(f"- **{key}**: {SOURCE_LABELS[key]}")
-    out += ["", "The measured facts behind this wiki are in [`_bijoe/profile.json`](_bijoe/profile.json).", ""]
-    return "\n".join(out)
+    out += ["", "The measured facts behind this wiki are in [`_bijoe/profile.json`](_bijoe/profile.json)."]
+    out += meta
+    return "\n".join(out) + "\n"
 
 
 def _is_generated(path: Path) -> bool:
     try:
-        head = path.read_text(encoding="utf-8")[:200]
+        text = path.read_text(encoding="utf-8")
     except OSError:
         return False
-    return "bijoe: \"data-story\"" in head or "bijoe: data-story" in head
+    return 'bijoe: "data-story"' in text
 
 
 def render(out_dir: Path, profile: Dict[str, Any], descriptions: Dict[str, Any]) -> List[Path]:

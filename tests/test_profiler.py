@@ -64,3 +64,33 @@ def test_no_values(shop_csv):
     with open_connector(str(shop_csv)) as conn:
         tables = profile_source(conn, include_values=False)
     assert all("top_values" not in c for t in tables for c in t["columns"])
+
+
+def test_single_letters_are_codes_unless_column_is_boolean():
+    g = ColumnStats("gender", 1)
+    for v in ["M", "F", "Other", "F"]:
+        g.add(v)
+    r = g.result()
+    assert r["inferred_type"] == "text" and "value_kinds" not in r
+
+    yn = ColumnStats("flag", 1)
+    for v in ["Y", "N", "Y"]:
+        yn.add(v)
+    assert yn.result()["inferred_type"] == "boolean"
+
+
+def test_midnight_datetimes_are_dates():
+    c = ColumnStats("d", 1)
+    c.add(dt.datetime(2024, 1, 1))
+    c.add(dt.datetime(2024, 3, 5))
+    r = c.result()
+    assert r["inferred_type"] == "date" and r["max"] == "2024-03-05"
+    assert r["top_values"][0]["value"] == "2024-01-01"
+
+
+def test_ints_in_decimal_column_are_not_mixed():
+    c = ColumnStats("amount", 1)
+    for v in [1.5, 2, 3.25]:
+        c.add(v)
+    r = c.result()
+    assert r["inferred_type"] == "decimal" and "value_kinds" not in r and "min_length" not in r

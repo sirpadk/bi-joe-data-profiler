@@ -42,7 +42,9 @@ def test_profile_builds_linked_wiki(shop_csv, tmp_path):
     out = tmp_path / "wiki"
     assert _run("profile", shop_csv, "--out", out, "--purpose", "build a sales dashboard") == 0
     index = (out / "index.md").read_text(encoding="utf-8")
-    assert index.startswith("---\nbijoe: \"data-profile-index\"")
+    assert index.startswith("# shop: data profile")
+    meta = index.split("## Metadata", 1)[1]
+    assert '```yaml\nbijoe: "data-profile-index"' in meta and meta.rstrip().endswith("```")
     assert "build a sales dashboard" in index
     for link in re.findall(r"\]\((data-stories/[^)]+)\)", index):
         story = out / link

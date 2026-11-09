@@ -14,14 +14,29 @@ match it, so that people, tools and other AI agents can rely on the same structu
 All links are relative. Story pages link back to `../index.md`, and the index links to
 `data-stories/<slug>.md`.
 
-## Front matter
+## Metadata block
 
-Every page starts with YAML front matter, so a machine can read the page without
-parsing the prose.
+Every page **ends** with a metadata section, so people see the content first and a
+machine can still read the page without parsing the prose. The section is a horizontal
+rule, the heading `## Metadata`, one italic line, and a fenced `yaml` block:
+
+````markdown
+---
+
+## Metadata
+
+_Machine-readable facts about this page, for tools and AI agents._
+
+```yaml
+bijoe: "data-story"
+...
+```
+````
+
+To read it, take the last ```` ```yaml ```` block under `## Metadata`. The fields are:
 
 `index.md`
 ```yaml
----
 bijoe: "data-profile-index"
 schema_version: 1
 dataset: "<name>"
@@ -32,12 +47,10 @@ tables: <int>
 total_rows: <int>
 generated_at: "<ISO 8601 UTC>"
 generator: "bi-joe-data-profiler <version>"
----
 ```
 
 `data-stories/<slug>.md`
 ```yaml
----
 bijoe: "data-story"
 schema_version: 1
 dataset: "<name>"
@@ -47,7 +60,6 @@ columns: <int>
 description_source: "system_metadata" | "user_documentation" | "inferred" | "pending"
 confidence: "high" | "medium" | "low" | null
 generated_at: "<ISO 8601 UTC>"
----
 ```
 
 ## Landing page sections (in order)
@@ -56,6 +68,7 @@ generated_at: "<ISO 8601 UTC>"
 3. `## Data stories`: a table with columns Table (link), Rows, Columns, and the first
    sentence of the Description
 4. `## How to read the descriptions`: what each source label means
+5. `## Metadata`: the metadata block
 
 ## Data story sections (in order)
 1. Back link, then `# <table name>`
@@ -65,6 +78,7 @@ generated_at: "<ISO 8601 UTC>"
      list of evidence
 3. `### Additional context (written by AI)`: only if `ai_notes` is set
 4. `### Open questions for the data owner`: only if there are any
+5. `## Metadata`: the metadata block
 
 ## descriptions.json
 

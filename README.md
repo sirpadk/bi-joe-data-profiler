@@ -25,6 +25,9 @@ Each data story gives the table's name and a description:
   open questions for the data owner.
 - A built-in checker flags descriptions that are invented or that only state the obvious.
 
+**See a real example:** [`examples/shoe_company`](examples/shoe_company/index.md) was
+built from [`sample/shoe_company.xlsx`](sample/shoe_company.xlsx).
+
 > Status: early MVP. Coming next: column-level stories, data-quality findings,
 > relationships between tables, and schema-only (DDL) input.
 

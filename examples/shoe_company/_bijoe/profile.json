@@ -1,0 +1,1521 @@
+{
+  "bijoe_version": "0.1.0",
+  "schema_version": 1,
+  "generated_at": "2026-11-09T15:09:51+00:00",
+  "dataset": {
+    "name": "Shoe company",
+    "source": "shoe_company.xlsx",
+    "source_type": "files",
+    "connector": "excel"
+  },
+  "settings": {
+    "sample_rows": 100000,
+    "include_values": true,
+    "purpose": "Build reports and dashboards"
+  },
+  "tables": [
+    {
+      "name": "Customers",
+      "row_count": 200,
+      "profiled_rows": 200,
+      "sampled": false,
+      "column_count": 17,
+      "duplicate_rows": 0,
+      "details": {
+        "file": "shoe_company.xlsx",
+        "sheet": "Customers"
+      },
+      "columns": [
+        {
+          "name": "CustomerID",
+          "position": 1,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 200,
+          "all_values_unique": true,
+          "min_length": 6,
+          "max_length": 6,
+          "top_values": [
+            {
+              "value": "C00001",
+              "count": 1
+            },
+            {
+              "value": "C00002",
+              "count": 1
+            },
+            {
+              "value": "C00003",
+              "count": 1
+            },
+            {
+              "value": "C00004",
+              "count": 1
+            },
+            {
+              "value": "C00005",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "FirstName",
+          "position": 2,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 30,
+          "all_values_unique": false,
+          "min_length": 3,
+          "max_length": 9,
+          "top_values": [
+            {
+              "value": "Olivia",
+              "count": 11
+            },
+            {
+              "value": "Linda",
+              "count": 10
+            },
+            {
+              "value": "Mary",
+              "count": 9
+            },
+            {
+              "value": "Ethan",
+              "count": 9
+            },
+            {
+              "value": "Tamar",
+              "count": 9
+            }
+          ]
+        },
+        {
+          "name": "LastName",
+          "position": 3,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 24,
+          "all_values_unique": false,
+          "min_length": 3,
+          "max_length": 8,
+          "top_values": [
+            {
+              "value": "Lopez",
+              "count": 15
+            },
+            {
+              "value": "Martinez",
+              "count": 14
+            },
+            {
+              "value": "Taylor",
+              "count": 13
+            },
+            {
+              "value": "Martin",
+              "count": 13
+            },
+            {
+              "value": "Moore",
+              "count": 13
+            }
+          ]
+        },
+        {
+          "name": "Email",
+          "position": 4,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 200,
+          "all_values_unique": true,
+          "min_length": 21,
+          "max_length": 31,
+          "top_values": [
+            {
+              "value": "olivia.thomas69@mail.test",
+              "count": 1
+            },
+            {
+              "value": "mary.martinez91@mail.test",
+              "count": 1
+            },
+            {
+              "value": "robert.anderson10@mail.test",
+              "count": 1
+            },
+            {
+              "value": "john.davis37@example.com",
+              "count": 1
+            },
+            {
+              "value": "elizabeth.lopez19@example.com",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "Phone",
+          "position": 5,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 200,
+          "all_values_unique": true,
+          "min_length": 14,
+          "max_length": 14,
+          "top_values": [
+            {
+              "value": "(555) 453-6446",
+              "count": 1
+            },
+            {
+              "value": "(555) 495-3492",
+              "count": 1
+            },
+            {
+              "value": "(555) 900-5342",
+              "count": 1
+            },
+            {
+              "value": "(555) 864-2480",
+              "count": 1
+            },
+            {
+              "value": "(555) 643-7751",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "Gender",
+          "position": 6,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 3,
+          "all_values_unique": false,
+          "min_length": 1,
+          "max_length": 5,
+          "top_values": [
+            {
+              "value": "M",
+              "count": 72
+            },
+            {
+              "value": "F",
+              "count": 65
+            },
+            {
+              "value": "Other",
+              "count": 63
+            }
+          ]
+        },
+        {
+          "name": "BirthDate",
+          "position": 7,
+          "inferred_type": "date",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 199,
+          "all_values_unique": false,
+          "min": "1955-05-14",
+          "max": "2008-08-26",
+          "top_values": [
+            {
+              "value": "1979-07-20",
+              "count": 2
+            },
+            {
+              "value": "2003-09-13",
+              "count": 1
+            },
+            {
+              "value": "1957-03-17",
+              "count": 1
+            },
+            {
+              "value": "1994-12-13",
+              "count": 1
+            },
+            {
+              "value": "1961-11-23",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "Address",
+          "position": 8,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 200,
+          "all_values_unique": true,
+          "min_length": 10,
+          "max_length": 13,
+          "top_values": [
+            {
+              "value": "7470 Elm St",
+              "count": 1
+            },
+            {
+              "value": "9679 Elm St",
+              "count": 1
+            },
+            {
+              "value": "1325 Elm St",
+              "count": 1
+            },
+            {
+              "value": "1656 Lake Rd",
+              "count": 1
+            },
+            {
+              "value": "2878 Oak Ave",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "City",
+          "position": 9,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 12,
+          "all_values_unique": false,
+          "min_length": 5,
+          "max_length": 11,
+          "top_values": [
+            {
+              "value": "Seattle",
+              "count": 27
+            },
+            {
+              "value": "Chicago",
+              "count": 22
+            },
+            {
+              "value": "Portland",
+              "count": 21
+            },
+            {
+              "value": "Atlanta",
+              "count": 21
+            },
+            {
+              "value": "Austin",
+              "count": 19
+            }
+          ]
+        },
+        {
+          "name": "State",
+          "position": 10,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 11,
+          "all_values_unique": false,
+          "min_length": 2,
+          "max_length": 2,
+          "top_values": [
+            {
+              "value": "TX",
+              "count": 29
+            },
+            {
+              "value": "WA",
+              "count": 27
+            },
+            {
+              "value": "IL",
+              "count": 22
+            },
+            {
+              "value": "OR",
+              "count": 21
+            },
+            {
+              "value": "GA",
+              "count": 21
+            }
+          ]
+        },
+        {
+          "name": "ZipCode",
+          "position": 11,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 200,
+          "all_values_unique": true,
+          "min": 10089,
+          "max": 99881,
+          "mean": 51191.385,
+          "top_values": [
+            {
+              "value": "34727",
+              "count": 1
+            },
+            {
+              "value": "23154",
+              "count": 1
+            },
+            {
+              "value": "98389",
+              "count": 1
+            },
+            {
+              "value": "31805",
+              "count": 1
+            },
+            {
+              "value": "89887",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "SignupDate",
+          "position": 12,
+          "inferred_type": "date",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 194,
+          "all_values_unique": false,
+          "min": "2018-01-26",
+          "max": "2026-09-17",
+          "top_values": [
+            {
+              "value": "2026-09-15",
+              "count": 2
+            },
+            {
+              "value": "2023-01-26",
+              "count": 2
+            },
+            {
+              "value": "2022-02-15",
+              "count": 2
+            },
+            {
+              "value": "2026-02-03",
+              "count": 2
+            },
+            {
+              "value": "2019-01-26",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "name": "LoyaltyTier",
+          "position": 13,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 4,
+          "all_values_unique": false,
+          "min_length": 4,
+          "max_length": 8,
+          "top_values": [
+            {
+              "value": "Gold",
+              "count": 59
+            },
+            {
+              "value": "Platinum",
+              "count": 49
+            },
+            {
+              "value": "Bronze",
+              "count": 47
+            },
+            {
+              "value": "Silver",
+              "count": 45
+            }
+          ]
+        },
+        {
+          "name": "PreferredStoreID",
+          "position": 14,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 15,
+          "all_values_unique": false,
+          "min_length": 4,
+          "max_length": 4,
+          "top_values": [
+            {
+              "value": "S010",
+              "count": 20
+            },
+            {
+              "value": "S005",
+              "count": 19
+            },
+            {
+              "value": "S001",
+              "count": 17
+            },
+            {
+              "value": "S003",
+              "count": 17
+            },
+            {
+              "value": "S013",
+              "count": 15
+            }
+          ]
+        },
+        {
+          "name": "TotalOrders",
+          "position": 15,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 40,
+          "all_values_unique": false,
+          "min": 1,
+          "max": 40,
+          "mean": 21.145,
+          "top_values": [
+            {
+              "value": "34",
+              "count": 8
+            },
+            {
+              "value": "35",
+              "count": 8
+            },
+            {
+              "value": "7",
+              "count": 7
+            },
+            {
+              "value": "30",
+              "count": 7
+            },
+            {
+              "value": "29",
+              "count": 7
+            }
+          ]
+        },
+        {
+          "name": "LifetimeSpend",
+          "position": 16,
+          "inferred_type": "decimal",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 200,
+          "all_values_unique": true,
+          "min": 32.68,
+          "max": 3950.48,
+          "mean": 1971.1668,
+          "top_values": [
+            {
+              "value": "957.24",
+              "count": 1
+            },
+            {
+              "value": "3644.45",
+              "count": 1
+            },
+            {
+              "value": "3493.36",
+              "count": 1
+            },
+            {
+              "value": "212.58",
+              "count": 1
+            },
+            {
+              "value": "2005.74",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "EmailOptIn",
+          "position": 17,
+          "inferred_type": "boolean",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 2,
+          "all_values_unique": false,
+          "top_values": [
+            {
+              "value": "True",
+              "count": 127
+            },
+            {
+              "value": "False",
+              "count": 73
+            }
+          ]
+        }
+      ],
+      "slug": "customers"
+    },
+    {
+      "name": "Products",
+      "row_count": 60,
+      "profiled_rows": 60,
+      "sampled": false,
+      "column_count": 14,
+      "duplicate_rows": 0,
+      "details": {
+        "file": "shoe_company.xlsx",
+        "sheet": "Products"
+      },
+      "columns": [
+        {
+          "name": "ProductID",
+          "position": 1,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 60,
+          "all_values_unique": true,
+          "min_length": 5,
+          "max_length": 5,
+          "top_values": [
+            {
+              "value": "P0001",
+              "count": 1
+            },
+            {
+              "value": "P0002",
+              "count": 1
+            },
+            {
+              "value": "P0003",
+              "count": 1
+            },
+            {
+              "value": "P0004",
+              "count": 1
+            },
+            {
+              "value": "P0005",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "SKU",
+          "position": 2,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 60,
+          "all_values_unique": true,
+          "min_length": 10,
+          "max_length": 10,
+          "top_values": [
+            {
+              "value": "SKU-639131",
+              "count": 1
+            },
+            {
+              "value": "SKU-299659",
+              "count": 1
+            },
+            {
+              "value": "SKU-522179",
+              "count": 1
+            },
+            {
+              "value": "SKU-947272",
+              "count": 1
+            },
+            {
+              "value": "SKU-161483",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "ProductName",
+          "position": 3,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 58,
+          "all_values_unique": false,
+          "min_length": 14,
+          "max_length": 27,
+          "top_values": [
+            {
+              "value": "Velora Glide Boots",
+              "count": 3
+            },
+            {
+              "value": "Velora Pulse Sandals",
+              "count": 1
+            },
+            {
+              "value": "Luma Glide Kids",
+              "count": 1
+            },
+            {
+              "value": "Stridex Breeze Running",
+              "count": 1
+            },
+            {
+              "value": "Northfield Volt Hiking",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "Brand",
+          "position": 4,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 8,
+          "all_values_unique": false,
+          "min_length": 4,
+          "max_length": 10,
+          "top_values": [
+            {
+              "value": "Luma",
+              "count": 13
+            },
+            {
+              "value": "Northfield",
+              "count": 9
+            },
+            {
+              "value": "TerraTrek",
+              "count": 9
+            },
+            {
+              "value": "Velora",
+              "count": 7
+            },
+            {
+              "value": "Kicko",
+              "count": 6
+            }
+          ]
+        },
+        {
+          "name": "Category",
+          "position": 5,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 8,
+          "all_values_unique": false,
+          "min_length": 4,
+          "max_length": 10,
+          "top_values": [
+            {
+              "value": "Sandals",
+              "count": 10
+            },
+            {
+              "value": "Kids",
+              "count": 9
+            },
+            {
+              "value": "Running",
+              "count": 9
+            },
+            {
+              "value": "Hiking",
+              "count": 9
+            },
+            {
+              "value": "Boots",
+              "count": 9
+            }
+          ]
+        },
+        {
+          "name": "Gender",
+          "position": 6,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 4,
+          "all_values_unique": false,
+          "min_length": 3,
+          "max_length": 6,
+          "top_values": [
+            {
+              "value": "Women",
+              "count": 19
+            },
+            {
+              "value": "Unisex",
+              "count": 17
+            },
+            {
+              "value": "Men",
+              "count": 15
+            },
+            {
+              "value": "Kids",
+              "count": 9
+            }
+          ]
+        },
+        {
+          "name": "Color",
+          "position": 7,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 9,
+          "all_values_unique": false,
+          "min_length": 3,
+          "max_length": 5,
+          "top_values": [
+            {
+              "value": "White",
+              "count": 13
+            },
+            {
+              "value": "Green",
+              "count": 9
+            },
+            {
+              "value": "Grey",
+              "count": 9
+            },
+            {
+              "value": "Beige",
+              "count": 7
+            },
+            {
+              "value": "Red",
+              "count": 6
+            }
+          ]
+        },
+        {
+          "name": "Material",
+          "position": 8,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 6,
+          "all_values_unique": false,
+          "min_length": 4,
+          "max_length": 9,
+          "top_values": [
+            {
+              "value": "Rubber",
+              "count": 12
+            },
+            {
+              "value": "Leather",
+              "count": 12
+            },
+            {
+              "value": "Suede",
+              "count": 12
+            },
+            {
+              "value": "Mesh",
+              "count": 10
+            },
+            {
+              "value": "Synthetic",
+              "count": 7
+            }
+          ]
+        },
+        {
+          "name": "SizeRange",
+          "position": 9,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 3,
+          "all_values_unique": false,
+          "min_length": 3,
+          "max_length": 4,
+          "top_values": [
+            {
+              "value": "7-14",
+              "count": 32
+            },
+            {
+              "value": "6-12",
+              "count": 19
+            },
+            {
+              "value": "1-7",
+              "count": 9
+            }
+          ]
+        },
+        {
+          "name": "UnitPrice",
+          "position": 10,
+          "inferred_type": "decimal",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 51,
+          "all_values_unique": false,
+          "min": 22.99,
+          "max": 227.99,
+          "mean": 115.3067,
+          "top_values": [
+            {
+              "value": "143.99",
+              "count": 2
+            },
+            {
+              "value": "32.99",
+              "count": 2
+            },
+            {
+              "value": "40.99",
+              "count": 2
+            },
+            {
+              "value": "161.99",
+              "count": 2
+            },
+            {
+              "value": "41.99",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "name": "UnitCost",
+          "position": 11,
+          "inferred_type": "decimal",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 60,
+          "all_values_unique": true,
+          "min": 8.23,
+          "max": 117.92,
+          "mean": 54.8187,
+          "top_values": [
+            {
+              "value": "8.23",
+              "count": 1
+            },
+            {
+              "value": "17.32",
+              "count": 1
+            },
+            {
+              "value": "85.82",
+              "count": 1
+            },
+            {
+              "value": "57.74",
+              "count": 1
+            },
+            {
+              "value": "13.19",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "StockQty",
+          "position": 12,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 56,
+          "all_values_unique": false,
+          "min": 4,
+          "max": 498,
+          "mean": 262.0667,
+          "top_values": [
+            {
+              "value": "61",
+              "count": 2
+            },
+            {
+              "value": "460",
+              "count": 2
+            },
+            {
+              "value": "446",
+              "count": 2
+            },
+            {
+              "value": "383",
+              "count": 2
+            },
+            {
+              "value": "248",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "LaunchDate",
+          "position": 13,
+          "inferred_type": "date",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 57,
+          "all_values_unique": false,
+          "min": "2020-02-23",
+          "max": "2026-11-19",
+          "top_values": [
+            {
+              "value": "2024-10-08",
+              "count": 2
+            },
+            {
+              "value": "2023-06-11",
+              "count": 2
+            },
+            {
+              "value": "2026-03-16",
+              "count": 2
+            },
+            {
+              "value": "2021-09-05",
+              "count": 1
+            },
+            {
+              "value": "2022-07-14",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "IsActive",
+          "position": 14,
+          "inferred_type": "boolean",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 2,
+          "all_values_unique": false,
+          "top_values": [
+            {
+              "value": "True",
+              "count": 54
+            },
+            {
+              "value": "False",
+              "count": 6
+            }
+          ]
+        }
+      ],
+      "slug": "products"
+    },
+    {
+      "name": "Stores",
+      "row_count": 15,
+      "profiled_rows": 15,
+      "sampled": false,
+      "column_count": 12,
+      "duplicate_rows": 0,
+      "details": {
+        "file": "shoe_company.xlsx",
+        "sheet": "Stores"
+      },
+      "columns": [
+        {
+          "name": "StoreID",
+          "position": 1,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 15,
+          "all_values_unique": true,
+          "min_length": 4,
+          "max_length": 4,
+          "top_values": [
+            {
+              "value": "S001",
+              "count": 1
+            },
+            {
+              "value": "S002",
+              "count": 1
+            },
+            {
+              "value": "S003",
+              "count": 1
+            },
+            {
+              "value": "S004",
+              "count": 1
+            },
+            {
+              "value": "S005",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "StoreName",
+          "position": 2,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 14,
+          "all_values_unique": false,
+          "min_length": 18,
+          "max_length": 26,
+          "top_values": [
+            {
+              "value": "StepUp Northpoint Houston",
+              "count": 2
+            },
+            {
+              "value": "StepUp Mall Austin",
+              "count": 1
+            },
+            {
+              "value": "StepUp Airport Houston",
+              "count": 1
+            },
+            {
+              "value": "StepUp Central Portland",
+              "count": 1
+            },
+            {
+              "value": "StepUp Southside New York",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "Address",
+          "position": 3,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 15,
+          "all_values_unique": true,
+          "min_length": 11,
+          "max_length": 12,
+          "top_values": [
+            {
+              "value": "35 Cedar Ln",
+              "count": 1
+            },
+            {
+              "value": "527 River Rd",
+              "count": 1
+            },
+            {
+              "value": "358 Cedar Ln",
+              "count": 1
+            },
+            {
+              "value": "480 Hill St",
+              "count": 1
+            },
+            {
+              "value": "885 Pine St",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "City",
+          "position": 4,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 9,
+          "all_values_unique": false,
+          "min_length": 5,
+          "max_length": 8,
+          "top_values": [
+            {
+              "value": "Houston",
+              "count": 4
+            },
+            {
+              "value": "Phoenix",
+              "count": 3
+            },
+            {
+              "value": "Portland",
+              "count": 2
+            },
+            {
+              "value": "Austin",
+              "count": 1
+            },
+            {
+              "value": "New York",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "State",
+          "position": 5,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 8,
+          "all_values_unique": false,
+          "min_length": 2,
+          "max_length": 2,
+          "top_values": [
+            {
+              "value": "TX",
+              "count": 5
+            },
+            {
+              "value": "AZ",
+              "count": 3
+            },
+            {
+              "value": "OR",
+              "count": 2
+            },
+            {
+              "value": "NY",
+              "count": 1
+            },
+            {
+              "value": "GA",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "ZipCode",
+          "position": 6,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 15,
+          "all_values_unique": true,
+          "min": 10425,
+          "max": 94259,
+          "mean": 45567.5333,
+          "top_values": [
+            {
+              "value": "42098",
+              "count": 1
+            },
+            {
+              "value": "13478",
+              "count": 1
+            },
+            {
+              "value": "30379",
+              "count": 1
+            },
+            {
+              "value": "26361",
+              "count": 1
+            },
+            {
+              "value": "23238",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "Phone",
+          "position": 7,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 15,
+          "all_values_unique": true,
+          "min_length": 14,
+          "max_length": 14,
+          "top_values": [
+            {
+              "value": "(555) 328-3286",
+              "count": 1
+            },
+            {
+              "value": "(555) 674-4257",
+              "count": 1
+            },
+            {
+              "value": "(555) 320-6514",
+              "count": 1
+            },
+            {
+              "value": "(555) 487-2291",
+              "count": 1
+            },
+            {
+              "value": "(555) 489-5554",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "Manager",
+          "position": 8,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 15,
+          "all_values_unique": true,
+          "min_length": 9,
+          "max_length": 17,
+          "top_values": [
+            {
+              "value": "Ava Brown",
+              "count": 1
+            },
+            {
+              "value": "Ethan Walker",
+              "count": 1
+            },
+            {
+              "value": "Patricia Williams",
+              "count": 1
+            },
+            {
+              "value": "Sofia Levi",
+              "count": 1
+            },
+            {
+              "value": "Daniel Walker",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "OpenDate",
+          "position": 9,
+          "inferred_type": "date",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 15,
+          "all_values_unique": true,
+          "min": "2010-10-14",
+          "max": "2024-02-28",
+          "top_values": [
+            {
+              "value": "2010-10-14",
+              "count": 1
+            },
+            {
+              "value": "2021-04-15",
+              "count": 1
+            },
+            {
+              "value": "2020-02-12",
+              "count": 1
+            },
+            {
+              "value": "2019-10-07",
+              "count": 1
+            },
+            {
+              "value": "2019-03-12",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "StoreType",
+          "position": 10,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 4,
+          "all_values_unique": false,
+          "min_length": 5,
+          "max_length": 8,
+          "top_values": [
+            {
+              "value": "Outlet",
+              "count": 6
+            },
+            {
+              "value": "Flagship",
+              "count": 4
+            },
+            {
+              "value": "Kiosk",
+              "count": 3
+            },
+            {
+              "value": "Standard",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "name": "SquareFeet",
+          "position": 11,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 15,
+          "all_values_unique": true,
+          "min": 853,
+          "max": 5745,
+          "mean": 3499.7333,
+          "top_values": [
+            {
+              "value": "1044",
+              "count": 1
+            },
+            {
+              "value": "853",
+              "count": 1
+            },
+            {
+              "value": "5745",
+              "count": 1
+            },
+            {
+              "value": "1175",
+              "count": 1
+            },
+            {
+              "value": "2516",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "Employees",
+          "position": 12,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 14,
+          "all_values_unique": false,
+          "min": 8,
+          "max": 40,
+          "mean": 20.1333,
+          "top_values": [
+            {
+              "value": "15",
+              "count": 2
+            },
+            {
+              "value": "10",
+              "count": 1
+            },
+            {
+              "value": "21",
+              "count": 1
+            },
+            {
+              "value": "19",
+              "count": 1
+            },
+            {
+              "value": "22",
+              "count": 1
+            }
+          ]
+        }
+      ],
+      "slug": "stores"
+    }
+  ]
+}

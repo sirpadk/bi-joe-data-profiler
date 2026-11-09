@@ -1,0 +1,66 @@
+{
+  "_how_to_fill": "Fill each entry following references/writing-descriptions.md in the bi-joe-data-profiler skill. source: system_metadata | user_documentation | inferred | pending. When source is inferred, confidence (high|medium|low) and evidence are required. Put `backticks` only around real table names, column names or observed values. Then run: bijoe check <dir> and bijoe render <dir>.",
+  "dataset": {
+    "summary": "Reference data for a shoe retailer whose stores all trade as StepUp: 200 customers, 60 products and 15 stores. `Customers` links to `Stores` through `PreferredStoreID`, while no other sheet refers to `Products`. The workbook has no orders or sales, so dashboards can show customer, product and store attributes and the per-customer totals, but not sales over time, by product or by store.",
+    "source": "inferred",
+    "evidence": [
+      "Sheets: `Customers` (200 rows), `Products` (60), `Stores` (15)",
+      "All 15 `StoreName` values start with \"StepUp\" (checked separately)",
+      "Every `PreferredStoreID` value matches a `Stores.StoreID` (checked separately)",
+      "No column in `Customers` or `Stores` refers to `ProductID` or `SKU`"
+    ]
+  },
+  "tables": {
+    "Customers": {
+      "description": "One row per customer, identified by `CustomerID`, with contact details, demographics and loyalty status (`LoyaltyTier`). Each customer has a home store in `PreferredStoreID`, and every value matches a `Stores.StoreID`. Sign-ups run from 2018-01-26 to 2026-09-17. `TotalOrders` and `LifetimeSpend` are totals stored per customer; with no order table in the workbook, they cannot be split by date, product or store.",
+      "source": "inferred",
+      "confidence": "high",
+      "evidence": [
+        "`CustomerID` unique and never missing across 200 rows",
+        "`PreferredStoreID` has 15 distinct values, all found in `Stores.StoreID` (checked separately)",
+        "`SignupDate` min 2018-01-26, max 2026-09-17",
+        "`TotalOrders` integer 1-40; `LifetimeSpend` decimal 32.68-3950.48",
+        "`LoyaltyTier` values: `Gold` (59), `Platinum` (49), `Bronze` (47), `Silver` (45)"
+      ],
+      "open_questions": [
+        "On what date were `TotalOrders` and `LifetimeSpend` last calculated?",
+        "Does `LifetimeSpend` include tax and returns?",
+        "`Seattle` is the most common customer city (27) but has no store. Are these online customers?"
+      ],
+      "ai_notes": ""
+    },
+    "Products": {
+      "description": "One row per product, identified by `ProductID` and a unique `SKU`, covering 8 brands and 8 categories. `UnitPrice` is above `UnitCost` for every product, so margin can be calculated per product. Product names are not unique: `Velora Glide Boots` is three products in different colours, so count and filter by `ProductID`, not by name.",
+      "source": "inferred",
+      "confidence": "high",
+      "evidence": [
+        "`ProductID` and `SKU` both unique and never missing across 60 rows",
+        "`Brand` 8 distinct values, `Category` 8 distinct values",
+        "`UnitPrice` > `UnitCost` in all 60 rows (checked separately); price 22.99-227.99, cost 8.23-117.92",
+        "`ProductName` 58 distinct in 60 rows; `Velora Glide Boots` appears 3 times (Grey, Green, Blue)"
+      ],
+      "open_questions": [
+        "One active product has a `LaunchDate` of 2026-11-19, after the profile date. Is that a planned launch or an error?",
+        "Should inactive products (`IsActive` = `False`, 6 products) appear in reports?"
+      ],
+      "ai_notes": ""
+    },
+    "Stores": {
+      "description": "One row per store, identified by `StoreID`, with location, manager, size and `StoreType` (`Outlet`, `Flagship`, `Kiosk` or `Standard`). Stores opened between 2010-10-14 and 2024-02-28, in 9 cities across 8 states, and every store is the preferred store of at least one customer. Two different stores share the name `StepUp Northpoint Houston` (an outlet and a standard store at different addresses), so label stores by `StoreID`, or by name plus address.",
+      "source": "inferred",
+      "confidence": "high",
+      "evidence": [
+        "`StoreID` unique and never missing across 15 rows",
+        "`OpenDate` min 2010-10-14, max 2024-02-28",
+        "`City` 9 distinct, `State` 8 distinct",
+        "`StoreType` values: `Outlet` (6), `Flagship` (4), `Kiosk` (3), `Standard` (2)",
+        "`StoreName` 14 distinct in 15 rows; S007 and S008 share a name (checked separately)",
+        "All 15 `StoreID` values appear in `Customers.PreferredStoreID` (checked separately)"
+      ],
+      "open_questions": [
+        "Is the shared name `StepUp Northpoint Houston` intentional (two stores in one mall) or a data entry error?"
+      ],
+      "ai_notes": ""
+    }
+  }
+}

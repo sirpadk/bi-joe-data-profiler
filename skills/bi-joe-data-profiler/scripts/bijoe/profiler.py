@@ -71,6 +71,7 @@ class ColumnStats:
         self.blanks = 0
         self.padded = 0
         self.leading_zero = 0
+        self.bool_letters = 0
         self.types: Counter = Counter()
         self.values: Counter = Counter()
         self.formats: Counter = Counter()
@@ -101,6 +102,8 @@ class ColumnStats:
     def _classify_str(self, s: str) -> Tuple[str, Any, Optional[str]]:
         low = s.lower()
         if low in BOOL_WORDS:
+            if len(low) == 1:
+                self.bool_letters += 1  # "F" may be a code (gender, size) rather than false; settled in result()
             return "boolean", low in TRUE_WORDS, None
         if INT_RE.match(s):
             try:
@@ -135,6 +138,8 @@ class ColumnStats:
         if isinstance(v, (float, decimal.Decimal)):
             return "decimal", float(v), str(v)
         if isinstance(v, dt.datetime):
+            if v.time() == dt.time(0) and v.tzinfo is None:  # Excel stores plain dates as midnight datetimes
+                return "date", v, v.date().isoformat()
             return "datetime", _to_naive(v), v.isoformat(sep=" ")
         if isinstance(v, dt.date):
             return "date", dt.datetime(v.year, v.month, v.day), v.isoformat()
@@ -185,15 +190,26 @@ class ColumnStats:
     # ---- results -----------------------------------------------------------
     def result(self, include_values: bool = True) -> Dict[str, Any]:
         non_missing = self.n - self.nulls - self.blanks
+        types = Counter(self.types)
         inferred = "empty"
         consistency: Optional[float] = None
         if non_missing:
             inferred = "text"
             for t in TYPE_ORDER:
-                fits = sum(self.types[x] for x in COMPATIBLE[t])
+                fits = sum(types[x] for x in COMPATIBLE[t])
                 if fits / non_missing >= TYPE_THRESHOLD:
                     inferred, consistency = t, fits / non_missing
                     break
+        if inferred != "boolean" and self.bool_letters:
+            # Not a yes/no column, so single letters like "F" were codes, not booleans.
+            types["boolean"] -= self.bool_letters
+            types["text"] += self.bool_letters
+            types = +types  # drop zero counts
+            if inferred != "text":
+                fits = sum(types[x] for x in COMPATIBLE[inferred])
+                consistency = fits / non_missing
+        allowed = COMPATIBLE.get(inferred, {inferred})
+        unexpected = {k for k in types if k not in allowed}
         out: Dict[str, Any] = {
             "name": self.name,
             "position": self.position,
@@ -203,7 +219,8 @@ class ColumnStats:
             "comment": self.comment,
             "inferred_type": inferred,
             "type_consistency_pct": None if consistency is None or consistency == 1 else round(100 * consistency, 2),
-            "value_kinds": dict(self.types) if len(self.types) > 1 else None,
+            # Only report the mix when some values don't fit the column's type (ints in a decimal column are fine).
+            "value_kinds": dict(types) if unexpected else None,
             "missing_count": self.nulls + self.blanks,
             "missing_pct": round(100 * (self.nulls + self.blanks) / self.n, 2) if self.n else None,
             "null_count": self.nulls,
@@ -221,7 +238,7 @@ class ColumnStats:
             out["max"] = self.t_max.date().isoformat() if as_date else self.t_max.isoformat(sep=" ")
             if self.formats:
                 out["value_formats"] = [f for f, _ in self.formats.most_common(3)]
-        elif self.len_min is not None:
+        elif inferred == "text" and self.len_min is not None:
             out["min_length"] = self.len_min
             out["max_length"] = self.len_max
         if self.leading_zero:
