@@ -156,12 +156,49 @@ def _column_suggestion(spec: Any, col: Dict[str, Any]) -> Dict[str, Any]:
     return {"codes": codes, "why": spec.get("why") or ""}
 
 
-def _examples(col: Dict[str, Any], n: int = 3, width: int = 25) -> str:
-    vals = []
-    for v in col.get("top_values", [])[:n]:
-        text = str(v["value"])
-        vals.append(text if len(text) <= width else text[: width - 1] + "…")
-    return ", ".join(vals)
+def _value(v: Any, width: int = 25, blank: str = "—") -> str:
+    if v is None or v == "":
+        return blank
+    text = str(v)
+    return text if len(text) <= width else text[: width - 1] + "…"
+
+
+def _count_pct(count: int, n: int) -> str:
+    if not n:
+        return f"{count:,}"
+    return f"{count:,} ({100 * count / n:.3g}%)"
+
+
+def _example(label: str, col: Dict[str, Any], show_values: bool) -> str:
+    """The BEAM✲ example-data rows, filled from what was measured."""
+    tops = col.get("top_values") or []
+    if label == "Change":
+        return "—"
+    if label == "Missing":
+        parts = []
+        if col.get("missing_count"):
+            parts.append(f"empty ×{col['missing_count']:,}")
+        parts += [f"{_value(p['value'])} ×{p['count']:,}" for p in col.get("placeholder_values", [])]
+        return ", ".join(parts) or "—"
+    if label == "Range":
+        lo, hi = col.get("min_value"), col.get("max_value")
+        return f"{_value(lo)} → {_value(hi)}" if lo is not None and hi is not None and lo != hi else "—"
+    if not show_values:
+        return "_hidden_"
+    if label == "Typical":
+        return _value(tops[0]["value"]) if tops else "—"
+    if label == "Different":
+        rare = col.get("rare_value")
+        if rare and (not tops or rare["value"] != tops[0]["value"]):
+            return _value(rare["value"])
+        return _value(tops[1]["value"]) if len(tops) > 1 else "—"
+    if label == "Repeat":
+        repeated = [t for t in tops if t["count"] > 1]
+        if not repeated:
+            return "no repeats"
+        pick = next((t for t in repeated if tops and t["value"] != tops[0]["value"]), repeated[0])
+        return f"{_value(pick['value'])} ×{pick['count']:,}"
+    return "—"
 
 
 def _pending(text: str) -> str:
@@ -171,9 +208,8 @@ def _pending(text: str) -> str:
 def _mermaid_id(name: str, taken: Dict[str, str]) -> str:
     if name in taken:
         return taken[name]
-    base = re.sub(r"[^A-Za-z0-9_]", "_", name) or "table"
-    if base[0].isdigit():
-        base = "t_" + base
+    # Prefix every id so table names like "end" or "graph" can't clash with Mermaid keywords.
+    base = "t_" + re.sub(r"[^A-Za-z0-9_]", "_", name)
     ident, n = base, 2
     while ident in taken.values():
         ident = f"{base}_{n}"
@@ -183,18 +219,21 @@ def _mermaid_id(name: str, taken: Dict[str, str]) -> str:
 
 
 def er_diagram(profile: Dict[str, Any]) -> List[str]:
-    """Table-level ER diagram (Mermaid), drawn from the measured relationships only."""
+    """Table-level diagram (Mermaid flowchart) with plain lines, drawn from the measured relationships.
+    No cardinality notation on purpose: most readers don't know it."""
     ids: Dict[str, str] = {}
-    lines = ["```mermaid", "erDiagram"]
+    lines = ["```mermaid", "flowchart LR"]
     for t in profile["tables"]:
         ident = _mermaid_id(t["name"], ids)
         label = t["name"].replace('"', "'")
-        lines.append(f'    {ident}["{label}"]' if ident != t["name"] else f"    {ident}")
-    by_name = {t["name"]: t for t in profile["tables"]}
+        lines.append(f'    {ident}["{label}"]')
+    seen = set()
     for r in profile.get("relationships") or []:
-        src = next(c for c in by_name[r["from_table"]]["columns"] if c["name"] == r["from_column"])
-        many = "o|" if src.get("all_values_unique") else "o{"
-        lines.append(f'    {ids[r["to_table"]]} ||--{many} {ids[r["from_table"]]} : ""')
+        pair = tuple(sorted((ids[r["from_table"]], ids[r["to_table"]])))
+        if pair in seen or pair[0] == pair[1]:
+            continue
+        seen.add(pair)
+        lines.append(f'    {ids[r["to_table"]]} --- {ids[r["from_table"]]}')
     lines.append("```")
     return lines
 
@@ -254,30 +293,66 @@ def render_story(table: Dict[str, Any], entry: Dict[str, Any], profile: Dict[str
         out += ["", "### Open questions for the data owner", ""]
         out.extend(f"- {beam.link_prose(q, pre)}" for q in questions)
 
-    # columns
+    # columns: one matrix column per real column, like the Modelstormer sheets
     rels = profile.get("relationships") or []
-    has_values = any(c.get("top_values") for c in table["columns"])
-    head = "| Column | Type | Measured | Suggested | Missing | Distinct |" + (" Examples |" if has_values else "")
-    out += ["", "## Columns", "", head, "|---|---|---|---|---:|---:|" + ("---|" if has_values else "")]
+    cols = table["columns"]
+    n = table.get("profiled_rows") or 0
+    show_values = (profile.get("settings") or {}).get("include_values", True)
     reasons = []
-    for col in table["columns"]:
-        dtype = beam.data_type_code(col)
-        plain = _PLAIN_TYPES.get(col["inferred_type"], col["inferred_type"])
-        type_cell = (beam.links([dtype], "column", pre) + " " if dtype else "") + plain
+    beam_cells = []
+    for col in cols:
         measured = beam.links(beam.measured_column_codes(table, col, rels), "column", pre, names)
         sug = _column_suggestion(b["columns"].get(col["name"]), col)
-        suggested = beam.links(sug["codes"], "column", pre, names)
+        suggested = " ".join(f"*{beam.links([c], 'column', pre, names)}*" for c in sug["codes"])
+        beam_cells.append(" ".join(x for x in (measured, suggested) if x))
         if sug["codes"] and sug["why"]:
-            reasons.append((f"{col['name']} {suggested}", beam.link_prose(sug["why"], pre)))
-        row = (f"| {_cell(col['name'])} | {type_cell} | {measured} | {suggested} | "
-               f"{col.get('missing_pct', 0):g}% | {col['distinct_count']:,} |")
-        if has_values:
-            row += f" {_cell(_examples(col))} |"
-        out.append(row)
-    out += ["", f"**Measured** codes come from the data. **Suggested** codes are AI judgement, with the reasons "
-                f"below. [What do the codes mean?](../{beam.PAGE})"]
+            reasons.append((f"{col['name']} {beam.links(sug['codes'], 'column', pre, names)}",
+                            beam.link_prose(sug["why"], pre)))
+
+    def type_cell(col: Dict[str, Any]) -> str:
+        dtype = beam.data_type_code(col)
+        plain = _PLAIN_TYPES.get(col["inferred_type"], col["inferred_type"])
+        return (beam.links([dtype], "column", pre) + " " if dtype else "") + plain
+
+    rows: List[tuple] = [("**Data type**", [type_cell(c) for c in cols]),
+                         ("**BEAM✲**", beam_cells),
+                         ("**Example data**", [""] * len(cols))]
+    for label in ("Typical", "Different", "Repeat", "Missing", "Range", "Change"):
+        rows.append((label, [_example(label, c, show_values) for c in cols]))
+    rows.append(("**Data profiling results**", [""] * len(cols)))
+    rows += [
+        ("Sample Count", [f"{n:,}" for _ in cols]),
+        ("Missing", [_count_pct(c.get("missing_count", 0), n) for c in cols]),
+        ("Unique Values", [_count_pct(c.get("distinct_count", 0), n) for c in cols]),
+        ("Min Value", [_value(c.get("min_value")) for c in cols]),
+        ("Min Count", [_count_pct(c["min_count"], n) if "min_count" in c else "—" for c in cols]),
+        ("Max Value", [_value(c.get("max_value")) for c in cols]),
+        ("Max Count", [_count_pct(c["max_count"], n) if "max_count" in c else "—" for c in cols]),
+        ("Min Length", [str(c["min_length"]) if "min_length" in c else "—" for c in cols]),
+        ("Max Length", [str(c["max_length"]) if "max_length" in c else "—" for c in cols]),
+    ]
+    out += ["", "## Columns", "",
+            "| | " + " | ".join(f"**{_cell(c['name'])}**" for c in cols) + " |",
+            "|---|" + "---|" * len(cols)]
+    for label, cells in rows:
+        out.append(f"| {label} | " + " | ".join(_cell(x) for x in cells) + " |")
+    out += ["", "_BEAM✲ codes in plain text are measured from the data; codes in italics are suggested by AI, "
+                "with the reasons below. Change can't be seen in a single snapshot of the data._ "
+                f"[What do the codes mean?](../{beam.PAGE})"]
     if reasons:
         out += ["", "### Why the suggestions", ""] + property_table(reasons)
+
+    # sample rows
+    out += ["", "## Sample rows", ""]
+    sample = table.get("sample_rows") or []
+    if sample and show_values:
+        out += [f"_{len(sample)} random rows from the profiled data._", "",
+                "| " + " | ".join(f"**{_cell(c['name'])}**" for c in cols) + " |",
+                "|" + "---|" * len(cols)]
+        for r in sample:
+            out.append("| " + " | ".join(_cell(_value(v, blank="")) for v in r) + " |")
+    else:
+        out.append("_Hidden: this profile was made without example values._")
 
     # relationships
     outgoing = [r for r in rels if r["from_table"] == table["name"]]

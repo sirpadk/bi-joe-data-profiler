@@ -84,8 +84,8 @@ generated_at: "<ISO 8601 UTC>"
 3. `## Data stories`: an italic one-line explanation of what a data story is, then a table
    with columns Table (link), BEAM✲ (table codes), Grain, Description (the short
    `definition`), Sampled rows, Columns
-4. `## Data model`: a table-level Mermaid `erDiagram` drawn from the measured
-   relationships, with no column names
+4. `## Data model`: a table-level Mermaid `flowchart LR` drawn from the measured
+   relationships, with plain lines (`---`), no cardinality and no column names
 5. `## Metadata`: the metadata block
 
 ## Data story sections (in order)
@@ -95,11 +95,26 @@ generated_at: "<ISO 8601 UTC>"
 3. `## Description`: the description, then a "Based on" list of evidence
 4. `### Additional context (written by AI)`: only if `ai_notes` is set
 5. `### Open questions for the data owner`: only if there are any
-6. `## Columns`: Column, Type (data type code + plain word), Measured codes, Suggested
-   codes, Missing, Distinct, Examples (only if values are allowed), then
-   `### Why the suggestions` as a property table
-7. `## Relationships (measured)`: only if there are any
-8. `## Metadata`: the metadata block (also has `grain`, `beam_table_codes` and `beam_source`)
+6. `## Columns`: a matrix, following the Modelstormer layout. **Every real column is a
+   column**, its name in the header row, and the rows are:
+   - **Data type**: the data type code and a plain word
+   - **BEAM✲**: measured codes in plain text, AI-suggested codes in *italics*
+   - **Example data**:
+     - Typical: the most common value
+     - Different: a rare value
+     - Repeat: a repeated value ×count, or "no repeats"
+     - Missing: how missing values show up (empty ×n, or placeholders such as N/A)
+     - Range: min → max
+     - Change: "—", since a single snapshot can't show change
+   - **Data profiling results**: Sample Count, Missing, Unique Values, Min Value,
+     Min Count, Max Value, Max Count, Min Length, Max Length (counts shown as "n (pct%)")
+
+   This is followed by `### Why the suggestions` as a property table.
+7. `## Sample rows`: 5 random rows from the profiled data (reservoir sampling with a fixed
+   seed, so the same rows come back on every run). They're hidden, like the example
+   data, when the profile is made with `--no-values`.
+8. `## Relationships (measured)`: only if there are any
+9. `## Metadata`: the metadata block (also has `grain`, `beam_table_codes` and `beam_source`)
 
 ## Static pages
 `beam-annotations.md` and `how-to-read.md` are copied unchanged from the skill's

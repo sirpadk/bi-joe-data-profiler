@@ -181,3 +181,52 @@ def test_lint_grain_definition_and_summary(shop_csv, tmp_path):
     assert "summary names tables or columns in `backticks`" in msgs
     assert "summary names tables (customers, orders)" in msgs
     assert "definition not written yet" not in msgs  # "More context needed." is a valid answer
+
+
+def _matrix_row(story: str, label: str) -> list:
+    section = story.split("## Columns", 1)[1].split("\n\n", 2)[1]
+    for line in section.splitlines():
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        if cells[0] == label:
+            return cells[1:]
+    raise AssertionError(f"row {label!r} not found")
+
+
+def test_column_matrix_and_sample_rows(shop_csv, tmp_path):
+    out = tmp_path / "wiki"
+    _run("profile", shop_csv, "--out", out)
+    story = (out / "data-stories" / "customers.md").read_text(encoding="utf-8")
+    header = story.split("## Columns", 1)[1].split("\n\n", 2)[1].splitlines()[0]
+    assert header == "| | **cust_id** | **name** | **country** | **signup_date** | **zip** |"
+    labels = ["**Data type**", "**BEAM✲**", "**Example data**", "Typical", "Different", "Repeat", "Missing",
+              "Range", "Change", "**Data profiling results**", "Sample Count", "Missing", "Unique Values",
+              "Min Value", "Min Count", "Max Value", "Max Count", "Min Length", "Max Length"]
+    rows = [line.split("|")[1].strip() for line in
+            story.split("## Columns", 1)[1].split("\n\n", 2)[1].splitlines()[2:]]
+    assert rows == labels
+    assert _matrix_row(story, "Sample Count") == ["4"] * 5
+    assert _matrix_row(story, "Unique Values")[2] == "2 (50%)"  # country: DK, SE
+    assert _matrix_row(story, "Repeat")[2] == "DK ×2"
+    assert _matrix_row(story, "Range")[0] == "1 → 4"
+    assert _matrix_row(story, "Min Value")[3] == "2024-01-03"
+    assert _matrix_row(story, "Max Count")[2] == "1 (25%)"  # SE
+    assert _matrix_row(story, "Change") == ["—"] * 5
+    missing = [r for r in story.split("## Columns", 1)[1].splitlines() if r.startswith("| Missing |")]
+    assert missing[0].split("|")[4].strip() == "empty ×1"  # example row for country
+    sample = story.split("## Sample rows", 1)[1].split("##", 1)[0]
+    assert sample.count("\n| ") == 1 + 4  # header + all 4 rows (fewer than 5 in the table)
+
+
+def test_placeholders_and_hidden_values(tmp_path):
+    d = tmp_path / "src"
+    d.mkdir()
+    (d / "t.csv").write_text("code,city\nA,N/A\nB,Oslo\nC,N/A\nD,Bergen\n", encoding="utf-8")
+    out = tmp_path / "wiki"
+    _run("profile", d, "--out", out)
+    story = (out / "data-stories" / "t.md").read_text(encoding="utf-8")
+    missing = [r for r in story.split("## Columns", 1)[1].splitlines() if r.startswith("| Missing |")][0]
+    assert "N/A ×2" in missing
+    _run("profile", d, "--out", out, "--no-values")
+    story = (out / "data-stories" / "t.md").read_text(encoding="utf-8")
+    assert _matrix_row(story, "Typical") == ["_hidden_", "_hidden_"]
+    assert "_Hidden: this profile was made without example values._" in story

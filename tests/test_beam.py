@@ -74,8 +74,9 @@ def test_relationship_measured_and_page_copied(shop_csv, tmp_path):
     assert "## Relationships (measured)" in story and "[FK](../beam-annotations.md#c-fk)" in story
     assert "{orders.csv}" in story
     index = (out / "index.md").read_text(encoding="utf-8")
-    assert "## Data model" in index and "```mermaid\nerDiagram" in index
-    assert "    customers ||--o{ orders : \"\"" in index  # table level, no column names
+    assert "## Data model" in index and "```mermaid\nflowchart LR" in index
+    assert "    t_customers --- t_orders" in index  # plain line, no cardinality, no column names
+    assert "||" not in index.split("## Data model")[1].split("## Metadata")[0]
     assert "cust_id" not in index.split("## Data model")[1].split("## Metadata")[0]
     assert "](beam-annotations.md)" in index and "](how-to-read.md)" in index
     assert (out / "how-to-read.md").is_file()

@@ -11,6 +11,7 @@ import datetime as dt
 import decimal
 import hashlib
 import math
+import random
 import re
 from collections import Counter
 from typing import Any, Callable, Dict, List, Optional, Tuple
@@ -46,6 +47,10 @@ COMPATIBLE = {
 }
 TYPE_THRESHOLD = 0.95
 TOP_N = 5
+SAMPLE_ROW_COUNT = 5
+#: values that stand in for 'missing' in many sources
+PLACEHOLDERS = {"n/a", "na", "#n/a", "null", "none", "nil", "unknown", "missing", "-", "--", "?",
+                "not applicable", "not available", "tbd", "(blank)", "blank", "empty"}
 MAX_VALUE_CHARS = 60
 MAX_KEY_CHARS = 200
 
@@ -78,6 +83,8 @@ class ColumnStats:
         self.values: Counter = Counter()
         self.formats: Counter = Counter()
         self._last_fmt: Optional[str] = None
+        self.min_key: Optional[str] = None  # value as written, for the min/max rows of the data story
+        self.max_key: Optional[str] = None
         self.num_min: Optional[float] = None
         self.num_max: Optional[float] = None
         self.num_sum = 0.0
@@ -188,11 +195,19 @@ class ColumnStats:
         elif kind == "integer":
             self.int_digits = max(self.int_digits, len(key.lstrip("+-").lstrip("0")) or 1)
         if kind in ("integer", "decimal"):
+            if self.num_min is None or value < self.num_min:
+                self.min_key = key[:MAX_KEY_CHARS]
+            if self.num_max is None or value > self.num_max:
+                self.max_key = key[:MAX_KEY_CHARS]
             self.num_min = value if self.num_min is None else min(self.num_min, value)
             self.num_max = value if self.num_max is None else max(self.num_max, value)
             self.num_sum += float(value)
             self.num_count += 1
         elif kind in ("date", "datetime"):
+            if self.t_min is None or value < self.t_min:
+                self.min_key = key[:MAX_KEY_CHARS]
+            if self.t_max is None or value > self.t_max:
+                self.max_key = key[:MAX_KEY_CHARS]
             self.t_min = value if self.t_min is None else min(self.t_min, value)
             self.t_max = value if self.t_max is None else max(self.t_max, value)
 
@@ -257,12 +272,44 @@ class ColumnStats:
             out["leading_zero_count"] = self.leading_zero
         if self.padded:
             out["whitespace_padded_count"] = self.padded
+        # Min/max value and how often each occurs (the "Data profiling results" of the data story).
+        if inferred in ("integer", "decimal", "date", "datetime") and self.min_key is not None:
+            lo, hi = self.min_key, self.max_key
+        elif include_values and self.values and inferred not in ("binary",):
+            lo, hi = min(self.values), max(self.values)
+        else:
+            lo = hi = None
+        if lo is not None:
+            out["min_value"], out["min_count"] = _short(lo), self.values.get(lo, 0)
+            out["max_value"], out["max_count"] = _short(hi), self.values.get(hi, 0)
+        placeholders = sorted(((k, c) for k, c in self.values.items() if k.strip().lower() in PLACEHOLDERS),
+                              key=lambda kc: -kc[1])
+        if placeholders:
+            out["placeholder_values"] = [{"value": k, "count": c} for k, c in placeholders[:5]]
         if include_values and self.values:
+            rare = min(self.values.items(), key=lambda kc: (kc[1], kc[0]))
+            out["rare_value"] = {"value": _short(rare[0]), "count": rare[1]}
             out["top_values"] = [
                 {"value": v if len(v) <= MAX_VALUE_CHARS else v[: MAX_VALUE_CHARS - 1] + "…", "count": c}
                 for v, c in self.values.most_common(TOP_N)
             ]
         return {k: v for k, v in out.items() if v is not None}
+
+
+def _short(v: str) -> str:
+    return v if len(v) <= MAX_VALUE_CHARS else v[: MAX_VALUE_CHARS - 1] + "…"
+
+
+def _cell_text(v: Any) -> Optional[str]:
+    if v is None:
+        return None
+    if isinstance(v, dt.datetime) and v.time() == dt.time(0) and v.tzinfo is None:
+        return v.date().isoformat()
+    if isinstance(v, (dt.date, dt.datetime, dt.time)):
+        return v.isoformat()
+    if isinstance(v, (bytes, bytearray, memoryview)):
+        return f"<{len(bytes(v))} bytes>"
+    return _short(str(v))
 
 
 def profile_table(connector: Connector, table: str, sample_rows: int, include_values: bool = True,
@@ -282,6 +329,8 @@ def _profile_table(connector: Connector, table: str, sample_rows: int, include_v
     limit = sample_rows if info.row_count is not None else None
     seen: set = set()
     duplicates = ragged = profiled = total = 0
+    rng = random.Random(f"bijoe:{table}")  # same sample every run
+    reservoir: List[Tuple[int, List[Any]]] = []
     for row in connector.iter_rows(table, limit=limit):
         total += 1
         if profiled >= sample_rows:
@@ -291,6 +340,13 @@ def _profile_table(connector: Connector, table: str, sample_rows: int, include_v
         if len(row) != width:
             ragged += 1
             row = (row + [None] * width)[:width]
+        if include_values:  # reservoir sampling: a uniform random sample of the profiled rows
+            if len(reservoir) < SAMPLE_ROW_COUNT:
+                reservoir.append((profiled, row))
+            else:
+                j = rng.randrange(profiled)
+                if j < SAMPLE_ROW_COUNT:
+                    reservoir[j] = (profiled, row)
         digest = hashlib.blake2b(repr(row).encode("utf-8", "replace"), digest_size=16).digest()
         if digest in seen:
             duplicates += 1
@@ -310,6 +366,7 @@ def _profile_table(connector: Connector, table: str, sample_rows: int, include_v
         "ragged_rows": ragged or None,
         "details": info.details or None,
         "columns": [c.result(include_values) for c in stats],
+        "sample_rows": [[_cell_text(v) for v in r] for _, r in sorted(reservoir, key=lambda x: x[0])] or None,
     }
     return {k: v for k, v in result.items() if v is not None}, stats
 

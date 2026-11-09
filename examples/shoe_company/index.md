@@ -8,7 +8,7 @@
 | **Source** | shoe_company.xlsx (excel) |
 | **Tables** | 3 |
 | **Sampled rows** | 275 |
-| **Profiled** | 2026-11-09 15:33 UTC |
+| **Profiled** | 2026-11-09 16:24 UTC |
 | **Purpose** | Build reports and dashboards |
 | **How to read** | [How to read this wiki](how-to-read.md) · [BEAM✲ annotations](beam-annotations.md) |
 
@@ -27,11 +27,11 @@ _A data story describes one table: what one row is, what it means in business te
 _How the tables connect, drawn from the measured relationships._
 
 ```mermaid
-erDiagram
-    Customers
-    Products
-    Stores
-    Stores ||--o{ Customers : ""
+flowchart LR
+    t_Customers["Customers"]
+    t_Products["Products"]
+    t_Stores["Stores"]
+    t_Stores --- t_Customers
 ```
 
 ---
@@ -50,6 +50,6 @@ connector: "excel"
 tables: 3
 sampled_rows: 275
 relationships: 1
-generated_at: "2026-11-09T15:33:46+00:00"
+generated_at: "2026-11-09T16:24:24+00:00"
 generator: "bi-joe-data-profiler 0.1.0"
 ```

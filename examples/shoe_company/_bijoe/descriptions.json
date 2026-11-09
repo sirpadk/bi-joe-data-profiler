@@ -10,6 +10,8 @@
   },
   "tables": {
     "Customers": {
+      "grain": "One row per customer",
+      "definition": "A customer is a person who has made one or more purchases from the company, identified by `CustomerID`.",
       "description": "One row per customer, identified by `CustomerID`, with contact details, demographics and loyalty status (`LoyaltyTier`). Each customer has a home store in `PreferredStoreID`, and every value matches a `Stores.StoreID`. Sign-ups run from 2018-01-26 to 2026-09-17. `TotalOrders` and `LifetimeSpend` are totals stored per customer; with no order table in the workbook, they cannot be split by date, product or store.",
       "source": "inferred",
       "confidence": "high",
@@ -80,11 +82,11 @@
             "why": "An amount that sums across customers. A stored total whose currency, as-of date and treatment of tax and returns are unknown."
           }
         }
-      },
-      "grain": "One row per customer",
-      "definition": "A customer is a person who has made one or more purchases from the company, identified by `CustomerID`."
+      }
     },
     "Products": {
+      "grain": "One row per product",
+      "definition": "A product is a shoe model in one colour that the company sells or has sold, identified by `ProductID` and `SKU`.",
       "description": "One row per product, identified by `ProductID` and a unique `SKU`, covering 8 brands and 8 categories. `UnitPrice` is above `UnitCost` for every product, so margin can be calculated per product. Product names are not unique: `Velora Glide Boots` is three products in different colours, so count and filter by `ProductID`, not by name.",
       "source": "inferred",
       "confidence": "high",
@@ -155,11 +157,11 @@
             "why": "A launch date should not change, but one value lies in the future."
           }
         }
-      },
-      "grain": "One row per product",
-      "definition": "A product is a shoe model in one colour that the company sells or has sold, identified by `ProductID` and `SKU`."
+      }
     },
     "Stores": {
+      "grain": "One row per store",
+      "definition": "A store is a physical StepUp shop (an outlet, flagship, kiosk or standard store), identified by `StoreID`.",
       "description": "One row per store, identified by `StoreID`, with location, manager, size and `StoreType` (`Outlet`, `Flagship`, `Kiosk` or `Standard`). Stores opened between 2010-10-14 and 2024-02-28, in 9 cities across 8 states, and every store is the preferred store of at least one customer. Two different stores share the name `StepUp Northpoint Houston` (an outlet and a standard store at different addresses), so label stores by `StoreID`, or by name plus address.",
       "source": "inferred",
       "confidence": "high",
@@ -214,9 +216,7 @@
             "why": "The column name states the unit."
           }
         }
-      },
-      "grain": "One row per store",
-      "definition": "A store is a physical StepUp shop (an outlet, flagship, kiosk or standard store), identified by `StoreID`."
+      }
     }
   }
 }
