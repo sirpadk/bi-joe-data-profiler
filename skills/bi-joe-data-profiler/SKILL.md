@@ -87,6 +87,7 @@ python <skill-dir>/scripts/run_bijoe.py profile "<source>" --out "<out-dir>" \
 - `--no-values` stops all example values being recorded, not only personal ones. Use it whenever
   the user says the data is sensitive. `--mask Table.Column,...` adds columns to mask on top of what
   the engine detects by itself.
+- Only tables are profiled. Views, stored procedures and functions are never read.
 - Run `python <skill-dir>/scripts/run_bijoe.py connectors` to see which sources are ready.
   Excel needs `pip install openpyxl`. Databases need `pip install sqlalchemy` plus the
   database's driver. Ask the user before you install anything.
