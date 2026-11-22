@@ -5,13 +5,16 @@ wiki can be re-generated without losing them, and so they can be checked against
 facts before they are published.
 
 Each table entry:
-    grain           what one row is: "One row per customer" (or "More context needed.")
-    definition      one common-sense sentence on what the thing is, shown on the landing page
-                    (or "More context needed.")
-    description     the longer text shown on the data story
+    description     what the thing is, in plain business language: one or two short sentences with no
+                    column names or IDs. It is the first row of the data story and also the description
+                    on the landing page. It must add meaning beyond the name ("More context needed."
+                    when the evidence is not enough)
+    grain           what one row is, built on the description: "One row for each person who is a
+                    customer" (or "More context needed.")
     source          system_metadata | user_documentation | inferred | pending
     confidence      high | medium | low        (required when source is inferred)
-    evidence        list of facts the description is based on  (required when inferred)
+    evidence        list of facts the description is based on (required when inferred). It is not
+                    shown on the page body, only in the page's Metadata section for AI agents
     open_questions  what could not be determined and should be asked of the data owner
     ai_notes        optional inferred context added next to a system/user description
     beam            suggested BEAM✲ annotations (see references/beam-annotations-guide.md):
@@ -36,7 +39,8 @@ HOW_TO_FILL = (
     "Fill each entry following references/writing-descriptions.md in the bi-joe-data-profiler skill. "
     "source: system_metadata | user_documentation | inferred | pending. "
     "When source is inferred, confidence (high|medium|low) and evidence are required. "
-    "Put `backticks` only around real table names, column names or observed values. "
+    "The description is plain business language that says more than the name does. A column name may "
+    "appear in plain text where it helps, never in backticks. grain builds on it ('One row for each ...'). "
     "Suggest BEAM annotations in beam{} following references/beam-annotations-guide.md. "
     "Then run: bijoe check <dir> and bijoe render <dir>."
 )
@@ -54,6 +58,7 @@ WEAK_PATTERNS: List[Tuple[str, str]] = [
 ]
 
 BACKTICK_RE = re.compile(r"`([^`\n]+)`")
+MAX_DESCRIPTION_CHARS = 400  # it also sits in the landing page's list of data stories
 GRAIN_RE = re.compile(r"^one row (per|for each)\b", re.IGNORECASE)
 #: the honest answer when the evidence does not support a definition or grain
 NEEDS_CONTEXT = "More context needed."
@@ -61,9 +66,8 @@ NEEDS_CONTEXT = "More context needed."
 
 def empty_entry() -> Dict[str, Any]:
     return {
-        "grain": "",
-        "definition": "",
         "description": "",
+        "grain": "",
         "source": "pending",
         "confidence": None,
         "evidence": [],
@@ -107,6 +111,7 @@ def merge(existing: Dict[str, Any], profile: Dict[str, Any]) -> Dict[str, Any]:
     tables: Dict[str, Any] = {}
     for t in profile["tables"]:
         entry = {**empty_entry(), **old_tables.get(t["name"], {})}
+        entry.pop("definition", None)  # merged into description
         comment = (t.get("comment") or "").strip()
         if comment and entry["source"] in ("pending", "system_metadata"):
             entry.update(
@@ -146,6 +151,52 @@ def _check_text(label: str, text: str, known: Set[str], problems: List[Tuple[str
                 "warning", label,
                 f"`{ref}` is not a table, column or observed value in the profile; make sure it is not invented",
             ))
+
+
+_STOP = {"a", "an", "the", "of", "is", "are", "was", "were", "this", "that", "these", "those", "it", "its",
+         "in", "on", "at", "to", "for", "and", "or", "with", "by", "as", "table", "record", "row", "data",
+         "information", "about", "contain", "hold", "store", "list", "each", "per", "one", "all", "detail"}
+
+
+def _stem(word: str) -> str:
+    w = word.lower()
+    if w.endswith("ies") and len(w) > 4:
+        return w[:-3] + "y"
+    if w.endswith("s") and len(w) > 3 and not w.endswith("ss"):
+        return w[:-1]
+    return w
+
+
+def _words(text: str) -> Set[str]:
+    spaced = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", " ", text.replace("_", " "))
+    return {_stem(w) for w in re.findall(r"[A-Za-z]+", spaced)}
+
+
+_STOP_STEMS = {_stem(w) for w in _STOP}
+
+
+def restates_name(text: str, table_name: str) -> bool:
+    """True when the text says nothing beyond the table name, e.g. 'Customer information.' for Customers."""
+    content = _words(text) - _STOP_STEMS
+    return bool(content) and content <= _words(table_name)
+
+
+def _needs_context(text: str) -> bool:
+    return text.strip().rstrip(".").lower() == NEEDS_CONTEXT.rstrip(".").lower()
+
+
+def _check_description(where: str, text: str, table_name: str, table: Dict[str, Any],
+                       problems: List[Tuple[str, str, str]]) -> None:
+    """The description is plain business language that adds meaning beyond the name."""
+    if BACKTICK_RE.search(text):
+        problems.append(("warning", where, "description uses `backticks`; write column and table names as plain "
+                         "text, without code styling"))
+    if restates_name(text, table_name):
+        problems.append(("warning", where, "description only repeats the table name (it states the obvious); say what the "
+                         "thing actually is and how it relates to the business"))
+    if len(text) > MAX_DESCRIPTION_CHARS:
+        problems.append(("warning", where, f"description is {len(text)} characters; keep it under {MAX_DESCRIPTION_CHARS} "
+                         "so it fits the landing page too"))
 
 
 def lint(profile: Dict[str, Any], data: Dict[str, Any]) -> List[Tuple[str, str, str]]:
@@ -192,7 +243,7 @@ def lint(profile: Dict[str, Any], data: Dict[str, Any]) -> List[Tuple[str, str, 
                 problems.append(("error", where, "system metadata must be quoted exactly; put your own additions in ai_notes"))
         else:
             _check_text(where, text, known, problems)
-            if len(text) < MIN_LENGTH and source == "inferred":
+            if len(text) < MIN_LENGTH and source == "inferred" and not _needs_context(text):
                 problems.append(("warning", where, f"only {len(text)} characters; it likely adds nothing beyond the table name"))
         if source == "inferred":
             if entry.get("confidence") not in CONFIDENCE:
@@ -201,15 +252,18 @@ def lint(profile: Dict[str, Any], data: Dict[str, Any]) -> List[Tuple[str, str, 
                 problems.append(("error", where, "inferred descriptions need at least one evidence item"))
             if entry.get("confidence") == "low" and not entry.get("open_questions"):
                 problems.append(("warning", where, "low confidence: add open_questions saying what to ask the data owner"))
-        for field in ("grain", "definition"):
-            value = (entry.get(field) or "").strip()
-            if not value:
-                problems.append(("todo", where, f"{field} not written yet"))
-            elif value.rstrip(".").lower() != NEEDS_CONTEXT.rstrip(".").lower():
-                _check_text(f"{where} {field}", value, known, problems)
         grain = (entry.get("grain") or "").strip()
-        if grain and not GRAIN_RE.match(grain) and grain.rstrip(".").lower() != NEEDS_CONTEXT.rstrip(".").lower():
-            problems.append(("warning", where, f"grain should read 'One row per ...' (or '{NEEDS_CONTEXT}')"))
+        if not grain:
+            problems.append(("todo", where, "grain not written yet"))
+        elif not _needs_context(grain):
+            _check_text(f"{where} grain", grain, known, problems)
+            if not GRAIN_RE.match(grain):
+                problems.append(("warning", where, f"grain should read 'One row for each ...' (or '{NEEDS_CONTEXT}')"))
+            elif restates_name(grain, name):
+                problems.append(("warning", where, "grain only repeats the table name; say what the thing is "
+                                 "(e.g. 'One row for each person who is a customer')"))
+        if source != "system_metadata" and not _needs_context(text):
+            _check_description(where, text, name, by_name[name], problems)
         for item in entry.get("evidence") or []:
             _check_text(f"{where} evidence", str(item), known, problems)
         notes = (entry.get("ai_notes") or "").strip()

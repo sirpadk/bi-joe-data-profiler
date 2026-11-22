@@ -1,219 +1,326 @@
 {
-  "_how_to_fill": "Fill each entry following references/writing-descriptions.md in the bi-joe-data-profiler skill. source: system_metadata | user_documentation | inferred | pending. When source is inferred, confidence (high|medium|low) and evidence are required. Put `backticks` only around real table names, column names or observed values. Suggest BEAM annotations in beam{} following references/beam-annotations-guide.md. Then run: bijoe check <dir> and bijoe render <dir>.",
+  "_how_to_fill": "Fill each entry following references/writing-descriptions.md in the bi-joe-data-profiler skill. source: system_metadata | user_documentation | inferred | pending. When source is inferred, confidence (high|medium|low) and evidence are required. The description is plain business language: no column names, IDs or backticks, and it must say more than the name does. grain builds on it ('One row for each ...'). Suggest BEAM annotations in beam{} following references/beam-annotations-guide.md. Then run: bijoe check <dir> and bijoe render <dir>.",
   "dataset": {
-    "summary": "Reference data for a shoe retailer trading as StepUp: the people who buy from it, what it sells, and where it sells. It holds no sales or other business events.",
+    "summary": "Retail sales of footwear through a chain of company-run shops in the United States, covering the people who buy, the shoes on offer and the shops that sell them. Purchases run from January 2025 to October 2026.",
     "source": "inferred",
     "evidence": [
-      "All 15 store names start with \"StepUp\" (checked separately)",
-      "Three sheets of customers, products and stores; none holds transactions"
+      "`Sales.SaleDateTime` min 2025-01-01 12:18:13, max 2026-10-31 10:34:00 (2,535 rows)",
+      "`Stores.State` has 8 distinct US state codes; `Customers.State` has 11; all `Stores.StoreName` values start with 'StepUp'",
+      "`Products.Category` has 8 values including Sandals, Kids, Running, Hiking, Boots",
+      "`Sales.StoreID` is filled on every row and matches `Stores.StoreID` 100%; there is no online-channel column"
     ]
   },
   "tables": {
     "Customers": {
-      "grain": "One row per customer",
-      "definition": "A customer is a person who has made one or more purchases from the company, identified by `CustomerID`.",
-      "description": "One row per customer, identified by `CustomerID`, with contact details, demographics and loyalty status (`LoyaltyTier`). Each customer has a home store in `PreferredStoreID`, and every value matches a `Stores.StoreID`. Sign-ups run from 2018-01-26 to 2026-09-17. `TotalOrders` and `LifetimeSpend` are totals stored per customer; with no order table in the workbook, they cannot be split by date, product or store.",
+      "description": "A person who has bought from the company at least once and belongs to its loyalty programme, together with the shop they prefer and whether they agreed to receive emails.",
+      "grain": "One row for each person who has signed up as a customer",
       "source": "inferred",
-      "confidence": "high",
+      "confidence": "medium",
       "evidence": [
-        "`CustomerID` unique and never missing across 200 rows",
-        "`PreferredStoreID` has 15 distinct values, all found in `Stores.StoreID` (measured relationship)",
-        "`SignupDate` min 2018-01-26, max 2026-09-17",
-        "`TotalOrders` integer 1-40; `LifetimeSpend` decimal 32.68-3950.48",
-        "`LoyaltyTier` values: `Gold` (59), `Platinum` (49), `Bronze` (47), `Silver` (45)",
-        "`FirstName`, `LastName`, `BirthDate` and `Gender` (`M`, `F`, `Other`) describe people",
-        "`TotalOrders` minimum is 1"
+        "`CustomerID` unique, 0% missing, 200 rows, values C00001 onward",
+        "`TotalOrders` min 1 and `LifetimeSpend` min 32.68 for all 200 rows, so every customer has bought at least once",
+        "`LoyaltyTier` always filled, 4 values: Gold (59), Platinum (49), Bronze (47), Silver (45)",
+        "`FirstName`, `LastName`, `BirthDate` (1955-05-14 to 2008-08-26), `Gender`, `Email`, `Phone` describe an individual, not a company",
+        "`PreferredStoreID` found in `Stores.StoreID` for 200 of 200 values (measured relationship)",
+        "`EmailOptIn` True (127), False (73)",
+        "Checked separately with an ad-hoc script: 9 of 200 customers have no row in `Sales`; `TotalOrders` equals the number of distinct `Sales.TransactionID` for only 7 of 191 customers that do; `LifetimeSpend` equals the sum of `Sales.TotalPrice` for 0 customers"
       ],
       "open_questions": [
-        "On what date were `TotalOrders` and `LifetimeSpend` last calculated?",
-        "Does `LifetimeSpend` include tax and returns, and what currency is it in?",
-        "`Seattle` is the most common customer city (27) but has no store. Are these online customers?"
+        "Which period do `TotalOrders` and `LifetimeSpend` cover, and in which currency is `LifetimeSpend`? Are they calculated from more sales than the `Sales` table holds?",
+        "Is `Gender` value Other really 63 of 200 customers, or does it mean not stated?",
+        "What does `EmailOptIn` consent to: marketing emails, receipts, or both?"
       ],
-      "ai_notes": "",
+      "ai_notes": "`TotalOrders` and `LifetimeSpend` are totals stored on the customer, not derived from the `Sales` table: the sales rows of a customer never add up to `LifetimeSpend` (checked separately). `Gender` has three values, M (72), F (65) and Other (63), where Other is unusually frequent. `SignupDate` runs 2018-01-26 to 2026-09-17, and no customer has a sale before their sign-up date (checked separately). `Phone` uses the 555 exchange and `Email` uses mail.test and example.com domains, which suggests the contact data is not real.",
       "beam": {
         "table": [
           "CV"
         ],
-        "table_why": "One row per `CustomerID` (unique in all 200 rows), with descriptive columns and no validity dates, version numbers or current-flag columns, so the sheet holds only current values.",
+        "table_why": "One row per `CustomerID`, no validity dates, version columns or current flag, so each customer holds a single set of current values.",
         "columns": {
           "CustomerID": {
             "codes": [
               "BK",
               "MD"
             ],
-            "why": "The source's own identifier for each customer: unique, never missing, `C00001`-style codes."
+            "why": "The identifier that tells one customer row from another; filled on all 200 rows and unique."
+          },
+          "FirstName": {
+            "codes": [
+              "MD"
+            ],
+            "why": "A person's name is needed on every customer row."
+          },
+          "LastName": {
+            "codes": [
+              "MD"
+            ],
+            "why": "A person's name is needed on every customer row."
           },
           "BirthDate": {
             "codes": [
               "FV"
             ],
-            "why": "A person's date of birth should not change; corrections overwrite it."
+            "why": "A person's date of birth should not change."
           },
           "SignupDate": {
             "codes": [
               "FV"
             ],
-            "why": "Signing up happens once, so the date should not change."
-          },
-          "LoyaltyTier": {
-            "codes": [
-              "!"
-            ],
-            "why": "Four tiers (`Gold`, `Platinum`, `Bronze`, `Silver`): the main way to segment customers in a dashboard."
+            "why": "The date a person signed up happens once and should not change."
           },
           "PreferredStoreID": {
             "codes": [
               "[Stores]"
             ],
-            "why": "Plays the role of 'preferred store' of the `Stores` dimension; every value matches `Stores.StoreID`."
+            "why": "Measured relationship to `Stores.StoreID`, 200 of 200 values found."
           },
           "TotalOrders": {
             "codes": [
-              "FA",
-              "?"
+              "FA"
             ],
-            "why": "A count that sums correctly across customers, but it is a stored total, not individual orders, and its as-of date is unknown."
+            "why": "A count that can be summed across customers. It is a stored total on the customer, not an event."
           },
           "LifetimeSpend": {
             "codes": [
               "FA",
               "?"
             ],
-            "why": "An amount that sums across customers. A stored total whose currency, as-of date and treatment of tax and returns are unknown."
+            "why": "A stored total of money spent, summable across customers. Currency is not stated, so no unit is given."
           }
         }
       }
     },
     "Products": {
-      "grain": "One row per product",
-      "definition": "A product is a shoe model in one colour that the company sells or has sold, identified by `ProductID` and `SKU`.",
-      "description": "One row per product, identified by `ProductID` and a unique `SKU`, covering 8 brands and 8 categories. `UnitPrice` is above `UnitCost` for every product, so margin can be calculated per product. Product names are not unique: `Velora Glide Boots` is three products in different colours, so count and filter by `ProductID`, not by name.",
+      "description": "A shoe the company sells, in a particular colour and material, with its brand, intended wearer, selling price, what it costs the company and the quantity in stock.",
+      "grain": "One row for each shoe model in a particular colour and material",
       "source": "inferred",
-      "confidence": "high",
+      "confidence": "medium",
       "evidence": [
-        "`ProductID` and `SKU` both unique and never missing across 60 rows",
-        "`Brand` 8 distinct values, `Category` 8 distinct values",
-        "`UnitPrice` > `UnitCost` in all 60 rows (checked separately); price 22.99-227.99, cost 8.23-117.92",
-        "`ProductName` 58 distinct in 60 rows; `Velora Glide Boots` appears 3 times (Grey, Green, Blue)",
-        "Each row has one `Color`; `Velora Glide Boots` exists as three products in different colours",
-        "`IsActive` is `False` for 6 products"
+        "`ProductID` unique, 0% missing, 60 rows; `SKU` also unique (format SKU-639131)",
+        "`ProductName` has 58 distinct values in 60 rows; 'Velora Glide Boots' appears 3 times, with different `Color`/`Material` (Grey Suede, Green Suede, Blue Leather) and different `UnitPrice` (98.99, 113.99, 139.99). Checked separately: the combination `ProductName` + `Color` + `Material` is unique across all 60 rows",
+        "`SizeRange` has 3 values (7-14: 32, 6-12: 19, 1-7: 9), so a row is not one size",
+        "`UnitCost` is below `UnitPrice` on all 60 rows (checked separately)",
+        "`Gender` values Women (19), Unisex (17), Men (15), Kids (9); `Category` Kids (9) always pairs with `Gender` Kids (checked separately)",
+        "`StockQty` 4 to 498; `IsActive` True (54), False (6)",
+        "`Sales.ProductID` matches `Products.ProductID` 100% (measured relationship)"
       ],
       "open_questions": [
-        "One active product has a `LaunchDate` of 2026-11-19, after the profile date. Is that a planned launch or an error?",
-        "Should inactive products (`IsActive` = `False`, 6 products) appear in reports?",
-        "What currency are `UnitPrice` and `UnitCost` in, and is `UnitPrice` before or after tax?"
+        "What does `IsActive` = False mean: discontinued, paused or hidden from sale?",
+        "As of which date is `StockQty` measured, and is it stock across all shops or a central warehouse?",
+        "In which currency are `UnitPrice` and `UnitCost` stated, and does `UnitCost` include freight and duties?"
       ],
-      "ai_notes": "",
+      "ai_notes": "`UnitPrice` here is the current list price; `Sales.UnitPrice` equals it on all 2,535 sales rows (checked separately), so either prices never changed or the sales rows copy the current price. `StockQty` is a single snapshot of stock on hand. `LaunchDate` runs 2020-02-23 to 2026-11-19, and no sale is dated before its product's launch (checked separately). 8 of the 60 products never appear in `Sales`, and none of the 6 inactive products was sold (checked separately).",
       "beam": {
         "table": [
           "CV"
         ],
-        "table_why": "One row per `ProductID` (unique in all 60 rows), with descriptive attributes and no validity dates or version columns.",
+        "table_why": "One row per `ProductID` with no validity dates, version columns or current flag, so only current values are held.",
         "columns": {
           "ProductID": {
             "codes": [
               "BK",
               "MD"
             ],
-            "why": "The source's identifier for each product: unique, never missing, `P0001`-style codes."
+            "why": "The identifier that tells one product row from another; filled and unique across 60 rows."
           },
           "SKU": {
             "codes": [
               "NK",
               "MD"
             ],
-            "why": "Unique `SKU-639131`-style codes; a SKU is the identifier people use on shelves and boxes."
+            "why": "A stock-keeping code like SKU-639131 that people use in the real world to identify the product; unique and always filled."
           },
-          "Category": {
+          "ProductName": {
             "codes": [
-              "!"
+              "MD"
             ],
-            "why": "Eight categories: the natural first grouping for product dashboards."
+            "why": "Every product needs a name."
+          },
+          "LaunchDate": {
+            "codes": [
+              "FV"
+            ],
+            "why": "The date a product was launched should not change."
           },
           "UnitPrice": {
             "codes": [
               "NA",
               "?"
             ],
-            "why": "A unit price can't be summed; use average, min or max. Its currency is unknown."
+            "why": "A unit price is never summed. The currency is not stated."
           },
           "UnitCost": {
             "codes": [
-              "NA"
+              "NA",
+              "?"
             ],
-            "why": "A cost per unit can't be summed, for the same reason as the price."
+            "why": "A unit cost is a per-item rate, not summable. The currency is not stated."
           },
           "StockQty": {
             "codes": [
               "SA"
             ],
-            "why": "A stock level: it can be summed across products, but not over time."
-          },
-          "LaunchDate": {
-            "codes": [
-              "FV",
-              "?"
-            ],
-            "why": "A launch date should not change, but one value lies in the future."
+            "why": "Stock on hand is a level at one point in time, so it can be summed across products but not over time."
           }
         }
       }
     },
     "Stores": {
-      "grain": "One row per store",
-      "definition": "A store is a physical StepUp shop (an outlet, flagship, kiosk or standard store), identified by `StoreID`.",
-      "description": "One row per store, identified by `StoreID`, with location, manager, size and `StoreType` (`Outlet`, `Flagship`, `Kiosk` or `Standard`). Stores opened between 2010-10-14 and 2024-02-28, in 9 cities across 8 states, and every store is the preferred store of at least one customer. Two different stores share the name `StepUp Northpoint Houston` (an outlet and a standard store at different addresses), so label stores by `StoreID`, or by name plus address.",
+      "description": "A shop where the company sells shoes to customers, with its address, manager, size, number of staff and the date it opened.",
+      "grain": "One row for each shop",
       "source": "inferred",
-      "confidence": "high",
+      "confidence": "medium",
       "evidence": [
-        "`StoreID` unique and never missing across 15 rows",
-        "`OpenDate` min 2010-10-14, max 2024-02-28",
-        "`City` 9 distinct, `State` 8 distinct",
-        "`StoreType` values: `Outlet` (6), `Flagship` (4), `Kiosk` (3), `Standard` (2)",
-        "`StoreName` 14 distinct in 15 rows; S007 and S008 share a name (checked separately)",
-        "All 15 `StoreID` values appear in `Customers.PreferredStoreID` (measured relationship)",
-        "Every store has an address, `SquareFeet` and `Employees`, so it is a physical location"
+        "`StoreID` unique, 0% missing, 15 rows, values S001 onward",
+        "`Address`, `ZipCode`, `Phone`, `Manager` each unique across 15 rows; `OpenDate` 2010-10-14 to 2024-02-28",
+        "`StoreType` values Outlet (6), Flagship (4), Kiosk (3), Standard (2)",
+        "`Sales.StoreID` and `Customers.PreferredStoreID` each match `Stores.StoreID` 100% (measured relationships)",
+        "`StoreName` has 14 distinct values in 15 rows: 'StepUp Northpoint Houston' appears twice (types Standard and Outlet); all names begin with 'StepUp'"
       ],
       "open_questions": [
-        "Is the shared `StoreName` `StepUp Northpoint Houston` intentional (two stores in one mall) or a data entry error?"
+        "Are the two shops named 'StepUp Northpoint Houston' really two locations, or is one a data-entry duplicate or a renamed shop?",
+        "Does `Employees` count all staff or only current full-time staff, and as of which date?"
       ],
-      "ai_notes": "",
+      "ai_notes": "Two shops share the name 'StepUp Northpoint Houston' but differ in `StoreType` (Standard, Outlet) and in address, so the name alone does not identify a shop; `StoreID` does. `Employees` has 14 distinct values from 8 to 40 across 15 shops. No online or warehouse location appears here.",
       "beam": {
         "table": [
           "CV"
         ],
-        "table_why": "One row per `StoreID` (unique in all 15 rows), with descriptive attributes and no validity dates or version columns.",
+        "table_why": "One row per `StoreID` with no validity dates, version columns or current flag, so only current values are held.",
         "columns": {
           "StoreID": {
             "codes": [
               "BK",
               "MD"
             ],
-            "why": "The source's identifier for each store, S001 to S015, and the target of `Customers.PreferredStoreID`."
+            "why": "The identifier that tells one shop from another; filled and unique across 15 rows."
           },
           "StoreName": {
             "codes": [
-              "?"
+              "MD"
             ],
-            "why": "Not unique: two different stores share one name."
-          },
-          "StoreType": {
-            "codes": [
-              "!"
-            ],
-            "why": "Four store formats (`Outlet`, `Flagship`, `Kiosk`, `Standard`): a natural way to compare stores."
+            "why": "Every shop needs a name."
           },
           "OpenDate": {
             "codes": [
               "FV"
             ],
-            "why": "A store opens once, so the date should not change."
+            "why": "The date a shop opened should not change."
           },
           "SquareFeet": {
             "codes": [
               "[sq ft]"
             ],
-            "why": "The column name states the unit."
+            "why": "The column name states square feet, a unit of area."
+          },
+          "Employees": {
+            "codes": [
+              "SA"
+            ],
+            "why": "A head count at a point in time: can be summed across shops, not across time."
+          }
+        }
+      }
+    },
+    "Sales": {
+      "description": "One product line rung up in a shop on a customer's purchase: which shoe, how many, the price, any discount and the amount charged. A purchase can have several lines.",
+      "grain": "One row for each product line on a purchase",
+      "source": "inferred",
+      "confidence": "high",
+      "evidence": [
+        "`SaleLineID` unique, 0% missing, 2,535 rows",
+        "`TransactionID` has 1,600 distinct values in 2,535 rows, at most 4 rows each; `SaleDateTime`, `StoreID` and `CustomerID` are identical within each `TransactionID` (checked separately), so `TransactionID` is the purchase and a row is a line on it",
+        "`SaleDateTime` min 2025-01-01 12:18:13, max 2026-10-31 10:34:00, one value per purchase (1,600 distinct)",
+        "`Quantity` 1 (2,151), 2 (317), 3 (67)",
+        "`TotalPrice` = `Quantity` x `UnitPrice` - `Discount` on all 2,535 rows (checked separately), so `Discount` is an amount, not a percentage; `Discount` is 0 on 1,674 rows",
+        "`StoreID`, `ProductID` and `CustomerID` match `Stores.StoreID`, `Products.ProductID` and `Customers.CustomerID` for 100% of filled values (measured relationships)",
+        "`CustomerID` is missing on 891 of 2,535 rows (35.15%)"
+      ],
+      "open_questions": [
+        "Why is `CustomerID` empty on 35.15% of sale lines: customers who did not identify themselves or did not join the loyalty programme?",
+        "Is `TotalPrice` before or after tax, and in which currency are `UnitPrice`, `Discount` and `TotalPrice` stated?",
+        "How is `Discount` decided (promotion, loyalty tier, manual markdown)? No column says why."
+      ],
+      "ai_notes": "`CustomerID` is empty on 35.15% of rows. `UnitPrice` equals `Products.UnitPrice` on every row (checked separately). `TotalPrice` is `Quantity` x `UnitPrice` - `Discount` with no tax column, so it is probably before tax (not confirmed). `Discount` values include whole amounts (5, 10, 15, 20) and cent-level amounts (e.g. 2.3, 3.45), up to 131.99. No sale is before the customer's sign-up date or the product's launch date, and no inactive product was sold (checked separately).",
+      "beam": {
+        "table": [
+          "DE"
+        ],
+        "table_why": "Each row is a sale line that happens at one moment (`SaleDateTime`) and is finished once rung up; there are no later milestone dates.",
+        "columns": {
+          "SaleLineID": {
+            "codes": [
+              "BK",
+              "MD"
+            ],
+            "why": "The identifier that tells one sale line from another; filled and unique across 2,535 rows."
+          },
+          "TransactionID": {
+            "codes": [
+              "DD",
+              "[how]",
+              "MD"
+            ],
+            "why": "A purchase number shared by up to 4 lines, with no table of its own (no measured relationship from it)."
+          },
+          "SaleDateTime": {
+            "codes": [
+              "[when]",
+              "MD"
+            ],
+            "why": "The moment the purchase was rung up; filled on every row."
+          },
+          "StoreID": {
+            "codes": [
+              "[where]",
+              "[Stores]",
+              "MD"
+            ],
+            "why": "The shop where the sale happened; measured relationship to `Stores.StoreID` 100%."
+          },
+          "CustomerID": {
+            "codes": [
+              "[who]",
+              "[Customers]"
+            ],
+            "why": "The customer the purchase is linked to; measured relationship to `Customers.CustomerID` for 100% of filled values. Not suggested as mandatory: 35.15% are empty."
+          },
+          "ProductID": {
+            "codes": [
+              "[what]",
+              "[Products]",
+              "MD"
+            ],
+            "why": "The shoe sold; measured relationship to `Products.ProductID` 100%."
+          },
+          "Quantity": {
+            "codes": [
+              "FA"
+            ],
+            "why": "Number of items sold on the line, summable across all lines. The unit is not stated in the data."
+          },
+          "UnitPrice": {
+            "codes": [
+              "NA",
+              "?"
+            ],
+            "why": "A unit price is never summed. The currency is not stated."
+          },
+          "Discount": {
+            "codes": [
+              "FA",
+              "?"
+            ],
+            "why": "A money amount taken off the line, summable (`TotalPrice` = `Quantity` x `UnitPrice` - `Discount` on all rows). Currency not stated."
+          },
+          "TotalPrice": {
+            "codes": [
+              "FA",
+              "DF=Quantity*UnitPrice-Discount",
+              "!",
+              "?"
+            ],
+            "why": "Amount charged for the line. Checked separately: the formula holds on all 2,535 rows. Central to any sales analysis. Currency not stated."
           }
         }
       }

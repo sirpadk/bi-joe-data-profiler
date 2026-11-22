@@ -1,7 +1,7 @@
 {
   "bijoe_version": "0.1.0",
-  "schema_version": 1,
-  "generated_at": "2026-11-09T16:24:24+00:00",
+  "schema_version": 2,
+  "generated_at": "2026-11-22T12:26:25+00:00",
   "dataset": {
     "name": "Shoe company",
     "source": "shoe_company.xlsx",
@@ -10,8 +10,7 @@
   },
   "settings": {
     "sample_rows": 100000,
-    "include_values": true,
-    "purpose": "Build reports and dashboards"
+    "include_values": true
   },
   "tables": [
     {
@@ -2117,6 +2116,515 @@
         ]
       ],
       "slug": "stores"
+    },
+    {
+      "name": "Sales",
+      "row_count": 2535,
+      "profiled_rows": 2535,
+      "sampled": false,
+      "column_count": 10,
+      "duplicate_rows": 0,
+      "details": {
+        "file": "shoe_company.xlsx",
+        "sheet": "Sales"
+      },
+      "columns": [
+        {
+          "name": "SaleLineID",
+          "position": 1,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 2535,
+          "all_values_unique": true,
+          "min_length": 7,
+          "max_length": 7,
+          "min_value": "L000001",
+          "min_count": 1,
+          "max_value": "L002535",
+          "max_count": 1,
+          "rare_value": {
+            "value": "L000001",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "L000001",
+              "count": 1
+            },
+            {
+              "value": "L000002",
+              "count": 1
+            },
+            {
+              "value": "L000003",
+              "count": 1
+            },
+            {
+              "value": "L000004",
+              "count": 1
+            },
+            {
+              "value": "L000005",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "TransactionID",
+          "position": 2,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 1600,
+          "all_values_unique": false,
+          "min_length": 7,
+          "max_length": 7,
+          "min_value": "T000001",
+          "min_count": 3,
+          "max_value": "T001600",
+          "max_count": 1,
+          "rare_value": {
+            "value": "T000002",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "T000010",
+              "count": 4
+            },
+            {
+              "value": "T000055",
+              "count": 4
+            },
+            {
+              "value": "T000076",
+              "count": 4
+            },
+            {
+              "value": "T000085",
+              "count": 4
+            },
+            {
+              "value": "T000108",
+              "count": 4
+            }
+          ]
+        },
+        {
+          "name": "SaleDateTime",
+          "position": 3,
+          "inferred_type": "datetime",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 1600,
+          "all_values_unique": false,
+          "min": "2025-01-01 12:18:13",
+          "max": "2026-10-31 10:34:00",
+          "min_value": "2025-01-01 12:18:13",
+          "min_count": 1,
+          "max_value": "2026-10-31 10:34:00",
+          "max_count": 2,
+          "rare_value": {
+            "value": "2025-01-01 12:18:13",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "2025-04-11 20:45:50",
+              "count": 4
+            },
+            {
+              "value": "2025-05-20 19:53:54",
+              "count": 4
+            },
+            {
+              "value": "2025-06-25 11:35:12",
+              "count": 4
+            },
+            {
+              "value": "2025-06-23 15:42:37",
+              "count": 4
+            },
+            {
+              "value": "2026-10-18 11:39:18",
+              "count": 4
+            }
+          ]
+        },
+        {
+          "name": "StoreID",
+          "position": 4,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 15,
+          "all_values_unique": false,
+          "min_length": 4,
+          "max_length": 4,
+          "min_value": "S001",
+          "min_count": 184,
+          "max_value": "S015",
+          "max_count": 185,
+          "rare_value": {
+            "value": "S004",
+            "count": 146
+          },
+          "top_values": [
+            {
+              "value": "S007",
+              "count": 189
+            },
+            {
+              "value": "S015",
+              "count": 185
+            },
+            {
+              "value": "S001",
+              "count": 184
+            },
+            {
+              "value": "S002",
+              "count": 181
+            },
+            {
+              "value": "S006",
+              "count": 180
+            }
+          ]
+        },
+        {
+          "name": "CustomerID",
+          "position": 5,
+          "inferred_type": "text",
+          "missing_count": 891,
+          "missing_pct": 35.15,
+          "null_count": 891,
+          "blank_count": 0,
+          "distinct_count": 191,
+          "all_values_unique": false,
+          "min_length": 6,
+          "max_length": 6,
+          "min_value": "C00001",
+          "min_count": 4,
+          "max_value": "C00200",
+          "max_count": 8,
+          "rare_value": {
+            "value": "C00019",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "C00079",
+              "count": 25
+            },
+            {
+              "value": "C00155",
+              "count": 23
+            },
+            {
+              "value": "C00106",
+              "count": 21
+            },
+            {
+              "value": "C00100",
+              "count": 21
+            },
+            {
+              "value": "C00092",
+              "count": 21
+            }
+          ]
+        },
+        {
+          "name": "ProductID",
+          "position": 6,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 52,
+          "all_values_unique": false,
+          "min_length": 5,
+          "max_length": 5,
+          "min_value": "P0001",
+          "min_count": 46,
+          "max_value": "P0060",
+          "max_count": 46,
+          "rare_value": {
+            "value": "P0051",
+            "count": 11
+          },
+          "top_values": [
+            {
+              "value": "P0022",
+              "count": 76
+            },
+            {
+              "value": "P0008",
+              "count": 69
+            },
+            {
+              "value": "P0003",
+              "count": 64
+            },
+            {
+              "value": "P0056",
+              "count": 64
+            },
+            {
+              "value": "P0055",
+              "count": 64
+            }
+          ]
+        },
+        {
+          "name": "Quantity",
+          "position": 7,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 3,
+          "all_values_unique": false,
+          "min": 1,
+          "max": 3,
+          "mean": 1.1779,
+          "min_value": "1",
+          "min_count": 2151,
+          "max_value": "3",
+          "max_count": 67,
+          "rare_value": {
+            "value": "3",
+            "count": 67
+          },
+          "top_values": [
+            {
+              "value": "1",
+              "count": 2151
+            },
+            {
+              "value": "2",
+              "count": 317
+            },
+            {
+              "value": "3",
+              "count": 67
+            }
+          ]
+        },
+        {
+          "name": "UnitPrice",
+          "position": 8,
+          "inferred_type": "decimal",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 43,
+          "all_values_unique": false,
+          "min": 22.99,
+          "max": 227.99,
+          "mean": 117.4634,
+          "precision": 5,
+          "scale": 2,
+          "min_value": "22.99",
+          "min_count": 46,
+          "max_value": "227.99",
+          "max_count": 46,
+          "rare_value": {
+            "value": "155.99",
+            "count": 15
+          },
+          "top_values": [
+            {
+              "value": "142.99",
+              "count": 119
+            },
+            {
+              "value": "143.99",
+              "count": 114
+            },
+            {
+              "value": "41.99",
+              "count": 111
+            },
+            {
+              "value": "133.99",
+              "count": 109
+            },
+            {
+              "value": "32.99",
+              "count": 102
+            }
+          ]
+        },
+        {
+          "name": "Discount",
+          "position": 9,
+          "inferred_type": "decimal",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 196,
+          "all_values_unique": false,
+          "min": 0,
+          "max": 131.99,
+          "mean": 6.6111,
+          "precision": 5,
+          "scale": 2,
+          "min_value": "0",
+          "min_count": 1674,
+          "max_value": "131.99",
+          "max_count": 1,
+          "rare_value": {
+            "value": "105.74",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "0",
+              "count": 1674
+            },
+            {
+              "value": "5",
+              "count": 99
+            },
+            {
+              "value": "15",
+              "count": 90
+            },
+            {
+              "value": "10",
+              "count": 88
+            },
+            {
+              "value": "20",
+              "count": 71
+            }
+          ]
+        },
+        {
+          "name": "TotalPrice",
+          "position": 10,
+          "inferred_type": "decimal",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 439,
+          "all_values_unique": false,
+          "min": 11.99,
+          "max": 683.97,
+          "mean": 130.9984,
+          "precision": 5,
+          "scale": 2,
+          "min_value": "11.99",
+          "min_count": 8,
+          "max_value": "683.97",
+          "max_count": 2,
+          "rare_value": {
+            "value": "103.19",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "143.99",
+              "count": 70
+            },
+            {
+              "value": "142.99",
+              "count": 70
+            },
+            {
+              "value": "133.99",
+              "count": 62
+            },
+            {
+              "value": "41.99",
+              "count": 60
+            },
+            {
+              "value": "32.99",
+              "count": 57
+            }
+          ]
+        }
+      ],
+      "sample_rows": [
+        [
+          "L000005",
+          "T000003",
+          "2026-01-21T17:40:04",
+          "S012",
+          "C00118",
+          "P0037",
+          "1",
+          "198.99",
+          "0",
+          "198.99"
+        ],
+        [
+          "L000849",
+          "T000553",
+          "2026-07-05T13:14:36",
+          "S010",
+          "C00101",
+          "P0049",
+          "1",
+          "32.99",
+          "0",
+          "32.99"
+        ],
+        [
+          "L001883",
+          "T001212",
+          "2026-05-03T15:00:15",
+          "S014",
+          "C00155",
+          "P0008",
+          "1",
+          "75.99",
+          "0",
+          "75.99"
+        ],
+        [
+          "L002210",
+          "T001406",
+          "2026-09-28T10:34:23",
+          "S011",
+          null,
+          "P0030",
+          "1",
+          "161.99",
+          "24.3",
+          "137.69"
+        ],
+        [
+          "L002252",
+          "T001432",
+          "2025-11-17T17:08:20",
+          "S001",
+          null,
+          "P0011",
+          "1",
+          "209.99",
+          "0",
+          "209.99"
+        ]
+      ],
+      "slug": "sales"
     }
   ],
   "relationships": [
@@ -2127,6 +2635,36 @@
       "to_column": "StoreID",
       "matched_values": 200,
       "checked_values": 200,
+      "coverage_pct": 100.0,
+      "sampled": false
+    },
+    {
+      "from_table": "Sales",
+      "from_column": "StoreID",
+      "to_table": "Stores",
+      "to_column": "StoreID",
+      "matched_values": 2535,
+      "checked_values": 2535,
+      "coverage_pct": 100.0,
+      "sampled": false
+    },
+    {
+      "from_table": "Sales",
+      "from_column": "CustomerID",
+      "to_table": "Customers",
+      "to_column": "CustomerID",
+      "matched_values": 1644,
+      "checked_values": 1644,
+      "coverage_pct": 100.0,
+      "sampled": false
+    },
+    {
+      "from_table": "Sales",
+      "from_column": "ProductID",
+      "to_table": "Products",
+      "to_column": "ProductID",
+      "matched_values": 2535,
+      "checked_values": 2535,
       "coverage_pct": 100.0,
       "sampled": false
     }

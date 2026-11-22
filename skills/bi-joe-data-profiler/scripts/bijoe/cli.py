@@ -121,6 +121,27 @@ def _flags(c: Dict[str, Any]) -> str:
     return "; ".join(flags)
 
 
+def _keys_markdown(t: Dict[str, Any]) -> List[str]:
+    k = t.get("keys")
+    if not k:
+        return []
+    scope = f" (first {k['rows_checked']:,} rows only)" if k.get("sampled") else ""
+    out = ["", f"### What Identifies a Row (measured{scope})"]
+    if k["unique_columns"]:
+        out.append("- unique on their own: " + ", ".join(k["unique_columns"]))
+    for u in k["unique_combinations"]:
+        out.append("- unique together: " + " + ".join(u["columns"]))
+    if not k["unique_columns"] and not k["unique_combinations"]:
+        out.append("- no column or small combination of the likely columns is unique")
+    for c in k["closest_combinations"]:
+        out.append(f"- not unique together: {' + '.join(c['columns'])} ({c['distinct']:,} distinct of {c['rows']:,} rows)")
+    for p in k["identifier_pairs"]:
+        out.append(f"- {p['a']} and {p['b']}: {p['kind']} ({p['a_distinct']:,} and {p['b_distinct']:,} distinct; "
+                   f"{p['a_with_several_b']:,} of the first have several of the second, "
+                   f"{p['b_with_several_a']:,} of the second have several of the first)")
+    return out
+
+
 def evidence_markdown(profile: Dict[str, Any], table_filter: Optional[str] = None) -> str:
     def cell(v: Any) -> str:
         return str(v).replace("|", "\\|").replace("\n", " ")
@@ -159,6 +180,7 @@ def evidence_markdown(profile: Dict[str, Any], table_filter: Optional[str] = Non
             if has_comments:
                 row += f" {cell(c.get('comment', ''))} |"
             out.append(row)
+        out += _keys_markdown(t)
         mine = [r for r in rels if table_filter is None or table_filter.lower() in
                 (r["from_table"].lower(), r["to_table"].lower())]
         if mine and (table_filter or t is profile["tables"][-1]):

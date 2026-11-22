@@ -58,8 +58,8 @@ First decide whether the table records **things** (customers, products, stores) 
 
 | Code | Suggest when | Evidence to cite |
 |---|---|---|
-| **BK** | The column is the source system's own identifier for the row's thing | Measured `ND`, nothing missing, and an ID- or code-like name and values |
-| **NK** | People use the identifier in the real world (SKU, ISBN, licence plate) | Name and values, e.g. `SKU-639131` |
+| **BK** | The column is the source system's own identifier for **the thing this table is about** | Its meaning (it identifies one row of the table), supported by uniqueness, a mostly-filled column and ID- or code-like values |
+| **NK** | People use the column in the real world to identify **the thing this table is about** (SKU, ISBN, licence plate) | Its meaning, and values like `SKU-639131` |
 | **MD** | The business would need it filled in for every row (identifiers, names, key dates) | Its role in the table. If the data has gaps it is **shown struck through as ~~MD~~ automatically**, so suggest MD for what *should* be true. |
 | **FV** | The value shouldn't change for a member (birth date, launch date, opening date) | The meaning of the name |
 | **CV / HV / PV** | **Only if the user said** how they want changes handled. This is a business decision, not something the data shows. Otherwise ask, via `open_questions`. | The user's own words |
@@ -83,12 +83,28 @@ and W-types in brackets, e.g. "a current value [CV] dimension" or "the [when] of
 order". The renderer turns them into links. Don't put bare column codes like FA or MD in
 prose: they belong in the column table.
 
+## Keys: Pick by Meaning, Expect Data Issues
+
+BK, NK and PK always mean the key **of this table**: the column (or columns) that identifies
+one row of the thing the table is about. A real-world identifier of *something else* is not a
+key of the table: a zip code is a natural key of a location, but not of a table about people.
+
+- **Decide by meaning.** Ask "which column identifies one row of this table's own thing?"
+  Use the table's grain and description to answer.
+- **Use uniqueness as supporting evidence only.** Keys in real data can have issues:
+  duplicates, gaps, odd values. A column that is the right identifier but has a few
+  duplicates is still the key. Suggest the code and raise the issue as an open question
+  ("Which copy of each duplicated ID is correct?").
+- A key must not be dropped because of data issues, and a column must not be called a key
+  only because it happens to be unique.
+- These key codes decide which columns the Relationships diagram lists first for wide tables.
+
 ## Pitfalls
 
 - A table being a *dimension* doesn't make every number in it a fact. Totals stored on
   a customer, such as `LifetimeSpend`, are facts (**FA**), but say in the reason that
   they're stored totals, not events.
-- `ND` on a small table can be chance. Don't suggest `BK` just because a column happens
-  to be unique (e.g. `SquareFeet`).
+- `ND` on a small table can be chance. Don't suggest `BK` or `NK` just because a column
+  happens to be unique (e.g. a measurement), or because it identifies something else.
 - Keep it proportionate. A newcomer is better served by five well-chosen, explained
   codes than by thirty.

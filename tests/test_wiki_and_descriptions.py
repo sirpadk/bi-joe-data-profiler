@@ -3,7 +3,9 @@ import re
 from pathlib import Path
 from typing import Any, Iterator, List, Optional, Sequence
 
-from bijoe import descriptions, wiki
+from htmlutil import headings, matrix, matrix_row, property_rows, strip
+
+from bijoe import beam, descriptions, wiki
 from bijoe.cli import main
 from bijoe.connectors import ColumnInfo, Connector, TableInfo, register
 
@@ -38,21 +40,44 @@ def _run(*args) -> int:
     return main([str(a) for a in args])
 
 
+def _read(out: Path, *parts: str) -> str:
+    return out.joinpath(*parts).read_text(encoding="utf-8")
+
+
+def _filled_wiki(shop_csv, tmp_path) -> Path:
+    """A wiki where the customers table has every field filled in."""
+    out = tmp_path / "wiki"
+    _run("profile", shop_csv, "--out", out, "--purpose", "build a sales dashboard")
+    data = descriptions.load(out)
+    data["dataset"].update(summary="Sales records for a small web shop.", source="inferred")
+    data["tables"]["customers"].update(
+        description="A person who has signed up with the shop and is known by a customer number.",
+        grain="One row for each person who is a customer",
+        source="inferred", confidence="medium",
+        evidence=["`cust_id` unique and never missing across 4 rows"],
+        ai_notes="`zip` is stored as text with leading zeros.",
+        open_questions=["Why is `country` sometimes empty?"],
+        beam={"table": ["CV"], "table_why": "One row per customer, no validity dates.", "columns": {}},
+    )
+    descriptions.save(out, data)
+    assert _run("render", out) == 0
+    return out
+
+
 def test_profile_builds_linked_wiki(shop_csv, tmp_path):
     out = tmp_path / "wiki"
     assert _run("profile", shop_csv, "--out", out, "--purpose", "build a sales dashboard") == 0
-    index = (out / "index.md").read_text(encoding="utf-8")
-    assert index.startswith("# shop: data profile")
+    index = _read(out, "index.md")
+    assert index.startswith("# Shop: Data Profile")
     meta = index.split("## Metadata", 1)[1]
     assert '```yaml\nbijoe: "data-profile-index"' in meta and meta.rstrip().endswith("```")
-    assert "build a sales dashboard" in index
+    assert property_rows(index)["Purpose"] == "build a sales dashboard"
     for link in re.findall(r"\]\((data-stories/[^)]+)\)", index):
         story = out / link
         assert story.is_file()
         assert "](../index.md)" in story.read_text(encoding="utf-8")
     assert (out / "_bijoe" / "profile.json").is_file()
-    data = descriptions.load(out)
-    assert data["tables"]["orders"]["source"] == "pending"
+    assert descriptions.load(out)["tables"]["orders"]["source"] == "pending"
 
 
 def test_system_metadata_is_used_verbatim(tmp_path):
@@ -61,32 +86,27 @@ def test_system_metadata_is_used_verbatim(tmp_path):
     data = descriptions.load(out)
     assert data["tables"]["dim_customer"]["source"] == "system_metadata"
     assert data["tables"]["Fakta Salg"]["source"] == "pending"
-    story = (out / "data-stories" / "dim-customer.md").read_text(encoding="utf-8")
-    assert "Customer master data, one row per customer, from the CRM." in story
-    assert "word for word" in story
+    story = _read(out, "data-stories", "dim-customer.md")
+    props = property_rows(story)
+    assert props["Description"] == "Customer master data, one row per customer, from the CRM."
+    assert "word for word" in props["Description Source"]
     assert (out / "data-stories" / "fakta-salg.md").is_file()
 
 
 def test_descriptions_survive_reprofile_and_render(shop_csv, tmp_path):
-    out = tmp_path / "wiki"
-    _run("profile", shop_csv, "--out", out)
+    out = _filled_wiki(shop_csv, tmp_path)
     data = descriptions.load(out)
-    data["dataset"].update(summary="Two linked tables from a small web shop: `customers` and their `orders`.", source="inferred")
-    data["tables"]["orders"].update(
-        description="One row per order line keyed by `order_id`, linked to `customers` via `cust_id`; one line is an exact duplicate.",
-        source="inferred", confidence="medium",
-        evidence=["`order_id` 100-102 with 102 repeated", "1 duplicate row of 4"],
-        open_questions=["Is `amount` in DKK?"],
-    )
+    data["tables"]["customers"]["definition"] = "old field"
     descriptions.save(out, data)
     _run("profile", shop_csv, "--out", out)  # re-profile keeps the text
-    assert descriptions.load(out)["tables"]["orders"]["confidence"] == "medium"
+    data = descriptions.load(out)
+    assert data["tables"]["customers"]["confidence"] == "medium"
+    assert "definition" not in data["tables"]["customers"]  # merged into description
     assert _run("render", out) == 0
-    story = (out / "data-stories" / "orders.md").read_text(encoding="utf-8")
-    assert "| **Confidence** | medium |" in story and "Is `amount` in DKK?" in story
+    story = _read(out, "data-stories", "customers.md")
+    assert property_rows(story)["Confidence"] == "medium"
     assert 'description_source: "inferred"' in story
-    index = (out / "index.md").read_text(encoding="utf-8")
-    assert "| **About** | Two linked tables" in index
+    assert property_rows(_read(out, "index.md"))["About"].startswith("Sales records for a small web shop.")
 
 
 def _lint(profile, tables):
@@ -111,6 +131,36 @@ def test_lint_catches_invented_and_obvious(shop_csv, tmp_path):
     assert ("error", "customers") in levels  # inferred without evidence
     assert ("error", "orders") in levels  # inferred without confidence
     assert "only 7 characters" in msgs
+
+
+def test_lint_never_state_the_obvious(shop_csv, tmp_path):
+    out = tmp_path / "wiki"
+    _run("profile", shop_csv, "--out", out)
+    profile = wiki.load_profile(out)
+    base = {**descriptions.empty_entry(), "source": "inferred", "confidence": "high", "evidence": ["x"]}
+
+    def messages(description, grain="One row for each person who is a customer", name="customers"):
+        tables = {name: {**base, "description": description, "grain": grain}}
+        return " | ".join(m for lvl, _, m in _lint(profile, tables) if lvl == "warning")
+
+    # circular: repeats the table name in other words
+    assert "only repeats the table name" in messages("Customer information.")
+    assert "only repeats the table name" in messages("A person who has signed up.", grain="One row per customer")
+    assert "only repeats the table name" not in messages("A person who has signed up with the shop and has a customer number.")
+    # backticks (code styling) do not belong in a description
+    assert "backticks" in messages("A person identified by `cust_id` in the shop.")
+    assert "backticks" not in messages("A person identified by cust_id in the shop.")  # plain text is fine
+    # it also has to fit on the landing page
+    assert "characters; keep it under" in messages("A person who has signed up. " * 30)
+    # grain wording, and "More context needed." is accepted
+    assert "grain should read 'One row for each" in messages("A person who has signed up.", grain="Each customer")
+    assert not messages("More context needed.", grain="More context needed.")
+    # the summary talks about the data as a whole
+    assert descriptions.lint(profile, {"dataset": {"summary": "The `orders` and customers tables of a shop."}, "tables": {}})
+    summary_msgs = " | ".join(m for _, _, m in descriptions.lint(
+        profile, {"dataset": {"summary": "The `orders` and customers tables of a shop."}, "tables": {}}))
+    assert "summary names tables or columns in `backticks`" in summary_msgs
+    assert "summary names tables (customers, orders)" in summary_msgs
 
 
 def test_lint_system_metadata_must_be_verbatim(tmp_path):
@@ -139,82 +189,147 @@ def test_evidence_command(shop_csv, tmp_path, capsys):
 def test_profile_json_is_valid(shop_csv, tmp_path):
     out = tmp_path / "wiki"
     _run("profile", shop_csv, "--out", out, "--no-values")
-    profile = json.loads((out / "_bijoe" / "profile.json").read_text(encoding="utf-8"))
-    assert profile["schema_version"] == 1 and profile["settings"]["include_values"] is False
+    profile = json.loads(_read(out, "_bijoe", "profile.json"))
+    assert profile["schema_version"] == 2 and profile["settings"]["include_values"] is False
     assert [t["slug"] for t in profile["tables"]] == ["customers", "orders"]
 
 
-def test_landing_page_layout_and_grain(shop_csv, tmp_path):
+# ---- layout -------------------------------------------------------------------
+
+def test_landing_page_layout(shop_csv, tmp_path):
+    out = _filled_wiki(shop_csv, tmp_path)
+    index = _read(out, "index.md")
+    assert index.index("## At a Glance") < index.index("## Data Stories") < index.index("## Data Model")
+    props = property_rows(index)
+    assert list(props) == ["About", "Source", "Tables", "Sampled Rows", "Profiled", "Purpose", "How to Read"]
+    assert props["About"] == "Sales records for a small web shop. <i>(written by AI)</i>"
+    assert props["Sampled Rows"] == "8"
+    assert 'href="how-to-read.md"' in props["How to Read"] and 'href="beam-annotations.md"' in props["How to Read"]
+    # no Markdown property table (it would show an empty header row), no leftovers
+    assert "| | |" not in index and "<th></th>" not in index
+    assert "One page per table" not in index and "How to read this wiki" not in index.replace("How to Read This Wiki", "")
+    assert "| Table | BEAM✲ | Grain | Description | Sampled Rows | Columns |" in index
+    assert ("| One row for each person who is a customer | A person who has signed up with the shop "
+            "and is known by a customer number. |") in index
+
+
+def test_story_layout_and_order(shop_csv, tmp_path):
+    out = _filled_wiki(shop_csv, tmp_path)
+    story = _read(out, "data-stories", "customers.md")
+    props = property_rows(story)
+    # the description comes first, then the grain; there is no separate definition
+    assert list(props)[:3] == ["Description", "Grain", "BEAM✲"]
+    assert "Definition" not in props
+    assert props["Grain"] == "One row for each person who is a customer"
+    assert props["Description"].startswith("A person who has signed up with the shop")
+    assert list(props)[-3:] == ["Columns", "Description Source", "Confidence"]
+    assert "<th></th>" not in story and "| | |" not in story
+    # sections that must not exist any more
+    for gone in ("Based on", "Why the suggestions", "Why the Suggestions", "## Sample Rows", "## Description", "Definition"):
+        assert gone not in story.split("## Metadata")[0], gone
+    # order: columns, relationships, additional context, open questions, metadata
+    order = ["## Columns", "## Relationships (Measured)", "## Additional Context (Written by AI)",
+             "## Open Questions for the Data Owner", "## Metadata"]
+    positions = [story.index(h) for h in order]
+    assert positions == sorted(positions)
+    # the evidence is metadata for AI agents, not page content
+    body, meta = story.split("## Metadata")
+    assert "never missing across 4 rows" not in body and "never missing across 4 rows" in meta
+
+
+def test_relationships_section_is_a_diagram_or_na(shop_csv, tmp_path):
+    out = _filled_wiki(shop_csv, tmp_path)
+    story = _read(out, "data-stories", "orders.md")
+    section = story.split("## Relationships (Measured)")[1].split("## Metadata")[0]
+    assert "```mermaid\nflowchart LR" in section
+    assert "<div style='text-align:left'><b>orders</b><br/>──────────<br/>order_id<br/>cust_id<br/>amount<br/>status</div>" in section
+    assert 't_customers["customers"]' in section  # linked tables are plain boxes, with no columns
+    assert "t_orders --- t_customers" in section and "||" not in section
+    assert "- " not in section.replace("──────────", "").split("```")[0]  # no text list
+
+    out2 = tmp_path / "wiki2"
+    _run("profile", "fake://meta", "--out", out2)
+    story2 = _read(out2, "data-stories", "dim-customer.md")
+    assert story2.split("## Relationships (Measured)")[1].split("---")[0].strip() == "N/A"
+
+
+def _table(names, key=None):
+    return {"name": "t", "columns": [{"name": n, **({"primary_key": True} if n == key else {})} for n in names]}
+
+
+def _rel(frm, col=None, to="u", to_col="id", incoming=None):
+    if incoming:
+        return {"from_table": "u", "from_column": "x", "to_table": "t", "to_column": incoming}
+    return {"from_table": "t", "from_column": col, "to_table": to, "to_column": to_col}
+
+
+def test_diagram_columns_follow_the_agreed_rule():
+    names = [f"c{i}" for i in range(1, 31)]
+    table = _table(names, key="c1")
+    rels = [_rel("t", "c5"), _rel("t", "c6"), _rel("t", "c12"), _rel("t", "c28")]
+    shown = wiki.diagram_columns(table, {}, rels)
+    # priority: 1, 5, 6, 12, 28; then the earliest others, 15 of them: 2-4, 7-11, 13-19
+    assert shown == [f"c{i}" for i in range(1, 20)] + [None, "c28", None]
+    assert len([c for c in shown if c]) == 20
+
+    # a table of 28 columns ends on a relationship column: no "..." at the end
+    table28 = _table(names[:28], key="c1")
+    assert wiki.diagram_columns(table28, {}, rels)[-2:] == [None, "c28"]
+
+    # up to 20 columns: everything, with no "..."
+    assert wiki.diagram_columns(_table(names[:20]), {}, rels) == names[:20]
+
+    # more priority columns than places: show all of them (in table order), still marking the gaps
+    many = [_rel("t", f"c{i}") for i in range(2, 27, 1) if i % 1 == 0][:25]
+    shown = wiki.diagram_columns(_table(names, key="c1"), {}, many)
+    assert [c for c in shown if c] == [f"c{i}" for i in range(1, 27)] and shown[-1] is None
+
+
+def test_diagram_priority_includes_incoming_relationships_and_suggested_keys():
+    names = [f"c{i}" for i in range(1, 31)]
+    entry = {"beam": {"columns": {"c25": {"codes": ["BK", "MD"]}, "c26": {"codes": ["FV"]}}}}
+    rels = [{"from_table": "u", "from_column": "x", "to_table": "t", "to_column": "c30"}]
+    shown = wiki.diagram_columns(_table(names), entry, rels)
+    assert "c30" in shown and "c25" in shown and "c26" not in shown  # c26 is not a key, c25 is a business key
+    assert [c for c in shown if c][:2] == ["c1", "c2"]
+
+
+# ---- the columns matrix ------------------------------------------------------
+
+def test_column_matrix_follows_the_modelstormer_layout(shop_csv, tmp_path):
     out = tmp_path / "wiki"
     _run("profile", shop_csv, "--out", out)
-    data = descriptions.load(out)
-    data["dataset"].update(summary="Sales records for a small web shop.", source="inferred")
-    data["tables"]["customers"].update(
-        grain="One row per customer",
-        definition="A customer is a person who has signed up with the shop, identified by `cust_id`.",
-        description="One row per customer keyed by `cust_id`, with sign-up dates from 2024-01-03 to 2024-04-05.",
-        source="inferred", confidence="medium", evidence=["`cust_id` unique"])
-    descriptions.save(out, data)
-    assert _run("render", out) == 0
-    index = (out / "index.md").read_text(encoding="utf-8")
-    assert index.index("## At a glance") < index.index("## Data stories") < index.index("## Data model")
-    assert "| **About** | Sales records for a small web shop. _(written by AI)_ |" in index
-    assert "| **Sampled rows** | 8 |" in index and "Total rows" not in index
-    assert "One page per table" not in index and "## How to read this wiki" not in index
-    assert "| Table | BEAM✲ | Grain | Description | Sampled rows | Columns |" in index
-    assert "| One row per customer | A customer is a person who has signed up" in index
-    story = (out / "data-stories" / "customers.md").read_text(encoding="utf-8")
-    assert "| **Grain** | One row per customer |" in story
-    assert "| **Sampled rows** | 4 |" in story
+    story = _read(out, "data-stories", "customers.md")
+    rows = matrix(story)
+    assert [(r["group"], r["label"]) for r in rows] == (
+        [(None, "Column Name"), (None, "Data Type"), (None, "BEAM✲")]
+        + [("Data Profiling Results", l) for l in ["Sample Count", "Missing", "Unique Values", "Min Value", "Min Count",
+                                                    "Max Value", "Max Count", "Min Length", "Max Length"]]
+        + [("Variation", l) for l in ["Typical", "Different", "Repeat", "Missing", "Range", "Change"]]
+        + [("Sample Data", "")] * 4)  # the table has 4 rows, so 4 sample rows
+    assert [strip(c) for _, c in rows[0]["cells"]] == ["cust_id", "name", "country", "signup_date", "zip"]
+    # the groups are spanning, rotated labels; both label columns are frozen
+    assert story.count('rowspan="9"') == 1 and story.count('rowspan="6"') == 1 and story.count('rowspan="4"') == 1
+    assert "writing-mode:vertical-rl" in story and "position:sticky;left:0" in story
+    assert "position:sticky;left:34px" in story and "white-space:nowrap" in story
+    assert "overflow-x:auto" in story
+    # numbers are right-aligned in Sample Count and the length rows, not in the others
+    by_label = {(r["group"], r["label"]): r for r in rows}
+    assert "text-align:right" in by_label[("Data Profiling Results", "Sample Count")]["cells"][0][0]
+    assert "text-align:right" not in by_label[("Data Profiling Results", "Missing")]["cells"][0][0]
 
-
-def test_lint_grain_definition_and_summary(shop_csv, tmp_path):
-    out = tmp_path / "wiki"
-    _run("profile", shop_csv, "--out", out)
-    profile = wiki.load_profile(out)
-    entry = {**descriptions.empty_entry(), "description": "One row per order line keyed by `order_id`, with amounts.",
-             "source": "inferred", "confidence": "high", "evidence": ["`order_id`"],
-             "grain": "Each order line", "definition": "More context needed."}
-    data = {"dataset": {"summary": "The `orders` and customers tables of a shop."}, "tables": {"orders": entry}}
-    msgs = " | ".join(m for _, _, m in descriptions.lint(profile, data))
-    assert "grain should read 'One row per ...'" in msgs
-    assert "summary names tables or columns in `backticks`" in msgs
-    assert "summary names tables (customers, orders)" in msgs
-    assert "definition not written yet" not in msgs  # "More context needed." is a valid answer
-
-
-def _matrix_row(story: str, label: str) -> list:
-    section = story.split("## Columns", 1)[1].split("\n\n", 2)[1]
-    for line in section.splitlines():
-        cells = [c.strip() for c in line.strip("|").split("|")]
-        if cells[0] == label:
-            return cells[1:]
-    raise AssertionError(f"row {label!r} not found")
-
-
-def test_column_matrix_and_sample_rows(shop_csv, tmp_path):
-    out = tmp_path / "wiki"
-    _run("profile", shop_csv, "--out", out)
-    story = (out / "data-stories" / "customers.md").read_text(encoding="utf-8")
-    header = story.split("## Columns", 1)[1].split("\n\n", 2)[1].splitlines()[0]
-    assert header == "| | **cust_id** | **name** | **country** | **signup_date** | **zip** |"
-    labels = ["**Data type**", "**BEAM✲**", "**Example data**", "Typical", "Different", "Repeat", "Missing",
-              "Range", "Change", "**Data profiling results**", "Sample Count", "Missing", "Unique Values",
-              "Min Value", "Min Count", "Max Value", "Max Count", "Min Length", "Max Length"]
-    rows = [line.split("|")[1].strip() for line in
-            story.split("## Columns", 1)[1].split("\n\n", 2)[1].splitlines()[2:]]
-    assert rows == labels
-    assert _matrix_row(story, "Sample Count") == ["4"] * 5
-    assert _matrix_row(story, "Unique Values")[2] == "2 (50%)"  # country: DK, SE
-    assert _matrix_row(story, "Repeat")[2] == "DK ×2"
-    assert _matrix_row(story, "Range")[0] == "1 → 4"
-    assert _matrix_row(story, "Min Value")[3] == "2024-01-03"
-    assert _matrix_row(story, "Max Count")[2] == "1 (25%)"  # SE
-    assert _matrix_row(story, "Change") == ["—"] * 5
-    missing = [r for r in story.split("## Columns", 1)[1].splitlines() if r.startswith("| Missing |")]
-    assert missing[0].split("|")[4].strip() == "empty ×1"  # example row for country
-    sample = story.split("## Sample rows", 1)[1].split("##", 1)[0]
-    assert sample.count("\n| ") == 1 + 4  # header + all 4 rows (fewer than 5 in the table)
+    group = "Data Profiling Results"
+    assert matrix_row(story, "Sample Count", group) == ["4"] * 5
+    assert matrix_row(story, "Unique Values", group)[2] == "2 (50%)"  # country: DK, SE
+    assert matrix_row(story, "Min Value", group)[3] == "2024-01-03"
+    assert matrix_row(story, "Max Count", group)[2] == "1 (25%)"  # SE
+    assert matrix_row(story, "Repeat", "Variation")[2] == "DK ×2"
+    assert matrix_row(story, "Range", "Variation")[0] == "1 → 4"
+    assert matrix_row(story, "Missing", "Variation")[2] == "empty ×1"
+    assert matrix_row(story, "Change", "Variation") == ["—"] * 5
+    sample = [r for r in rows if r["group"] == "Sample Data"]
+    assert [strip(c) for _, c in sample[0]["cells"]][:2] == ["1", "Ann"]
+    assert "## Sample Rows" not in story
 
 
 def test_placeholders_and_hidden_values(tmp_path):
@@ -223,10 +338,56 @@ def test_placeholders_and_hidden_values(tmp_path):
     (d / "t.csv").write_text("code,city\nA,N/A\nB,Oslo\nC,N/A\nD,Bergen\n", encoding="utf-8")
     out = tmp_path / "wiki"
     _run("profile", d, "--out", out)
-    story = (out / "data-stories" / "t.md").read_text(encoding="utf-8")
-    missing = [r for r in story.split("## Columns", 1)[1].splitlines() if r.startswith("| Missing |")][0]
-    assert "N/A ×2" in missing
+    story = _read(out, "data-stories", "t.md")
+    assert "N/A ×2" in matrix_row(story, "Missing", "Variation")[1]
     _run("profile", d, "--out", out, "--no-values")
-    story = (out / "data-stories" / "t.md").read_text(encoding="utf-8")
-    assert _matrix_row(story, "Typical") == ["_hidden_", "_hidden_"]
-    assert "_Hidden: this profile was made without example values._" in story
+    story = _read(out, "data-stories", "t.md")
+    assert matrix_row(story, "Typical", "Variation") == ["hidden", "hidden"]
+    assert all(r["group"] != "Sample Data" for r in matrix(story))
+    assert "Example values and sample rows are hidden" in story
+
+
+# ---- Title Case and the HTML tables ------------------------------------------
+
+def test_title_case():
+    assert wiki.title_case("At a glance") == "At a Glance"
+    assert wiki.title_case("Open questions for the data owner") == "Open Questions for the Data Owner"
+    assert wiki.title_case("How to read this wiki") == "How to Read This Wiki"
+    assert wiki.title_case("Relationships (measured)") == "Relationships (Measured)"
+    assert wiki.title_case("Additional context (written by AI)") == "Additional Context (Written by AI)"
+    assert wiki.title_case("Shoe company: data profile") == "Shoe Company: Data Profile"
+    assert wiki.title_case("Column codes: events and facts") == "Column Codes: Events and Facts"
+    assert wiki.title_case("The 7Ws") == "The 7Ws" and wiki.title_case("BEAM✲ annotations") == "BEAM✲ Annotations"
+    assert wiki.title_case("What it is for") == "What It Is For"  # the last word is always capitalised
+
+
+def test_every_heading_title_and_header_is_title_case(shop_csv, tmp_path):
+    out = _filled_wiki(shop_csv, tmp_path)
+    pages = [out / "index.md", out / "how-to-read.md", out / "beam-annotations.md",
+             *sorted((out / "data-stories").glob("*.md"))]
+    for page in pages:
+        text = page.read_text(encoding="utf-8")
+        for i, heading in enumerate(headings(text)):
+            if page.parent.name == "data-stories" and i == 0:
+                continue  # the table's own name
+            assert wiki.title_case(heading) == heading, f"{page.name}: {heading!r}"
+        for line in text.splitlines():  # Markdown table header rows
+            if line.startswith("| ") and re.match(r"^\|[-:| ]+\|$", text.splitlines()[text.splitlines().index(line) + 1]
+                                                   if text.splitlines().index(line) + 1 < len(text.splitlines()) else ""):
+                for cell in [c.strip() for c in line.strip("|").split("|")]:
+                    assert wiki.title_case(cell) == cell, f"{page.name}: header {cell!r}"
+        for label in re.findall(r'<th (?:scope="row"|colspan="2")[^>]*>(.*?)</th>', text, re.S):  # not column names
+            plain = strip(label)
+            if plain:
+                assert wiki.title_case(plain) == plain or plain.startswith("Why "), f"{page.name}: label {plain!r}"
+
+
+def test_two_column_tables_are_html_everywhere(shop_csv, tmp_path):
+    out = _filled_wiki(shop_csv, tmp_path)
+    for page in [out / "index.md", out / "how-to-read.md", *sorted((out / "data-stories").glob("*.md"))]:
+        text = page.read_text(encoding="utf-8")
+        assert "| | |" not in text and "|---|---|\n" not in text, page.name  # no Markdown two-column tables
+        assert "<th></th>" not in text, page.name
+    props = property_rows(_read(out, "data-stories", "customers.md"))
+    assert props["Source"].startswith('<a href="../beam-annotations.md#t-source">{customers.csv}</a>')
+    assert beam.PAGE in _read(out, "how-to-read.md")

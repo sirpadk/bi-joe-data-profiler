@@ -1,4 +1,4 @@
-# Output format (schema version 1)
+# Output format (schema version 2)
 
 This is the contract for the wiki. The engine produces it, and the manual method must
 match it, so that people, tools and other AI agents can rely on the same structure.
@@ -9,7 +9,7 @@ match it, so that people, tools and other AI agents can rely on the same structu
   data-stories/<slug>.md      one per table; slug = lowercase ASCII, non-alphanumerics → "-"
   beam-annotations.md         BEAM✲ reference page, copied unchanged from the skill's assets/
   how-to-read.md              reading guide, copied unchanged from the skill's assets/
-  _bijoe/profile.json         facts, including measured relationships
+  _bijoe/profile.json         facts, including measured relationships and keys (a "keys" block per table)
   _bijoe/descriptions.json    descriptions + provenance
 ```
 
@@ -46,7 +46,7 @@ To read it, take the last ```` ```yaml ```` block under `## Metadata`. The field
 `index.md`
 ```yaml
 bijoe: "data-profile-index"
-schema_version: 1
+schema_version: 2
 dataset: "<name>"
 source: "<source, never with secrets>"
 source_type: "files" | "database"
@@ -61,7 +61,7 @@ generator: "bi-joe-data-profiler <version>"
 `data-stories/<slug>.md`
 ```yaml
 bijoe: "data-story"
-schema_version: 1
+schema_version: 2
 dataset: "<name>"
 table: "<table name>"
 grain: "One row per ..."
@@ -72,49 +72,60 @@ confidence: "high" | "medium" | "low" | null
 generated_at: "<ISO 8601 UTC>"
 ```
 
-## Layout principles
+## Layout Principles
 - **Plan for 100 tables.** The landing page stays high-level. Per-table detail lives on the data stories.
-- **Paired information is a two-column property table:** `| | |` / `|---|---|`, with the
-  label in bold in the first column.
+- **Title Case** for every heading, title, table label and column header. Names that come from
+  the data (table names, column names, BEAM✲ codes) are never changed. The dataset name the user gave is shown in Title Case in page titles and links, and stays as given in the metadata.
+- **Paired information is a simple two-column HTML table with inline CSS**, one row per
+  property, label in the first cell (`<th scope="row">`) and value in the second. There is no
+  header row, so there is no empty row. Markdown is not processed inside HTML, so the links
+  and bold text in those cells are HTML (`<a href>`, `<b>`, `<i>`, `<code>`).
+- Inline CSS is stripped by some viewers (GitHub). The tables still show there, only unstyled.
 
-## Landing page sections (in order)
-1. `# <dataset>: data profile`
-2. `## At a glance`: a property table with About (the dataset summary), Source, Tables,
-   Sampled rows, Profiled, Purpose, and How to read (links to `how-to-read.md` and `beam-annotations.md`)
-3. `## Data stories`: an italic one-line explanation of what a data story is, then a table
-   with columns Table (link), BEAM✲ (table codes), Grain, Description (the short
-   `definition`), Sampled rows, Columns
-4. `## Data model`: a table-level Mermaid `flowchart LR` drawn from the measured
+## Landing Page Sections (in Order)
+1. `# <Dataset>: Data Profile`
+2. `## At a Glance`: a property table with About (the dataset summary), Source, Tables,
+   Sampled Rows, Profiled, Purpose, and How to Read (links to `how-to-read.md` and `beam-annotations.md`)
+3. `## Data Stories`: an italic one-line explanation of what a data story is, then a Markdown table
+   with columns Table (link), BEAM✲ (table codes), Grain, Description (the same description as
+   the data story), Sampled Rows, Columns
+4. `## Data Model`: a table-level Mermaid `flowchart LR` drawn from the measured
    relationships, with plain lines (`---`), no cardinality and no column names
 5. `## Metadata`: the metadata block
 
-## Data story sections (in order)
+## Data Story Sections (in Order)
 1. Links back to the overview, the BEAM✲ page and `how-to-read.md`, then `# <table name>`
-2. A property table: Grain, Definition, BEAM✲ (suggested table codes), Why [code],
-   Source (the measured `{Source}`), Sampled rows, Columns, Description source, Confidence
-3. `## Description`: the description, then a "Based on" list of evidence
-4. `### Additional context (written by AI)`: only if `ai_notes` is set
-5. `### Open questions for the data owner`: only if there are any
-6. `## Columns`: a matrix, following the Modelstormer layout. **Every real column is a
-   column**, its name in the header row, and the rows are:
-   - **Data type**: the data type code and a plain word
-   - **BEAM✲**: measured codes in plain text, AI-suggested codes in *italics*
-   - **Example data**:
-     - Typical: the most common value
-     - Different: a rare value
-     - Repeat: a repeated value ×count, or "no repeats"
-     - Missing: how missing values show up (empty ×n, or placeholders such as N/A)
-     - Range: min → max
-     - Change: "—", since a single snapshot can't show change
-   - **Data profiling results**: Sample Count, Missing, Unique Values, Min Value,
-     Min Count, Max Value, Max Count, Min Length, Max Length (counts shown as "n (pct%)")
-
-   This is followed by `### Why the suggestions` as a property table.
-7. `## Sample rows`: 5 random rows from the profiled data (reservoir sampling with a fixed
-   seed, so the same rows come back on every run). They're hidden, like the example
-   data, when the profile is made with `--no-values`.
-8. `## Relationships (measured)`: only if there are any
-9. `## Metadata`: the metadata block (also has `grain`, `beam_table_codes` and `beam_source`)
+2. A property table: **Description** (first), Grain, BEAM✲ (suggested table codes), Why [code],
+   Source (the measured `{Source}`), Sampled Rows, Columns, Description Source, Confidence.
+   There is no separate Definition and no "Based on" list.
+3. `## Columns`: an HTML matrix following the Modelstormer layout. **Every real column is a
+   column.** The two label columns on the left stay frozen on sideways scroll and never wrap.
+   The group names are rotated and span their rows. In order:
+   - **Column Name** (header row), then **Data Type** (code and plain word) and **BEAM✲**
+     (measured codes in plain text, AI-suggested codes in *italics*), each with its label
+     across both left columns
+   - **Data Profiling Results**: Sample Count, Missing, Unique Values, Min Value, Min Count,
+     Max Value, Max Count, Min Length, Max Length (counts shown as "n (pct%)")
+   - **Variation**: Typical (the most common value), Different (a rare value), Repeat (a
+     repeated value ×count, or "no repeats"), Missing (empty ×n, or placeholders such as
+     N/A), Range (min → max), Change ("—", since a single snapshot can't show change)
+   - **Sample Data**: 5 random rows from the profiled data (reservoir sampling with a fixed
+     seed, so the same rows come back on every run), the second label column left blank.
+     The Variation values and the Sample Data are hidden when the profile is made with
+     `--no-values`.
+4. `## Relationships (Measured)`: `N/A` when the table has no measured relationships.
+   Otherwise a Mermaid `flowchart LR`: the current table is a box listing its column names,
+   left aligned (`<div style='text-align:left'>` in the label), joined by plain lines to plain
+   boxes (name only) for each table it is linked to. Above 20 columns the box lists
+   the relationship columns and the table's key columns (PK, BK, NK) first, fills the remaining
+   places up to 20 with the earliest other columns, shows them in table order and puts a
+   `...` line wherever columns were skipped. If the priority columns alone exceed 20, all of
+   them are shown.
+5. `## Additional Context (Written by AI)`: only if `ai_notes` is set
+6. `## Open Questions for the Data Owner`: only if there are any
+7. `## Metadata`: the metadata block. For a data story it holds `grain`, `beam_table_codes`,
+   `beam_source`, `beam_reasons` (why each BEAM✲ suggestion was made), `evidence` (the facts
+   behind the description) and `relationships` (with the measured coverage).
 
 ## Static pages
 `beam-annotations.md` and `how-to-read.md` are copied unchanged from the skill's
@@ -127,9 +138,8 @@ generated_at: "<ISO 8601 UTC>"
   "dataset": {"summary": "", "source": "pending", "evidence": []},
   "tables": {
     "<table>": {
-      "grain": "",
-      "definition": "",
       "description": "",
+      "grain": "",
       "source": "pending",
       "confidence": null,
       "evidence": [],

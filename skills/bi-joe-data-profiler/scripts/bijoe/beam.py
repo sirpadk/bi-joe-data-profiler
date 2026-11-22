@@ -10,6 +10,7 @@ Two kinds of codes:
 
 from __future__ import annotations
 
+import html
 import re
 import shutil
 from dataclasses import dataclass
@@ -104,6 +105,29 @@ def links(tokens: Sequence[str], scope: str, prefix: str = "", table_names: Iter
     return " ".join(out)
 
 
+# ---- the same links as HTML, for the HTML tables (Markdown is not processed inside them) ----------
+
+def _html_label(code: Code) -> str:
+    text = code.text
+    if code.struck:
+        return f"<s>{html.escape(text[2:-2], quote=False)}</s>"
+    return html.escape(text, quote=False)
+
+
+def code_html(code: Code, prefix: str = "", italic: bool = False) -> str:
+    link = f'<a href="{prefix}{PAGE}#{code.anchor}">{_html_label(code)}</a>'
+    return f"<i>{link}</i>" if italic else link
+
+
+def links_html(tokens: Sequence[str], scope: str, prefix: str = "", table_names: Iterable[str] = (),
+               italic: bool = False) -> str:
+    out = []
+    for t in tokens:
+        code = parse(t, scope, table_names)
+        out.append(code_html(code, prefix, italic) if code else html.escape(t, quote=False))
+    return " ".join(out)
+
+
 # ---- prose: link bracketed table codes and W-types written in descriptions ----------
 
 _PROSE_RE = re.compile(r"(?<![\\\w])\[([A-Za-z]{2,5}(?:\s*,\s*[A-Za-z]{2,5})*)\](?!\()")
@@ -124,6 +148,25 @@ def link_prose(text: str, prefix: str = "") -> str:
             return codes[0].link(prefix)
         inner = ", ".join(f"[{c.text.strip('[]')}]({prefix}{PAGE}#{c.anchor})" for c in codes)
         return f"\\[{inner}\\]"
+
+    return _PROSE_RE.sub(repl, text)
+
+
+def link_prose_html(text: str, prefix: str = "") -> str:
+    """Like link_prose, for text that is already HTML-escaped and goes inside an HTML table."""
+    def repl(m: "re.Match[str]") -> str:
+        codes = []
+        for p in (x.strip() for x in m.group(1).split(",")):
+            if p.lower() in W_TYPES:
+                codes.append(Code(f"[{p.lower()}]", f"w-{p.lower()}", "W"))
+            elif p in TABLE_CODES:
+                codes.append(Code(f"[{p}]", f"t-{p.lower()}", p))
+            else:
+                return m.group(0)
+        if len(codes) == 1:
+            return code_html(codes[0], prefix)
+        inner = ", ".join(f'<a href="{prefix}{PAGE}#{c.anchor}">{c.text.strip("[]")}</a>' for c in codes)
+        return f"[{inner}]"
 
     return _PROSE_RE.sub(repl, text)
 

@@ -1,22 +1,23 @@
-# BEAM✲ annotations
+# BEAM✲ Annotations
 
 Every short code in this wiki, like **[CV]**, **ND** or **FA**, is a **BEAM✲ annotation**.
 BEAM✲ (Business Event Analysis & Modeling) is a notation for describing data in
 business terms. Each code packs one fact or design decision into a few letters, so the
 pages stay short while staying precise. Click any code in the wiki to jump to its entry here.
 
-[← Back to the overview](index.md)
+[← Back to the Overview](index.md)
 
-## How BI Joe uses the codes
+## How BI Joe Uses the Codes
 
-| Kind | Who adds it | How to read it |
+| Kind | Who Adds It | How to Read It |
 |---|---|---|
 | **Measured** | The profiler, from the data itself | A fact: the data shows it. The data types, uniqueness (**ND**), declared keys (**PK**, **NN**), links between tables (**FK**) and the source (**{Source}**). |
-| **Suggested** | The AI, from the evidence | A judgement that someone should check. For example, that a table is a dimension holding current values (**[CV]**), or that a column is an additive fact (**FA**). Every suggestion comes with a reason. |
+| **Suggested** | The AI, from the evidence | A judgement that someone should check. For example, that a table is a dimension holding current values (**[CV]**), or that a column is an additive fact (**FA**). Shown in *italics*. The reasons are kept in the page's metadata for AI agents. |
 
 How the codes are written:
 - **Table codes** are in square brackets after the table name, e.g. `Customers [CV]`.
 - **Column codes** follow the column name, e.g. `BirthDate FV`.
+- **Plain** codes are measured and *italic* codes are suggested by AI.
 - A code with ~~strikethrough~~ means the data **does not meet** it, e.g. ~~MD~~ on a column
   that should always be filled in but has gaps.
 - Numbers after a code tie related codes together, e.g. `ND1` marks the columns that are
@@ -28,7 +29,7 @@ BEAM✲ describes every business event by asking who, what, when, where, why, ho
 The answers are the event's *details*. The first six usually become dimensions, and
 "how many" becomes facts.
 
-| Code | Question | Typical examples |
+| Code | Question | Typical Examples |
 |---|---|---|
 | <a id="w-who"></a>**[who]** | Who is involved? | customer, employee, supplier |
 | <a id="w-what"></a>**[what]** | What is it about? | product, service, account |
@@ -38,11 +39,11 @@ The answers are the event's *details*. The first six usually become dimensions, 
 | <a id="w-how"></a>**[how]** | How did it happen? | channel, order number, payment method |
 | <a id="w-how-many"></a>**how many** | How much or how many? | quantity, revenue, duration (see [facts](#column-codes-events-and-facts)) |
 
-## Table codes
+## Table Codes
 
-### Events and fact tables
+### Events and Fact Tables
 
-| Code | Name | What it means | ADWD ch. |
+| Code | Name | What It Means | ADWD Ch. |
 |---|---|---|---|
 | <a id="t-de"></a>**[DE]** | Discrete Event | Something that happens at one moment, or over a short time, and is then finished, e.g. a sale or a payment. Becomes a transaction fact table **[TF]**. | |
 | <a id="t-re"></a>**[RE]** | Recurring Event | A measurement taken at regular intervals, e.g. daily stock levels or month-end balances. Becomes a periodic snapshot **[PS]**. | 2, 8 |
@@ -56,7 +57,7 @@ The answers are the event's *details*. The first six usually become dimensions, 
 
 ### Dimensions
 
-| Code | Name | What it means | ADWD ch. |
+| Code | Name | What It Means | ADWD Ch. |
 |---|---|---|---|
 | <a id="t-cv"></a>**[CV]** | Current Value | Keeps only the current value of each attribute. Changes overwrite the old value. Also called a *type 1 slowly changing dimension*. | 4, 5, 6 |
 | <a id="t-hv"></a>**[HV]** | Historic Value | Keeps history for at least one attribute, so a change adds a new version of the row. Also called a *type 2 slowly changing dimension*. | 4, 5, 6 |
@@ -68,11 +69,11 @@ The answers are the event's *details*. The first six usually become dimensions, 
 | <a id="t-mv"></a>**[MV]** | Multi-Valued | A bridge table that links a fact to several values of a dimension at once (many-to-many), often with a weighting factor. | 6, 9 |
 | <a id="t-pd"></a>**[PD]** | Pivoted Dimension | Turns several row values into a set of yes/no flag columns, to make combinations easy to select. | 9 |
 
-## Column codes
+## Column Codes
 
 ### General
 
-| Code | Name | What it means | ADWD ch. |
+| Code | Name | What It Means | ADWD Ch. |
 |---|---|---|---|
 | <a id="c-md"></a>**MD** | Mandatory | The value should always be there under normal conditions. Shown as ~~MD~~ when the data has gaps. | 2 |
 | <a id="c-nn"></a>**NN** | Not Null | The source system does not allow empty values. | 5 |
@@ -86,11 +87,11 @@ The answers are the event's *details*. The first six usually become dimensions, 
 | <a id="c-suspect"></a>**?** | Suspect | The column still needs clarifying. See the open questions on its page. | |
 | <a id="c-important"></a>**!** | Important | A key column for the purpose of this profile. | |
 
-### Data types
+### Data Types
 
 All data types are **measured** from the data.
 
-| Code | Name | What it means | ADWD ch. |
+| Code | Name | What It Means | ADWD Ch. |
 |---|---|---|---|
 | <a id="c-c"></a>**C*n*** | Character | Short text, with *n* = the longest value seen. | 5 |
 | <a id="c-t"></a>**T*n*** | Text | Long free-format text. | 5 |
@@ -102,27 +103,27 @@ All data types are **measured** from the data.
 
 ### Keys
 
-| Code | Name | What it means | ADWD ch. |
+| Code | Name | What It Means | ADWD Ch. |
 |---|---|---|---|
-| <a id="c-pk"></a>**PK** | Primary Key | Declared by the source system as the row identifier. | 5 |
+| <a id="c-pk"></a>**PK** | Primary Key | Declared by the source system as the identifier of a row of this table. | 5 |
 | <a id="c-sk"></a>**SK** | Surrogate Key | A meaningless integer key assigned by the data warehouse. | 5 |
-| <a id="c-bk"></a>**BK** | Business Key | The source system's own identifier for the thing, e.g. a customer number. | 3, 5 |
-| <a id="c-nk"></a>**NK** | Natural Key | An identifier people use in the real world, e.g. a SKU printed on a box. | 5 |
+| <a id="c-bk"></a>**BK** | Business Key | The source system's own identifier for the thing the table is about, e.g. the customer number in a customers table. It identifies a row of this table. Keys can have data issues such as duplicates or gaps; the code still applies, and the issue is raised as an open question. | 3, 5 |
+| <a id="c-nk"></a>**NK** | Natural Key | An identifier people use in the real world for the thing the table is about, e.g. the SKU in a products table. It must identify a row of this table: a zip code is a natural key of a location, but not of a table about people. | 5 |
 | <a id="c-fk"></a>**FK** | Foreign Key | Points to the key of another table. In this wiki **measured**: every value was found in the other table. | 5 |
 | <a id="c-rk"></a>**RK** | Recursive Key | Points to another row in the *same* table, e.g. a parent company. | 6 |
 
-### Dimension attributes
+### Dimension Attributes
 
-| Code | Name | What it means | ADWD ch. |
+| Code | Name | What It Means | ADWD Ch. |
 |---|---|---|---|
 | <a id="c-cv"></a>**CV**, **CV*n*** | Current Value | Only the current value matters. Changes overwrite it ("as is" reporting). | 3, 6 |
 | <a id="c-hv"></a>**HV**, **HV*n*** | Historic Value | History matters. Changes keep the old value ("as was" reporting). | 3, 6 |
 | <a id="c-fv"></a>**FV** | Fixed Value | Shouldn't change, e.g. a date of birth. Corrections overwrite it. | 3 |
 | <a id="c-pv"></a>**PV*n*** | Previous Value | Holds the previous value of the matching **CV*n*** column, e.g. *previous territory*. | 6 |
 
-### Column codes: events and facts
+### Column Codes: Events and Facts
 
-| Code | Name | What it means | ADWD ch. |
+| Code | Name | What It Means | ADWD Ch. |
 |---|---|---|---|
 | <a id="c-mv"></a>**MV** | Multi-Value | The detail can hold several values at once and needs a bridge table **[MV]**. | 6, 9 |
 | <a id="c-ml"></a>**ML** | Multi-Level | The detail can point at different levels of a hierarchy, e.g. a person or a team. | 6 |
@@ -145,4 +146,4 @@ column points to the chapters that explain each code in depth. The summaries on 
 page are BI Joe's own wording. For the full method, see the book and
 [modelstorming.com](https://modelstorming.com).
 
-<!-- bijoe: beam-annotations v1. This file is copied as-is into every BI Joe wiki; edit it in skills/bi-joe-data-profiler/assets/. -->
+<!-- bijoe: beam-annotations v2. This file is copied as-is into every BI Joe wiki; edit it in skills/bi-joe-data-profiler/assets/. -->

@@ -17,6 +17,7 @@ from collections import Counter
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
 from .connectors.base import Connector, TableInfo
+from .keys import KEY_ROW_CAP, measure_keys
 
 INT_RE = re.compile(r"^[+-]?\d+$")
 DEC_RE = re.compile(r"^[+-]?(\d+\.\d*|\.\d+|\d+)([eE][+-]?\d+)?$")
@@ -331,6 +332,7 @@ def _profile_table(connector: Connector, table: str, sample_rows: int, include_v
     duplicates = ragged = profiled = total = 0
     rng = random.Random(f"bijoe:{table}")  # same sample every run
     reservoir: List[Tuple[int, List[Any]]] = []
+    kept: List[List[Any]] = []  # rows used to measure keys
     for row in connector.iter_rows(table, limit=limit):
         total += 1
         if profiled >= sample_rows:
@@ -347,6 +349,8 @@ def _profile_table(connector: Connector, table: str, sample_rows: int, include_v
                 j = rng.randrange(profiled)
                 if j < SAMPLE_ROW_COUNT:
                     reservoir[j] = (profiled, row)
+        if len(kept) < KEY_ROW_CAP:
+            kept.append(row)
         digest = hashlib.blake2b(repr(row).encode("utf-8", "replace"), digest_size=16).digest()
         if digest in seen:
             duplicates += 1
@@ -368,6 +372,7 @@ def _profile_table(connector: Connector, table: str, sample_rows: int, include_v
         "columns": [c.result(include_values) for c in stats],
         "sample_rows": [[_cell_text(v) for v in r] for _, r in sorted(reservoir, key=lambda x: x[0])] or None,
     }
+    result["keys"] = measure_keys(result, kept)
     return {k: v for k, v in result.items() if v is not None}, stats
 
 

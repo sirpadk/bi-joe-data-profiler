@@ -1,5 +1,7 @@
 import re
 
+from htmlutil import matrix_row, property_rows, strip
+
 from bijoe import beam, descriptions, wiki
 from bijoe.cli import main
 
@@ -63,6 +65,14 @@ def _wiki(shop_csv, tmp_path):
     return out
 
 
+def test_html_links():
+    assert beam.links_html(["CV"], "table", "../") == '<a href="../beam-annotations.md#t-cv">[CV]</a>'
+    assert beam.links_html(["~~MD~~"], "column") == '<a href="beam-annotations.md#c-unavailable"><s>MD</s></a>'
+    assert beam.links_html(["FV"], "column", italic=True) == '<i><a href="beam-annotations.md#c-fv">FV</a></i>'
+    out = beam.link_prose_html("a current value [CV] dimension, the [when], and [foo]")
+    assert '<a href="beam-annotations.md#t-cv">[CV]</a>' in out and "#w-when" in out and "[foo]" in out
+
+
 def test_relationship_measured_and_page_copied(shop_csv, tmp_path):
     out = _wiki(shop_csv, tmp_path)
     profile = wiki.load_profile(out)
@@ -70,23 +80,25 @@ def test_relationship_measured_and_page_copied(shop_csv, tmp_path):
     assert any(r["from_table"] == "orders" and r["from_column"] == "cust_id" and r["to_table"] == "customers"
                and r["coverage_pct"] == 100 for r in rels)
     assert (out / beam.PAGE).read_text(encoding="utf-8") == beam.ASSET.read_text(encoding="utf-8")
+    assert (out / "how-to-read.md").read_text(encoding="utf-8") == (beam.ASSET.parent / "how-to-read.md").read_text(encoding="utf-8")
     story = (out / "data-stories" / "orders.md").read_text(encoding="utf-8")
-    assert "## Relationships (measured)" in story and "[FK](../beam-annotations.md#c-fk)" in story
+    assert "## Relationships (Measured)" in story
+    assert 'href="../beam-annotations.md#c-fk">FK</a>' in story  # measured, in the matrix BEAM row
     assert "{orders.csv}" in story
     index = (out / "index.md").read_text(encoding="utf-8")
-    assert "## Data model" in index and "```mermaid\nflowchart LR" in index
-    assert "    t_customers --- t_orders" in index  # plain line, no cardinality, no column names
-    assert "||" not in index.split("## Data model")[1].split("## Metadata")[0]
-    assert "cust_id" not in index.split("## Data model")[1].split("## Metadata")[0]
-    assert "](beam-annotations.md)" in index and "](how-to-read.md)" in index
-    assert (out / "how-to-read.md").is_file()
+    model = index.split("## Data Model")[1].split("## Metadata")[0]
+    assert "```mermaid\nflowchart LR" in model
+    assert "    t_customers --- t_orders" in model  # plain line: no cardinality, no column names
+    assert "||" not in model and "cust_id" not in model
+    assert 'href="beam-annotations.md"' in index and 'href="how-to-read.md"' in index
 
 
 def test_suggestions_render_as_links_and_md_is_struck(shop_csv, tmp_path):
     out = _wiki(shop_csv, tmp_path)
     data = descriptions.load(out)
     data["tables"]["customers"].update(
-        description="One row per customer keyed by `cust_id`, a current value [CV] dimension with sign-up dates.",
+        description="A person who has signed up with the shop, a current value [CV] dimension.",
+        grain="One row for each person who is a customer",
         source="inferred", confidence="medium", evidence=["`cust_id` unique"],
         beam={"table": ["CV"], "table_why": "One row per `cust_id`, no validity dates.",
               "columns": {"country": {"codes": ["MD", "?"], "why": "Every customer should have a country."},
@@ -96,20 +108,24 @@ def test_suggestions_render_as_links_and_md_is_struck(shop_csv, tmp_path):
     descriptions.save(out, data)
     assert main(["render", str(out)]) == 0
     story = (out / "data-stories" / "customers.md").read_text(encoding="utf-8")
-    assert "| **BEAM✲** | [\\[CV\\]](../beam-annotations.md#t-cv) _(suggested by AI)_ |" in story
-    assert "[~~MD~~](../beam-annotations.md#c-unavailable)" in story  # country has a gap
-    assert "[FV](../beam-annotations.md#c-fv)" in story
-    assert "[C2](../beam-annotations.md#c-c)" in story  # measured data type
-    assert "a current value [\\[CV\\]](../beam-annotations.md#t-cv) dimension" in story
+    props = property_rows(story)
+    assert props["BEAM✲"] == '<a href="../beam-annotations.md#t-cv">[CV]</a> <i>(suggested by AI)</i>'
+    assert 'a current value <a href="../beam-annotations.md#t-cv">[CV]</a> dimension' in props["Description"]
+    assert '<i><a href="../beam-annotations.md#c-unavailable"><s>MD</s></a></i>' in story  # country has a gap
+    assert '<i><a href="../beam-annotations.md#c-fv">FV</a></i>' in story
+    assert '<a href="../beam-annotations.md#c-c">C2</a> text' in story  # measured data type
     assert 'beam_table_codes:\n  - "[CV]"' in story
+    assert "evidence:\n  - \"`cust_id` unique\"" in story  # evidence lives in the metadata for AI agents
+    assert "country MD ?: Every customer should have a country." in story  # reasons live there too
+    assert "Why the Suggestions" not in story and "Why the suggestions" not in story
     index = (out / "index.md").read_text(encoding="utf-8")
-    assert "| [customers](data-stories/customers.md) | [\\[CV\\]](beam-annotations.md#t-cv) | _pending_ |" in index
+    assert r"[customers](data-stories/customers.md) | [\[CV\]](beam-annotations.md#t-cv) | One row for each person who is a customer |" in index
 
 
 def test_lint_beam(shop_csv, tmp_path):
     out = _wiki(shop_csv, tmp_path)
     profile = wiki.load_profile(out)
-    entry = {**descriptions.empty_entry(), "description": "One row per order line keyed by `order_id`, with amounts.",
+    entry = {**descriptions.empty_entry(), "description": "A purchase placed by a customer, with amounts.",
              "source": "inferred", "confidence": "high", "evidence": ["`order_id`"],
              "beam": {"table": ["ZZ"], "columns": {"amount": {"codes": ["N7.2", "QQ", "?"]},
                                                      "nope": {"codes": ["FA"], "why": "x"}}}}

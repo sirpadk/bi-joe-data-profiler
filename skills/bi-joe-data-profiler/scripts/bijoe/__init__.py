@@ -3,4 +3,4 @@
 __version__ = "0.1.0"
 
 # Version of the profile.json / descriptions.json / wiki layout. Bump on breaking changes.
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2

@@ -10,8 +10,8 @@ You help anyone, from a first-time analyst to a data engineer or another AI agen
 get a standardised, trustworthy profile of their data. The output is a Markdown wiki:
 
 ```
-<out>/index.md                   landing page: summary, data stories, how tables connect
-<out>/data-stories/<table>.md    one data story per table: BEAM✲ codes, description, columns, relationships
+<out>/index.md                   landing page: at a glance, data stories, data model diagram
+<out>/data-stories/<table>.md    one data story per table: description, grain, columns matrix, relationships
 <out>/beam-annotations.md        BEAM✲ reference page, copied from assets/ (never write it yourself)
 <out>/how-to-read.md             reading guide, copied from assets/ (never write it yourself)
 <out>/_bijoe/profile.json        measured facts (written by the engine, never by you)
@@ -27,20 +27,27 @@ Two rules matter more than anything else here:
 
 1. **The user decides what matters.** Ask before you assume, but never make them
    answer questions they can't answer. See [setup interview](references/setup-interview.md).
-2. **Never invent, never state the obvious.** Every description is grounded in
-   evidence, labelled with where it came from, and checked. Make good, common-sense
-   guesses from what is in the data, never wild ones. When the evidence isn't enough,
-   write `More context needed.` See [writing descriptions](references/writing-descriptions.md).
+2. **Never state the obvious.** This must be the strongest part of everything you write.
+   A description that repeats the name in other words ("CustomerName: name of the
+   customer") is circular: nothing wrong, but nothing useful either. Say what the thing
+   actually *is* and how it relates to the business ("the full name of the person making
+   the purchase"), in everyday language, the way you would explain it to a colleague,
+   with no idioms or colourful phrases. Read the data like an experienced analyst, make good common-sense
+   guesses from the evidence, never wild ones, and never invent. Every description is
+   grounded in evidence, labelled with where it came from, and checked. When the
+   evidence isn't enough, write `More context needed.` See
+   [writing descriptions](references/writing-descriptions.md).
 
-Two layout principles apply to everything you write:
+Layout principles that apply to everything you write:
 
 - **Plan for 100 tables.** A database can have hundreds of tables, so the landing page
   stays high-level. The dataset summary talks about the data as a whole, with no table
   names, columns or relationships. Per-table detail belongs on the data stories, and
-  the connections are shown in the diagram.
-- **Paired information goes in a two-column property table** (`| | |`), like
-  "At a glance". This applies whenever you show labels with values: properties,
-  settings, column-to-reason lists.
+  the connections are shown in diagrams.
+- **Title Case for every heading, title, table label and column header** in the wiki.
+- **Paired information (label and value) goes in a simple two-column HTML table with
+  inline CSS** instead of a Markdown table, so there is no empty header row. Links inside
+  those tables are HTML links, because Markdown is not processed inside HTML.
 
 ## Workflow
 
@@ -85,15 +92,18 @@ to produce the same files by hand. Say clearly that the numbers are approximate.
    `--table <name>` to see one table.
 2. Fill in `<out-dir>/_bijoe/descriptions.json`, following
    [references/writing-descriptions.md](references/writing-descriptions.md):
-   - For each table, write a `grain` ("One row per …"), a one-sentence common-sense
-     `definition`, and a longer `description`.
+   - For each table, write a `description` (what the thing is, in one or two short
+     sentences of plain business language, no backticks) and a `grain` built on it
+     ("One row for each person who is a customer"). Read the whole dataset first, use the
+     measured keys in the evidence to decide the grain, and never state the obvious.
    - Write `dataset.summary` last: a few sentences about the data as a whole.
-   - Leave entries with `"source": "system_metadata"` exactly as they are. You may
-     add grounded context in `ai_notes`.
+   - Leave entries with `"source": "system_metadata"` exactly as they are. Technical
+     detail and data-quality observations belong in `ai_notes` (names are allowed
+     there), and the questions only the data owner can answer in `open_questions`.
    - Fill in each table's `beam` block: the table type code, and column codes with a
      reason for each, following [references/beam-annotations-guide.md](references/beam-annotations-guide.md).
      The data types, ND, PK, NN, FK and {Source} are measured for you, so never
-     suggest them.
+     suggest them. Key codes (PK, BK, NK) mean the key of that table, chosen by meaning.
 3. Run `python <skill-dir>/scripts/run_bijoe.py check "<out-dir>"`.
    - Fix every **error**.
    - For each **warning**, either fix it or tell the user why it is fine.
