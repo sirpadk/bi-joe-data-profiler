@@ -59,3 +59,19 @@ def test_sql_server_url_is_shown_without_secrets():
     c.source = "mssql+pyodbc:///?odbc_connect=" + quote_plus(odbc)
     shown = c.display_source()
     assert shown == "mssql://host\inst/pubs" and "hunter2" not in shown
+
+
+def test_make_url_and_env_password_expansion(monkeypatch):
+    import subprocess, sys
+    from pathlib import Path
+    from urllib.parse import unquote_plus
+    from bijoe.cli import expand_source
+    script = Path(__file__).resolve().parents[1] / "skills" / "bi-joe-data-profiler" / "scripts" / "make_url.py"
+    url = subprocess.run([sys.executable, str(script), "sqlserver", "--server", r"host\inst", "--database", "pubs",
+                          "--user", "joe", "--password-env", "MSSQL_PWD"], capture_output=True, text=True, check=True).stdout.strip()
+    assert url.startswith("mssql+pyodbc:///?odbc_connect=") and "MSSQL_PWD" in unquote_plus(url) and "hunter2" not in url
+    monkeypatch.setenv("MSSQL_PWD", "p@ss;w=rd")
+    assert "PWD=p@ss;w=rd" in unquote_plus(expand_source(url))
+    win = subprocess.run([sys.executable, str(script), "sqlserver", "--server", "h", "--database", "d", "--windows-auth"],
+                         capture_output=True, text=True, check=True).stdout
+    assert "Trusted_Connection%3Dyes" in win

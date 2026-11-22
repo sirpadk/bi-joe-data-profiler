@@ -92,6 +92,11 @@ python <skill-dir>/scripts/run_bijoe.py profile "<source>" --out "<out-dir>" \
   Excel needs `pip install openpyxl`. Databases need `pip install sqlalchemy` plus the
   database's driver. Ask the user before you install anything.
 
+**How to connect to each kind of source** (files, SQL Server, PostgreSQL, MySQL, Snowflake,
+BigQuery, Databricks, DuckDB, Oracle and others) is in
+[references/connecting.md](references/connecting.md). Read it before you build a database URL. For
+SQL Server, `scripts/make_url.py` builds the URL for you.
+
 **Credentials.** Never ask the user to type a password into the chat, and never write one
 in a command. Ask them to put it in an environment variable, then refer to that variable
 in the URL. `$PGPASSWORD` is expanded by the engine, so put the URL in single quotes:

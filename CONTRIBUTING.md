@@ -55,6 +55,26 @@ Rules:
 6. If `describe_table` can't get the row count cheaply, return `row_count=None`. The
    profiler then counts the rows as it reads them.
 
+### A walk-through
+
+1. **Copy the template** `docs/connector_template.py` to `bijoe/connectors/<name>.py` and rename the class.
+2. **Say what you accept.** `can_handle(source)` returns `True` for the strings your connector reads,
+   for example `source.startswith("oracle://")` or a file suffix. Auto-detection tries the connectors in
+   `priority` order (lower first). The generic database connector has priority 1000, so yours wins.
+3. **Connect in `__init__`.** Open the connection read-only. Raise `ConnectorError("a plain sentence")` when it
+   fails, with the one thing the user should do next. Options from the command line, such as `--schema`,
+   arrive in `**options`.
+4. **List the tables.** `list_tables()` returns the names to show. Only tables, never views or procedures.
+5. **Describe a table.** `describe_table(name)` returns `TableInfo(name, columns, comment, row_count)`. Fill
+   `ColumnInfo(name, declared_type, nullable, primary_key, comment)` from the source's own catalogue, and pass
+   every description the source stores as `comment`.
+6. **Stream the rows.** `iter_rows(name, limit)` yields tuples in column order and stops at `limit`.
+   Use a server-side cursor if the driver has one, so a large table is never loaded at once.
+7. **Hide secrets.** `display_source()` returns the source without passwords. It is written into the wiki.
+8. **Test it** with a tiny local fixture, as in `tests/test_connectors.py`.
+   `profile_source(open_connector(...))` should return the table, the columns and the row count.
+9. **Check it is listed:** `python skills/bi-joe-data-profiler/scripts/run_bijoe.py connectors`.
+
 ### Option A: add it to this repo
 1. Add `bijoe/connectors/<name>.py` and decorate the class with `@register`.
 2. Import the module in `_ensure_loaded()` in `bijoe/connectors/__init__.py`.

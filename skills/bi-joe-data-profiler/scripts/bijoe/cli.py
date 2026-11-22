@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import os
+import re
 import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -15,15 +16,36 @@ from . import beam, distribution, pii, themes
 from .profiler import profile_dataset
 
 
+def _cmd() -> str:
+    """How to start this tool again, for the hints: the script path when run from the skill, else bijoe."""
+    first = Path(sys.argv[0]) if sys.argv and sys.argv[0] else None
+    return f'python "{first}"' if first and first.name == "run_bijoe.py" else "bijoe"
+
+
 def _say(msg: str = "") -> None:
     print(msg, flush=True)
 
 
 # ---- profile ------------------------------------------------------------------
 
+def expand_source(source: str) -> str:
+    """Fill in ${VAR} from the environment, also inside an already URL-encoded odbc_connect value,
+    so a password never has to be written in a command."""
+    from urllib.parse import quote_plus
+
+    def encoded(m: "re.Match[str]") -> str:
+        value = os.environ.get(m.group(1))
+        if value is None:
+            raise ConnectorError(f"The environment variable {m.group(1)} is not set")
+        return quote_plus(value)
+
+    source = re.sub(r"%24%7B(\w+)%7D", encoded, source)
+    return os.path.expandvars(source)
+
+
 def cmd_profile(args: argparse.Namespace) -> int:
     out_dir = Path(args.out)
-    source = os.path.expandvars(args.source)  # lets credentials live in env vars: postgresql://u:${PGPASS}@h/db
+    source = expand_source(args.source)  # lets credentials live in env vars: postgresql://u:${PGPASS}@h/db
     options: Dict[str, Any] = {}
     if args.schema:
         options["schema"] = args.schema
@@ -83,9 +105,9 @@ def cmd_profile(args: argparse.Namespace) -> int:
         _say(f"{from_system} table description(s) taken from source system metadata.")
     if pending:
         _say(f"{pending} description(s) still to write. Next:")
-        _say(f"  1. bijoe evidence {out_dir}        (facts to base descriptions on)")
+        _say(f"  1. {_cmd()} evidence \"{out_dir}\"        (facts to base descriptions on)")
         _say(f"  2. edit {descriptions.path_for(out_dir)}")
-        _say(f"  3. bijoe check {out_dir}  then  bijoe render {out_dir}")
+        _say(f"  3. {_cmd()} check \"{out_dir}\"  then  {_cmd()} render \"{out_dir}\"")
     return 0
 
 
