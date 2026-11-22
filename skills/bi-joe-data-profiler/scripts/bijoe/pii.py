@@ -48,7 +48,9 @@ _CPR_DASHED_ANY = re.compile(r"(?<![\d-])(\d{2})(\d{2})(\d{2})-(\d{4})(?![\d-])"
 _IBAN = re.compile(r"^[A-Z]{2}\d{2}[A-Z0-9]{10,30}$")
 _IBAN_ANY = re.compile(r"\b[A-Z]{2}\d{2}(?: ?[A-Z0-9]{4}){3,7}(?: ?[A-Z0-9]{1,4})?\b")
 _CARD = re.compile(r"^\d{13,19}$")
-_CARD_ANY = re.compile(r"(?<![\d-])(?:\d[ -]?){13,19}(?![\d-])")
+# A card number is a run of 13-19 digits that stands alone: not part of a longer number, a decimal such as
+# 12.174999999999997, a GUID or a coordinate. Groups of digits separated by one space or hyphen count too.
+_CARD_ANY = re.compile(r"(?<![\w.,+-])(?:\d{13,19}|\d{4}([ -])\d{4}\1\d{4}\1\d{1,7})(?![\w-]|[.,]\d)")
 _IP = re.compile(r"^(?:\d{1,3}\.){3}\d{1,3}$")
 _PHONE = re.compile(r"^(?:\+\d{1,3}[\s-]?)?(?:\(\d{2,4}\)[\s-]?)?\d{2,4}[\s.-]\d{2,4}(?:[\s.-]\d{2,4})*$")
 

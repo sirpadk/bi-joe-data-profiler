@@ -103,8 +103,10 @@ def cmd_profile(args: argparse.Namespace) -> int:
     _say(f"Profiled {len(results)} table(s), {sum(t['row_count'] for t in results):,} rows -> {out_dir / 'index.md'}")
     if from_system:
         _say(f"{from_system} table description(s) taken from source system metadata.")
-    if pending:
-        _say(f"{pending} description(s) still to write. Next:")
+    grains = sum(1 for t in results if not (data["tables"][t["name"]].get("grain") or "").strip()
+                 or data["tables"][t["name"]].get("grain") == "pending")
+    if pending or grains:
+        _say(f"Still to write: {pending} description(s), {grains} grain(s) and the BEAM annotations of {len(results)} table(s). Next:")
         _say(f"  1. {_cmd()} evidence \"{out_dir}\"        (facts to base descriptions on)")
         _say(f"  2. edit {descriptions.path_for(out_dir)}")
         _say(f"  3. {_cmd()} check \"{out_dir}\"  then  {_cmd()} render \"{out_dir}\"")

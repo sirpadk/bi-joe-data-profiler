@@ -67,3 +67,12 @@ def test_flags_and_secrets():
     assert pii.classify("EmailPromotion", "integer", {"0": 1, "1": 1, "2": 1}.keys()) is None  # a small code, not an address
     assert pii.classify("PasswordHash", "text", ["x"] * 5)["class"] == "credential"
     assert pii.classify("au_id", "text", ["172-32-1176", "213-46-8915", "238-95-7766"])["class"] == "national id"
+
+
+def test_scan_ignores_decimals_guids_and_coordinates_but_finds_card_numbers():
+    assert not pii.scan_text('"iqr": 12.174999999999997, "q3": 4111111111111.1111')
+    assert not pii.scan_text("rowguid 4149-8600-5955-5555-4111111111111111-ab")
+    assert not pii.scan_text("POINT (4111111111111111.5 55.1234)")
+    assert pii.scan_text("card 4111111111111111 expires 12/26") == ["a card number"]
+    assert pii.scan_text("card 4111 1111 1111 1111") == ["a card number"]
+    assert pii.scan_text("card 4111-1111-1111-1111.") == ["a card number"]

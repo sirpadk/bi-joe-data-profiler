@@ -125,6 +125,9 @@ to produce the same files by hand. Say clearly that the numbers are approximate.
      reason for each, following [references/beam-annotations-guide.md](references/beam-annotations-guide.md).
      The data types, ND, PK, NN, FK and {Source} are measured for you, so never
      suggest them. Key codes (PK, BK, NK) mean the key of that table, chosen by meaning.
+   - **Many tables (a database).** The full `evidence` output is huge (about 220 KB for 71 tables). Work
+     in batches, one schema or a handful of tables at a time, with `evidence --table <name>`. Tables with
+     `"source": "system_metadata"` still need a grain and BEAM annotations: only the description is kept.
 3. Run `python <skill-dir>/scripts/run_bijoe.py check "<out-dir>"`.
    - Fix every **error**.
    - For each **warning**, either fix it or tell the user why it is fine.
