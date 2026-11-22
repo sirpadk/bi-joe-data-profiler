@@ -88,6 +88,17 @@ python <skill-dir>/scripts/run_bijoe.py profile "<source>" --out "<out-dir>" \
   the user says the data is sensitive. `--mask Table.Column,...` adds columns to mask on top of what
   the engine detects by itself.
 - Only tables are profiled. Views, stored procedures and functions are never read.
+- **Run `profile` in the background for any database or source of more than about 10 tables.**
+  A foreground command is capped at 10 minutes and shows nothing until it ends. Start it with
+  `run_in_background`. The engine prints one `BIJOE` line per step (`BIJOE plan tables=100`,
+  `BIJOE progress 10/100 pct=10 elapsed=21.3`, `BIJOE done tables=100 failed=0 secs=212.4`).
+  If you have a Monitor tool, watch the command with the filter
+  `BIJOE (plan|progress|relationships|done|table [0-9]+/[0-9]+ failed)` and tell the user in plain words one
+  short line per milestone ("Table 10 of 100 done"), never one message per table and never a tight
+  polling loop. Without a Monitor, wait for the completion notice and read only the tail of the
+  background task's output file, at most once a minute. If a line says `failed`, explain the error
+  in plain words and offer to run again with `--tables`, leaving out the bad table. At hand-over,
+  tell the user the total runtime (from the `BIJOE done` line, or the footer of the landing page).
 - Run `python <skill-dir>/scripts/run_bijoe.py connectors` to see which sources are ready.
   Excel needs `pip install openpyxl`. Databases need `pip install sqlalchemy` plus the
   database's driver. Ask the user before you install anything.

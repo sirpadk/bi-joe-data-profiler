@@ -174,6 +174,7 @@ You are in charge of what matters. The agent follows the skill's workflow:
    everyday words and adapted to how much you know. You can answer in one line or skip. If you tell it
    up front what you want, it asks nothing.
 2. **It runs the engine.** The engine reads your data (read-only) and writes the measured facts.
+   Long runs report their progress table by table ("Table 10 of 100 done"), and the finished wiki says how long profiling took.
 3. **It writes the descriptions.** For each table: what it is, in plain language, and the grain. It
    uses the measured keys, relationships and distributions as evidence, labels each description with
    where it came from, and never invents. When the evidence is not enough it writes *More context needed.*
@@ -385,6 +386,11 @@ Options for `profile`:
 | `--connector <name>` | force a connector instead of auto-detecting |
 
 To get a `bijoe` command, install the project: `pip install -e ".[excel,sql]"`.
+
+While it runs, `profile` prints one line per step that starts with `BIJOE` (the number of tables, then
+`table 3/100 done`, a progress line about every 10 percent, and the total time). They contain only table
+names, counts and seconds, never data. Every data story ends with how long its table took, and the landing
+page with the total time.
 
 ## Add a connector
 

@@ -126,6 +126,25 @@ def _yaml_value(v: Any) -> str:
 METADATA_HEADING = "## Metadata"
 
 
+def fmt_seconds(s: float) -> str:
+    """A duration in everyday words: <0.1 s, 4.2 s, 42 s, 3 min 32 s, 1 h 04 min."""
+    if s < 0.1:
+        return "<0.1 s"
+    if s < 9.95:  # 9.96 would round to "10.0 s", so it falls through to whole seconds
+        return f"{s:.1f} s"
+    total = int(round(s))
+    if total < 60:
+        return f"{total} s"
+    if total < 3600:
+        return f"{total // 60} min {total % 60} s"
+    return f"{total // 3600} h {total % 3600 // 60:02d} min"
+
+
+def _timing_extras(values: Dict[str, Any]) -> Dict[str, Any]:
+    """Timing keys for a metadata block, only those a profile actually holds."""
+    return {k: v for k, v in values.items() if v is not None}
+
+
 def metadata_block(fields: Dict[str, Any]) -> List[str]:
     """Closing section of every page: a fenced YAML block with the page's facts."""
     lines = ["", "---", "", METADATA_HEADING, "",
@@ -724,6 +743,7 @@ def render_story(table: Dict[str, Any], entry: Dict[str, Any], profile: Dict[str
         "beam_source": src_code,
         "beam_reasons": reasons,
         "evidence": [str(e) for e in entry.get("evidence") or []],
+        **_timing_extras({"profile_seconds": table.get("profile_seconds")}),
         "relationships": [f"{r['from_table']}.{r['from_column']} -> {r['to_table']}.{r['to_column']}: "
                           f"{r['matched_values']}/{r['checked_values']} values found ({r['coverage_pct']:g}%)"
                           for r in rels],
@@ -772,6 +792,8 @@ def render_story(table: Dict[str, Any], entry: Dict[str, Any], profile: Dict[str
     if questions:
         out += ["", "## Open Questions for the Data Owner", ""]
         out.extend(f"- {inline_html(q, pre)}" for q in questions)
+    if table.get("profile_seconds") is not None:
+        out += ["", f"<i>Profiled in {fmt_seconds(table['profile_seconds'])}.</i>"]
     out += meta
     return "\n".join(_frame(out)) + "\n"
 
@@ -891,6 +913,9 @@ def render_schema_page(schema: str, group: List[Dict[str, Any]], profile: Dict[s
            "## Data Stories", ""]
     out += stories_table(group, descriptions, names, f"../{STORIES_DIR}/")
     out += ["", "## Data Model", ""] + schema_diagram(schema, profile)
+    secs = [t["profile_seconds"] for t in group if t.get("profile_seconds") is not None]
+    if secs:
+        out += ["", f"<i>Its tables took {fmt_seconds(sum(secs))} to profile.</i>"]
     out += meta
     return "\n".join(_frame(out)) + "\n"
 
@@ -905,6 +930,7 @@ def render_index(profile: Dict[str, Any], descriptions: Dict[str, Any]) -> str:
     rels = profile.get("relationships") or []
     settings = profile.get("settings") or {}
 
+    timings = profile.get("timings") or {}
     meta = metadata_block({
         "bijoe": "data-profile-index",
         "schema_version": SCHEMA_VERSION,
@@ -915,6 +941,10 @@ def render_index(profile: Dict[str, Any], descriptions: Dict[str, Any]) -> str:
         "tables": len(tables),
         "sampled_rows": sampled_rows,
         "relationships": len(rels),
+        **_timing_extras({"profile_seconds": timings.get("total_seconds"),
+                          "connect_seconds": timings.get("connect_seconds"),
+                          "tables_seconds": timings.get("tables_seconds"),
+                          "relationships_seconds": timings.get("relationships_seconds")}),
         "generated_at": profile["generated_at"],
         "generator": f"bi-joe-data-profiler {profile['bijoe_version']}",
     })
@@ -951,6 +981,12 @@ def render_index(profile: Dict[str, Any], descriptions: Dict[str, Any]) -> str:
     else:
         out += ["<i>How the tables connect, drawn from the measured relationships.</i>", ""]
         out += er_diagram(profile)
+    if timings.get("total_seconds") is not None:
+        parts = [f"{label} {fmt_seconds(timings[key])}" for label, key in
+                 (("connecting", "connect_seconds"), ("tables", "tables_seconds"),
+                  ("relationships", "relationships_seconds")) if timings.get(key) is not None]
+        out += ["", f"<i>Profiling took {fmt_seconds(timings['total_seconds'])}"
+                    + (f" ({', '.join(parts)})" if parts else "") + ".</i>"]
     out += meta
     return "\n".join(_frame(out)) + "\n"
 

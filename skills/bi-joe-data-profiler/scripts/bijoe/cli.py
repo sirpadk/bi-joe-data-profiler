@@ -7,6 +7,7 @@ import datetime as dt
 import os
 import re
 import sys
+import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -43,26 +44,60 @@ def expand_source(source: str) -> str:
     return os.path.expandvars(source)
 
 
+def _line(text: Any) -> str:
+    """Free text on one line: a table name could hold a line break."""
+    return str(text).replace("\n", " ").replace("\r", " ")
+
+
+class _Reporter:
+    """Turns profiler events into the BIJOE lines (names, numbers and seconds only, never a value)."""
+
+    def __init__(self) -> None:
+        self.failed = 0
+
+    def __call__(self, e: Dict[str, Any]) -> None:
+        kind, total, i = e["event"], e.get("total"), e.get("index")
+        if kind == "plan":
+            _say(f"BIJOE plan tables={total}")
+        elif kind == "table_start":
+            _say(f"BIJOE table {i}/{total} start {_line(e['table'])}")
+        elif kind == "table_done":
+            _say(f"BIJOE table {i}/{total} done rows={e['rows']} cols={e['cols']} secs={e['secs']:.1f} "
+                 f"elapsed={e['elapsed']:.1f} {_line(e['table'])}")
+            if i == 1 or i == total or i % max(1, total // 10) == 0:
+                _say(f"BIJOE progress {i}/{total} pct={100 * i // total} elapsed={e['elapsed']:.1f}")
+        elif kind == "table_failed":
+            self.failed += 1
+            _say(f"BIJOE table {i}/{total} failed secs={e['secs']:.1f} error={e['error']} {_line(e['table'])}")
+        elif kind == "relationships":
+            _say(f"BIJOE relationships secs={e['secs']:.1f}")
+
+
 def cmd_profile(args: argparse.Namespace) -> int:
+    started = time.perf_counter()
     out_dir = Path(args.out)
     source = expand_source(args.source)  # lets credentials live in env vars: postgresql://u:${PGPASS}@h/db
     options: Dict[str, Any] = {}
     if args.schema:
         options["schema"] = args.schema
     tables = [t.strip() for t in args.tables.split(",") if t.strip()] if args.tables else None
+    timings: Dict[str, float] = {}
+    reporter = _Reporter()
 
+    t0 = time.perf_counter()
     with open_connector(source, args.connector, **options) as conn:
+        connect_seconds = round(time.perf_counter() - t0, 3)
         display = conn.display_source()
-        names = conn.list_tables()
+        _say(f"BIJOE connect connector={conn.name} source={_line(display)}")
         if tables:
+            names = conn.list_tables()
             missing = sorted({t.lower() for t in tables} - {n.lower() for n in names})
             if missing:
                 raise ConnectorError(f"Tables not found: {', '.join(missing)}. Available: {', '.join(names)}")
         _say(f"Profiling {display} with the '{conn.name}' connector...")
         results, relationships = profile_dataset(
             conn, tables, args.sample_rows, include_values=not args.no_values,
-            progress=lambda name: _say(f"  - {name}"),
-            mask=pii.parse_forced(args.mask),
+            progress=reporter, mask=pii.parse_forced(args.mask), timings=timings,
         )
         connector_name, source_type = conn.name, conn.source_type
 
@@ -90,6 +125,11 @@ def cmd_profile(args: argparse.Namespace) -> int:
         },
         "tables": results,
         "relationships": relationships,
+        "timings": {
+            "total_seconds": round(connect_seconds + sum(timings.values()), 3),
+            "connect_seconds": connect_seconds,
+            **timings,
+        },
     }
     profile["settings"] = {k: v for k, v in profile["settings"].items() if v is not None}
     wiki.save_profile(out_dir, profile)
@@ -99,6 +139,7 @@ def cmd_profile(args: argparse.Namespace) -> int:
 
     from_system = sum(1 for t in results if data["tables"][t["name"]]["source"] == "system_metadata")
     pending = sum(1 for t in results if data["tables"][t["name"]]["source"] == "pending")
+    _say(f"BIJOE done tables={len(results)} failed={reporter.failed} secs={time.perf_counter() - started:.1f}")
     _say()
     _say(f"Profiled {len(results)} table(s), {sum(t['row_count'] for t in results):,} rows -> {out_dir / 'index.md'}")
     if from_system:

@@ -12,6 +12,10 @@ Ignore its YAML header, then follow the workflow and the guides it links to:
 1. [Setup interview](skills/bi-joe-data-profiler/references/setup-interview.md): find out
    what matters to the user, at their level. Ask nothing if you were called with a clear brief.
 2. Run the engine: `python skills/bi-joe-data-profiler/scripts/run_bijoe.py profile <source> --out <dir>`
+   For a source of more than about 10 tables, run it in the background: it prints `BIJOE` progress
+   lines (`BIJOE progress 10/100 pct=10 ...`). Watch them (a Monitor tool with the filter
+   `BIJOE (plan|progress|relationships|done|table [0-9]+/[0-9]+ failed)`, or the tail of the output file at most
+   once a minute), tell the user one short line per milestone, and give the total runtime at hand-over.
 3. [Write the descriptions](skills/bi-joe-data-profiler/references/writing-descriptions.md):
    grounded in evidence, labelled with their source, nothing invented. Add
    [BEAM✲ annotations](skills/bi-joe-data-profiler/references/beam-annotations-guide.md)

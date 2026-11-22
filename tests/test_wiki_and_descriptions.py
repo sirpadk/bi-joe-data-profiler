@@ -252,7 +252,7 @@ def test_relationships_section_is_a_diagram_or_na(shop_csv, tmp_path):
     out2 = tmp_path / "wiki2"
     _run("profile", "fake://meta", "--out", out2)
     story2 = _read(out2, "data-stories", "dim-customer.md")
-    assert story2.split("## Relationships (Measured)")[1].split("---")[0].strip() == "N/A"
+    assert story2.split("## Relationships (Measured)")[1].split("<i>Profiled")[0].split("---")[0].strip() == "N/A"
 
 
 def _table(names, key=None):

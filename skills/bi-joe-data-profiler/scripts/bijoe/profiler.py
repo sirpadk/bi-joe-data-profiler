@@ -12,6 +12,7 @@ import decimal
 import hashlib
 import math
 import random
+import time
 import re
 from collections import Counter
 from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
@@ -489,21 +490,50 @@ def find_relationships(profiled: List[Tuple[Dict[str, Any], List[ColumnStats]]],
 
 
 def profile_dataset(connector: Connector, tables: Optional[List[str]] = None, sample_rows: int = 100_000,
-                    include_values: bool = True, progress: Optional[Callable[[str], None]] = None,
-                    mask: Sequence[Tuple[str, str]] = ()) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
+                    include_values: bool = True, progress: Optional[Callable[[Dict[str, Any]], None]] = None,
+                    mask: Sequence[Tuple[str, str]] = (),
+                    timings: Optional[Dict[str, float]] = None) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
+    """Profile the tables. `progress` gets one dict per event (plan, table_start, table_done, table_failed,
+    relationships) with table names, numbers and seconds only, never a value. `timings` is filled in."""
+    emit = progress or (lambda event: None)
+    t0 = time.perf_counter()
     names = connector.list_tables()
     if tables:
         wanted = {t.lower() for t in tables}
         names = [n for n in names if n.lower() in wanted]
+    if timings is not None:
+        timings["list_seconds"] = round(time.perf_counter() - t0, 3)
+    total = len(names)
+    emit({"event": "plan", "total": total})
     profiled = []
-    for name in names:
-        if progress:
-            progress(name)
-        profiled.append(_profile_table(connector, name, sample_rows, include_values, mask=mask))
-    return [t for t, _ in profiled], find_relationships(profiled)
+    started = time.perf_counter()
+    for i, name in enumerate(names, 1):
+        emit({"event": "table_start", "index": i, "total": total, "table": name})
+        t1 = time.perf_counter()
+        try:
+            table, stats = _profile_table(connector, name, sample_rows, include_values, mask=mask)
+        except Exception as exc:
+            emit({"event": "table_failed", "index": i, "total": total, "table": name,
+                  "secs": round(time.perf_counter() - t1, 3), "error": type(exc).__name__})
+            raise
+        secs = time.perf_counter() - t1
+        table["profile_seconds"] = round(secs, 3)
+        profiled.append((table, stats))
+        emit({"event": "table_done", "index": i, "total": total, "table": name, "rows": table["row_count"],
+              "cols": table["column_count"], "secs": round(secs, 3),
+              "elapsed": round(time.perf_counter() - started, 3)})
+    if timings is not None:
+        timings["tables_seconds"] = round(time.perf_counter() - started, 3)
+    t2 = time.perf_counter()
+    relationships = find_relationships(profiled)
+    rel_secs = time.perf_counter() - t2
+    if timings is not None:
+        timings["relationships_seconds"] = round(rel_secs, 3)
+    emit({"event": "relationships", "secs": round(rel_secs, 3)})
+    return [t for t, _ in profiled], relationships
 
 
 def profile_source(connector: Connector, tables: Optional[List[str]] = None, sample_rows: int = 100_000,
                    include_values: bool = True,
-                   progress: Optional[Callable[[str], None]] = None) -> List[Dict[str, Any]]:
+                   progress: Optional[Callable[[Dict[str, Any]], None]] = None) -> List[Dict[str, Any]]:
     return profile_dataset(connector, tables, sample_rows, include_values, progress)[0]

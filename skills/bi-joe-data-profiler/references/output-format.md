@@ -58,6 +58,9 @@ generated_at: "<ISO 8601 UTC>"
 generator: "bi-joe-data-profiler <version>"
 ```
 
+Additive keys, only present when the profile holds timings: `profile_seconds` (the total),
+`connect_seconds`, `tables_seconds` and `relationships_seconds`.
+
 `data-stories/<slug>.md`
 ```yaml
 bijoe: "data-story"
@@ -71,6 +74,29 @@ description_source: "system_metadata" | "user_documentation" | "inferred" | "pen
 confidence: "high" | "medium" | "low" | null
 generated_at: "<ISO 8601 UTC>"
 ```
+
+Additive key, only when the table has it: `profile_seconds`.
+
+## Timing and Progress (Additive)
+These additions keep `SCHEMA_VERSION` at 2.
+
+- `profile.json`: each table has `profile_seconds` (seconds spent on it, 3 decimals), and the top
+  level has `timings`: `total_seconds`, `connect_seconds`, `list_seconds`, `tables_seconds`,
+  `relationships_seconds`. Older files have neither, and `render` never measures anything: it
+  only reads what `profile.json` holds.
+- One italic line at the bottom of a page, just above `## Metadata`, left out when the numbers are
+  missing: data story `Profiled in 4.2 s.`, landing page
+  `Profiling took 3 min 32 s (connecting 0.3 s, tables 3 min 20 s, relationships 11 s).`, schema page
+  `Its tables took 1 min 10 s to profile.`
+- `profile` prints these lines on stdout, free-text table name always last: `BIJOE connect
+  connector=<name> source=<source>`, `BIJOE plan tables=<n>`, `BIJOE table <i>/<n> start <name>`,
+  `BIJOE table <i>/<n> done rows=<n> cols=<n> secs=<s> elapsed=<s> <name>`,
+  `BIJOE table <i>/<n> failed secs=<s> error=<ExceptionClass> <name>`,
+  `BIJOE progress <i>/<n> pct=<p> elapsed=<s>` (the first and last table and about every tenth),
+  `BIJOE relationships secs=<s>`, `BIJOE done tables=<n> failed=<n> secs=<s>`. Only names, numbers and
+  an exception class name, never a value or a message.
+- In the engine, the `progress` callback of `profile_dataset` now receives one dict per event
+  (`plan`, `table_start`, `table_done`, `table_failed`, `relationships`) instead of a table name.
 
 ## Layout Principles
 - **Plan for 100 tables.** The landing page stays high-level. Per-table detail lives on the data stories.
