@@ -1,0 +1,7 @@
+ProductID,ProductName,ProductCategory
+1,Indboforsikring,Bolig
+2,Bilforsikring,Bil
+3,Husforsikring,Bolig
+4,Ulykkesforsikring,Person
+5,Rejseforsikring,Person
+6,Dyreforsikring,Dyr

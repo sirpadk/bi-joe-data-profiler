@@ -1,6 +1,6 @@
 import re
 
-from htmlutil import matrix_row, property_rows, strip
+from htmlutil import matrix_row, property_rows, strip, notitle
 
 from bijoe import beam, descriptions, wiki
 from bijoe.cli import main
@@ -24,18 +24,18 @@ def test_parse_scopes_and_anchors():
 
 
 def test_links_escape_brackets():
-    assert beam.parse("CV", "table").link("../") == "[\\[CV\\]](../beam-annotations.md#t-cv)"
-    assert beam.links(["FA", "[USD]"], "column") == \
+    assert notitle(beam.parse("CV", "table").link("../")) == "[\\[CV\\]](../beam-annotations.md#t-cv)"
+    assert notitle(beam.links(["FA", "[USD]"], "column")) == \
         "[FA](beam-annotations.md#c-fa) [\\[USD\\]](beam-annotations.md#c-uom)"
 
 
 def test_prose_links_only_known_codes():
     text = "A current value [CV] dimension; see [docs](x.md); the [when] of it; [CV, HM]; [foo]."
     out = beam.link_prose(text)
-    assert "[\\[CV\\]](beam-annotations.md#t-cv)" in out
+    assert "[\\[CV\\]](beam-annotations.md#t-cv)" in notitle(out)
     assert "[docs](x.md)" in out and "[foo]" in out
-    assert "(beam-annotations.md#w-when)" in out
-    assert "[HM](beam-annotations.md#t-hm)" in out
+    assert "(beam-annotations.md#w-when)" in notitle(out)
+    assert "[HM](beam-annotations.md#t-hm)" in notitle(out)
 
 
 def test_every_anchor_exists_on_reference_page():
@@ -66,11 +66,11 @@ def _wiki(shop_csv, tmp_path):
 
 
 def test_html_links():
-    assert beam.links_html(["CV"], "table", "../") == '<a href="../beam-annotations.md#t-cv">[CV]</a>'
-    assert beam.links_html(["~~MD~~"], "column") == '<a href="beam-annotations.md#c-unavailable"><s>MD</s></a>'
-    assert beam.links_html(["FV"], "column", italic=True) == '<i><a href="beam-annotations.md#c-fv">FV</a></i>'
+    assert notitle(beam.links_html(["CV"], "table", "../")) == '<a href="../beam-annotations.md#t-cv">[CV]</a>'
+    assert notitle(beam.links_html(["~~MD~~"], "column")) == '<a href="beam-annotations.md#c-unavailable"><s>MD</s></a>'
+    assert notitle(beam.links_html(["FV"], "column", italic=True)) == '<i><a href="beam-annotations.md#c-fv">FV</a></i>'
     out = beam.link_prose_html("a current value [CV] dimension, the [when], and [foo]")
-    assert '<a href="beam-annotations.md#t-cv">[CV]</a>' in out and "#w-when" in out and "[foo]" in out
+    assert '<a href="beam-annotations.md#t-cv">[CV]</a>' in notitle(out) and "#w-when" in notitle(out) and "[foo]" in notitle(out)
 
 
 def test_relationship_measured_and_page_copied(shop_csv, tmp_path):
@@ -83,7 +83,7 @@ def test_relationship_measured_and_page_copied(shop_csv, tmp_path):
     assert (out / "how-to-read.md").read_text(encoding="utf-8") == (beam.ASSET.parent / "how-to-read.md").read_text(encoding="utf-8")
     story = (out / "data-stories" / "orders.md").read_text(encoding="utf-8")
     assert "## Relationships (Measured)" in story
-    assert 'href="../beam-annotations.md#c-fk">FK</a>' in story  # measured, in the matrix BEAM row
+    assert 'href="../beam-annotations.md#c-fk">FK</a>' in notitle(story)  # measured, in the matrix BEAM row
     assert "{orders.csv}" in story
     index = (out / "index.md").read_text(encoding="utf-8")
     model = index.split("## Data Model")[1].split("## Metadata")[0]
@@ -109,17 +109,17 @@ def test_suggestions_render_as_links_and_md_is_struck(shop_csv, tmp_path):
     assert main(["render", str(out)]) == 0
     story = (out / "data-stories" / "customers.md").read_text(encoding="utf-8")
     props = property_rows(story)
-    assert props["BEAM✲"] == '<a href="../beam-annotations.md#t-cv">[CV]</a> <i>(suggested by AI)</i>'
-    assert 'a current value <a href="../beam-annotations.md#t-cv">[CV]</a> dimension' in props["Description"]
-    assert '<i><a href="../beam-annotations.md#c-unavailable"><s>MD</s></a></i>' in story  # country has a gap
-    assert '<i><a href="../beam-annotations.md#c-fv">FV</a></i>' in story
-    assert '<a href="../beam-annotations.md#c-c">C2</a> text' in story  # measured data type
+    assert notitle(props["BEAM✲"]) == '<a href="../beam-annotations.md#t-cv">[CV]</a> <i>(suggested by AI)</i>'
+    assert 'a current value <a href="../beam-annotations.md#t-cv">[CV]</a> dimension' in notitle(props["Description"])
+    assert '<i><a href="../beam-annotations.md#c-unavailable"><s>MD</s></a></i>' in notitle(story)  # country has a gap
+    assert '<i><a href="../beam-annotations.md#c-fv">FV</a></i>' in notitle(story)
+    assert '<a href="../beam-annotations.md#c-c">C2</a> text' in notitle(story)  # measured data type
     assert 'beam_table_codes:\n  - "[CV]"' in story
     assert "evidence:\n  - \"`cust_id` unique\"" in story  # evidence lives in the metadata for AI agents
     assert "country MD ?: Every customer should have a country." in story  # reasons live there too
     assert "Why the Suggestions" not in story and "Why the suggestions" not in story
     index = (out / "index.md").read_text(encoding="utf-8")
-    assert r"[customers](data-stories/customers.md) | [\[CV\]](beam-annotations.md#t-cv) | One row for each person who is a customer |" in index
+    assert r"[customers](data-stories/customers.md) | [\[CV\]](beam-annotations.md#t-cv) | One row for each person who is a customer |" in notitle(index)
 
 
 def test_lint_beam(shop_csv, tmp_path):
@@ -138,3 +138,27 @@ def test_lint_beam(shop_csv, tmp_path):
     assert "error: column does not exist" in text
     assert "warning: say why" in text
     assert "marked ? (suspect) but no open question" in text
+
+
+def test_every_code_and_measure_has_hover_text(shop_csv, tmp_path):
+    from bijoe import wiki
+    # every anchor on the reference page gives a hover text
+    anchors = re.findall(r'<a id="([^"]+)"></a>', beam.ASSET.read_text(encoding="utf-8"))
+    hover = beam._load_hover()
+    assert anchors and all(hover.get(a) for a in anchors if a != "c-unavailable")
+    c = beam.parse("BK", "column")
+    assert beam.explain(c).startswith("Business Key:") and beam.explain(c, suggested=True).endswith("(Suggested by AI.)")
+    assert "(Measured from the data.)" in beam.explain(beam.parse("C9", "column"))
+    assert beam.explain(beam.parse("~~MD~~", "column")).startswith("Not met by the data.")
+    assert 'title="Current Value:' in beam.links_html(["CV"], "table")
+    assert '"Current Value:' in beam.links(["CV"], "table")  # Markdown links carry it as a link title
+    # the matrix labels explain themselves
+    out = tmp_path / "wiki"
+    main(["profile", str(shop_csv), "--out", str(out)])
+    story = (out / "data-stories" / "customers.md").read_text(encoding="utf-8")
+    for label in wiki.MEASURE_HELP:
+        shown = label if label != "Variation Missing" else "Missing"
+        assert f'title="{wiki.MEASURE_HELP[label]}"'.replace("&", "&amp;") in story.replace("&#x27;", "'") or shown in story
+    for label, text in wiki.GROUP_HELP.items():
+        assert text in story
+    assert story.count("Min Count") >= 1 and 'cursor:help' in story

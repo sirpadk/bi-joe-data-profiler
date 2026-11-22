@@ -17,15 +17,22 @@ def property_rows(page: str) -> Dict[str, str]:
 
 def matrix(page: str) -> List[Dict[str, Any]]:
     """The columns matrix as a list of rows: {"label", "group", "cells": [(attrs, content)]}."""
-    m = re.search(r'<table style="border-collapse:separate.*?</table>', page, re.S)
+    m = re.search(r'<table style="border-collapse:separate.*?</table>\s*</div>', page, re.S)
     assert m, "no columns matrix found"
+    # the mini histograms are tables inside cells: leave them out when reading the matrix rows
+    nested = re.sub(r'<table style="border-collapse:collapse;border:0.*?</table>', "", m.group(0), flags=re.S)
     rows: List[Dict[str, Any]] = []
     group: Optional[str] = None
     remaining = 0
-    for tr in re.findall(r"<tr>(.*?)</tr>", m.group(0), re.S):
+    for tr in re.findall(r"<tr>(.*?)</tr>", nested, re.S):
         cells = [(a, c) for _, a, c in re.findall(r"<(td|th)\b([^>]*)>(.*?)</\1>", tr, re.S)]
         i = 0
-        if "colspan=\"2\"" in cells[0][0]:
+        if "background:transparent" in cells[0][0]:  # the empty corner above the group column
+            cells = cells[1:]
+            label_row = True
+        else:
+            label_row = False
+        if label_row or (len(rows) < 3 and "rowspan" not in cells[0][0]):
             label, data, row_group = strip(cells[0][1]), cells[1:], None
         else:
             if "rowspan" in cells[0][0]:
@@ -57,3 +64,9 @@ def headings(page: str) -> List[str]:
         elif not fenced and re.match(r"^#{1,6} ", line):
             out.append(line.lstrip("#").strip())
     return out
+
+
+def notitle(s: str) -> str:
+    """Drop the hover text (title="...") so assertions can focus on links and structure."""
+    s = re.sub(r' title="[^"]*"', "", s)
+    return re.sub(r'(\]\([^)\s"]+) "[^"]*"\)', lambda m: m.group(1) + ")", s)  # Markdown link titles

@@ -46,6 +46,68 @@ MEASURED_ONLY = DATA_TYPES | {"ND", "NN", "PK", "FK"}
 _CODE_RE = re.compile(r"^([A-Z]+)(\d+(?:[.,]\d+)*)?$")
 
 
+
+# ---- hover text: the reference page is the single source for what each code means ------------
+
+_ROW_RE = re.compile(r'<a id="([^"]+)"></a>(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|')
+_hover: Dict[str, str] = {}
+
+
+def _plain(text: str) -> str:
+    text = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"", text)  # [label](url) -> label
+    text = re.sub(r"<[^>]+>", "", text)
+    text = text.replace("**", "").replace("*", "").replace("`", "").replace("~~", "").replace("\\", "")
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def _shorten(text: str, limit: int = 230) -> str:
+    if len(text) <= limit:
+        return text
+    cut = text[:limit]
+    end = cut.rfind(". ")
+    return cut[: end + 1] if end > 60 else cut.rsplit(" ", 1)[0].rstrip(" ,;") + "…"
+
+
+def _load_hover() -> Dict[str, str]:
+    if _hover:
+        return _hover
+    try:
+        lines = ASSET.read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return _hover
+    for line in lines:
+        m = _ROW_RE.search(line)
+        if not m:
+            continue
+        anchor, name, second, third = m.group(1), _plain(m.group(2)), _plain(m.group(3)), _plain(m.group(4))
+        if anchor.startswith("w-"):  # the 7Ws: code | question | examples
+            _hover[anchor] = f"{name}: {second} For example {third}."
+        else:  # code | name | what it means | chapters
+            _hover[anchor] = f"{second}: {third}" if third else second
+    _hover.setdefault("c-unavailable", "Not met: the data does not support this code.")
+    return _hover
+
+
+def explain(code: "Code", suggested: bool = False) -> str:
+    """Short hover text for a code: its name and meaning from the reference page."""
+    hover = _load_hover()
+    key = f"c-{code.base.lower()}" if code.struck else code.anchor
+    text = _shorten(hover.get(key) or hover.get(code.anchor, ""))
+    if not text:
+        return ""
+    if code.struck:
+        text = f"Not met by the data. {text}"
+    if suggested:
+        text += " (Suggested by AI.)"
+    elif code.base in MEASURED_ONLY:
+        text += " (Measured from the data.)"
+    return text
+
+
+def _title(text: str) -> str:
+    return f' title="{html.escape(text, quote=True)}"' if text else ""
+
+
 @dataclass(frozen=True)
 class Code:
     text: str  # as written, e.g. "C30", "[who]", "~~MD~~"
@@ -55,7 +117,8 @@ class Code:
 
     def link(self, prefix: str = "") -> str:
         label = self.text.replace("[", "\\[").replace("]", "\\]")
-        return f"[{label}]({prefix}{PAGE}#{self.anchor})"
+        tip = explain(self).replace('"', "'")
+        return f"[{label}]({prefix}{PAGE}#{self.anchor}" + (f' "{tip}")' if tip else ")")
 
 
 def parse(token: str, scope: str, table_names: Iterable[str] = ()) -> Optional[Code]:
@@ -115,7 +178,7 @@ def _html_label(code: Code) -> str:
 
 
 def code_html(code: Code, prefix: str = "", italic: bool = False) -> str:
-    link = f'<a href="{prefix}{PAGE}#{code.anchor}">{_html_label(code)}</a>'
+    link = f'<a href="{prefix}{PAGE}#{code.anchor}"{_title(explain(code, suggested=italic))}>{_html_label(code)}</a>'
     return f"<i>{link}</i>" if italic else link
 
 
@@ -165,7 +228,7 @@ def link_prose_html(text: str, prefix: str = "") -> str:
                 return m.group(0)
         if len(codes) == 1:
             return code_html(codes[0], prefix)
-        inner = ", ".join(f'<a href="{prefix}{PAGE}#{c.anchor}">{c.text.strip("[]")}</a>' for c in codes)
+        inner = ", ".join(f'<a href="{prefix}{PAGE}#{c.anchor}"{_title(explain(c))}>{c.text.strip("[]")}</a>' for c in codes)
         return f"[{inner}]"
 
     return _PROSE_RE.sub(repl, text)

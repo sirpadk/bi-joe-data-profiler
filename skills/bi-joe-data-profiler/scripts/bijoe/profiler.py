@@ -14,9 +14,11 @@ import math
 import random
 import re
 from collections import Counter
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
 
 from .connectors.base import Connector, TableInfo
+from . import distribution
+from . import pii as pii_mod
 from .keys import KEY_ROW_CAP, measure_keys
 
 INT_RE = re.compile(r"^[+-]?\d+$")
@@ -54,6 +56,9 @@ PLACEHOLDERS = {"n/a", "na", "#n/a", "null", "none", "nil", "unknown", "missing"
                 "not applicable", "not available", "tbd", "(blank)", "blank", "empty"}
 MAX_VALUE_CHARS = 60
 MAX_KEY_CHARS = 200
+HIST_CAP = 200_000  # values kept per column to draw its distribution
+_NOMINAL = ("zip", "postal", "postcode", "postnr", "areacode")
+_NOT_CHARTED = ("id", "key", "no", "nr", "number", "num", "ref", "sku", "ssn", "vat", "cvr", "uuid", "guid")
 
 
 def _to_naive(value: dt.datetime) -> dt.datetime:
@@ -65,8 +70,9 @@ def _to_naive(value: dt.datetime) -> dt.datetime:
 class ColumnStats:
     def __init__(self, name: str, position: int, declared_type: Optional[str] = None,
                  comment: Optional[str] = None, primary_key: bool = False,
-                 nullable: Optional[bool] = None) -> None:
+                 nullable: Optional[bool] = None, force_pii: bool = False) -> None:
         self.name = name
+        self.force_pii = force_pii
         self.position = position
         self.declared_type = declared_type
         self.comment = comment
@@ -94,6 +100,8 @@ class ColumnStats:
         self.t_max: Optional[dt.datetime] = None
         self.len_min: Optional[int] = None
         self.len_max: Optional[int] = None
+        self._nums: List[float] = []  # numbers and dates (as day numbers) for the distribution
+        self._days: List[int] = []
 
     # ---- classification ----------------------------------------------------
     def _try_formats(self, s: str, formats: List[str]) -> Optional[Tuple[dt.datetime, str]]:
@@ -204,6 +212,8 @@ class ColumnStats:
             self.num_max = value if self.num_max is None else max(self.num_max, value)
             self.num_sum += float(value)
             self.num_count += 1
+            if len(self._nums) < HIST_CAP:
+                self._nums.append(float(value))
         elif kind in ("date", "datetime"):
             if self.t_min is None or value < self.t_min:
                 self.min_key = key[:MAX_KEY_CHARS]
@@ -211,6 +221,30 @@ class ColumnStats:
                 self.max_key = key[:MAX_KEY_CHARS]
             self.t_min = value if self.t_min is None else min(self.t_min, value)
             self.t_max = value if self.t_max is None else max(self.t_max, value)
+            if len(self._days) < HIST_CAP:
+                self._days.append(value.toordinal())
+
+    # ---- distribution --------------------------------------------------------
+    def _distribution(self, inferred: str, personal: Optional[Dict[str, str]], non_missing: int,
+                      include_values: bool) -> Optional[Dict[str, Any]]:
+        if inferred in ("empty", "binary", "time") or non_missing < 2 or len(self.values) < 2:
+            return None
+        top_share = round(100 * max(self.values.values()) / non_missing, 1)
+        if personal:
+            if personal["class"] == "birth date" and inferred in ("date", "datetime"):
+                return distribution.dates(self._days, decades_only=True)
+            return {"kind": "none", "reason": "personal data", "top_share_pct": top_share}  # never a value
+        if len(self.values) == non_missing:
+            return None  # every value is different: a key, not a distribution
+        idlike = pii_mod._norm(self.name).endswith(_NOT_CHARTED)
+        nominal = any(h in pii_mod._norm(self.name) for h in _NOMINAL)  # numbers that are labels, not quantities
+        if inferred in ("integer", "decimal") and not nominal:
+            return None if idlike else distribution.numeric(self._nums, inferred == "integer")
+        if inferred in ("date", "datetime"):
+            return distribution.dates(self._days)
+        if (inferred in ("text", "boolean") or nominal) and include_values and not idlike:
+            return distribution.categories(self.values, non_missing)
+        return None
 
     # ---- results -----------------------------------------------------------
     def result(self, include_values: bool = True) -> Dict[str, Any]:
@@ -233,6 +267,10 @@ class ColumnStats:
             if inferred != "text":
                 fits = sum(types[x] for x in COMPATIBLE[inferred])
                 consistency = fits / non_missing
+        personal: Optional[Dict[str, str]] = None
+        if non_missing:
+            personal = ({"class": "personal data", "reason": "the user asked for it to be masked"} if self.force_pii
+                        else pii_mod.classify(self.name, inferred, self.values.keys()))
         allowed = COMPATIBLE.get(inferred, {inferred})
         unexpected = {k for k in types if k not in allowed}
         out: Dict[str, Any] = {
@@ -252,7 +290,18 @@ class ColumnStats:
             "blank_count": self.blanks,
             "distinct_count": len(self.values),
             "all_values_unique": bool(non_missing) and len(self.values) == non_missing,
+            "pii": personal,
+            "distribution": self._distribution(inferred, personal, non_missing, include_values),
         }
+        if personal:
+            # Personal data: keep only what is not personal (counts, gaps, lengths). Never a value.
+            if inferred in ("text", "integer", "decimal") and self.len_min is not None:
+                out["min_length"], out["max_length"] = self.len_min, self.len_max
+            if personal["class"] == "birth date" and self.t_min is not None:
+                out["min_value"], out["max_value"] = str(self.t_min.year), str(self.t_max.year)  # years only
+            if self.padded:
+                out["whitespace_padded_count"] = self.padded
+            return {k: v for k, v in out.items() if v is not None}
         if inferred in ("integer", "decimal") and self.num_count:
             out["min"] = self.num_min
             out["max"] = self.num_max
@@ -319,10 +368,11 @@ def profile_table(connector: Connector, table: str, sample_rows: int, include_va
 
 
 def _profile_table(connector: Connector, table: str, sample_rows: int, include_values: bool = True,
-                   info: Optional[TableInfo] = None) -> Tuple[Dict[str, Any], List[ColumnStats]]:
+                   info: Optional[TableInfo] = None, mask: Sequence[Tuple[str, str]] = ()) -> Tuple[Dict[str, Any], List[ColumnStats]]:
     info = info or connector.describe_table(table)
     stats = [
-        ColumnStats(c.name, i + 1, c.declared_type, c.comment, c.primary_key, c.nullable)
+        ColumnStats(c.name, i + 1, c.declared_type, c.comment, c.primary_key, c.nullable,
+                    force_pii=(table.lower(), c.name.lower()) in mask)
         for i, c in enumerate(info.columns)
     ]
     width = len(stats)
@@ -359,6 +409,11 @@ def _profile_table(connector: Connector, table: str, sample_rows: int, include_v
         for col, value in zip(stats, row):
             col.add(value)
     row_count = info.row_count if info.row_count is not None else total
+    columns = [c.result(include_values) for c in stats]
+    masked = [bool(c.get("pii")) for c in columns]
+    for c in columns:
+        if c.get("distribution") is not None and profiled < (info.row_count if info.row_count is not None else total):
+            c["distribution"]["sampled"] = True
     result: Dict[str, Any] = {
         "name": table,
         "comment": info.comment,
@@ -369,8 +424,9 @@ def _profile_table(connector: Connector, table: str, sample_rows: int, include_v
         "duplicate_rows": duplicates,
         "ragged_rows": ragged or None,
         "details": info.details or None,
-        "columns": [c.result(include_values) for c in stats],
-        "sample_rows": [[_cell_text(v) for v in r] for _, r in sorted(reservoir, key=lambda x: x[0])] or None,
+        "columns": columns,
+        "sample_rows": [[pii_mod.MASK if hide and v is not None else _cell_text(v) for v, hide in zip(r, masked)]
+                        for _, r in sorted(reservoir, key=lambda x: x[0])] or None,
     }
     result["keys"] = measure_keys(result, kept)
     return {k: v for k, v in result.items() if v is not None}, stats
@@ -432,8 +488,8 @@ def find_relationships(profiled: List[Tuple[Dict[str, Any], List[ColumnStats]]],
 
 
 def profile_dataset(connector: Connector, tables: Optional[List[str]] = None, sample_rows: int = 100_000,
-                    include_values: bool = True, progress: Optional[Callable[[str], None]] = None
-                    ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
+                    include_values: bool = True, progress: Optional[Callable[[str], None]] = None,
+                    mask: Sequence[Tuple[str, str]] = ()) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
     names = connector.list_tables()
     if tables:
         wanted = {t.lower() for t in tables}
@@ -442,7 +498,7 @@ def profile_dataset(connector: Connector, tables: Optional[List[str]] = None, sa
     for name in names:
         if progress:
             progress(name)
-        profiled.append(_profile_table(connector, name, sample_rows, include_values))
+        profiled.append(_profile_table(connector, name, sample_rows, include_values, mask=mask))
     return [t for t, _ in profiled], find_relationships(profiled)
 
 

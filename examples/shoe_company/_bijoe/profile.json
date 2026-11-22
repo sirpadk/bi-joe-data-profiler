@@ -1,16 +1,17 @@
 {
   "bijoe_version": "0.1.0",
   "schema_version": 2,
-  "generated_at": "2026-11-22T12:26:25+00:00",
+  "generated_at": "2026-11-22T18:24:51+00:00",
   "dataset": {
-    "name": "Shoe company",
+    "name": "Shoe Company",
     "source": "shoe_company.xlsx",
     "source_type": "files",
     "connector": "excel"
   },
   "settings": {
     "sample_rows": 100000,
-    "include_values": true
+    "include_values": true,
+    "theme": "light-gray"
   },
   "tables": [
     {
@@ -78,38 +79,17 @@
           "blank_count": 0,
           "distinct_count": 30,
           "all_values_unique": false,
-          "min_length": 3,
-          "max_length": 9,
-          "min_value": "Ariel",
-          "min_count": 9,
-          "max_value": "Zoe",
-          "max_count": 4,
-          "rare_value": {
-            "value": "Sofia",
-            "count": 3
+          "pii": {
+            "class": "person name",
+            "reason": "the column name"
           },
-          "top_values": [
-            {
-              "value": "Olivia",
-              "count": 11
-            },
-            {
-              "value": "Linda",
-              "count": 10
-            },
-            {
-              "value": "Mary",
-              "count": 9
-            },
-            {
-              "value": "Ethan",
-              "count": 9
-            },
-            {
-              "value": "Tamar",
-              "count": 9
-            }
-          ]
+          "distribution": {
+            "kind": "none",
+            "reason": "personal data",
+            "top_share_pct": 5.5
+          },
+          "min_length": 3,
+          "max_length": 9
         },
         {
           "name": "LastName",
@@ -121,38 +101,17 @@
           "blank_count": 0,
           "distinct_count": 24,
           "all_values_unique": false,
-          "min_length": 3,
-          "max_length": 8,
-          "min_value": "Anderson",
-          "min_count": 10,
-          "max_value": "Young",
-          "max_count": 7,
-          "rare_value": {
-            "value": "Clark",
-            "count": 4
+          "pii": {
+            "class": "person name",
+            "reason": "the column name"
           },
-          "top_values": [
-            {
-              "value": "Lopez",
-              "count": 15
-            },
-            {
-              "value": "Martinez",
-              "count": 14
-            },
-            {
-              "value": "Taylor",
-              "count": 13
-            },
-            {
-              "value": "Martin",
-              "count": 13
-            },
-            {
-              "value": "Moore",
-              "count": 13
-            }
-          ]
+          "distribution": {
+            "kind": "none",
+            "reason": "personal data",
+            "top_share_pct": 7.5
+          },
+          "min_length": 3,
+          "max_length": 8
         },
         {
           "name": "Email",
@@ -164,38 +123,17 @@
           "blank_count": 0,
           "distinct_count": 200,
           "all_values_unique": true,
-          "min_length": 21,
-          "max_length": 31,
-          "min_value": "ariel.brown50@mail.test",
-          "min_count": 1,
-          "max_value": "zoe.williams30@sample.org",
-          "max_count": 1,
-          "rare_value": {
-            "value": "ariel.brown50@mail.test",
-            "count": 1
+          "pii": {
+            "class": "email",
+            "reason": "the column name"
           },
-          "top_values": [
-            {
-              "value": "olivia.thomas69@mail.test",
-              "count": 1
-            },
-            {
-              "value": "mary.martinez91@mail.test",
-              "count": 1
-            },
-            {
-              "value": "robert.anderson10@mail.test",
-              "count": 1
-            },
-            {
-              "value": "john.davis37@example.com",
-              "count": 1
-            },
-            {
-              "value": "elizabeth.lopez19@example.com",
-              "count": 1
-            }
-          ]
+          "distribution": {
+            "kind": "none",
+            "reason": "personal data",
+            "top_share_pct": 0.5
+          },
+          "min_length": 21,
+          "max_length": 31
         },
         {
           "name": "Phone",
@@ -207,38 +145,17 @@
           "blank_count": 0,
           "distinct_count": 200,
           "all_values_unique": true,
-          "min_length": 14,
-          "max_length": 14,
-          "min_value": "(555) 104-5076",
-          "min_count": 1,
-          "max_value": "(555) 998-4522",
-          "max_count": 1,
-          "rare_value": {
-            "value": "(555) 104-5076",
-            "count": 1
+          "pii": {
+            "class": "phone",
+            "reason": "the column name"
           },
-          "top_values": [
-            {
-              "value": "(555) 453-6446",
-              "count": 1
-            },
-            {
-              "value": "(555) 495-3492",
-              "count": 1
-            },
-            {
-              "value": "(555) 900-5342",
-              "count": 1
-            },
-            {
-              "value": "(555) 864-2480",
-              "count": 1
-            },
-            {
-              "value": "(555) 643-7751",
-              "count": 1
-            }
-          ]
+          "distribution": {
+            "kind": "none",
+            "reason": "personal data",
+            "top_share_pct": 0.5
+          },
+          "min_length": 14,
+          "max_length": 14
         },
         {
           "name": "Gender",
@@ -250,6 +167,36 @@
           "blank_count": 0,
           "distinct_count": 3,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "M",
+                "from": "M",
+                "to": "M",
+                "count": 72,
+                "pct": 36.0
+              },
+              {
+                "label": "F",
+                "from": "F",
+                "to": "F",
+                "count": 65,
+                "pct": 32.5
+              },
+              {
+                "label": "Other",
+                "from": "Other",
+                "to": "Other",
+                "count": 63,
+                "pct": 31.5
+              }
+            ],
+            "values": 200,
+            "distinct": 3,
+            "shape": "evenly spread",
+            "top_share_pct": 36.0
+          },
           "min_length": 1,
           "max_length": 5,
           "min_value": "F",
@@ -285,38 +232,66 @@
           "blank_count": 0,
           "distinct_count": 199,
           "all_values_unique": false,
-          "min": "1955-05-14",
-          "max": "2008-08-26",
-          "min_value": "1955-05-14",
-          "min_count": 1,
-          "max_value": "2008-08-26",
-          "max_count": 1,
-          "rare_value": {
-            "value": "1955-05-14",
-            "count": 1
+          "pii": {
+            "class": "birth date",
+            "reason": "the column name"
           },
-          "top_values": [
-            {
-              "value": "1979-07-20",
-              "count": 2
-            },
-            {
-              "value": "2003-09-13",
-              "count": 1
-            },
-            {
-              "value": "1957-03-17",
-              "count": 1
-            },
-            {
-              "value": "1994-12-13",
-              "count": 1
-            },
-            {
-              "value": "1961-11-23",
-              "count": 1
-            }
-          ]
+          "distribution": {
+            "kind": "time",
+            "unit": "decade",
+            "bins": [
+              {
+                "label": "1950s",
+                "from": "1950s",
+                "to": "1950s",
+                "count": 11,
+                "pct": 5.5
+              },
+              {
+                "label": "1960s",
+                "from": "1960s",
+                "to": "1960s",
+                "count": 37,
+                "pct": 18.5
+              },
+              {
+                "label": "1970s",
+                "from": "1970s",
+                "to": "1970s",
+                "count": 37,
+                "pct": 18.5
+              },
+              {
+                "label": "1980s",
+                "from": "1980s",
+                "to": "1980s",
+                "count": 40,
+                "pct": 20.0
+              },
+              {
+                "label": "1990s",
+                "from": "1990s",
+                "to": "1990s",
+                "count": 42,
+                "pct": 21.0
+              },
+              {
+                "label": "2000s",
+                "from": "2000s",
+                "to": "2000s",
+                "count": 33,
+                "pct": 16.5
+              }
+            ],
+            "values": 200,
+            "shape": "symmetric",
+            "skewness": -0.09,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 21.0
+          },
+          "min_value": "1955",
+          "max_value": "2008"
         },
         {
           "name": "Address",
@@ -328,38 +303,17 @@
           "blank_count": 0,
           "distinct_count": 200,
           "all_values_unique": true,
-          "min_length": 10,
-          "max_length": 13,
-          "min_value": "1009 Oak Ave",
-          "min_count": 1,
-          "max_value": "9894 Main St",
-          "max_count": 1,
-          "rare_value": {
-            "value": "1009 Oak Ave",
-            "count": 1
+          "pii": {
+            "class": "address",
+            "reason": "the column name"
           },
-          "top_values": [
-            {
-              "value": "7470 Elm St",
-              "count": 1
-            },
-            {
-              "value": "9679 Elm St",
-              "count": 1
-            },
-            {
-              "value": "1325 Elm St",
-              "count": 1
-            },
-            {
-              "value": "1656 Lake Rd",
-              "count": 1
-            },
-            {
-              "value": "2878 Oak Ave",
-              "count": 1
-            }
-          ]
+          "distribution": {
+            "kind": "none",
+            "reason": "personal data",
+            "top_share_pct": 0.5
+          },
+          "min_length": 10,
+          "max_length": 13
         },
         {
           "name": "City",
@@ -371,6 +325,93 @@
           "blank_count": 0,
           "distinct_count": 12,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Seattle",
+                "from": "Seattle",
+                "to": "Seattle",
+                "count": 27,
+                "pct": 13.5
+              },
+              {
+                "label": "Chicago",
+                "from": "Chicago",
+                "to": "Chicago",
+                "count": 22,
+                "pct": 11.0
+              },
+              {
+                "label": "Portland",
+                "from": "Portland",
+                "to": "Portland",
+                "count": 21,
+                "pct": 10.5
+              },
+              {
+                "label": "Atlanta",
+                "from": "Atlanta",
+                "to": "Atlanta",
+                "count": 21,
+                "pct": 10.5
+              },
+              {
+                "label": "Austin",
+                "from": "Austin",
+                "to": "Austin",
+                "count": 19,
+                "pct": 9.5
+              },
+              {
+                "label": "Miami",
+                "from": "Miami",
+                "to": "Miami",
+                "count": 17,
+                "pct": 8.5
+              },
+              {
+                "label": "Phoenix",
+                "from": "Phoenix",
+                "to": "Phoenix",
+                "count": 16,
+                "pct": 8.0
+              },
+              {
+                "label": "Denver",
+                "from": "Denver",
+                "to": "Denver",
+                "count": 14,
+                "pct": 7.0
+              },
+              {
+                "label": "New York",
+                "from": "New York",
+                "to": "New York",
+                "count": 12,
+                "pct": 6.0
+              },
+              {
+                "label": "Boston",
+                "from": "Boston",
+                "to": "Boston",
+                "count": 11,
+                "pct": 5.5
+              },
+              {
+                "label": "Other (2 values)",
+                "from": null,
+                "to": null,
+                "count": 20,
+                "pct": 10.0,
+                "other_group": true
+              }
+            ],
+            "values": 200,
+            "distinct": 12,
+            "shape": "mixed",
+            "top_share_pct": 13.5
+          },
           "min_length": 5,
           "max_length": 11,
           "min_value": "Atlanta",
@@ -414,6 +455,93 @@
           "blank_count": 0,
           "distinct_count": 11,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "TX",
+                "from": "TX",
+                "to": "TX",
+                "count": 29,
+                "pct": 14.5
+              },
+              {
+                "label": "WA",
+                "from": "WA",
+                "to": "WA",
+                "count": 27,
+                "pct": 13.5
+              },
+              {
+                "label": "IL",
+                "from": "IL",
+                "to": "IL",
+                "count": 22,
+                "pct": 11.0
+              },
+              {
+                "label": "OR",
+                "from": "OR",
+                "to": "OR",
+                "count": 21,
+                "pct": 10.5
+              },
+              {
+                "label": "GA",
+                "from": "GA",
+                "to": "GA",
+                "count": 21,
+                "pct": 10.5
+              },
+              {
+                "label": "FL",
+                "from": "FL",
+                "to": "FL",
+                "count": 17,
+                "pct": 8.5
+              },
+              {
+                "label": "AZ",
+                "from": "AZ",
+                "to": "AZ",
+                "count": 16,
+                "pct": 8.0
+              },
+              {
+                "label": "CO",
+                "from": "CO",
+                "to": "CO",
+                "count": 14,
+                "pct": 7.0
+              },
+              {
+                "label": "NY",
+                "from": "NY",
+                "to": "NY",
+                "count": 12,
+                "pct": 6.0
+              },
+              {
+                "label": "MA",
+                "from": "MA",
+                "to": "MA",
+                "count": 11,
+                "pct": 5.5
+              },
+              {
+                "label": "Other (1 values)",
+                "from": null,
+                "to": null,
+                "count": 10,
+                "pct": 5.0,
+                "other_group": true
+              }
+            ],
+            "values": 200,
+            "distinct": 11,
+            "shape": "mixed",
+            "top_share_pct": 14.5
+          },
           "min_length": 2,
           "max_length": 2,
           "min_value": "AZ",
@@ -501,6 +629,263 @@
           "blank_count": 0,
           "distinct_count": 194,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "time",
+            "unit": "quarter",
+            "bins": [
+              {
+                "label": "2018 Q1",
+                "from": "2018 Q1",
+                "to": "2018 Q1",
+                "count": 3,
+                "pct": 1.5
+              },
+              {
+                "label": "2018 Q2",
+                "from": "2018 Q2",
+                "to": "2018 Q2",
+                "count": 6,
+                "pct": 3.0
+              },
+              {
+                "label": "2018 Q3",
+                "from": "2018 Q3",
+                "to": "2018 Q3",
+                "count": 7,
+                "pct": 3.5
+              },
+              {
+                "label": "2018 Q4",
+                "from": "2018 Q4",
+                "to": "2018 Q4",
+                "count": 2,
+                "pct": 1.0
+              },
+              {
+                "label": "2019 Q1",
+                "from": "2019 Q1",
+                "to": "2019 Q1",
+                "count": 8,
+                "pct": 4.0
+              },
+              {
+                "label": "2019 Q2",
+                "from": "2019 Q2",
+                "to": "2019 Q2",
+                "count": 6,
+                "pct": 3.0
+              },
+              {
+                "label": "2019 Q3",
+                "from": "2019 Q3",
+                "to": "2019 Q3",
+                "count": 4,
+                "pct": 2.0
+              },
+              {
+                "label": "2019 Q4",
+                "from": "2019 Q4",
+                "to": "2019 Q4",
+                "count": 7,
+                "pct": 3.5
+              },
+              {
+                "label": "2020 Q1",
+                "from": "2020 Q1",
+                "to": "2020 Q1",
+                "count": 4,
+                "pct": 2.0
+              },
+              {
+                "label": "2020 Q2",
+                "from": "2020 Q2",
+                "to": "2020 Q2",
+                "count": 5,
+                "pct": 2.5
+              },
+              {
+                "label": "2020 Q3",
+                "from": "2020 Q3",
+                "to": "2020 Q3",
+                "count": 2,
+                "pct": 1.0
+              },
+              {
+                "label": "2020 Q4",
+                "from": "2020 Q4",
+                "to": "2020 Q4",
+                "count": 2,
+                "pct": 1.0
+              },
+              {
+                "label": "2021 Q1",
+                "from": "2021 Q1",
+                "to": "2021 Q1",
+                "count": 3,
+                "pct": 1.5
+              },
+              {
+                "label": "2021 Q2",
+                "from": "2021 Q2",
+                "to": "2021 Q2",
+                "count": 6,
+                "pct": 3.0
+              },
+              {
+                "label": "2021 Q3",
+                "from": "2021 Q3",
+                "to": "2021 Q3",
+                "count": 5,
+                "pct": 2.5
+              },
+              {
+                "label": "2021 Q4",
+                "from": "2021 Q4",
+                "to": "2021 Q4",
+                "count": 4,
+                "pct": 2.0
+              },
+              {
+                "label": "2022 Q1",
+                "from": "2022 Q1",
+                "to": "2022 Q1",
+                "count": 6,
+                "pct": 3.0
+              },
+              {
+                "label": "2022 Q2",
+                "from": "2022 Q2",
+                "to": "2022 Q2",
+                "count": 4,
+                "pct": 2.0
+              },
+              {
+                "label": "2022 Q3",
+                "from": "2022 Q3",
+                "to": "2022 Q3",
+                "count": 4,
+                "pct": 2.0
+              },
+              {
+                "label": "2022 Q4",
+                "from": "2022 Q4",
+                "to": "2022 Q4",
+                "count": 3,
+                "pct": 1.5
+              },
+              {
+                "label": "2023 Q1",
+                "from": "2023 Q1",
+                "to": "2023 Q1",
+                "count": 7,
+                "pct": 3.5
+              },
+              {
+                "label": "2023 Q2",
+                "from": "2023 Q2",
+                "to": "2023 Q2",
+                "count": 9,
+                "pct": 4.5
+              },
+              {
+                "label": "2023 Q3",
+                "from": "2023 Q3",
+                "to": "2023 Q3",
+                "count": 3,
+                "pct": 1.5
+              },
+              {
+                "label": "2023 Q4",
+                "from": "2023 Q4",
+                "to": "2023 Q4",
+                "count": 5,
+                "pct": 2.5
+              },
+              {
+                "label": "2024 Q1",
+                "from": "2024 Q1",
+                "to": "2024 Q1",
+                "count": 5,
+                "pct": 2.5
+              },
+              {
+                "label": "2024 Q2",
+                "from": "2024 Q2",
+                "to": "2024 Q2",
+                "count": 7,
+                "pct": 3.5
+              },
+              {
+                "label": "2024 Q3",
+                "from": "2024 Q3",
+                "to": "2024 Q3",
+                "count": 6,
+                "pct": 3.0
+              },
+              {
+                "label": "2024 Q4",
+                "from": "2024 Q4",
+                "to": "2024 Q4",
+                "count": 5,
+                "pct": 2.5
+              },
+              {
+                "label": "2025 Q1",
+                "from": "2025 Q1",
+                "to": "2025 Q1",
+                "count": 6,
+                "pct": 3.0
+              },
+              {
+                "label": "2025 Q2",
+                "from": "2025 Q2",
+                "to": "2025 Q2",
+                "count": 9,
+                "pct": 4.5
+              },
+              {
+                "label": "2025 Q3",
+                "from": "2025 Q3",
+                "to": "2025 Q3",
+                "count": 7,
+                "pct": 3.5
+              },
+              {
+                "label": "2025 Q4",
+                "from": "2025 Q4",
+                "to": "2025 Q4",
+                "count": 10,
+                "pct": 5.0
+              },
+              {
+                "label": "2026 Q1",
+                "from": "2026 Q1",
+                "to": "2026 Q1",
+                "count": 10,
+                "pct": 5.0
+              },
+              {
+                "label": "2026 Q2",
+                "from": "2026 Q2",
+                "to": "2026 Q2",
+                "count": 11,
+                "pct": 5.5
+              },
+              {
+                "label": "2026 Q3",
+                "from": "2026 Q3",
+                "to": "2026 Q3",
+                "count": 9,
+                "pct": 4.5
+              }
+            ],
+            "values": 200,
+            "shape": "bimodal",
+            "skewness": -0.26,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 5.5
+          },
           "min": "2018-01-26",
           "max": "2026-09-17",
           "min_value": "2018-01-26",
@@ -544,6 +929,43 @@
           "blank_count": 0,
           "distinct_count": 4,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Gold",
+                "from": "Gold",
+                "to": "Gold",
+                "count": 59,
+                "pct": 29.5
+              },
+              {
+                "label": "Platinum",
+                "from": "Platinum",
+                "to": "Platinum",
+                "count": 49,
+                "pct": 24.5
+              },
+              {
+                "label": "Bronze",
+                "from": "Bronze",
+                "to": "Bronze",
+                "count": 47,
+                "pct": 23.5
+              },
+              {
+                "label": "Silver",
+                "from": "Silver",
+                "to": "Silver",
+                "count": 45,
+                "pct": 22.5
+              }
+            ],
+            "values": 200,
+            "distinct": 4,
+            "shape": "evenly spread",
+            "top_share_pct": 29.5
+          },
           "min_length": 4,
           "max_length": 8,
           "min_value": "Bronze",
@@ -626,6 +1048,79 @@
           "blank_count": 0,
           "distinct_count": 40,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "numeric",
+            "bins": [
+              {
+                "label": "0–4",
+                "from": 0,
+                "to": 5,
+                "count": 17,
+                "pct": 8.5
+              },
+              {
+                "label": "5–9",
+                "from": 5,
+                "to": 10,
+                "count": 21,
+                "pct": 10.5
+              },
+              {
+                "label": "10–14",
+                "from": 10,
+                "to": 15,
+                "count": 31,
+                "pct": 15.5
+              },
+              {
+                "label": "15–19",
+                "from": 15,
+                "to": 20,
+                "count": 23,
+                "pct": 11.5
+              },
+              {
+                "label": "20–24",
+                "from": 20,
+                "to": 25,
+                "count": 20,
+                "pct": 10.0
+              },
+              {
+                "label": "25–29",
+                "from": 25,
+                "to": 30,
+                "count": 28,
+                "pct": 14.0
+              },
+              {
+                "label": "30–34",
+                "from": 30,
+                "to": 35,
+                "count": 31,
+                "pct": 15.5
+              },
+              {
+                "label": "35–39",
+                "from": 35,
+                "to": 40,
+                "count": 29,
+                "pct": 14.5
+              }
+            ],
+            "bin_width": 5,
+            "values": 200,
+            "shape": "uniform",
+            "skewness": -0.08,
+            "median": 21.0,
+            "q1": 12.0,
+            "q3": 31.0,
+            "iqr": 19.0,
+            "outliers": null,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 4.0
+          },
           "min": 1,
           "max": 40,
           "mean": 21.145,
@@ -716,6 +1211,29 @@
           "blank_count": 0,
           "distinct_count": 2,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "True",
+                "from": "True",
+                "to": "True",
+                "count": 127,
+                "pct": 63.5
+              },
+              {
+                "label": "False",
+                "from": "False",
+                "to": "False",
+                "count": 73,
+                "pct": 36.5
+              }
+            ],
+            "values": 200,
+            "distinct": 2,
+            "shape": "one dominant value",
+            "top_share_pct": 63.5
+          },
           "min_value": "False",
           "min_count": 73,
           "max_value": "True",
@@ -739,13 +1257,13 @@
       "sample_rows": [
         [
           "C00021",
-          "Yael",
-          "Lopez",
-          "yael.lopez55@sample.org",
-          "(555) 152-5712",
+          "••••",
+          "••••",
+          "••••",
+          "••••",
           "Other",
-          "1974-06-04",
-          "9478 Hill St",
+          "••••",
+          "••••",
           "Austin",
           "TX",
           "37884",
@@ -758,13 +1276,13 @@
         ],
         [
           "C00113",
-          "Omar",
-          "Walker",
-          "omar.walker88@mail.test",
-          "(555) 525-8272",
+          "••••",
+          "••••",
+          "••••",
+          "••••",
           "F",
-          "1965-02-19",
-          "515 Pine St",
+          "••••",
+          "••••",
           "Boston",
           "MA",
           "48284",
@@ -777,13 +1295,13 @@
         ],
         [
           "C00137",
-          "Ethan",
-          "Lopez",
-          "ethan.lopez11@sample.org",
-          "(555) 197-9280",
+          "••••",
+          "••••",
+          "••••",
+          "••••",
           "M",
-          "1995-07-03",
-          "9707 River Rd",
+          "••••",
+          "••••",
           "Boston",
           "MA",
           "18163",
@@ -796,13 +1314,13 @@
         ],
         [
           "C00176",
-          "Elizabeth",
-          "Taylor",
-          "elizabeth.taylor77@sample.org",
-          "(555) 445-8105",
+          "••••",
+          "••••",
+          "••••",
+          "••••",
           "Other",
-          "1963-06-16",
-          "5895 Pine St",
+          "••••",
+          "••••",
           "Portland",
           "OR",
           "31611",
@@ -815,13 +1333,13 @@
         ],
         [
           "C00199",
-          "Mary",
-          "Jones",
-          "mary.jones7@sample.org",
-          "(555) 730-5934",
+          "••••",
+          "••••",
+          "••••",
+          "••••",
           "F",
-          "2005-10-18",
-          "5876 Oak Ave",
+          "••••",
+          "••••",
           "Seattle",
           "WA",
           "51662",
@@ -833,6 +1351,64 @@
           "True"
         ]
       ],
+      "keys": {
+        "rows_checked": 200,
+        "sampled": false,
+        "unique_columns": [
+          "CustomerID",
+          "Email",
+          "Phone",
+          "Address",
+          "ZipCode",
+          "LifetimeSpend"
+        ],
+        "unique_combinations": [
+          {
+            "columns": [
+              "PreferredStoreID",
+              "BirthDate"
+            ],
+            "rows": 200
+          },
+          {
+            "columns": [
+              "PreferredStoreID",
+              "SignupDate"
+            ],
+            "rows": 200
+          }
+        ],
+        "closest_combinations": [],
+        "identifier_pairs": [
+          {
+            "a": "CustomerID",
+            "b": "ZipCode",
+            "kind": "one-to-one",
+            "a_distinct": 200,
+            "b_distinct": 200,
+            "a_with_several_b": 0,
+            "b_with_several_a": 0
+          },
+          {
+            "a": "CustomerID",
+            "b": "PreferredStoreID",
+            "kind": "many-to-one",
+            "a_distinct": 200,
+            "b_distinct": 15,
+            "a_with_several_b": 0,
+            "b_with_several_a": 15
+          },
+          {
+            "a": "ZipCode",
+            "b": "PreferredStoreID",
+            "kind": "many-to-one",
+            "a_distinct": 200,
+            "b_distinct": 15,
+            "a_with_several_b": 0,
+            "b_with_several_a": 15
+          }
+        ]
+      },
       "slug": "customers"
     },
     {
@@ -986,6 +1562,71 @@
           "blank_count": 0,
           "distinct_count": 8,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Luma",
+                "from": "Luma",
+                "to": "Luma",
+                "count": 13,
+                "pct": 21.67
+              },
+              {
+                "label": "Northfield",
+                "from": "Northfield",
+                "to": "Northfield",
+                "count": 9,
+                "pct": 15.0
+              },
+              {
+                "label": "TerraTrek",
+                "from": "TerraTrek",
+                "to": "TerraTrek",
+                "count": 9,
+                "pct": 15.0
+              },
+              {
+                "label": "Velora",
+                "from": "Velora",
+                "to": "Velora",
+                "count": 7,
+                "pct": 11.67
+              },
+              {
+                "label": "Kicko",
+                "from": "Kicko",
+                "to": "Kicko",
+                "count": 6,
+                "pct": 10.0
+              },
+              {
+                "label": "UrbanSole",
+                "from": "UrbanSole",
+                "to": "UrbanSole",
+                "count": 6,
+                "pct": 10.0
+              },
+              {
+                "label": "Stridex",
+                "from": "Stridex",
+                "to": "Stridex",
+                "count": 5,
+                "pct": 8.33
+              },
+              {
+                "label": "PeakRun",
+                "from": "PeakRun",
+                "to": "PeakRun",
+                "count": 5,
+                "pct": 8.33
+              }
+            ],
+            "values": 60,
+            "distinct": 8,
+            "shape": "mixed",
+            "top_share_pct": 21.7
+          },
           "min_length": 4,
           "max_length": 10,
           "min_value": "Kicko",
@@ -1029,6 +1670,72 @@
           "blank_count": 0,
           "distinct_count": 8,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Sandals",
+                "from": "Sandals",
+                "to": "Sandals",
+                "count": 10,
+                "pct": 16.67
+              },
+              {
+                "label": "Kids",
+                "from": "Kids",
+                "to": "Kids",
+                "count": 9,
+                "pct": 15.0
+              },
+              {
+                "label": "Running",
+                "from": "Running",
+                "to": "Running",
+                "count": 9,
+                "pct": 15.0
+              },
+              {
+                "label": "Hiking",
+                "from": "Hiking",
+                "to": "Hiking",
+                "count": 9,
+                "pct": 15.0
+              },
+              {
+                "label": "Boots",
+                "from": "Boots",
+                "to": "Boots",
+                "count": 9,
+                "pct": 15.0
+              },
+              {
+                "label": "Basketball",
+                "from": "Basketball",
+                "to": "Basketball",
+                "count": 6,
+                "pct": 10.0
+              },
+              {
+                "label": "Formal",
+                "from": "Formal",
+                "to": "Formal",
+                "count": 6,
+                "pct": 10.0
+              },
+              {
+                "label": "Other (1 values)",
+                "from": null,
+                "to": null,
+                "count": 2,
+                "pct": 3.33,
+                "other_group": true
+              }
+            ],
+            "values": 60,
+            "distinct": 8,
+            "shape": "mixed",
+            "top_share_pct": 16.7
+          },
           "min_length": 4,
           "max_length": 10,
           "min_value": "Basketball",
@@ -1072,6 +1779,43 @@
           "blank_count": 0,
           "distinct_count": 4,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Women",
+                "from": "Women",
+                "to": "Women",
+                "count": 19,
+                "pct": 31.67
+              },
+              {
+                "label": "Unisex",
+                "from": "Unisex",
+                "to": "Unisex",
+                "count": 17,
+                "pct": 28.33
+              },
+              {
+                "label": "Men",
+                "from": "Men",
+                "to": "Men",
+                "count": 15,
+                "pct": 25.0
+              },
+              {
+                "label": "Kids",
+                "from": "Kids",
+                "to": "Kids",
+                "count": 9,
+                "pct": 15.0
+              }
+            ],
+            "values": 60,
+            "distinct": 4,
+            "shape": "concentrated",
+            "top_share_pct": 31.7
+          },
           "min_length": 3,
           "max_length": 6,
           "min_value": "Kids",
@@ -1111,6 +1855,65 @@
           "blank_count": 0,
           "distinct_count": 9,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "White",
+                "from": "White",
+                "to": "White",
+                "count": 13,
+                "pct": 21.67
+              },
+              {
+                "label": "Green",
+                "from": "Green",
+                "to": "Green",
+                "count": 9,
+                "pct": 15.0
+              },
+              {
+                "label": "Grey",
+                "from": "Grey",
+                "to": "Grey",
+                "count": 9,
+                "pct": 15.0
+              },
+              {
+                "label": "Beige",
+                "from": "Beige",
+                "to": "Beige",
+                "count": 7,
+                "pct": 11.67
+              },
+              {
+                "label": "Red",
+                "from": "Red",
+                "to": "Red",
+                "count": 6,
+                "pct": 10.0
+              },
+              {
+                "label": "Blue",
+                "from": "Blue",
+                "to": "Blue",
+                "count": 6,
+                "pct": 10.0
+              },
+              {
+                "label": "Other (3 values)",
+                "from": null,
+                "to": null,
+                "count": 10,
+                "pct": 16.67,
+                "other_group": true
+              }
+            ],
+            "values": 60,
+            "distinct": 9,
+            "shape": "mixed",
+            "top_share_pct": 21.7
+          },
           "min_length": 3,
           "max_length": 5,
           "min_value": "Beige",
@@ -1154,6 +1957,57 @@
           "blank_count": 0,
           "distinct_count": 6,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Rubber",
+                "from": "Rubber",
+                "to": "Rubber",
+                "count": 12,
+                "pct": 20.0
+              },
+              {
+                "label": "Leather",
+                "from": "Leather",
+                "to": "Leather",
+                "count": 12,
+                "pct": 20.0
+              },
+              {
+                "label": "Suede",
+                "from": "Suede",
+                "to": "Suede",
+                "count": 12,
+                "pct": 20.0
+              },
+              {
+                "label": "Mesh",
+                "from": "Mesh",
+                "to": "Mesh",
+                "count": 10,
+                "pct": 16.67
+              },
+              {
+                "label": "Synthetic",
+                "from": "Synthetic",
+                "to": "Synthetic",
+                "count": 7,
+                "pct": 11.67
+              },
+              {
+                "label": "Canvas",
+                "from": "Canvas",
+                "to": "Canvas",
+                "count": 7,
+                "pct": 11.67
+              }
+            ],
+            "values": 60,
+            "distinct": 6,
+            "shape": "evenly spread",
+            "top_share_pct": 20.0
+          },
           "min_length": 4,
           "max_length": 9,
           "min_value": "Canvas",
@@ -1197,6 +2051,36 @@
           "blank_count": 0,
           "distinct_count": 3,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "7-14",
+                "from": "7-14",
+                "to": "7-14",
+                "count": 32,
+                "pct": 53.33
+              },
+              {
+                "label": "6-12",
+                "from": "6-12",
+                "to": "6-12",
+                "count": 19,
+                "pct": 31.67
+              },
+              {
+                "label": "1-7",
+                "from": "1-7",
+                "to": "1-7",
+                "count": 9,
+                "pct": 15.0
+              }
+            ],
+            "values": 60,
+            "distinct": 3,
+            "shape": "one dominant value",
+            "top_share_pct": 53.3
+          },
           "min_length": 3,
           "max_length": 4,
           "min_value": "1-7",
@@ -1232,6 +2116,58 @@
           "blank_count": 0,
           "distinct_count": 51,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "numeric",
+            "bins": [
+              {
+                "label": "0–50",
+                "from": 0,
+                "to": 50,
+                "count": 15,
+                "pct": 25.0
+              },
+              {
+                "label": "50–100",
+                "from": 50,
+                "to": 100,
+                "count": 10,
+                "pct": 16.67
+              },
+              {
+                "label": "100–150",
+                "from": 100,
+                "to": 150,
+                "count": 16,
+                "pct": 26.67
+              },
+              {
+                "label": "150–200",
+                "from": 150,
+                "to": 200,
+                "count": 14,
+                "pct": 23.33
+              },
+              {
+                "label": "200–250",
+                "from": 200,
+                "to": 250,
+                "count": 5,
+                "pct": 8.33
+              }
+            ],
+            "bin_width": 50,
+            "values": 60,
+            "shape": "symmetric",
+            "skewness": 0.03,
+            "median": 127.99000000000001,
+            "q1": 51.74,
+            "q3": 161.24,
+            "iqr": 109.5,
+            "outliers": null,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 3.3
+          },
           "min": 22.99,
           "max": 227.99,
           "mean": 115.3067,
@@ -1324,6 +2260,58 @@
           "blank_count": 0,
           "distinct_count": 56,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "numeric",
+            "bins": [
+              {
+                "label": "0–99",
+                "from": 0,
+                "to": 100,
+                "count": 9,
+                "pct": 15.0
+              },
+              {
+                "label": "100–199",
+                "from": 100,
+                "to": 200,
+                "count": 16,
+                "pct": 26.67
+              },
+              {
+                "label": "200–299",
+                "from": 200,
+                "to": 300,
+                "count": 9,
+                "pct": 15.0
+              },
+              {
+                "label": "300–399",
+                "from": 300,
+                "to": 400,
+                "count": 12,
+                "pct": 20.0
+              },
+              {
+                "label": "400–499",
+                "from": 400,
+                "to": 500,
+                "count": 14,
+                "pct": 23.33
+              }
+            ],
+            "bin_width": 100,
+            "values": 60,
+            "shape": "uniform",
+            "skewness": 0.01,
+            "median": 245.5,
+            "q1": 142.75,
+            "q3": 383.0,
+            "iqr": 240.25,
+            "outliers": null,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 3.3
+          },
           "min": 4,
           "max": 498,
           "mean": 262.0667,
@@ -1368,6 +2356,216 @@
           "blank_count": 0,
           "distinct_count": 57,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "time",
+            "unit": "quarter",
+            "bins": [
+              {
+                "label": "2020 Q1",
+                "from": "2020 Q1",
+                "to": "2020 Q1",
+                "count": 1,
+                "pct": 1.67
+              },
+              {
+                "label": "2020 Q2",
+                "from": "2020 Q2",
+                "to": "2020 Q2",
+                "count": 0,
+                "pct": 0.0,
+                "gap": true
+              },
+              {
+                "label": "2020 Q3",
+                "from": "2020 Q3",
+                "to": "2020 Q3",
+                "count": 2,
+                "pct": 3.33
+              },
+              {
+                "label": "2020 Q4",
+                "from": "2020 Q4",
+                "to": "2020 Q4",
+                "count": 3,
+                "pct": 5.0
+              },
+              {
+                "label": "2021 Q1",
+                "from": "2021 Q1",
+                "to": "2021 Q1",
+                "count": 2,
+                "pct": 3.33
+              },
+              {
+                "label": "2021 Q2",
+                "from": "2021 Q2",
+                "to": "2021 Q2",
+                "count": 2,
+                "pct": 3.33
+              },
+              {
+                "label": "2021 Q3",
+                "from": "2021 Q3",
+                "to": "2021 Q3",
+                "count": 2,
+                "pct": 3.33
+              },
+              {
+                "label": "2021 Q4",
+                "from": "2021 Q4",
+                "to": "2021 Q4",
+                "count": 3,
+                "pct": 5.0
+              },
+              {
+                "label": "2022 Q1",
+                "from": "2022 Q1",
+                "to": "2022 Q1",
+                "count": 4,
+                "pct": 6.67
+              },
+              {
+                "label": "2022 Q2",
+                "from": "2022 Q2",
+                "to": "2022 Q2",
+                "count": 1,
+                "pct": 1.67
+              },
+              {
+                "label": "2022 Q3",
+                "from": "2022 Q3",
+                "to": "2022 Q3",
+                "count": 4,
+                "pct": 6.67
+              },
+              {
+                "label": "2022 Q4",
+                "from": "2022 Q4",
+                "to": "2022 Q4",
+                "count": 2,
+                "pct": 3.33
+              },
+              {
+                "label": "2023 Q1",
+                "from": "2023 Q1",
+                "to": "2023 Q1",
+                "count": 1,
+                "pct": 1.67
+              },
+              {
+                "label": "2023 Q2",
+                "from": "2023 Q2",
+                "to": "2023 Q2",
+                "count": 3,
+                "pct": 5.0
+              },
+              {
+                "label": "2023 Q3",
+                "from": "2023 Q3",
+                "to": "2023 Q3",
+                "count": 1,
+                "pct": 1.67
+              },
+              {
+                "label": "2023 Q4",
+                "from": "2023 Q4",
+                "to": "2023 Q4",
+                "count": 2,
+                "pct": 3.33
+              },
+              {
+                "label": "2024 Q1",
+                "from": "2024 Q1",
+                "to": "2024 Q1",
+                "count": 3,
+                "pct": 5.0
+              },
+              {
+                "label": "2024 Q2",
+                "from": "2024 Q2",
+                "to": "2024 Q2",
+                "count": 3,
+                "pct": 5.0
+              },
+              {
+                "label": "2024 Q3",
+                "from": "2024 Q3",
+                "to": "2024 Q3",
+                "count": 3,
+                "pct": 5.0
+              },
+              {
+                "label": "2024 Q4",
+                "from": "2024 Q4",
+                "to": "2024 Q4",
+                "count": 4,
+                "pct": 6.67
+              },
+              {
+                "label": "2025 Q1",
+                "from": "2025 Q1",
+                "to": "2025 Q1",
+                "count": 2,
+                "pct": 3.33
+              },
+              {
+                "label": "2025 Q2",
+                "from": "2025 Q2",
+                "to": "2025 Q2",
+                "count": 1,
+                "pct": 1.67
+              },
+              {
+                "label": "2025 Q3",
+                "from": "2025 Q3",
+                "to": "2025 Q3",
+                "count": 2,
+                "pct": 3.33
+              },
+              {
+                "label": "2025 Q4",
+                "from": "2025 Q4",
+                "to": "2025 Q4",
+                "count": 2,
+                "pct": 3.33
+              },
+              {
+                "label": "2026 Q1",
+                "from": "2026 Q1",
+                "to": "2026 Q1",
+                "count": 3,
+                "pct": 5.0
+              },
+              {
+                "label": "2026 Q2",
+                "from": "2026 Q2",
+                "to": "2026 Q2",
+                "count": 2,
+                "pct": 3.33
+              },
+              {
+                "label": "2026 Q3",
+                "from": "2026 Q3",
+                "to": "2026 Q3",
+                "count": 0,
+                "pct": 0.0,
+                "gap": true
+              },
+              {
+                "label": "2026 Q4",
+                "from": "2026 Q4",
+                "to": "2026 Q4",
+                "count": 2,
+                "pct": 3.33
+              }
+            ],
+            "values": 60,
+            "shape": "bimodal",
+            "skewness": 0.04,
+            "gap_runs": 2,
+            "gap_bins": 2,
+            "top_share_pct": 6.7
+          },
           "min": "2020-02-23",
           "max": "2026-11-19",
           "min_value": "2020-02-23",
@@ -1411,6 +2609,29 @@
           "blank_count": 0,
           "distinct_count": 2,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "True",
+                "from": "True",
+                "to": "True",
+                "count": 54,
+                "pct": 90.0
+              },
+              {
+                "label": "False",
+                "from": "False",
+                "to": "False",
+                "count": 6,
+                "pct": 10.0
+              }
+            ],
+            "values": 60,
+            "distinct": 2,
+            "shape": "one dominant value",
+            "top_share_pct": 90.0
+          },
           "min_value": "False",
           "min_count": 6,
           "max_value": "True",
@@ -1513,6 +2734,28 @@
           "True"
         ]
       ],
+      "keys": {
+        "rows_checked": 60,
+        "sampled": false,
+        "unique_columns": [
+          "ProductID",
+          "SKU",
+          "UnitCost"
+        ],
+        "unique_combinations": [],
+        "closest_combinations": [],
+        "identifier_pairs": [
+          {
+            "a": "ProductID",
+            "b": "SKU",
+            "kind": "one-to-one",
+            "a_distinct": 60,
+            "b_distinct": 60,
+            "a_with_several_b": 0,
+            "b_with_several_a": 0
+          }
+        ]
+      },
       "slug": "products"
     },
     {
@@ -1580,6 +2823,23 @@
           "blank_count": 0,
           "distinct_count": 14,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Other (14 values)",
+                "from": null,
+                "to": null,
+                "count": 15,
+                "pct": 100.0,
+                "other_group": true
+              }
+            ],
+            "values": 15,
+            "distinct": 14,
+            "shape": "evenly spread",
+            "top_share_pct": 13.3
+          },
           "min_length": 18,
           "max_length": 26,
           "min_value": "StepUp Airport Houston",
@@ -1623,38 +2883,17 @@
           "blank_count": 0,
           "distinct_count": 15,
           "all_values_unique": true,
-          "min_length": 11,
-          "max_length": 12,
-          "min_value": "133 Pine St",
-          "min_count": 1,
-          "max_value": "903 River Rd",
-          "max_count": 1,
-          "rare_value": {
-            "value": "133 Pine St",
-            "count": 1
+          "pii": {
+            "class": "address",
+            "reason": "the column name"
           },
-          "top_values": [
-            {
-              "value": "35 Cedar Ln",
-              "count": 1
-            },
-            {
-              "value": "527 River Rd",
-              "count": 1
-            },
-            {
-              "value": "358 Cedar Ln",
-              "count": 1
-            },
-            {
-              "value": "480 Hill St",
-              "count": 1
-            },
-            {
-              "value": "885 Pine St",
-              "count": 1
-            }
-          ]
+          "distribution": {
+            "kind": "none",
+            "reason": "personal data",
+            "top_share_pct": 6.7
+          },
+          "min_length": 11,
+          "max_length": 12
         },
         {
           "name": "City",
@@ -1666,6 +2905,23 @@
           "blank_count": 0,
           "distinct_count": 9,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Other (9 values)",
+                "from": null,
+                "to": null,
+                "count": 15,
+                "pct": 100.0,
+                "other_group": true
+              }
+            ],
+            "values": 15,
+            "distinct": 9,
+            "shape": "mixed",
+            "top_share_pct": 26.7
+          },
           "min_length": 5,
           "max_length": 8,
           "min_value": "Atlanta",
@@ -1709,6 +2965,30 @@
           "blank_count": 0,
           "distinct_count": 8,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "TX",
+                "from": "TX",
+                "to": "TX",
+                "count": 5,
+                "pct": 33.33
+              },
+              {
+                "label": "Other (7 values)",
+                "from": null,
+                "to": null,
+                "count": 10,
+                "pct": 66.67,
+                "other_group": true
+              }
+            ],
+            "values": 15,
+            "distinct": 8,
+            "shape": "mixed",
+            "top_share_pct": 33.3
+          },
           "min_length": 2,
           "max_length": 2,
           "min_value": "AZ",
@@ -1796,38 +3076,17 @@
           "blank_count": 0,
           "distinct_count": 15,
           "all_values_unique": true,
-          "min_length": 14,
-          "max_length": 14,
-          "min_value": "(555) 165-6539",
-          "min_count": 1,
-          "max_value": "(555) 941-1525",
-          "max_count": 1,
-          "rare_value": {
-            "value": "(555) 165-6539",
-            "count": 1
+          "pii": {
+            "class": "phone",
+            "reason": "the column name"
           },
-          "top_values": [
-            {
-              "value": "(555) 328-3286",
-              "count": 1
-            },
-            {
-              "value": "(555) 674-4257",
-              "count": 1
-            },
-            {
-              "value": "(555) 320-6514",
-              "count": 1
-            },
-            {
-              "value": "(555) 487-2291",
-              "count": 1
-            },
-            {
-              "value": "(555) 489-5554",
-              "count": 1
-            }
-          ]
+          "distribution": {
+            "kind": "none",
+            "reason": "personal data",
+            "top_share_pct": 6.7
+          },
+          "min_length": 14,
+          "max_length": 14
         },
         {
           "name": "Manager",
@@ -1839,38 +3098,17 @@
           "blank_count": 0,
           "distinct_count": 15,
           "all_values_unique": true,
-          "min_length": 9,
-          "max_length": 17,
-          "min_value": "Ariel King",
-          "min_count": 1,
-          "max_value": "Zoe Smith",
-          "max_count": 1,
-          "rare_value": {
-            "value": "Ariel King",
-            "count": 1
+          "pii": {
+            "class": "person name",
+            "reason": "the column name"
           },
-          "top_values": [
-            {
-              "value": "Ava Brown",
-              "count": 1
-            },
-            {
-              "value": "Ethan Walker",
-              "count": 1
-            },
-            {
-              "value": "Patricia Williams",
-              "count": 1
-            },
-            {
-              "value": "Sofia Levi",
-              "count": 1
-            },
-            {
-              "value": "Daniel Walker",
-              "count": 1
-            }
-          ]
+          "distribution": {
+            "kind": "none",
+            "reason": "personal data",
+            "top_share_pct": 6.7
+          },
+          "min_length": 9,
+          "max_length": 17
         },
         {
           "name": "OpenDate",
@@ -1925,6 +3163,30 @@
           "blank_count": 0,
           "distinct_count": 4,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Outlet",
+                "from": "Outlet",
+                "to": "Outlet",
+                "count": 6,
+                "pct": 40.0
+              },
+              {
+                "label": "Other (3 values)",
+                "from": null,
+                "to": null,
+                "count": 9,
+                "pct": 60.0,
+                "other_group": true
+              }
+            ],
+            "values": 15,
+            "distinct": 4,
+            "shape": "concentrated",
+            "top_share_pct": 40.0
+          },
           "min_length": 5,
           "max_length": 8,
           "min_value": "Flagship",
@@ -2008,6 +3270,72 @@
           "blank_count": 0,
           "distinct_count": 14,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "numeric",
+            "bins": [
+              {
+                "label": "5–9",
+                "from": 5,
+                "to": 10,
+                "count": 2,
+                "pct": 13.33
+              },
+              {
+                "label": "10–14",
+                "from": 10,
+                "to": 15,
+                "count": 2,
+                "pct": 13.33
+              },
+              {
+                "label": "15–19",
+                "from": 15,
+                "to": 20,
+                "count": 4,
+                "pct": 26.67
+              },
+              {
+                "label": "20–24",
+                "from": 20,
+                "to": 25,
+                "count": 3,
+                "pct": 20.0
+              },
+              {
+                "label": "25–29",
+                "from": 25,
+                "to": 30,
+                "count": 1,
+                "pct": 6.67
+              },
+              {
+                "label": "30–34",
+                "from": 30,
+                "to": 35,
+                "count": 2,
+                "pct": 13.33
+              },
+              {
+                "label": "35–39",
+                "from": 35,
+                "to": 40,
+                "count": 1,
+                "pct": 6.67
+              }
+            ],
+            "bin_width": 5,
+            "values": 15,
+            "shape": "right-skewed",
+            "skewness": 0.6,
+            "median": 19.0,
+            "q1": 13.5,
+            "q3": 24.5,
+            "iqr": 11.0,
+            "outliers": null,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 13.3
+          },
           "min": 8,
           "max": 40,
           "mean": 20.1333,
@@ -2047,12 +3375,12 @@
         [
           "S002",
           "StepUp Airport Houston",
-          "527 River Rd",
+          "••••",
           "Houston",
           "TX",
           "13478",
-          "(555) 674-4257",
-          "Ethan Walker",
+          "••••",
+          "••••",
           "2021-04-15",
           "Outlet",
           "853",
@@ -2061,12 +3389,12 @@
         [
           "S004",
           "StepUp Southside New York",
-          "480 Hill St",
+          "••••",
           "New York",
           "NY",
           "26361",
-          "(555) 487-2291",
-          "Sofia Levi",
+          "••••",
+          "••••",
           "2019-10-07",
           "Flagship",
           "1175",
@@ -2075,12 +3403,12 @@
         [
           "S005",
           "StepUp Mall Phoenix",
-          "885 Pine St",
+          "••••",
           "Phoenix",
           "AZ",
           "23238",
-          "(555) 489-5554",
-          "Daniel Walker",
+          "••••",
+          "••••",
           "2019-03-12",
           "Outlet",
           "2516",
@@ -2089,12 +3417,12 @@
         [
           "S012",
           "StepUp Harbor Chicago",
-          "790 Maple Dr",
+          "••••",
           "Chicago",
           "IL",
           "80697",
-          "(555) 897-9689",
-          "Zoe Smith",
+          "••••",
+          "••••",
           "2018-08-01",
           "Flagship",
           "3773",
@@ -2103,18 +3431,44 @@
         [
           "S015",
           "StepUp Riverside Miami",
-          "133 Pine St",
+          "••••",
           "Miami",
           "FL",
           "39451",
-          "(555) 165-6539",
-          "James Lee",
+          "••••",
+          "••••",
           "2015-10-08",
           "Flagship",
           "1381",
           "8"
         ]
       ],
+      "keys": {
+        "rows_checked": 15,
+        "sampled": false,
+        "unique_columns": [
+          "StoreID",
+          "Address",
+          "ZipCode",
+          "Phone",
+          "Manager",
+          "OpenDate",
+          "SquareFeet"
+        ],
+        "unique_combinations": [],
+        "closest_combinations": [],
+        "identifier_pairs": [
+          {
+            "a": "StoreID",
+            "b": "ZipCode",
+            "kind": "one-to-one",
+            "a_distinct": 15,
+            "b_distinct": 15,
+            "a_with_several_b": 0,
+            "b_with_several_a": 0
+          }
+        ]
+      },
       "slug": "stores"
     },
     {
@@ -2225,6 +3579,172 @@
           "blank_count": 0,
           "distinct_count": 1600,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "time",
+            "unit": "month",
+            "bins": [
+              {
+                "label": "2025-01",
+                "from": "2025-01",
+                "to": "2025-01",
+                "count": 139,
+                "pct": 5.48
+              },
+              {
+                "label": "2025-02",
+                "from": "2025-02",
+                "to": "2025-02",
+                "count": 104,
+                "pct": 4.1
+              },
+              {
+                "label": "2025-03",
+                "from": "2025-03",
+                "to": "2025-03",
+                "count": 144,
+                "pct": 5.68
+              },
+              {
+                "label": "2025-04",
+                "from": "2025-04",
+                "to": "2025-04",
+                "count": 124,
+                "pct": 4.89
+              },
+              {
+                "label": "2025-05",
+                "from": "2025-05",
+                "to": "2025-05",
+                "count": 125,
+                "pct": 4.93
+              },
+              {
+                "label": "2025-06",
+                "from": "2025-06",
+                "to": "2025-06",
+                "count": 132,
+                "pct": 5.21
+              },
+              {
+                "label": "2025-07",
+                "from": "2025-07",
+                "to": "2025-07",
+                "count": 114,
+                "pct": 4.5
+              },
+              {
+                "label": "2025-08",
+                "from": "2025-08",
+                "to": "2025-08",
+                "count": 136,
+                "pct": 5.36
+              },
+              {
+                "label": "2025-09",
+                "from": "2025-09",
+                "to": "2025-09",
+                "count": 112,
+                "pct": 4.42
+              },
+              {
+                "label": "2025-10",
+                "from": "2025-10",
+                "to": "2025-10",
+                "count": 120,
+                "pct": 4.73
+              },
+              {
+                "label": "2025-11",
+                "from": "2025-11",
+                "to": "2025-11",
+                "count": 102,
+                "pct": 4.02
+              },
+              {
+                "label": "2025-12",
+                "from": "2025-12",
+                "to": "2025-12",
+                "count": 110,
+                "pct": 4.34
+              },
+              {
+                "label": "2026-01",
+                "from": "2026-01",
+                "to": "2026-01",
+                "count": 134,
+                "pct": 5.29
+              },
+              {
+                "label": "2026-02",
+                "from": "2026-02",
+                "to": "2026-02",
+                "count": 90,
+                "pct": 3.55
+              },
+              {
+                "label": "2026-03",
+                "from": "2026-03",
+                "to": "2026-03",
+                "count": 91,
+                "pct": 3.59
+              },
+              {
+                "label": "2026-04",
+                "from": "2026-04",
+                "to": "2026-04",
+                "count": 85,
+                "pct": 3.35
+              },
+              {
+                "label": "2026-05",
+                "from": "2026-05",
+                "to": "2026-05",
+                "count": 114,
+                "pct": 4.5
+              },
+              {
+                "label": "2026-06",
+                "from": "2026-06",
+                "to": "2026-06",
+                "count": 132,
+                "pct": 5.21
+              },
+              {
+                "label": "2026-07",
+                "from": "2026-07",
+                "to": "2026-07",
+                "count": 93,
+                "pct": 3.67
+              },
+              {
+                "label": "2026-08",
+                "from": "2026-08",
+                "to": "2026-08",
+                "count": 84,
+                "pct": 3.31
+              },
+              {
+                "label": "2026-09",
+                "from": "2026-09",
+                "to": "2026-09",
+                "count": 105,
+                "pct": 4.14
+              },
+              {
+                "label": "2026-10",
+                "from": "2026-10",
+                "to": "2026-10",
+                "count": 145,
+                "pct": 5.72
+              }
+            ],
+            "values": 2535,
+            "shape": "uniform",
+            "skewness": 0.12,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 5.7
+          },
           "min": "2025-01-01 12:18:13",
           "max": "2026-10-31 10:34:00",
           "min_value": "2025-01-01 12:18:13",
@@ -2397,6 +3917,44 @@
           "blank_count": 0,
           "distinct_count": 3,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "discrete",
+            "bins": [
+              {
+                "label": "1",
+                "from": 1,
+                "to": 1,
+                "count": 2151,
+                "pct": 84.85
+              },
+              {
+                "label": "2",
+                "from": 2,
+                "to": 2,
+                "count": 317,
+                "pct": 12.5
+              },
+              {
+                "label": "3",
+                "from": 3,
+                "to": 3,
+                "count": 67,
+                "pct": 2.64
+              }
+            ],
+            "bin_width": null,
+            "values": 2535,
+            "shape": "one dominant value",
+            "skewness": 2.53,
+            "median": 1.0,
+            "q1": 1.0,
+            "q3": 1.0,
+            "iqr": 0.0,
+            "outliers": null,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 84.9
+          },
           "min": 1,
           "max": 3,
           "mean": 1.1779,
@@ -2433,6 +3991,100 @@
           "blank_count": 0,
           "distinct_count": 43,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "numeric",
+            "bins": [
+              {
+                "label": "20–40",
+                "from": 20,
+                "to": 40,
+                "count": 368,
+                "pct": 14.52
+              },
+              {
+                "label": "40–60",
+                "from": 40,
+                "to": 60,
+                "count": 298,
+                "pct": 11.76
+              },
+              {
+                "label": "60–80",
+                "from": 60,
+                "to": 80,
+                "count": 229,
+                "pct": 9.03
+              },
+              {
+                "label": "80–100",
+                "from": 80,
+                "to": 100,
+                "count": 73,
+                "pct": 2.88
+              },
+              {
+                "label": "100–120",
+                "from": 100,
+                "to": 120,
+                "count": 184,
+                "pct": 7.26
+              },
+              {
+                "label": "120–140",
+                "from": 120,
+                "to": 140,
+                "count": 290,
+                "pct": 11.44
+              },
+              {
+                "label": "140–160",
+                "from": 140,
+                "to": 160,
+                "count": 444,
+                "pct": 17.51
+              },
+              {
+                "label": "160–180",
+                "from": 160,
+                "to": 180,
+                "count": 230,
+                "pct": 9.07
+              },
+              {
+                "label": "180–200",
+                "from": 180,
+                "to": 200,
+                "count": 154,
+                "pct": 6.07
+              },
+              {
+                "label": "200–220",
+                "from": 200,
+                "to": 220,
+                "count": 219,
+                "pct": 8.64
+              },
+              {
+                "label": "220–240",
+                "from": 220,
+                "to": 240,
+                "count": 46,
+                "pct": 1.81
+              }
+            ],
+            "bin_width": 20,
+            "values": 2535,
+            "shape": "bimodal",
+            "skewness": -0.01,
+            "median": 133.99,
+            "q1": 55.99,
+            "q3": 161.99,
+            "iqr": 106.0,
+            "outliers": null,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 4.7
+          },
           "min": 22.99,
           "max": 227.99,
           "mean": 117.4634,
@@ -2479,6 +4131,127 @@
           "blank_count": 0,
           "distinct_count": 196,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "numeric",
+            "bins": [
+              {
+                "label": "0–2",
+                "from": 0,
+                "to": 2,
+                "count": 1674,
+                "pct": 66.04
+              },
+              {
+                "label": "2–4",
+                "from": 2,
+                "to": 4,
+                "count": 17,
+                "pct": 0.67
+              },
+              {
+                "label": "4–6",
+                "from": 4,
+                "to": 6,
+                "count": 119,
+                "pct": 4.69
+              },
+              {
+                "label": "6–8",
+                "from": 6,
+                "to": 8,
+                "count": 35,
+                "pct": 1.38
+              },
+              {
+                "label": "8–10",
+                "from": 8,
+                "to": 10,
+                "count": 30,
+                "pct": 1.18
+              },
+              {
+                "label": "10–12",
+                "from": 10,
+                "to": 12,
+                "count": 124,
+                "pct": 4.89
+              },
+              {
+                "label": "12–14",
+                "from": 12,
+                "to": 14,
+                "count": 21,
+                "pct": 0.83
+              },
+              {
+                "label": "14–16",
+                "from": 14,
+                "to": 16,
+                "count": 125,
+                "pct": 4.93
+              },
+              {
+                "label": "16–18",
+                "from": 16,
+                "to": 18,
+                "count": 19,
+                "pct": 0.75
+              },
+              {
+                "label": "18–20",
+                "from": 18,
+                "to": 20,
+                "count": 26,
+                "pct": 1.03
+              },
+              {
+                "label": "20–22",
+                "from": 20,
+                "to": 22,
+                "count": 117,
+                "pct": 4.62
+              },
+              {
+                "label": "22–24",
+                "from": 22,
+                "to": 24,
+                "count": 14,
+                "pct": 0.55
+              },
+              {
+                "label": "24–26",
+                "from": 24,
+                "to": 26,
+                "count": 8,
+                "pct": 0.32
+              },
+              {
+                "label": "above 26",
+                "from": 26,
+                "to": null,
+                "count": 206,
+                "pct": 8.13,
+                "outlier": true
+              }
+            ],
+            "bin_width": 2,
+            "values": 2535,
+            "shape": "one dominant value",
+            "skewness": 3.17,
+            "median": 0.0,
+            "q1": 0.0,
+            "q3": 10.0,
+            "iqr": 10.0,
+            "outliers": {
+              "below": 0,
+              "above": 206,
+              "low_fence": -15.0,
+              "high_fence": 25.0
+            },
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 66.0
+          },
           "min": 0,
           "max": 131.99,
           "mean": 6.6111,
@@ -2525,6 +4298,148 @@
           "blank_count": 0,
           "distinct_count": 439,
           "all_values_unique": false,
+          "distribution": {
+            "kind": "numeric",
+            "bins": [
+              {
+                "label": "0–20",
+                "from": 0,
+                "to": 20,
+                "count": 39,
+                "pct": 1.54
+              },
+              {
+                "label": "20–40",
+                "from": 20,
+                "to": 40,
+                "count": 337,
+                "pct": 13.29
+              },
+              {
+                "label": "40–60",
+                "from": 40,
+                "to": 60,
+                "count": 208,
+                "pct": 8.21
+              },
+              {
+                "label": "60–80",
+                "from": 60,
+                "to": 80,
+                "count": 229,
+                "pct": 9.03
+              },
+              {
+                "label": "80–100",
+                "from": 80,
+                "to": 100,
+                "count": 143,
+                "pct": 5.64
+              },
+              {
+                "label": "100–120",
+                "from": 100,
+                "to": 120,
+                "count": 221,
+                "pct": 8.72
+              },
+              {
+                "label": "120–140",
+                "from": 120,
+                "to": 140,
+                "count": 306,
+                "pct": 12.07
+              },
+              {
+                "label": "140–160",
+                "from": 140,
+                "to": 160,
+                "count": 341,
+                "pct": 13.45
+              },
+              {
+                "label": "160–180",
+                "from": 160,
+                "to": 180,
+                "count": 180,
+                "pct": 7.1
+              },
+              {
+                "label": "180–200",
+                "from": 180,
+                "to": 200,
+                "count": 138,
+                "pct": 5.44
+              },
+              {
+                "label": "200–220",
+                "from": 200,
+                "to": 220,
+                "count": 156,
+                "pct": 6.15
+              },
+              {
+                "label": "220–240",
+                "from": 220,
+                "to": 240,
+                "count": 41,
+                "pct": 1.62
+              },
+              {
+                "label": "240–260",
+                "from": 240,
+                "to": 260,
+                "count": 13,
+                "pct": 0.51
+              },
+              {
+                "label": "260–280",
+                "from": 260,
+                "to": 280,
+                "count": 28,
+                "pct": 1.1
+              },
+              {
+                "label": "280–300",
+                "from": 280,
+                "to": 300,
+                "count": 35,
+                "pct": 1.38
+              },
+              {
+                "label": "300–320",
+                "from": 300,
+                "to": 320,
+                "count": 12,
+                "pct": 0.47
+              },
+              {
+                "label": "above 320",
+                "from": 320,
+                "to": null,
+                "count": 108,
+                "pct": 4.26,
+                "outlier": true
+              }
+            ],
+            "bin_width": 20,
+            "values": 2535,
+            "shape": "right-skewed",
+            "skewness": 1.61,
+            "median": 125.97,
+            "q1": 69.33500000000001,
+            "q3": 167.99,
+            "iqr": 98.655,
+            "outliers": {
+              "below": 0,
+              "above": 108,
+              "low_fence": -78.64750000000001,
+              "high_fence": 315.9725
+            },
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 2.8
+          },
           "min": 11.99,
           "max": 683.97,
           "mean": 130.9984,
@@ -2624,6 +4539,164 @@
           "209.99"
         ]
       ],
+      "keys": {
+        "rows_checked": 2535,
+        "sampled": false,
+        "unique_columns": [
+          "SaleLineID"
+        ],
+        "unique_combinations": [
+          {
+            "columns": [
+              "TransactionID",
+              "ProductID"
+            ],
+            "rows": 2535
+          },
+          {
+            "columns": [
+              "ProductID",
+              "SaleDateTime"
+            ],
+            "rows": 2535
+          }
+        ],
+        "closest_combinations": [
+          {
+            "columns": [
+              "StoreID",
+              "CustomerID",
+              "ProductID"
+            ],
+            "distinct": 2102,
+            "rows": 2535
+          },
+          {
+            "columns": [
+              "TransactionID",
+              "StoreID"
+            ],
+            "distinct": 1600,
+            "rows": 2535
+          },
+          {
+            "columns": [
+              "TransactionID",
+              "CustomerID"
+            ],
+            "distinct": 1600,
+            "rows": 2535
+          },
+          {
+            "columns": [
+              "TransactionID",
+              "SaleDateTime"
+            ],
+            "distinct": 1600,
+            "rows": 2535
+          },
+          {
+            "columns": [
+              "StoreID",
+              "SaleDateTime"
+            ],
+            "distinct": 1600,
+            "rows": 2535
+          }
+        ],
+        "identifier_pairs": [
+          {
+            "a": "SaleLineID",
+            "b": "TransactionID",
+            "kind": "many-to-one",
+            "a_distinct": 2535,
+            "b_distinct": 1600,
+            "a_with_several_b": 0,
+            "b_with_several_a": 616
+          },
+          {
+            "a": "SaleLineID",
+            "b": "StoreID",
+            "kind": "many-to-one",
+            "a_distinct": 2535,
+            "b_distinct": 15,
+            "a_with_several_b": 0,
+            "b_with_several_a": 15
+          },
+          {
+            "a": "SaleLineID",
+            "b": "CustomerID",
+            "kind": "many-to-one",
+            "a_distinct": 1644,
+            "b_distinct": 191,
+            "a_with_several_b": 0,
+            "b_with_several_a": 180
+          },
+          {
+            "a": "SaleLineID",
+            "b": "ProductID",
+            "kind": "many-to-one",
+            "a_distinct": 2535,
+            "b_distinct": 52,
+            "a_with_several_b": 0,
+            "b_with_several_a": 52
+          },
+          {
+            "a": "TransactionID",
+            "b": "StoreID",
+            "kind": "many-to-one",
+            "a_distinct": 1600,
+            "b_distinct": 15,
+            "a_with_several_b": 0,
+            "b_with_several_a": 15
+          },
+          {
+            "a": "TransactionID",
+            "b": "CustomerID",
+            "kind": "many-to-one",
+            "a_distinct": 1029,
+            "b_distinct": 191,
+            "a_with_several_b": 0,
+            "b_with_several_a": 178
+          },
+          {
+            "a": "TransactionID",
+            "b": "ProductID",
+            "kind": "many-to-many",
+            "a_distinct": 1600,
+            "b_distinct": 52,
+            "a_with_several_b": 616,
+            "b_with_several_a": 52
+          },
+          {
+            "a": "StoreID",
+            "b": "CustomerID",
+            "kind": "many-to-many",
+            "a_distinct": 15,
+            "b_distinct": 191,
+            "a_with_several_b": 15,
+            "b_with_several_a": 163
+          },
+          {
+            "a": "StoreID",
+            "b": "ProductID",
+            "kind": "many-to-many",
+            "a_distinct": 15,
+            "b_distinct": 52,
+            "a_with_several_b": 15,
+            "b_with_several_a": 52
+          },
+          {
+            "a": "CustomerID",
+            "b": "ProductID",
+            "kind": "many-to-many",
+            "a_distinct": 191,
+            "b_distinct": 52,
+            "a_with_several_b": 180,
+            "b_with_several_a": 52
+          }
+        ]
+      },
       "slug": "sales"
     }
   ],

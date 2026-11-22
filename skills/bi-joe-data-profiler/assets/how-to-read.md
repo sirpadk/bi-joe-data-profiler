@@ -37,13 +37,23 @@ When the evidence isn't enough, the wiki says **"More context needed."** rather 
 
 ## The Columns Table
 
-Each real column is a column in the table. The rows describe it in three groups:
+Each real column is a column in the table. The rows describe it in four groups:
 
 - **Data Profiling Results:** measured counts and extremes, such as missing values, unique values and the smallest and largest value.
 - **Variation:** how the values differ: a typical value, a different one, a repeated one, how missing values show up, the range, and change over time (which a single snapshot of the data can't show).
+- **Distribution:** a small histogram of the column, its shape (symmetric, skewed, uniform, bimodal, one dominant value), the median, the middle half of the values, outliers and gaps. Hover a bar to see its range and row count. Orange bars are outliers, dashed boxes are gaps with no rows. Numbers and dates get a histogram, categories show their most frequent values, and keys, names and other personal data are not charted.
 - **Sample Data:** five random rows from the data.
 
 The two label columns on the left stay in place when you scroll sideways.
+
+**Hover for help.** Hold the mouse over a BEAM✲ code, a row label (such as Min Count or Repeat) or a group name to see what it means and why it matters. Hover text is also on the codes in the Data Stories list and in the descriptions.
+
+## Personal Data
+
+Names, emails, phone numbers, addresses, national ID numbers, birth dates and bank or card numbers
+are never saved or shown. Their columns show a lock and the word *masked* instead of values.
+The counts, the gaps and the lengths are still measured, so you can judge the column without
+seeing anyone's details. Birth dates show the years only.
 
 ## Sampled Rows
 

@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 from typing import Any, Iterator, List, Optional, Sequence
 
-from htmlutil import headings, matrix, matrix_row, property_rows, strip
+from htmlutil import headings, matrix, matrix_row, property_rows, strip, notitle
 
 from bijoe import beam, descriptions, wiki
 from bijoe.cli import main
@@ -204,7 +204,7 @@ def test_landing_page_layout(shop_csv, tmp_path):
     assert list(props) == ["About", "Source", "Tables", "Sampled Rows", "Profiled", "Purpose", "How to Read"]
     assert props["About"] == "Sales records for a small web shop. <i>(written by AI)</i>"
     assert props["Sampled Rows"] == "8"
-    assert 'href="how-to-read.md"' in props["How to Read"] and 'href="beam-annotations.md"' in props["How to Read"]
+    assert 'href="how-to-read.md"' in notitle(props["How to Read"]) and 'href="beam-annotations.md"' in notitle(props["How to Read"])
     # no Markdown property table (it would show an empty header row), no leftovers
     assert "| | |" not in index and "<th></th>" not in index
     assert "One page per table" not in index and "How to read this wiki" not in index.replace("How to Read This Wiki", "")
@@ -306,10 +306,11 @@ def test_column_matrix_follows_the_modelstormer_layout(shop_csv, tmp_path):
         + [("Data Profiling Results", l) for l in ["Sample Count", "Missing", "Unique Values", "Min Value", "Min Count",
                                                     "Max Value", "Max Count", "Min Length", "Max Length"]]
         + [("Variation", l) for l in ["Typical", "Different", "Repeat", "Missing", "Range", "Change"]]
+        + [("Distribution", l) for l in ["Histogram", "Shape", "Median", "Spread", "Outliers", "Gaps"]]
         + [("Sample Data", "")] * 4)  # the table has 4 rows, so 4 sample rows
     assert [strip(c) for _, c in rows[0]["cells"]] == ["cust_id", "name", "country", "signup_date", "zip"]
     # the groups are spanning, rotated labels; both label columns are frozen
-    assert story.count('rowspan="9"') == 1 and story.count('rowspan="6"') == 1 and story.count('rowspan="4"') == 1
+    assert story.count('rowspan="9"') == 1 and story.count('rowspan="6"') == 2 and story.count('rowspan="4"') == 1
     assert "writing-mode:vertical-rl" in story and "position:sticky;left:0" in story
     assert "position:sticky;left:34px" in story and "white-space:nowrap" in story
     assert "overflow-x:auto" in story
@@ -389,5 +390,20 @@ def test_two_column_tables_are_html_everywhere(shop_csv, tmp_path):
         assert "| | |" not in text and "|---|---|\n" not in text, page.name  # no Markdown two-column tables
         assert "<th></th>" not in text, page.name
     props = property_rows(_read(out, "data-stories", "customers.md"))
-    assert props["Source"].startswith('<a href="../beam-annotations.md#t-source">{customers.csv}</a>')
+    assert notitle(props["Source"]).startswith('<a href="../beam-annotations.md#t-source">{customers.csv}</a>')
     assert beam.PAGE in _read(out, "how-to-read.md")
+
+
+def test_theme_is_chosen_remembered_and_switchable(shop_csv, tmp_path):
+    out = tmp_path / "wiki"
+    _run("profile", shop_csv, "--out", out)  # default: light gray
+    story = _read(out, "data-stories", "customers.md")
+    assert "#e4e7eb" in story and "#161616" not in story
+    _run("render", out, "--theme", "dark")
+    dark = _read(out, "data-stories", "customers.md")
+    assert "#161616" in dark and "#e4e7eb" not in dark and "border-left:3px solid #2de2c9" in dark
+    _run("render", out)  # remembered
+    assert "#161616" in _read(out, "data-stories", "customers.md")
+    _run("render", out, "--theme", "light-blue")
+    assert "#d4e6f8" in _read(out, "data-stories", "customers.md")
+    assert _run("render", out, "--theme", "neon") != 0

@@ -1,0 +1,45 @@
+ZipCode,City,Region
+1050,København K,Hovedstaden
+2100,København Ø,Hovedstaden
+2200,København N,Hovedstaden
+2300,København S,Hovedstaden
+2400,København NV,Hovedstaden
+2450,København SV,Hovedstaden
+2500,Valby,Hovedstaden
+2600,Glostrup,Hovedstaden
+2630,Taastrup,Hovedstaden
+2650,Hvidovre,Hovedstaden
+2700,Brønshøj,Hovedstaden
+2750,Ballerup,Hovedstaden
+2770,Kastrup,Hovedstaden
+2800,Kongens Lyngby,Hovedstaden
+2900,Hellerup,Hovedstaden
+3000,Helsingør,Hovedstaden
+3400,Hillerød,Hovedstaden
+3600,Frederikssund,Hovedstaden
+4000,Roskilde,Sjælland
+4200,Slagelse,Sjælland
+4600,Køge,Sjælland
+4700,Næstved,Sjælland
+4800,Nykøbing F,Sjælland
+5000,Odense C,Syddanmark
+5200,Odense V,Syddanmark
+5700,Svendborg,Syddanmark
+6000,Kolding,Syddanmark
+6400,Sønderborg,Syddanmark
+6700,Esbjerg,Syddanmark
+7000,Fredericia,Syddanmark
+7100,Vejle,Syddanmark
+7400,Herning,Midtjylland
+7500,Holstebro,Midtjylland
+8000,Aarhus C,Midtjylland
+8200,Aarhus N,Midtjylland
+8260,Viby J,Midtjylland
+8600,Silkeborg,Midtjylland
+8700,Horsens,Midtjylland
+8800,Viborg,Midtjylland
+9000,Aalborg,Nordjylland
+9200,Aalborg SV,Nordjylland
+9400,Nørresundby,Nordjylland
+9800,Hjørring,Nordjylland
+9900,Frederikshavn,Nordjylland

@@ -1,0 +1,30 @@
+CoverageID,ProductID,CoverageName,CoverageType,BaseAnnualPremiumDKK,DefaultDeductibleDKK
+1,1,Brand og eksplosion,Standard,380,0
+2,1,Tyveri og indbrud,Standard,520,1500
+3,1,Vand- og ledningsskade,Standard,410,1500
+4,1,Ansvar,Standard,190,0
+5,1,Udvidet dækning,Tilvalg,740,2500
+6,1,Cykeldækning,Tilvalg,260,1000
+7,2,Ansvar,Standard,1400,0
+8,2,Kasko,Standard,4200,3500
+9,2,Delkasko,Standard,2100,3500
+10,2,Vejhjælp,Tilvalg,620,0
+11,2,Rudeskade,Tilvalg,340,0
+12,2,Førerulykke,Tilvalg,310,0
+13,3,Brand og eksplosion,Standard,2100,0
+14,3,Storm og skybrud,Standard,1300,2500
+15,3,Vandskade,Standard,1500,3000
+16,3,Svamp og insekter,Tilvalg,820,5000
+17,3,Ledningsskade,Tilvalg,900,3000
+18,3,Husejeransvar,Standard,240,0
+19,4,Død,Standard,360,0
+20,4,Varigt mén,Standard,1250,0
+21,4,Behandlingsudgifter,Tilvalg,280,500
+22,5,Sygdom og hjemtransport,Standard,420,0
+23,5,Rejseafbrydelse,Standard,360,500
+24,5,Bagage,Tilvalg,180,750
+25,5,Rejseansvar,Tilvalg,90,0
+26,6,Dyrlægeudgifter,Standard,1800,1000
+27,6,Ansvar,Standard,210,0
+28,6,Livsforsikring,Tilvalg,260,0
+29,6,Tyveri,Tilvalg,150,0

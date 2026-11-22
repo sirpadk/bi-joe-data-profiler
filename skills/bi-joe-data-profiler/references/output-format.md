@@ -154,3 +154,32 @@ generated_at: "<ISO 8601 UTC>"
   }
 }
 ```
+
+## Theme
+
+`profile.json` has `settings.theme` (`light-gray`, `light-blue` or `dark`). Every HTML table is
+written with that theme's colours inline (see `scripts/bijoe/themes.py`), because GitHub strips
+style blocks. Change it with `render --theme <name>`. A wiki has one theme at a time. The theme
+affects colours only, never the content or the layout.
+
+## Personal Data
+
+The engine detects personal data by column name (English and Danish) and by the shape of the
+values, and masks it before anything is written. For a masked column, `profile.json` has a
+`pii` object (`class` and `reason`), no `top_values`, `rare_value`, `min`/`max`/`mean` or
+`min_value`/`max_value` (birth dates keep the years only), and `sample_rows` hold `••••`. Counts,
+missing values, distinct counts and lengths are kept. `settings.mask` records columns masked with
+`--mask Table.Column`. `bijoe check` scans every page and JSON file for emails, national ID numbers,
+IBANs and card numbers, and reports an error if it finds one.
+
+## Distributions
+
+Each column in `profile.json` may have a `distribution` object. `kind` is `numeric` (round-edged bins),
+`discrete` (one bar per value), `time` (bins by day, month, quarter, year or decade, with `unit`),
+`categories` (most frequent values, small groups folded into "Other") or `none` (personal data:
+only `top_share_pct`, never a value). It has `bins` (`label`, `from`, `to`, `count`, `pct`, and the
+flags `gap`, `outlier` or `other_group`), `shape`, `skewness`, `median`, `q1`, `q3`, `iqr`,
+`outliers` (`below`, `above` and the Tukey fences), `gap_runs`, `gap_bins`, `top_share_pct` and
+`sampled`. Unique keys, identifiers, free text and columns with no spread have no distribution.
+The columns matrix draws it in the Distribution group: Histogram, Shape, Median, Spread,
+Outliers and Gaps.

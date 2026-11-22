@@ -1,0 +1,2861 @@
+AddressID,Street,HouseNumber,Floor,ZipCode
+50001,Nørregade,68,,2400
+50002,Nørregade,117,2. tv.,2750
+50003,Havnegade,45,,7000
+50004,Engvej,28,,2200
+50005,Møllevej,108,,1050
+50006,Storgade,18,,2500
+50007,Birkevej,2,,2650
+50008,Østergade,90,,8200
+50009,Rosenvænget,7,,2100
+50010,Skolegade,37,st.,8000
+50011,Søndergade,74,,9000
+50012,Vestergade,30,,2650
+50013,Fasanvej,1,,5200
+50014,Solbakken,8,,4000
+50015,Solbakken,108,,5200
+50016,Storgade,78,1. tv.,2450
+50017,Søndergade,134,,6700
+50018,Fasanvej,96,,6700
+50019,Søndergade,31,,6000
+50020,Rosenvænget,99,,1050
+50021,Solbakken,65,,2600
+50022,Møllevej,78,,2400
+50023,Egevej,140,,6400
+50024,Hovedgaden,47,st.,2700
+50025,Søndergade,13,1. th.,8260
+50026,Skovvej,52,,9800
+50027,Møllevej,29,,8200
+50028,Banegårdsvej,139,1. th.,2300
+50029,Fasanvej,64,,4600
+50030,Solbakken,35,,2900
+50031,Hovedgaden,104,,5000
+50032,Storgade,79,,2750
+50033,Banegårdsvej,115,1. tv.,2750
+50034,Kirkevej,21,2. th.,2400
+50035,Banegårdsvej,114,2. th.,9200
+50036,Vestergade,91,,9000
+50037,Hovedgaden,55,,7400
+50038,Nørregade,28,3. th.,9000
+50039,Kirkevej,25,,2800
+50040,Storgade,131,,2900
+50041,Havnegade,55,,1050
+50042,Skolegade,42,,2600
+50043,Hovedgaden,70,,5700
+50044,Rosenvænget,99,1. th.,8800
+50045,Skovvej,103,1. th.,2200
+50046,Solbakken,134,,8260
+50047,Birkevej,123,,1050
+50048,Hovedgaden,111,,4700
+50049,Parkvej,28,1. tv.,2200
+50050,Storgade,129,,2200
+50051,Nørregade,32,,4700
+50052,Rosenvænget,92,,5000
+50053,Birkevej,1,,7000
+50054,Østergade,115,,8800
+50055,Hovedgaden,97,1. tv.,2450
+50056,Møllevej,31,,3000
+50057,Havnegade,110,1. th.,2770
+50058,Vestergade,65,,5700
+50059,Banegårdsvej,110,3. th.,8000
+50060,Vestergade,69,2. th.,2500
+50061,Strandvejen,17,2. tv.,2100
+50062,Søndergade,84,1. tv.,2650
+50063,Bakkevej,69,,7100
+50064,Skovvej,57,2. th.,2900
+50065,Møllevej,101,,2200
+50066,Søndergade,83,,6000
+50067,Havnegade,76,,2400
+50068,Fasanvej,47,,9200
+50069,Møllevej,118,,9900
+50070,Birkevej,7,1. tv.,9000
+50071,Søndergade,90,st.,2600
+50072,Møllevej,53,,3000
+50073,Hovedgaden,11,1. tv.,8260
+50074,Strandvejen,138,1. tv.,2900
+50075,Fasanvej,96,,2300
+50076,Storgade,125,,4800
+50077,Bakkevej,1,,8200
+50078,Kirkevej,50,,4000
+50079,Strandvejen,65,,4600
+50080,Banegårdsvej,32,,9000
+50081,Rosenvænget,107,1. tv.,2630
+50082,Skolegade,119,,4200
+50083,Solbakken,8,,5200
+50084,Hovedgaden,59,,4200
+50085,Rosenvænget,81,,2700
+50086,Østergade,73,,8000
+50087,Engvej,38,,9900
+50088,Fasanvej,67,1. tv.,2650
+50089,Birkevej,50,,2400
+50090,Fasanvej,77,2. th.,2500
+50091,Nørregade,44,,6700
+50092,Banegårdsvej,53,,2650
+50093,Birkevej,117,,2450
+50094,Søndergade,114,2. tv.,8000
+50095,Hovedgaden,59,,2100
+50096,Fasanvej,1,,2750
+50097,Skovvej,11,,7500
+50098,Skolegade,84,,1050
+50099,Parkvej,27,,5000
+50100,Nørregade,116,,2300
+50101,Banegårdsvej,103,,6700
+50102,Skovvej,15,,8600
+50103,Østergade,43,,8000
+50104,Birkevej,126,,5000
+50105,Skolegade,64,2. tv.,2500
+50106,Møllevej,108,2. tv.,2500
+50107,Møllevej,102,,9900
+50108,Rosenvænget,131,1. th.,2750
+50109,Skolegade,120,,2100
+50110,Solbakken,129,,7100
+50111,Parkvej,80,,3400
+50112,Solbakken,9,,3000
+50113,Havnegade,62,,8260
+50114,Solbakken,130,,7000
+50115,Fasanvej,99,,8000
+50116,Skolegade,132,,5000
+50117,Havnegade,33,,5200
+50118,Solbakken,117,1. tv.,8260
+50119,Skovvej,21,st.,2750
+50120,Lærkevej,4,,4700
+50121,Østergade,37,,2770
+50122,Skolegade,15,,8000
+50123,Skovvej,112,,5000
+50124,Banegårdsvej,124,st.,9000
+50125,Strandvejen,29,,2300
+50126,Engvej,7,,3600
+50127,Vestergade,76,,7000
+50128,Kirkevej,4,,2900
+50129,Vestergade,89,,2100
+50130,Storgade,119,,2600
+50131,Skolegade,82,,2300
+50132,Hovedgaden,83,,2800
+50133,Østergade,27,,5000
+50134,Egevej,105,st.,8000
+50135,Hovedgaden,109,,7500
+50136,Rosenvænget,111,3. th.,1050
+50137,Storgade,10,,8700
+50138,Fasanvej,117,,9200
+50139,Fasanvej,85,,6700
+50140,Parkvej,46,,6000
+50141,Skovvej,75,1. th.,8700
+50142,Parkvej,97,,6000
+50143,Egevej,15,2. th.,2400
+50144,Parkvej,120,1. tv.,2800
+50145,Lærkevej,18,,7000
+50146,Østergade,97,3. th.,8260
+50147,Vestergade,16,,4200
+50148,Hovedgaden,49,,2700
+50149,Rosenvænget,45,,2200
+50150,Lærkevej,125,,1050
+50151,Skolegade,45,1. th.,9200
+50152,Vestergade,90,,2300
+50153,Birkevej,76,1. th.,8600
+50154,Parkvej,76,,5700
+50155,Nørregade,110,st.,8260
+50156,Banegårdsvej,67,,2800
+50157,Søndergade,111,,4200
+50158,Nørregade,84,,4600
+50159,Banegårdsvej,73,2. th.,8600
+50160,Skovvej,52,,7000
+50161,Hovedgaden,43,,9400
+50162,Bakkevej,11,,4200
+50163,Bakkevej,59,,2450
+50164,Vestergade,98,,4700
+50165,Strandvejen,101,,4000
+50166,Kirkevej,93,,8200
+50167,Engvej,86,,7000
+50168,Havnegade,111,3. th.,9900
+50169,Engvej,31,2. th.,2750
+50170,Bakkevej,37,,5000
+50171,Lærkevej,25,,6700
+50172,Møllevej,120,st.,2400
+50173,Birkevej,33,,8200
+50174,Vestergade,41,,6700
+50175,Engvej,101,,6700
+50176,Banegårdsvej,137,,2800
+50177,Parkvej,2,,8000
+50178,Skolegade,89,3. th.,2900
+50179,Hovedgaden,26,st.,2100
+50180,Strandvejen,30,,5000
+50181,Østergade,123,1. tv.,2500
+50182,Egevej,8,3. th.,2750
+50183,Rosenvænget,80,,1050
+50184,Østergade,34,3. th.,8000
+50185,Solbakken,102,,4700
+50186,Egevej,128,,2200
+50187,Østergade,119,,2200
+50188,Kirkevej,75,,2200
+50189,Kirkevej,139,1. th.,2100
+50190,Egevej,118,,8200
+50191,Kirkevej,115,2. tv.,8700
+50192,Birkevej,62,,8000
+50193,Bakkevej,5,,7400
+50194,Bakkevej,11,,8200
+50195,Havnegade,133,,3600
+50196,Fasanvej,93,,9000
+50197,Strandvejen,118,1. th.,2600
+50198,Engvej,130,3. th.,8200
+50199,Kirkevej,66,3. th.,2100
+50200,Nørregade,88,,9800
+50201,Hovedgaden,27,,7400
+50202,Engvej,128,2. tv.,2300
+50203,Solbakken,20,,5200
+50204,Bakkevej,72,,8260
+50205,Nørregade,96,,5200
+50206,Bakkevej,21,,2800
+50207,Kirkevej,108,,2770
+50208,Kirkevej,34,,2750
+50209,Østergade,125,,2630
+50210,Engvej,70,,5000
+50211,Søndergade,36,,3000
+50212,Solbakken,43,,7400
+50213,Skovvej,83,,2500
+50214,Strandvejen,6,2. tv.,9900
+50215,Parkvej,8,,2300
+50216,Engvej,120,,8200
+50217,Møllevej,74,2. th.,2600
+50218,Vestergade,92,,2750
+50219,Birkevej,105,,5000
+50220,Søndergade,75,,2500
+50221,Parkvej,16,,4700
+50222,Lærkevej,129,2. th.,1050
+50223,Kirkevej,63,1. tv.,2400
+50224,Banegårdsvej,14,,6700
+50225,Kirkevej,41,,4700
+50226,Skolegade,101,,2300
+50227,Storgade,36,,6700
+50228,Storgade,81,,5000
+50229,Parkvej,96,,2200
+50230,Rosenvænget,82,st.,8000
+50231,Vestergade,104,,2770
+50232,Egevej,132,,2700
+50233,Østergade,63,,2400
+50234,Bakkevej,107,,2200
+50235,Skovvej,122,,8000
+50236,Skolegade,112,1. th.,2650
+50237,Solbakken,118,1. th.,1050
+50238,Strandvejen,72,,3400
+50239,Bakkevej,129,,4700
+50240,Havnegade,109,,9000
+50241,Hovedgaden,79,2. tv.,8200
+50242,Lærkevej,68,st.,2630
+50243,Havnegade,119,,2200
+50244,Skovvej,137,,6700
+50245,Banegårdsvej,74,3. th.,2300
+50246,Møllevej,43,,6700
+50247,Kirkevej,61,,2400
+50248,Kirkevej,47,,3000
+50249,Østergade,48,,2770
+50250,Storgade,21,,3600
+50251,Nørregade,115,,2600
+50252,Storgade,94,3. th.,2700
+50253,Storgade,111,,4700
+50254,Lærkevej,47,,7400
+50255,Egevej,114,,5000
+50256,Nørregade,116,,8800
+50257,Havnegade,57,,2600
+50258,Engvej,28,,2500
+50259,Bakkevej,125,,2300
+50260,Kirkevej,14,3. th.,8200
+50261,Havnegade,98,2. tv.,8600
+50262,Østergade,15,,2630
+50263,Engvej,83,,2800
+50264,Parkvej,57,3. th.,2300
+50265,Skovvej,42,,2630
+50266,Kirkevej,47,,8000
+50267,Bakkevej,52,,3600
+50268,Lærkevej,73,,4000
+50269,Lærkevej,13,,5000
+50270,Østergade,2,st.,2700
+50271,Solbakken,65,,2800
+50272,Parkvej,119,,2200
+50273,Parkvej,5,,2300
+50274,Engvej,106,,2450
+50275,Skovvej,136,,5700
+50276,Egevej,109,,7400
+50277,Havnegade,46,,8200
+50278,Søndergade,71,,6700
+50279,Skolegade,57,2. tv.,2630
+50280,Engvej,46,,5000
+50281,Nørregade,107,st.,9000
+50282,Lærkevej,104,,6700
+50283,Fasanvej,108,2. th.,8700
+50284,Egevej,114,,3600
+50285,Søndergade,26,2. tv.,2100
+50286,Søndergade,94,,9400
+50287,Egevej,82,,8700
+50288,Bakkevej,55,,2200
+50289,Birkevej,45,,4200
+50290,Strandvejen,83,,1050
+50291,Birkevej,80,1. th.,8800
+50292,Møllevej,46,,6000
+50293,Søndergade,18,1. th.,1050
+50294,Vestergade,118,1. tv.,2300
+50295,Strandvejen,79,,4600
+50296,Banegårdsvej,66,,5200
+50297,Møllevej,69,,3600
+50298,Storgade,34,,4600
+50299,Havnegade,12,,8000
+50300,Østergade,9,,2600
+50301,Parkvej,35,,5000
+50302,Birkevej,43,2. th.,8000
+50303,Møllevej,27,,8000
+50304,Bakkevej,134,1. tv.,2400
+50305,Kirkevej,8,3. th.,2500
+50306,Parkvej,29,,4800
+50307,Havnegade,32,,2500
+50308,Vestergade,57,,4600
+50309,Fasanvej,1,1. tv.,9400
+50310,Møllevej,86,,2100
+50311,Egevej,4,,7500
+50312,Søndergade,33,,8000
+50313,Storgade,73,3. th.,2900
+50314,Egevej,8,,3000
+50315,Nørregade,102,,7500
+50316,Banegårdsvej,103,,4600
+50317,Møllevej,58,1. tv.,8200
+50318,Havnegade,21,,9000
+50319,Skolegade,13,,2800
+50320,Skolegade,80,,4000
+50321,Banegårdsvej,118,st.,2800
+50322,Kirkevej,108,,4700
+50323,Rosenvænget,44,st.,8600
+50324,Skolegade,61,,9000
+50325,Vestergade,72,,2770
+50326,Egevej,41,,2700
+50327,Rosenvænget,54,,2300
+50328,Møllevej,94,2. tv.,2750
+50329,Søndergade,71,3. th.,2100
+50330,Engvej,30,,4200
+50331,Egevej,80,3. th.,2630
+50332,Vestergade,129,,7100
+50333,Kirkevej,122,,8000
+50334,Lærkevej,39,,6700
+50335,Rosenvænget,43,,8200
+50336,Rosenvænget,76,,2500
+50337,Kirkevej,65,,2770
+50338,Fasanvej,137,,4700
+50339,Skovvej,77,,2450
+50340,Kirkevej,9,1. tv.,9400
+50341,Møllevej,19,,3400
+50342,Rosenvænget,67,,2770
+50343,Bakkevej,112,,2450
+50344,Møllevej,96,,2200
+50345,Fasanvej,109,,2900
+50346,Nørregade,117,,2100
+50347,Østergade,66,,8200
+50348,Kirkevej,44,2. tv.,2750
+50349,Søndergade,81,,4200
+50350,Hovedgaden,126,,4600
+50351,Skolegade,25,,3000
+50352,Egevej,27,,5000
+50353,Engvej,14,,9000
+50354,Storgade,137,st.,9200
+50355,Nørregade,41,,7500
+50356,Møllevej,106,,2300
+50357,Skolegade,9,,2450
+50358,Lærkevej,127,2. th.,2300
+50359,Bakkevej,9,3. th.,9000
+50360,Rosenvænget,101,,4000
+50361,Solbakken,105,,2450
+50362,Rosenvænget,34,,7100
+50363,Vestergade,82,,2800
+50364,Skovvej,59,,8200
+50365,Kirkevej,111,,8000
+50366,Skovvej,58,,2450
+50367,Havnegade,85,,5700
+50368,Banegårdsvej,125,,5000
+50369,Fasanvej,95,2. tv.,2500
+50370,Strandvejen,30,,5700
+50371,Engvej,19,,2630
+50372,Storgade,107,,8700
+50373,Fasanvej,64,3. th.,8700
+50374,Hovedgaden,80,,8000
+50375,Storgade,21,,2600
+50376,Møllevej,62,2. tv.,2500
+50377,Skolegade,97,,8800
+50378,Søndergade,7,,2750
+50379,Strandvejen,25,,6000
+50380,Havnegade,133,,6700
+50381,Lærkevej,55,,5200
+50382,Engvej,37,,4200
+50383,Kirkevej,87,,5000
+50384,Hovedgaden,8,,8000
+50385,Skovvej,46,,2100
+50386,Hovedgaden,52,,6700
+50387,Parkvej,118,2. th.,2100
+50388,Møllevej,12,1. th.,8800
+50389,Fasanvej,5,,3400
+50390,Storgade,134,,8800
+50391,Fasanvej,63,,9000
+50392,Østergade,71,1. th.,2500
+50393,Skolegade,27,,7400
+50394,Skolegade,41,,6700
+50395,Parkvej,20,st.,2800
+50396,Hovedgaden,104,,4000
+50397,Østergade,107,1. tv.,2600
+50398,Parkvej,128,,2700
+50399,Strandvejen,98,1. tv.,2770
+50400,Rosenvænget,98,,9000
+50401,Fasanvej,64,,6000
+50402,Strandvejen,107,2. tv.,9400
+50403,Strandvejen,108,1. th.,2500
+50404,Birkevej,31,,2500
+50405,Birkevej,68,,6700
+50406,Rosenvænget,65,,9000
+50407,Storgade,25,,3400
+50408,Vestergade,53,,2630
+50409,Skolegade,112,,2300
+50410,Solbakken,79,,8200
+50411,Storgade,137,3. th.,2200
+50412,Solbakken,34,2. th.,2400
+50413,Lærkevej,138,,5700
+50414,Birkevej,71,,4000
+50415,Vestergade,18,,8000
+50416,Vestergade,60,,9000
+50417,Solbakken,119,,7400
+50418,Østergade,5,,3400
+50419,Skolegade,51,,7500
+50420,Engvej,61,,4600
+50421,Fasanvej,7,,5000
+50422,Bakkevej,49,,4000
+50423,Vestergade,5,,2500
+50424,Hovedgaden,125,,2630
+50425,Bakkevej,35,2. th.,9800
+50426,Banegårdsvej,42,,2770
+50427,Hovedgaden,136,,2200
+50428,Rosenvænget,52,,2200
+50429,Lærkevej,48,,2450
+50430,Fasanvej,136,,5700
+50431,Østergade,34,,8700
+50432,Havnegade,84,,2450
+50433,Strandvejen,67,,2650
+50434,Havnegade,3,,2200
+50435,Fasanvej,39,,8700
+50436,Solbakken,109,,9000
+50437,Havnegade,66,,2200
+50438,Bakkevej,36,,2500
+50439,Egevej,80,,2400
+50440,Søndergade,93,st.,2300
+50441,Banegårdsvej,94,,6700
+50442,Kirkevej,134,,8800
+50443,Strandvejen,92,1. tv.,2800
+50444,Strandvejen,13,,4700
+50445,Strandvejen,104,,7400
+50446,Skolegade,70,st.,2300
+50447,Rosenvænget,130,,5000
+50448,Rosenvænget,108,3. th.,2770
+50449,Storgade,98,,2630
+50450,Parkvej,140,,2300
+50451,Lærkevej,80,,8000
+50452,Vestergade,77,2. tv.,2750
+50453,Skolegade,37,2. th.,2600
+50454,Bakkevej,57,2. th.,8000
+50455,Birkevej,123,,6700
+50456,Skolegade,70,,9000
+50457,Storgade,113,,8260
+50458,Solbakken,62,st.,2200
+50459,Strandvejen,101,1. th.,1050
+50460,Havnegade,104,,7100
+50461,Parkvej,133,,4700
+50462,Skolegade,133,,5200
+50463,Havnegade,67,,2300
+50464,Engvej,19,,8800
+50465,Skolegade,13,,8200
+50466,Strandvejen,74,1. th.,2630
+50467,Rosenvænget,57,1. tv.,8260
+50468,Solbakken,89,,6700
+50469,Havnegade,82,,8000
+50470,Parkvej,56,,4700
+50471,Egevej,65,,2100
+50472,Solbakken,41,1. tv.,1050
+50473,Rosenvænget,58,,5000
+50474,Birkevej,56,,4200
+50475,Banegårdsvej,101,2. th.,2800
+50476,Vestergade,83,,9000
+50477,Bakkevej,16,3. th.,2700
+50478,Lærkevej,100,,2600
+50479,Parkvej,107,1. tv.,8260
+50480,Bakkevej,82,1. th.,2770
+50481,Østergade,52,,6000
+50482,Egevej,49,,5700
+50483,Møllevej,93,,5000
+50484,Skovvej,69,,4200
+50485,Birkevej,19,,2400
+50486,Søndergade,121,1. tv.,2200
+50487,Kirkevej,32,,2500
+50488,Fasanvej,82,,8000
+50489,Vestergade,115,,8000
+50490,Egevej,18,,9000
+50491,Nørregade,40,,2100
+50492,Egevej,76,,7100
+50493,Engvej,20,1. tv.,2630
+50494,Hovedgaden,77,st.,1050
+50495,Vestergade,91,,3000
+50496,Birkevej,103,2. tv.,9900
+50497,Østergade,12,,5000
+50498,Rosenvænget,23,2. tv.,8000
+50499,Solbakken,125,,6000
+50500,Banegårdsvej,65,st.,2200
+50501,Storgade,25,st.,8700
+50502,Rosenvænget,92,,2100
+50503,Hovedgaden,42,,6400
+50504,Skovvej,44,,6400
+50505,Hovedgaden,54,,4600
+50506,Skovvej,40,,7400
+50507,Søndergade,15,,1050
+50508,Skolegade,106,,7100
+50509,Solbakken,71,,4200
+50510,Bakkevej,35,1. tv.,2300
+50511,Birkevej,13,,5200
+50512,Kirkevej,14,,3000
+50513,Egevej,46,,5200
+50514,Strandvejen,57,1. tv.,2300
+50515,Lærkevej,103,2. tv.,2600
+50516,Havnegade,48,,9000
+50517,Fasanvej,102,2. th.,2400
+50518,Egevej,94,,1050
+50519,Strandvejen,110,,2200
+50520,Nørregade,83,,4600
+50521,Bakkevej,89,,2400
+50522,Østergade,102,,7100
+50523,Lærkevej,87,st.,1050
+50524,Havnegade,36,,2450
+50525,Lærkevej,95,1. tv.,2800
+50526,Nørregade,44,st.,2450
+50527,Østergade,13,2. tv.,2500
+50528,Skolegade,41,,8000
+50529,Hovedgaden,69,,7100
+50530,Skolegade,34,,2500
+50531,Vestergade,87,,2800
+50532,Havnegade,128,,1050
+50533,Rosenvænget,136,,5700
+50534,Strandvejen,131,1. th.,9000
+50535,Skovvej,5,,6700
+50536,Skovvej,28,,4200
+50537,Søndergade,94,1. th.,9900
+50538,Storgade,6,,7100
+50539,Engvej,82,,9000
+50540,Skovvej,42,,2300
+50541,Strandvejen,121,,6400
+50542,Lærkevej,69,,2900
+50543,Solbakken,130,,9000
+50544,Skolegade,16,,2100
+50545,Engvej,38,,2750
+50546,Østergade,102,,2200
+50547,Banegårdsvej,55,st.,9200
+50548,Parkvej,134,2. tv.,2750
+50549,Storgade,45,,5000
+50550,Egevej,119,,8800
+50551,Skovvej,29,2. th.,2300
+50552,Nørregade,54,st.,9000
+50553,Bakkevej,118,,3000
+50554,Havnegade,79,3. th.,2300
+50555,Solbakken,104,,5200
+50556,Storgade,133,1. th.,2450
+50557,Hovedgaden,82,,2300
+50558,Strandvejen,58,,2750
+50559,Skovvej,122,,2100
+50560,Kirkevej,85,,9400
+50561,Østergade,90,2. tv.,2800
+50562,Rosenvænget,128,,2800
+50563,Strandvejen,128,,9400
+50564,Solbakken,23,2. th.,2100
+50565,Rosenvænget,78,2. tv.,9200
+50566,Østergade,112,,4000
+50567,Søndergade,25,st.,2200
+50568,Nørregade,122,,4700
+50569,Banegårdsvej,16,,2800
+50570,Banegårdsvej,90,,8000
+50571,Fasanvej,90,,8600
+50572,Søndergade,71,,7100
+50573,Egevej,41,,4700
+50574,Møllevej,94,,8000
+50575,Rosenvænget,118,,3000
+50576,Kirkevej,102,,3000
+50577,Hovedgaden,23,,2200
+50578,Søndergade,95,,4000
+50579,Skolegade,84,,5000
+50580,Lærkevej,117,,2100
+50581,Birkevej,111,,2400
+50582,Parkvej,12,,2300
+50583,Rosenvænget,34,2. tv.,8260
+50584,Solbakken,100,,9400
+50585,Møllevej,37,,3000
+50586,Engvej,67,,2200
+50587,Birkevej,97,,4000
+50588,Lærkevej,23,,7500
+50589,Bakkevej,25,,3400
+50590,Rosenvænget,17,,6700
+50591,Egevej,13,3. th.,2500
+50592,Havnegade,77,,2100
+50593,Lærkevej,49,2. tv.,1050
+50594,Hovedgaden,79,,2630
+50595,Hovedgaden,53,,4200
+50596,Strandvejen,89,2. tv.,9000
+50597,Skovvej,119,,8700
+50598,Skovvej,135,,2300
+50599,Birkevej,124,2. tv.,2300
+50600,Strandvejen,43,,6700
+50601,Møllevej,52,,2450
+50602,Skolegade,48,,8000
+50603,Bakkevej,59,,2700
+50604,Solbakken,21,,5000
+50605,Vestergade,119,,2100
+50606,Møllevej,4,,2650
+50607,Møllevej,101,,9200
+50608,Rosenvænget,37,,4800
+50609,Møllevej,136,1. tv.,2400
+50610,Rosenvænget,111,,5200
+50611,Strandvejen,37,,4000
+50612,Fasanvej,102,,2750
+50613,Vestergade,119,,9900
+50614,Vestergade,69,,6700
+50615,Østergade,7,,2750
+50616,Søndergade,137,,4700
+50617,Banegårdsvej,69,1. th.,9000
+50618,Fasanvej,68,,8600
+50619,Fasanvej,5,,5000
+50620,Fasanvej,103,,2200
+50621,Storgade,87,,8260
+50622,Møllevej,5,,2450
+50623,Skovvej,113,,4600
+50624,Vestergade,104,,3600
+50625,Egevej,125,,2200
+50626,Skolegade,63,,7400
+50627,Egevej,56,,7000
+50628,Møllevej,65,,2600
+50629,Solbakken,94,3. th.,8000
+50630,Kirkevej,122,,2500
+50631,Hovedgaden,28,,7500
+50632,Birkevej,3,,2500
+50633,Skolegade,31,,4000
+50634,Fasanvej,54,,2200
+50635,Skovvej,126,,7400
+50636,Strandvejen,53,2. tv.,2100
+50637,Storgade,92,2. tv.,2200
+50638,Søndergade,13,1. th.,2700
+50639,Fasanvej,134,,2600
+50640,Storgade,88,st.,1050
+50641,Skolegade,22,,2630
+50642,Bakkevej,44,,4600
+50643,Møllevej,135,,2400
+50644,Solbakken,49,,2300
+50645,Lærkevej,71,1. th.,1050
+50646,Skovvej,21,1. tv.,1050
+50647,Bakkevej,25,,2300
+50648,Bakkevej,10,,9800
+50649,Solbakken,94,,4800
+50650,Hovedgaden,84,,6700
+50651,Østergade,42,2. tv.,2750
+50652,Bakkevej,84,1. tv.,8600
+50653,Møllevej,16,,2300
+50654,Skovvej,135,,7400
+50655,Egevej,105,1. th.,9000
+50656,Fasanvej,102,,9000
+50657,Banegårdsvej,9,,4200
+50658,Fasanvej,60,1. tv.,2500
+50659,Havnegade,91,,2650
+50660,Engvej,40,,4600
+50661,Bakkevej,61,st.,1050
+50662,Nørregade,32,,2900
+50663,Rosenvænget,45,2. tv.,8000
+50664,Engvej,22,1. th.,8700
+50665,Vestergade,17,,2600
+50666,Søndergade,13,,2770
+50667,Storgade,35,,4700
+50668,Nørregade,92,1. th.,2400
+50669,Møllevej,107,,5000
+50670,Banegårdsvej,20,,9200
+50671,Østergade,132,,4200
+50672,Strandvejen,58,,6400
+50673,Nørregade,135,,5200
+50674,Rosenvænget,120,st.,9900
+50675,Solbakken,89,2. tv.,2200
+50676,Storgade,34,,2800
+50677,Nørregade,104,1. tv.,2800
+50678,Strandvejen,95,,5000
+50679,Møllevej,13,,2300
+50680,Egevej,91,1. th.,2300
+50681,Egevej,6,,9900
+50682,Storgade,72,2. th.,2300
+50683,Parkvej,111,3. th.,8000
+50684,Fasanvej,106,,2800
+50685,Solbakken,58,,4000
+50686,Birkevej,9,,2750
+50687,Søndergade,38,,8200
+50688,Strandvejen,64,,5000
+50689,Fasanvej,19,,2100
+50690,Engvej,96,,6000
+50691,Fasanvej,89,st.,8200
+50692,Parkvej,48,,4600
+50693,Engvej,87,,5200
+50694,Skolegade,134,,4600
+50695,Strandvejen,96,,2400
+50696,Søndergade,101,,2300
+50697,Banegårdsvej,49,,2450
+50698,Kirkevej,50,1. tv.,2300
+50699,Rosenvænget,61,1. tv.,2600
+50700,Havnegade,118,1. tv.,8000
+50701,Egevej,14,,6700
+50702,Fasanvej,21,,1050
+50703,Kirkevej,102,,3600
+50704,Solbakken,83,,5200
+50705,Strandvejen,66,,4800
+50706,Havnegade,14,,5200
+50707,Birkevej,75,,2100
+50708,Lærkevej,105,,5200
+50709,Havnegade,59,,2900
+50710,Søndergade,91,,2450
+50711,Skolegade,65,,7500
+50712,Havnegade,14,,3000
+50713,Parkvej,15,1. th.,2450
+50714,Bakkevej,109,1. tv.,2100
+50715,Kirkevej,35,,2500
+50716,Skovvej,56,,4700
+50717,Havnegade,122,,9200
+50718,Vestergade,29,2. th.,8700
+50719,Rosenvænget,55,,5700
+50720,Fasanvej,136,,4000
+50721,Egevej,101,,4600
+50722,Egevej,88,,8000
+50723,Vestergade,21,,9400
+50724,Engvej,110,,8000
+50725,Storgade,86,,2600
+50726,Engvej,12,,6400
+50727,Lærkevej,96,1. th.,1050
+50728,Østergade,94,2. th.,8800
+50729,Kirkevej,29,1. tv.,2630
+50730,Lærkevej,77,,8260
+50731,Strandvejen,23,1. th.,8200
+50732,Strandvejen,124,,9400
+50733,Nørregade,45,,7000
+50734,Storgade,14,,9900
+50735,Møllevej,126,,2500
+50736,Rosenvænget,1,,6700
+50737,Engvej,61,,2400
+50738,Fasanvej,75,,8200
+50739,Rosenvænget,137,1. th.,2300
+50740,Lærkevej,105,,2750
+50741,Havnegade,24,,4600
+50742,Møllevej,93,1. tv.,2500
+50743,Hovedgaden,70,,4200
+50744,Storgade,83,,8260
+50745,Birkevej,51,,2200
+50746,Nørregade,46,,8200
+50747,Birkevej,103,,8800
+50748,Fasanvej,58,,2300
+50749,Vestergade,60,,6000
+50750,Skolegade,25,1. tv.,9200
+50751,Hovedgaden,108,,7100
+50752,Havnegade,122,1. th.,2400
+50753,Storgade,30,,4000
+50754,Søndergade,57,,2630
+50755,Parkvej,117,,5000
+50756,Skovvej,99,2. tv.,9400
+50757,Hovedgaden,94,,9900
+50758,Parkvej,93,,7400
+50759,Lærkevej,125,3. th.,2700
+50760,Egevej,76,2. tv.,2300
+50761,Bakkevej,42,,4600
+50762,Hovedgaden,133,,5200
+50763,Skovvej,120,,2750
+50764,Birkevej,63,,6000
+50765,Kirkevej,99,1. th.,2630
+50766,Engvej,103,1. tv.,2770
+50767,Søndergade,5,3. th.,2300
+50768,Bakkevej,118,st.,2800
+50769,Solbakken,96,2. th.,2630
+50770,Havnegade,31,,2750
+50771,Fasanvej,103,2. th.,9400
+50772,Solbakken,114,,2450
+50773,Østergade,17,,5000
+50774,Kirkevej,66,,2300
+50775,Søndergade,85,,2630
+50776,Havnegade,111,,4000
+50777,Søndergade,9,1. tv.,2100
+50778,Parkvej,104,,5200
+50779,Møllevej,25,,2500
+50780,Møllevej,119,,2300
+50781,Havnegade,61,,6000
+50782,Strandvejen,79,2. tv.,2600
+50783,Egevej,9,1. th.,8200
+50784,Egevej,106,,4200
+50785,Havnegade,80,st.,2400
+50786,Kirkevej,27,,2750
+50787,Banegårdsvej,75,,8200
+50788,Havnegade,106,,2750
+50789,Østergade,39,,2770
+50790,Skovvej,58,,5000
+50791,Havnegade,67,1. th.,2500
+50792,Lærkevej,56,,8200
+50793,Skovvej,66,1. tv.,1050
+50794,Rosenvænget,1,,2700
+50795,Møllevej,86,2. th.,9800
+50796,Egevej,63,st.,2600
+50797,Banegårdsvej,64,,7400
+50798,Birkevej,118,,5000
+50799,Bakkevej,69,,9000
+50800,Parkvej,62,,3400
+50801,Hovedgaden,27,,5700
+50802,Nørregade,30,,3600
+50803,Skovvej,74,1. th.,8200
+50804,Birkevej,8,st.,2600
+50805,Kirkevej,70,,8000
+50806,Strandvejen,64,2. th.,8700
+50807,Solbakken,95,,2100
+50808,Søndergade,64,,8260
+50809,Kirkevej,10,,3000
+50810,Møllevej,36,,5000
+50811,Skovvej,138,2. th.,2400
+50812,Banegårdsvej,85,,4200
+50813,Søndergade,120,,9800
+50814,Egevej,123,,2200
+50815,Banegårdsvej,56,,6700
+50816,Skovvej,65,,7400
+50817,Strandvejen,31,,7100
+50818,Vestergade,91,,2400
+50819,Solbakken,131,1. tv.,2900
+50820,Rosenvænget,75,1. th.,2500
+50821,Parkvej,136,st.,8700
+50822,Havnegade,105,,2100
+50823,Kirkevej,114,,9800
+50824,Møllevej,36,1. tv.,2630
+50825,Storgade,73,,4000
+50826,Nørregade,132,,9400
+50827,Engvej,21,2. th.,9800
+50828,Bakkevej,101,1. tv.,1050
+50829,Vestergade,107,1. tv.,9000
+50830,Banegårdsvej,48,,5700
+50831,Kirkevej,87,,4700
+50832,Vestergade,132,,7100
+50833,Østergade,115,,6000
+50834,Birkevej,50,1. th.,2450
+50835,Solbakken,31,,3400
+50836,Havnegade,9,,5700
+50837,Parkvej,139,,2200
+50838,Kirkevej,115,st.,2630
+50839,Egevej,74,,9800
+50840,Banegårdsvej,112,3. th.,2630
+50841,Hovedgaden,46,,2100
+50842,Møllevej,2,,9400
+50843,Lærkevej,42,,4600
+50844,Søndergade,95,,2450
+50845,Banegårdsvej,58,,2200
+50846,Banegårdsvej,59,3. th.,9400
+50847,Skolegade,98,2. tv.,2200
+50848,Østergade,100,,2400
+50849,Kirkevej,14,,4000
+50850,Strandvejen,90,,8000
+50851,Strandvejen,128,,2900
+50852,Østergade,129,,3600
+50853,Solbakken,18,,8200
+50854,Havnegade,76,,8000
+50855,Vestergade,33,,2300
+50856,Skovvej,12,,2200
+50857,Vestergade,7,,8200
+50858,Rosenvænget,41,,4800
+50859,Vestergade,25,2. tv.,1050
+50860,Engvej,5,,7100
+50861,Birkevej,79,,4000
+50862,Fasanvej,58,3. th.,2300
+50863,Engvej,98,st.,9000
+50864,Kirkevej,8,3. th.,8000
+50865,Søndergade,1,,8000
+50866,Egevej,123,2. th.,8000
+50867,Søndergade,56,,7100
+50868,Banegårdsvej,1,,2600
+50869,Banegårdsvej,43,,8200
+50870,Parkvej,64,,4600
+50871,Bakkevej,54,,2100
+50872,Skolegade,128,,2800
+50873,Parkvej,126,,7400
+50874,Østergade,40,,2500
+50875,Havnegade,68,,5200
+50876,Fasanvej,46,,7400
+50877,Skolegade,119,1. tv.,2800
+50878,Hovedgaden,83,,2200
+50879,Bakkevej,42,,5000
+50880,Havnegade,29,,1050
+50881,Nørregade,83,,8000
+50882,Søndergade,114,2. th.,8000
+50883,Skovvej,41,,7100
+50884,Østergade,128,,3000
+50885,Søndergade,61,3. th.,8700
+50886,Kirkevej,68,,1050
+50887,Havnegade,112,2. th.,2800
+50888,Strandvejen,29,1. th.,9900
+50889,Rosenvænget,98,,4000
+50890,Nørregade,63,1. tv.,2300
+50891,Bakkevej,121,,2400
+50892,Skolegade,29,,4000
+50893,Lærkevej,21,,4000
+50894,Skolegade,73,,2600
+50895,Egevej,62,3. th.,8000
+50896,Nørregade,28,,2400
+50897,Søndergade,44,1. tv.,8000
+50898,Skovvej,29,,8000
+50899,Hovedgaden,114,,6000
+50900,Birkevej,130,st.,8260
+50901,Banegårdsvej,3,2. tv.,2600
+50902,Egevej,96,,8800
+50903,Rosenvænget,96,,4000
+50904,Havnegade,115,1. th.,2100
+50905,Skovvej,137,,4000
+50906,Søndergade,117,,4600
+50907,Havnegade,101,,3600
+50908,Lærkevej,80,,2200
+50909,Kirkevej,20,,2300
+50910,Vestergade,52,,2630
+50911,Skolegade,59,,7100
+50912,Strandvejen,50,1. th.,1050
+50913,Søndergade,119,1. tv.,2400
+50914,Bakkevej,97,st.,2500
+50915,Møllevej,128,,3400
+50916,Birkevej,108,,8800
+50917,Møllevej,51,,7500
+50918,Bakkevej,10,,6700
+50919,Nørregade,140,,6000
+50920,Bakkevej,49,,1050
+50921,Egevej,51,,2300
+50922,Vestergade,11,,6700
+50923,Rosenvænget,115,,2300
+50924,Kirkevej,140,,2450
+50925,Skovvej,9,,5000
+50926,Søndergade,15,,2100
+50927,Lærkevej,29,2. th.,2300
+50928,Vestergade,84,,3000
+50929,Solbakken,8,1. th.,2600
+50930,Østergade,124,,8200
+50931,Havnegade,56,,6700
+50932,Birkevej,1,,5200
+50933,Solbakken,105,,4200
+50934,Engvej,26,,9000
+50935,Skolegade,78,1. tv.,9000
+50936,Rosenvænget,133,st.,2750
+50937,Bakkevej,87,1. tv.,8700
+50938,Østergade,28,2. th.,2450
+50939,Skovvej,135,,8600
+50940,Møllevej,135,,2630
+50941,Havnegade,72,,2600
+50942,Rosenvænget,125,,5200
+50943,Fasanvej,117,1. tv.,2750
+50944,Banegårdsvej,8,1. th.,8000
+50945,Fasanvej,21,,9800
+50946,Fasanvej,15,2. th.,2200
+50947,Solbakken,79,,2200
+50948,Storgade,126,2. tv.,2450
+50949,Kirkevej,90,,4200
+50950,Fasanvej,13,st.,2750
+50951,Birkevej,33,,6400
+50952,Storgade,103,2. th.,2300
+50953,Lærkevej,39,2. th.,1050
+50954,Østergade,32,,6000
+50955,Storgade,38,2. th.,9900
+50956,Kirkevej,60,1. th.,2200
+50957,Birkevej,87,,4200
+50958,Parkvej,96,,6700
+50959,Skovvej,8,,7100
+50960,Møllevej,80,,6700
+50961,Skovvej,35,,4000
+50962,Fasanvej,118,,2450
+50963,Bakkevej,77,,2750
+50964,Strandvejen,2,,9000
+50965,Havnegade,139,1. tv.,2200
+50966,Engvej,114,,6700
+50967,Skovvej,118,,2900
+50968,Solbakken,79,2. tv.,8200
+50969,Skovvej,16,,2200
+50970,Solbakken,94,st.,9400
+50971,Nørregade,69,,2900
+50972,Banegårdsvej,134,,9900
+50973,Solbakken,93,,2770
+50974,Hovedgaden,83,,6000
+50975,Parkvej,98,,2600
+50976,Banegårdsvej,133,2. tv.,2600
+50977,Solbakken,90,st.,2650
+50978,Engvej,80,2. tv.,9000
+50979,Rosenvænget,109,,2400
+50980,Østergade,5,,4600
+50981,Søndergade,5,,6400
+50982,Engvej,1,,8600
+50983,Skovvej,47,,4600
+50984,Havnegade,43,,8200
+50985,Bakkevej,38,2. tv.,2800
+50986,Rosenvænget,96,,9200
+50987,Storgade,129,,2100
+50988,Strandvejen,18,,4700
+50989,Storgade,80,,5000
+50990,Hovedgaden,92,,7000
+50991,Skovvej,5,2. th.,8000
+50992,Skovvej,123,,6700
+50993,Kirkevej,67,,2450
+50994,Solbakken,3,,2500
+50995,Storgade,7,,4200
+50996,Bakkevej,58,st.,2450
+50997,Lærkevej,109,,2700
+50998,Østergade,1,,3600
+50999,Møllevej,41,,7400
+51000,Kirkevej,119,,7100
+51001,Skolegade,67,2. tv.,8200
+51002,Østergade,39,,4200
+51003,Engvej,69,1. th.,9900
+51004,Egevej,23,2. th.,2800
+51005,Banegårdsvej,56,,8800
+51006,Skovvej,132,,3400
+51007,Storgade,116,,6400
+51008,Birkevej,49,,2630
+51009,Skolegade,47,,3400
+51010,Fasanvej,4,1. tv.,8000
+51011,Birkevej,128,,3600
+51012,Møllevej,44,,6400
+51013,Rosenvænget,35,1. tv.,2600
+51014,Lærkevej,64,,2900
+51015,Engvej,57,1. th.,9000
+51016,Engvej,106,,2650
+51017,Storgade,124,,8000
+51018,Parkvej,17,,7400
+51019,Skolegade,26,,7400
+51020,Nørregade,104,,5700
+51021,Møllevej,1,2. tv.,2200
+51022,Fasanvej,69,,2500
+51023,Fasanvej,7,,6000
+51024,Skovvej,140,,8260
+51025,Strandvejen,115,1. th.,8000
+51026,Nørregade,76,,3000
+51027,Rosenvænget,14,,2700
+51028,Vestergade,111,,9000
+51029,Rosenvænget,120,,2770
+51030,Vestergade,56,,2400
+51031,Kirkevej,35,,5000
+51032,Havnegade,96,3. th.,8260
+51033,Fasanvej,121,,9800
+51034,Skolegade,105,,2800
+51035,Søndergade,118,,2650
+51036,Egevej,106,,2300
+51037,Strandvejen,59,,2650
+51038,Rosenvænget,13,1. th.,9900
+51039,Solbakken,119,1. th.,9000
+51040,Parkvej,114,2. tv.,9900
+51041,Nørregade,101,,2100
+51042,Parkvej,68,st.,2300
+51043,Vestergade,57,,8000
+51044,Nørregade,51,1. th.,2600
+51045,Birkevej,5,,2400
+51046,Rosenvænget,101,,7000
+51047,Skolegade,1,1. tv.,2300
+51048,Storgade,80,,2600
+51049,Nørregade,100,,5000
+51050,Vestergade,101,3. th.,9400
+51051,Vestergade,108,,8200
+51052,Storgade,5,st.,2900
+51053,Birkevej,139,2. tv.,2700
+51054,Egevej,69,,7100
+51055,Nørregade,90,2. th.,2800
+51056,Hovedgaden,48,1. th.,2800
+51057,Østergade,120,3. th.,2800
+51058,Fasanvej,37,3. th.,8700
+51059,Strandvejen,37,,5000
+51060,Solbakken,59,,8600
+51061,Østergade,81,,5000
+51062,Bakkevej,108,,2600
+51063,Fasanvej,56,,5000
+51064,Lærkevej,12,1. th.,9000
+51065,Rosenvænget,75,1. th.,1050
+51066,Solbakken,13,,4800
+51067,Søndergade,8,,2100
+51068,Østergade,60,,4700
+51069,Parkvej,84,,8260
+51070,Nørregade,75,,7000
+51071,Egevej,105,,3400
+51072,Engvej,133,,3000
+51073,Egevej,89,,6000
+51074,Solbakken,68,3. th.,2300
+51075,Birkevej,88,,6700
+51076,Rosenvænget,63,,2650
+51077,Østergade,34,2. tv.,8200
+51078,Vestergade,122,1. th.,8800
+51079,Strandvejen,83,,8000
+51080,Skovvej,60,,9000
+51081,Nørregade,30,1. tv.,8000
+51082,Skolegade,113,,5000
+51083,Fasanvej,13,2. th.,8800
+51084,Vestergade,130,2. th.,2500
+51085,Møllevej,13,1. tv.,8260
+51086,Østergade,12,,2650
+51087,Nørregade,136,2. tv.,2100
+51088,Storgade,26,,8000
+51089,Storgade,72,,9200
+51090,Skolegade,105,,6000
+51091,Bakkevej,38,,2650
+51092,Østergade,119,st.,2650
+51093,Bakkevej,9,,8800
+51094,Havnegade,81,2. th.,2650
+51095,Kirkevej,70,,8000
+51096,Banegårdsvej,83,,2300
+51097,Havnegade,18,,2400
+51098,Østergade,122,3. th.,2450
+51099,Fasanvej,49,1. tv.,8600
+51100,Bakkevej,20,,6700
+51101,Vestergade,126,2. th.,8200
+51102,Kirkevej,12,,2450
+51103,Egevej,71,,5000
+51104,Møllevej,80,,7400
+51105,Rosenvænget,24,,4200
+51106,Skolegade,131,,2900
+51107,Engvej,110,,2300
+51108,Banegårdsvej,17,,4700
+51109,Solbakken,59,,2750
+51110,Hovedgaden,43,,2100
+51111,Egevej,32,,2650
+51112,Strandvejen,101,,2300
+51113,Nørregade,22,,5200
+51114,Skovvej,133,,6000
+51115,Engvej,56,,6000
+51116,Havnegade,136,1. tv.,9400
+51117,Vestergade,4,,5700
+51118,Møllevej,81,,2200
+51119,Vestergade,135,,1050
+51120,Havnegade,12,,2200
+51121,Birkevej,14,,5000
+51122,Kirkevej,22,,8700
+51123,Skovvej,97,1. tv.,9200
+51124,Lærkevej,55,,6000
+51125,Engvej,99,,2300
+51126,Søndergade,69,,6700
+51127,Møllevej,43,2. tv.,9800
+51128,Vestergade,14,,4700
+51129,Solbakken,85,,2300
+51130,Bakkevej,39,,4000
+51131,Hovedgaden,81,,2100
+51132,Møllevej,83,,8200
+51133,Engvej,129,,5000
+51134,Birkevej,44,2. tv.,8000
+51135,Lærkevej,84,,4200
+51136,Banegårdsvej,34,,2200
+51137,Rosenvænget,84,,4000
+51138,Engvej,109,,2200
+51139,Egevej,117,,6000
+51140,Rosenvænget,120,,2300
+51141,Rosenvænget,116,,5000
+51142,Parkvej,66,st.,9400
+51143,Kirkevej,29,1. th.,8000
+51144,Egevej,117,,7100
+51145,Strandvejen,82,1. tv.,9900
+51146,Banegårdsvej,119,,1050
+51147,Bakkevej,56,,2450
+51148,Nørregade,48,st.,8000
+51149,Solbakken,103,,7000
+51150,Lærkevej,140,,2400
+51151,Egevej,77,,7500
+51152,Nørregade,35,,2750
+51153,Østergade,93,,4000
+51154,Banegårdsvej,140,2. tv.,2750
+51155,Fasanvej,124,,4800
+51156,Nørregade,62,,4200
+51157,Fasanvej,140,,3000
+51158,Vestergade,126,,8800
+51159,Vestergade,127,,6700
+51160,Havnegade,48,,5700
+51161,Strandvejen,113,,2450
+51162,Havnegade,30,,4000
+51163,Skolegade,104,,6700
+51164,Banegårdsvej,13,,5000
+51165,Skolegade,87,,8200
+51166,Vestergade,8,,7100
+51167,Fasanvej,100,,7500
+51168,Hovedgaden,96,,6400
+51169,Kirkevej,70,,4800
+51170,Vestergade,49,,3600
+51171,Birkevej,139,,8200
+51172,Birkevej,120,,6400
+51173,Vestergade,105,,9000
+51174,Bakkevej,78,,4600
+51175,Nørregade,15,,2800
+51176,Skolegade,111,,9000
+51177,Hovedgaden,43,3. th.,2300
+51178,Solbakken,35,3. th.,9000
+51179,Fasanvej,51,,9800
+51180,Solbakken,6,,7000
+51181,Søndergade,48,,8600
+51182,Skolegade,131,,4000
+51183,Birkevej,101,,4700
+51184,Banegårdsvej,136,,2300
+51185,Havnegade,98,1. tv.,2770
+51186,Hovedgaden,35,,2650
+51187,Hovedgaden,33,3. th.,2200
+51188,Hovedgaden,36,,7000
+51189,Rosenvænget,1,1. th.,2300
+51190,Birkevej,7,3. th.,2200
+51191,Egevej,14,1. th.,2200
+51192,Bakkevej,47,,5200
+51193,Havnegade,65,2. tv.,2300
+51194,Egevej,111,,6000
+51195,Søndergade,19,2. th.,1050
+51196,Nørregade,39,3. th.,2200
+51197,Skovvej,89,,4000
+51198,Bakkevej,54,,2450
+51199,Bakkevej,139,,3000
+51200,Nørregade,37,,2300
+51201,Lærkevej,103,,2400
+51202,Strandvejen,57,3. th.,8000
+51203,Vestergade,14,2. tv.,2900
+51204,Rosenvænget,49,,2650
+51205,Solbakken,59,,5000
+51206,Engvej,3,,4700
+51207,Fasanvej,98,,2200
+51208,Bakkevej,131,,9200
+51209,Hovedgaden,100,,4200
+51210,Birkevej,81,1. tv.,2300
+51211,Storgade,91,,2600
+51212,Skolegade,140,,8260
+51213,Kirkevej,133,1. tv.,2100
+51214,Skolegade,42,3. th.,2500
+51215,Vestergade,138,,2450
+51216,Solbakken,88,2. tv.,2800
+51217,Fasanvej,19,1. th.,8600
+51218,Birkevej,101,,2300
+51219,Fasanvej,37,st.,2200
+51220,Skolegade,112,,6700
+51221,Strandvejen,22,,2700
+51222,Egevej,106,,9800
+51223,Møllevej,14,1. th.,2750
+51224,Birkevej,112,1. th.,9000
+51225,Solbakken,17,,9900
+51226,Parkvej,119,,7100
+51227,Engvej,25,,7500
+51228,Solbakken,21,,6000
+51229,Kirkevej,7,1. th.,2500
+51230,Vestergade,121,,4000
+51231,Østergade,128,,8800
+51232,Strandvejen,120,,9000
+51233,Bakkevej,84,,3600
+51234,Hovedgaden,47,,4800
+51235,Rosenvænget,78,2. th.,8260
+51236,Skolegade,55,,7100
+51237,Kirkevej,20,2. tv.,2100
+51238,Skovvej,19,,2400
+51239,Engvej,7,2. th.,2500
+51240,Rosenvænget,17,1. th.,1050
+51241,Banegårdsvej,112,,4600
+51242,Storgade,3,,4000
+51243,Vestergade,61,2. th.,9000
+51244,Fasanvej,56,,5000
+51245,Bakkevej,6,,2770
+51246,Rosenvænget,100,,1050
+51247,Fasanvej,14,,2750
+51248,Parkvej,17,,5000
+51249,Fasanvej,28,,6000
+51250,Vestergade,99,1. tv.,2450
+51251,Birkevej,132,2. th.,2300
+51252,Fasanvej,27,,2800
+51253,Banegårdsvej,46,,8600
+51254,Havnegade,41,,4000
+51255,Kirkevej,82,,7100
+51256,Solbakken,137,,4700
+51257,Banegårdsvej,12,,4000
+51258,Banegårdsvej,113,,7400
+51259,Østergade,66,2. tv.,9200
+51260,Bakkevej,37,st.,2650
+51261,Solbakken,130,,5200
+51262,Storgade,70,2. th.,2300
+51263,Strandvejen,92,,9000
+51264,Solbakken,94,st.,2450
+51265,Nørregade,60,,3000
+51266,Vestergade,24,2. tv.,8000
+51267,Rosenvænget,107,,3400
+51268,Birkevej,92,,6700
+51269,Møllevej,67,,2400
+51270,Solbakken,125,,7400
+51271,Skovvej,67,3. th.,2700
+51272,Solbakken,112,2. th.,8260
+51273,Skolegade,124,,7500
+51274,Rosenvænget,120,,5000
+51275,Nørregade,4,,6700
+51276,Bakkevej,78,,8200
+51277,Fasanvej,73,1. th.,1050
+51278,Skovvej,107,,2200
+51279,Lærkevej,92,,4000
+51280,Rosenvænget,51,,8000
+51281,Banegårdsvej,140,,2600
+51282,Rosenvænget,19,,4600
+51283,Parkvej,127,,1050
+51284,Østergade,128,,4600
+51285,Egevej,125,,5000
+51286,Møllevej,100,,5000
+51287,Rosenvænget,12,,9200
+51288,Fasanvej,78,,3400
+51289,Vestergade,42,,2900
+51290,Engvej,53,,8200
+51291,Skolegade,36,,6400
+51292,Birkevej,107,1. tv.,2500
+51293,Kirkevej,71,,2600
+51294,Lærkevej,58,,2400
+51295,Solbakken,105,,3000
+51296,Parkvej,110,,2600
+51297,Fasanvej,118,,2600
+51298,Egevej,37,,4800
+51299,Engvej,84,1. tv.,8800
+51300,Fasanvej,86,,7100
+51301,Egevej,54,,2900
+51302,Engvej,31,,5000
+51303,Storgade,20,,2800
+51304,Rosenvænget,66,,2700
+51305,Kirkevej,7,,9000
+51306,Strandvejen,136,,5700
+51307,Birkevej,60,,1050
+51308,Østergade,11,1. tv.,2300
+51309,Engvej,82,st.,2630
+51310,Kirkevej,83,,3600
+51311,Birkevej,64,,2800
+51312,Storgade,16,st.,8200
+51313,Møllevej,45,,8600
+51314,Lærkevej,87,,5700
+51315,Søndergade,82,,8000
+51316,Skovvej,66,,2600
+51317,Fasanvej,90,2. th.,2500
+51318,Lærkevej,87,,5700
+51319,Nørregade,99,,2650
+51320,Vestergade,74,,2900
+51321,Møllevej,83,,6000
+51322,Bakkevej,86,,4700
+51323,Parkvej,126,3. th.,8000
+51324,Skolegade,77,1. th.,2400
+51325,Bakkevej,79,,9400
+51326,Møllevej,72,,2200
+51327,Strandvejen,127,,8000
+51328,Nørregade,124,,4600
+51329,Parkvej,68,,3400
+51330,Engvej,112,,4000
+51331,Engvej,128,,4700
+51332,Skolegade,135,,2400
+51333,Søndergade,136,,9000
+51334,Fasanvej,65,,2900
+51335,Lærkevej,120,2. tv.,2450
+51336,Skolegade,26,,2600
+51337,Skovvej,45,,5200
+51338,Rosenvænget,115,st.,2700
+51339,Rosenvænget,138,,2630
+51340,Parkvej,41,1. tv.,9000
+51341,Egevej,52,,4000
+51342,Banegårdsvej,74,,7500
+51343,Parkvej,44,,2630
+51344,Søndergade,42,3. th.,9400
+51345,Parkvej,102,1. tv.,2900
+51346,Engvej,80,,8700
+51347,Lærkevej,43,,2500
+51348,Engvej,115,,2300
+51349,Fasanvej,19,1. tv.,2700
+51350,Fasanvej,112,,4000
+51351,Hovedgaden,89,,9000
+51352,Havnegade,3,,2300
+51353,Kirkevej,127,,4600
+51354,Solbakken,43,3. th.,2300
+51355,Skovvej,99,,5000
+51356,Rosenvænget,16,1. tv.,2450
+51357,Egevej,33,1. tv.,9000
+51358,Skovvej,3,,2100
+51359,Parkvej,129,,2400
+51360,Møllevej,87,,3400
+51361,Kirkevej,102,,8200
+51362,Skolegade,6,,4000
+51363,Solbakken,68,1. tv.,8000
+51364,Birkevej,69,,9000
+51365,Havnegade,89,1. tv.,2300
+51366,Bakkevej,38,,2200
+51367,Hovedgaden,32,,9900
+51368,Engvej,18,3. th.,2300
+51369,Møllevej,25,1. th.,8000
+51370,Engvej,83,,5000
+51371,Nørregade,107,,2100
+51372,Egevej,61,,2300
+51373,Banegårdsvej,60,2. tv.,2100
+51374,Egevej,99,1. th.,2400
+51375,Birkevej,9,,4200
+51376,Møllevej,49,,2100
+51377,Skovvej,51,,2600
+51378,Søndergade,95,,2650
+51379,Parkvej,6,3. th.,8700
+51380,Strandvejen,84,,8800
+51381,Parkvej,84,,2650
+51382,Engvej,61,,4600
+51383,Solbakken,24,,1050
+51384,Parkvej,13,1. tv.,2700
+51385,Solbakken,59,,7400
+51386,Hovedgaden,41,,2650
+51387,Solbakken,12,3. th.,2630
+51388,Havnegade,38,,5000
+51389,Fasanvej,130,,9900
+51390,Banegårdsvej,140,,9400
+51391,Havnegade,90,,9000
+51392,Bakkevej,16,,2300
+51393,Nørregade,43,,8000
+51394,Strandvejen,74,,6700
+51395,Havnegade,93,2. th.,2400
+51396,Lærkevej,10,,2100
+51397,Kirkevej,84,st.,8000
+51398,Strandvejen,2,,9900
+51399,Parkvej,130,,8600
+51400,Storgade,63,,9000
+51401,Nørregade,14,1. th.,9000
+51402,Storgade,108,,2100
+51403,Møllevej,111,,3000
+51404,Hovedgaden,107,st.,1050
+51405,Strandvejen,36,1. tv.,2400
+51406,Skolegade,99,,5000
+51407,Parkvej,78,,6700
+51408,Engvej,92,1. tv.,2300
+51409,Nørregade,115,,3400
+51410,Banegårdsvej,115,,5000
+51411,Møllevej,33,,1050
+51412,Rosenvænget,125,,4000
+51413,Nørregade,30,2. tv.,2100
+51414,Birkevej,98,,2650
+51415,Storgade,30,,2450
+51416,Birkevej,56,3. th.,2630
+51417,Hovedgaden,132,,2300
+51418,Parkvej,133,,2100
+51419,Skovvej,103,2. th.,9800
+51420,Egevej,99,,2400
+51421,Egevej,18,1. tv.,2300
+51422,Lærkevej,43,,2500
+51423,Kirkevej,94,,4200
+51424,Kirkevej,72,,2100
+51425,Fasanvej,128,,2900
+51426,Søndergade,136,3. th.,2400
+51427,Skovvej,48,,2400
+51428,Engvej,20,,4200
+51429,Storgade,88,3. th.,8000
+51430,Skolegade,18,,6000
+51431,Banegårdsvej,18,,4200
+51432,Bakkevej,125,,4600
+51433,Rosenvænget,123,,3000
+51434,Møllevej,23,st.,8700
+51435,Hovedgaden,64,,2400
+51436,Lærkevej,78,,5000
+51437,Parkvej,89,,9000
+51438,Strandvejen,58,,8000
+51439,Rosenvænget,111,1. th.,2750
+51440,Rosenvænget,81,1. tv.,2630
+51441,Rosenvænget,131,2. th.,2450
+51442,Banegårdsvej,119,,2650
+51443,Nørregade,91,2. th.,2630
+51444,Banegårdsvej,37,,3000
+51445,Egevej,105,,5000
+51446,Nørregade,69,,8000
+51447,Søndergade,25,,5200
+51448,Rosenvænget,50,,7500
+51449,Vestergade,40,,5000
+51450,Østergade,53,,4200
+51451,Nørregade,106,,4600
+51452,Bakkevej,115,,2900
+51453,Egevej,29,,9000
+51454,Hovedgaden,102,1. th.,9000
+51455,Egevej,61,,8000
+51456,Lærkevej,87,,7400
+51457,Fasanvej,42,st.,2800
+51458,Søndergade,67,,6700
+51459,Egevej,104,st.,8200
+51460,Hovedgaden,22,1. th.,9900
+51461,Søndergade,110,,6000
+51462,Skovvej,33,,6000
+51463,Søndergade,1,,3400
+51464,Storgade,17,,4000
+51465,Rosenvænget,107,,4000
+51466,Engvej,122,,8200
+51467,Vestergade,45,,4600
+51468,Bakkevej,20,,2900
+51469,Parkvej,96,,8600
+51470,Skolegade,50,,4600
+51471,Vestergade,52,,4700
+51472,Engvej,94,,7100
+51473,Havnegade,15,3. th.,2300
+51474,Parkvej,44,3. th.,8000
+51475,Parkvej,79,,3400
+51476,Nørregade,131,3. th.,1050
+51477,Fasanvej,85,3. th.,8700
+51478,Strandvejen,74,,8700
+51479,Birkevej,26,2. th.,8000
+51480,Nørregade,114,,5000
+51481,Skolegade,54,,8800
+51482,Skolegade,59,2. th.,2700
+51483,Skovvej,73,,7400
+51484,Engvej,80,,4600
+51485,Solbakken,41,1. tv.,8700
+51486,Nørregade,3,,2200
+51487,Parkvej,77,,7500
+51488,Lærkevej,53,,2900
+51489,Storgade,80,st.,2600
+51490,Nørregade,103,,6700
+51491,Engvej,31,,5700
+51492,Strandvejen,113,,4000
+51493,Søndergade,54,2. th.,2100
+51494,Fasanvej,5,2. th.,8800
+51495,Engvej,114,,5200
+51496,Kirkevej,94,,2630
+51497,Søndergade,46,,4600
+51498,Østergade,92,1. tv.,2450
+51499,Strandvejen,117,,2650
+51500,Strandvejen,70,2. th.,1050
+51501,Solbakken,109,1. th.,2100
+51502,Egevej,56,,2700
+51503,Skolegade,138,,5700
+51504,Storgade,58,3. th.,2650
+51505,Parkvej,2,,5000
+51506,Skolegade,67,,9000
+51507,Fasanvej,65,,6700
+51508,Kirkevej,45,,7100
+51509,Skovvej,42,,9000
+51510,Engvej,110,,3600
+51511,Banegårdsvej,19,,8260
+51512,Parkvej,65,st.,2200
+51513,Nørregade,96,,2100
+51514,Nørregade,91,,6700
+51515,Engvej,109,1. tv.,2900
+51516,Havnegade,71,,7500
+51517,Birkevej,51,,2750
+51518,Engvej,4,,8700
+51519,Østergade,60,,2650
+51520,Vestergade,134,,4200
+51521,Banegårdsvej,110,,4200
+51522,Fasanvej,140,,4700
+51523,Rosenvænget,89,,2650
+51524,Engvej,86,,2100
+51525,Østergade,12,,9900
+51526,Søndergade,140,3. th.,2200
+51527,Hovedgaden,86,3. th.,8000
+51528,Strandvejen,75,,6000
+51529,Østergade,48,1. th.,9000
+51530,Vestergade,61,,2800
+51531,Banegårdsvej,55,,2100
+51532,Søndergade,137,,2800
+51533,Banegårdsvej,14,,7100
+51534,Strandvejen,30,,4600
+51535,Skovvej,25,,2700
+51536,Egevej,140,,6000
+51537,Hovedgaden,90,2. tv.,2300
+51538,Skolegade,78,3. th.,9000
+51539,Parkvej,87,,3600
+51540,Møllevej,92,st.,2300
+51541,Banegårdsvej,31,2. tv.,1050
+51542,Birkevej,83,st.,2200
+51543,Møllevej,105,,7400
+51544,Vestergade,29,,7000
+51545,Bakkevej,36,1. th.,1050
+51546,Vestergade,30,,3000
+51547,Fasanvej,79,2. tv.,2300
+51548,Fasanvej,64,,2800
+51549,Birkevej,14,,6700
+51550,Nørregade,9,3. th.,8800
+51551,Hovedgaden,77,,2900
+51552,Østergade,129,,5000
+51553,Søndergade,140,,6700
+51554,Skovvej,36,,4200
+51555,Møllevej,4,,7000
+51556,Skovvej,64,,8260
+51557,Skolegade,49,,2500
+51558,Vestergade,113,,1050
+51559,Solbakken,139,,7400
+51560,Egevej,35,,4700
+51561,Banegårdsvej,111,,2400
+51562,Skolegade,30,,2300
+51563,Rosenvænget,67,,7000
+51564,Bakkevej,28,2. tv.,2650
+51565,Kirkevej,115,2. th.,2500
+51566,Nørregade,40,,5000
+51567,Strandvejen,10,,5000
+51568,Rosenvænget,87,,2500
+51569,Solbakken,75,3. th.,2100
+51570,Parkvej,32,,3000
+51571,Skovvej,112,,6000
+51572,Solbakken,125,,6700
+51573,Engvej,43,3. th.,8200
+51574,Vestergade,56,2. th.,2750
+51575,Østergade,14,,2300
+51576,Banegårdsvej,7,,2650
+51577,Søndergade,94,,4200
+51578,Nørregade,76,,7100
+51579,Kirkevej,71,,8200
+51580,Solbakken,18,3. th.,2300
+51581,Søndergade,17,,4800
+51582,Nørregade,107,st.,2100
+51583,Solbakken,16,,8700
+51584,Skolegade,130,,8260
+51585,Fasanvej,65,1. th.,2500
+51586,Skovvej,90,,2100
+51587,Banegårdsvej,77,,2770
+51588,Lærkevej,89,,2600
+51589,Storgade,129,3. th.,8200
+51590,Egevej,76,,5000
+51591,Bakkevej,66,st.,2650
+51592,Egevej,100,,9400
+51593,Egevej,83,3. th.,9000
+51594,Birkevej,18,,2650
+51595,Fasanvej,86,,2450
+51596,Østergade,70,,2800
+51597,Skovvej,93,st.,8000
+51598,Engvej,27,2. th.,2300
+51599,Lærkevej,71,3. th.,8000
+51600,Strandvejen,40,,4700
+51601,Skovvej,131,,7000
+51602,Storgade,20,st.,2200
+51603,Møllevej,137,,8600
+51604,Fasanvej,63,3. th.,2500
+51605,Kirkevej,66,st.,2100
+51606,Skolegade,34,,5700
+51607,Skolegade,88,,9000
+51608,Havnegade,28,st.,2200
+51609,Egevej,99,3. th.,2750
+51610,Vestergade,92,st.,9000
+51611,Østergade,41,,3600
+51612,Egevej,100,,2700
+51613,Fasanvej,91,,7000
+51614,Skovvej,137,2. tv.,2600
+51615,Hovedgaden,104,2. tv.,1050
+51616,Lærkevej,93,2. th.,8800
+51617,Kirkevej,71,,5200
+51618,Skolegade,104,st.,8600
+51619,Hovedgaden,21,,2630
+51620,Nørregade,28,,6400
+51621,Egevej,71,2. th.,2400
+51622,Søndergade,101,,4200
+51623,Engvej,111,,3400
+51624,Møllevej,1,,3400
+51625,Skovvej,4,,9800
+51626,Skovvej,50,2. th.,1050
+51627,Fasanvej,81,,5200
+51628,Rosenvænget,24,,7100
+51629,Bakkevej,27,st.,8200
+51630,Banegårdsvej,36,,4000
+51631,Havnegade,16,2. tv.,2800
+51632,Fasanvej,118,,2650
+51633,Kirkevej,37,,2650
+51634,Søndergade,94,,6400
+51635,Skovvej,10,,3600
+51636,Lærkevej,43,,4700
+51637,Nørregade,12,,2500
+51638,Banegårdsvej,36,,8000
+51639,Solbakken,102,,8600
+51640,Kirkevej,134,,2100
+51641,Kirkevej,131,3. th.,2750
+51642,Skovvej,35,,6400
+51643,Nørregade,111,2. th.,2400
+51644,Egevej,112,,6000
+51645,Skovvej,16,,7100
+51646,Skolegade,88,st.,2300
+51647,Skolegade,5,2. tv.,2200
+51648,Strandvejen,123,,1050
+51649,Bakkevej,119,,9000
+51650,Parkvej,28,2. th.,9000
+51651,Bakkevej,109,,4700
+51652,Havnegade,89,1. th.,8000
+51653,Nørregade,18,,4200
+51654,Kirkevej,92,,4000
+51655,Parkvej,124,,2300
+51656,Skolegade,34,1. tv.,8600
+51657,Havnegade,51,,4800
+51658,Solbakken,96,,2100
+51659,Søndergade,10,st.,9000
+51660,Søndergade,123,,4600
+51661,Solbakken,9,3. th.,8800
+51662,Møllevej,99,1. th.,2200
+51663,Egevej,52,,4800
+51664,Engvej,99,,2500
+51665,Egevej,137,,2650
+51666,Parkvej,41,,5700
+51667,Møllevej,36,,5000
+51668,Skolegade,131,2. th.,2400
+51669,Rosenvænget,124,,7400
+51670,Engvej,124,,6000
+51671,Nørregade,60,,2400
+51672,Østergade,91,,8200
+51673,Rosenvænget,14,,7400
+51674,Møllevej,32,1. th.,2300
+51675,Kirkevej,57,,6000
+51676,Rosenvænget,14,,3000
+51677,Søndergade,24,,8800
+51678,Hovedgaden,129,,2200
+51679,Hovedgaden,136,,5200
+51680,Birkevej,20,2. tv.,2100
+51681,Søndergade,7,,3400
+51682,Engvej,62,,2800
+51683,Møllevej,73,,2300
+51684,Møllevej,100,3. th.,8200
+51685,Havnegade,51,,3600
+51686,Vestergade,121,,6400
+51687,Lærkevej,6,,2200
+51688,Parkvej,56,,2500
+51689,Møllevej,123,,8600
+51690,Skolegade,1,,2700
+51691,Engvej,3,,3400
+51692,Banegårdsvej,80,,8000
+51693,Banegårdsvej,82,2. th.,2400
+51694,Skolegade,66,,6700
+51695,Engvej,93,3. th.,2750
+51696,Rosenvænget,102,,5700
+51697,Skovvej,72,,8000
+51698,Fasanvej,34,2. th.,8800
+51699,Østergade,60,,4700
+51700,Egevej,87,st.,8000
+51701,Østergade,25,2. tv.,2100
+51702,Kirkevej,67,,6400
+51703,Skolegade,70,,2650
+51704,Nørregade,99,,6000
+51705,Egevej,96,1. th.,2600
+51706,Skovvej,114,,5200
+51707,Hovedgaden,63,,6700
+51708,Banegårdsvej,96,,5000
+51709,Engvej,13,,1050
+51710,Engvej,124,,2500
+51711,Skolegade,96,,3000
+51712,Havnegade,26,,3000
+51713,Vestergade,28,1. th.,2770
+51714,Storgade,136,,2600
+51715,Skolegade,116,1. th.,2700
+51716,Nørregade,1,1. th.,8000
+51717,Møllevej,84,,4000
+51718,Møllevej,34,st.,8600
+51719,Solbakken,111,2. th.,8700
+51720,Fasanvej,1,,2450
+51721,Nørregade,36,,9400
+51722,Engvej,121,1. tv.,8260
+51723,Havnegade,33,,8200
+51724,Skovvej,74,st.,8700
+51725,Lærkevej,137,1. tv.,2750
+51726,Havnegade,4,1. tv.,2900
+51727,Møllevej,59,,2900
+51728,Rosenvænget,107,,5700
+51729,Nørregade,129,2. tv.,8700
+51730,Fasanvej,1,,2300
+51731,Bakkevej,109,1. th.,2200
+51732,Østergade,7,,8260
+51733,Hovedgaden,77,,2300
+51734,Birkevej,114,,7400
+51735,Storgade,77,,8000
+51736,Nørregade,120,3. th.,8200
+51737,Østergade,105,,2100
+51738,Søndergade,102,,3400
+51739,Solbakken,2,1. th.,2200
+51740,Egevej,126,,6700
+51741,Hovedgaden,66,,2800
+51742,Møllevej,126,,3400
+51743,Skovvej,7,,8800
+51744,Birkevej,114,,2300
+51745,Birkevej,125,1. th.,2630
+51746,Skolegade,135,,6000
+51747,Solbakken,44,,6000
+51748,Bakkevej,133,,3600
+51749,Solbakken,84,,3000
+51750,Fasanvej,96,,4700
+51751,Storgade,45,,2200
+51752,Storgade,88,,8700
+51753,Skolegade,93,,6000
+51754,Møllevej,136,,7100
+51755,Østergade,76,,7500
+51756,Østergade,138,,4700
+51757,Parkvej,120,,6400
+51758,Havnegade,99,,5000
+51759,Møllevej,36,,2300
+51760,Hovedgaden,107,,2650
+51761,Vestergade,3,1. tv.,2200
+51762,Østergade,133,,2800
+51763,Søndergade,86,st.,2200
+51764,Søndergade,94,,6700
+51765,Østergade,93,,6700
+51766,Solbakken,55,2. tv.,2650
+51767,Banegårdsvej,105,,2450
+51768,Solbakken,61,,2400
+51769,Engvej,114,2. tv.,2200
+51770,Parkvej,84,,9000
+51771,Havnegade,4,1. tv.,2450
+51772,Nørregade,71,,8000
+51773,Nørregade,97,,6400
+51774,Skovvej,95,,8700
+51775,Engvej,33,1. th.,9900
+51776,Havnegade,102,,9000
+51777,Banegårdsvej,127,,8000
+51778,Nørregade,37,,3600
+51779,Storgade,130,3. th.,2800
+51780,Hovedgaden,92,3. th.,9000
+51781,Østergade,133,1. tv.,9000
+51782,Egevej,13,1. tv.,2400
+51783,Søndergade,33,,8000
+51784,Vestergade,4,,4600
+51785,Engvej,15,,6700
+51786,Solbakken,106,,2300
+51787,Birkevej,10,,7500
+51788,Rosenvænget,76,,7500
+51789,Østergade,37,,2200
+51790,Strandvejen,2,,7100
+51791,Kirkevej,55,st.,8200
+51792,Rosenvænget,120,1. tv.,2770
+51793,Birkevej,138,,2900
+51794,Skolegade,108,2. tv.,9000
+51795,Fasanvej,53,,2700
+51796,Østergade,98,,2630
+51797,Banegårdsvej,102,,7100
+51798,Nørregade,108,,8000
+51799,Egevej,33,,1050
+51800,Engvej,125,,3600
+51801,Banegårdsvej,19,,4600
+51802,Østergade,73,,2450
+51803,Solbakken,63,,4000
+51804,Nørregade,108,,9000
+51805,Hovedgaden,52,,4200
+51806,Møllevej,57,,2700
+51807,Lærkevej,10,2. tv.,8200
+51808,Fasanvej,35,st.,8000
+51809,Fasanvej,63,2. tv.,2400
+51810,Vestergade,110,,3000
+51811,Kirkevej,2,,3400
+51812,Skovvej,2,,3600
+51813,Østergade,48,,6700
+51814,Kirkevej,81,,6700
+51815,Nørregade,56,,2200
+51816,Solbakken,94,,2500
+51817,Birkevej,53,2. tv.,8000
+51818,Bakkevej,12,st.,8700
+51819,Skolegade,86,,6700
+51820,Solbakken,91,,8000
+51821,Bakkevej,17,1. tv.,2700
+51822,Strandvejen,82,2. tv.,8700
+51823,Kirkevej,48,,7100
+51824,Parkvej,104,,4700
+51825,Lærkevej,55,,9800
+51826,Rosenvænget,78,,6000
+51827,Østergade,46,,6000
+51828,Søndergade,131,,4200
+51829,Havnegade,70,,7100
+51830,Møllevej,122,,4000
+51831,Hovedgaden,37,,2750
+51832,Rosenvænget,110,,4600
+51833,Engvej,116,,3400
+51834,Møllevej,81,,4800
+51835,Fasanvej,133,,2800
+51836,Søndergade,3,,4000
+51837,Engvej,79,,8000
+51838,Rosenvænget,111,,3000
+51839,Fasanvej,35,,2770
+51840,Parkvej,76,1. th.,2770
+51841,Banegårdsvej,83,,2800
+51842,Egevej,132,,6700
+51843,Banegårdsvej,42,,5000
+51844,Nørregade,58,,4200
+51845,Fasanvej,17,,2650
+51846,Rosenvænget,21,,2400
+51847,Engvej,106,1. tv.,8000
+51848,Egevej,75,st.,2500
+51849,Banegårdsvej,8,,1050
+51850,Skovvej,19,,3000
+51851,Birkevej,139,,2200
+51852,Solbakken,92,2. th.,9900
+51853,Lærkevej,12,2. th.,8200
+51854,Søndergade,51,,5000
+51855,Parkvej,114,,9000
+51856,Skovvej,16,,5000
+51857,Storgade,45,,6000
+51858,Rosenvænget,54,,2630
+51859,Lærkevej,103,,2400
+51860,Skovvej,95,,5000
+51861,Skovvej,2,2. tv.,2300
+51862,Rosenvænget,23,st.,2200
+51863,Møllevej,107,,3000
+51864,Kirkevej,116,,9000
+51865,Skovvej,58,,6400
+51866,Banegårdsvej,140,,2300
+51867,Møllevej,26,,2200
+51868,Havnegade,79,,8200
+51869,Rosenvænget,56,,9000
+51870,Parkvej,19,,7400
+51871,Hovedgaden,90,1. th.,2100
+51872,Nørregade,101,,1050
+51873,Birkevej,100,,8260
+51874,Birkevej,69,,7000
+51875,Lærkevej,126,2. tv.,2100
+51876,Rosenvænget,111,1. tv.,2400
+51877,Solbakken,116,,5000
+51878,Solbakken,58,,9800
+51879,Søndergade,135,,2500
+51880,Engvej,58,,9000
+51881,Vestergade,17,,7400
+51882,Bakkevej,92,,8000
+51883,Storgade,114,,2100
+51884,Vestergade,64,,2500
+51885,Fasanvej,112,,2400
+51886,Skovvej,119,,1050
+51887,Hovedgaden,81,,9200
+51888,Nørregade,11,,4600
+51889,Parkvej,65,,2450
+51890,Skovvej,103,,5000
+51891,Rosenvænget,54,1. tv.,2100
+51892,Kirkevej,105,,7000
+51893,Solbakken,47,,2500
+51894,Havnegade,79,,7400
+51895,Strandvejen,104,,7500
+51896,Bakkevej,46,3. th.,2900
+51897,Fasanvej,95,,4000
+51898,Storgade,104,,2900
+51899,Havnegade,80,,4600
+51900,Fasanvej,20,,8260
+51901,Hovedgaden,111,2. tv.,2700
+51902,Engvej,52,,2200
+51903,Engvej,114,3. th.,8200
+51904,Parkvej,81,,6700
+51905,Banegårdsvej,18,,9900
+51906,Møllevej,114,,5000
+51907,Skovvej,65,,8800
+51908,Strandvejen,85,,9000
+51909,Rosenvænget,40,,9200
+51910,Rosenvænget,109,,5000
+51911,Møllevej,27,,4000
+51912,Lærkevej,110,,6000
+51913,Lærkevej,104,st.,2600
+51914,Parkvej,23,1. tv.,2700
+51915,Solbakken,60,st.,8000
+51916,Lærkevej,89,,4600
+51917,Hovedgaden,43,,2900
+51918,Hovedgaden,138,,2200
+51919,Lærkevej,28,,2750
+51920,Rosenvænget,16,,6400
+51921,Skovvej,106,,2800
+51922,Hovedgaden,58,1. tv.,8200
+51923,Fasanvej,6,,7100
+51924,Engvej,24,,8600
+51925,Banegårdsvej,49,2. tv.,8200
+51926,Havnegade,72,,1050
+51927,Hovedgaden,38,2. th.,9200
+51928,Søndergade,68,3. th.,8000
+51929,Hovedgaden,135,st.,2650
+51930,Søndergade,89,2. tv.,2450
+51931,Bakkevej,102,,4000
+51932,Engvej,77,1. th.,9000
+51933,Birkevej,80,,8000
+51934,Søndergade,129,2. th.,2300
+51935,Strandvejen,44,,3400
+51936,Parkvej,11,,2100
+51937,Fasanvej,135,2. tv.,8200
+51938,Egevej,9,,4700
+51939,Søndergade,80,,3400
+51940,Lærkevej,86,,2200
+51941,Hovedgaden,113,,7100
+51942,Skovvej,83,,8600
+51943,Strandvejen,52,,2500
+51944,Parkvej,137,,5000
+51945,Hovedgaden,95,2. tv.,2700
+51946,Egevej,19,,6000
+51947,Bakkevej,72,,6400
+51948,Skovvej,87,2. tv.,2300
+51949,Solbakken,82,,6700
+51950,Storgade,51,1. th.,2650
+51951,Bakkevej,83,2. tv.,8800
+51952,Engvej,130,,4200
+51953,Solbakken,27,,8700
+51954,Bakkevej,132,,6000
+51955,Hovedgaden,129,,4700
+51956,Banegårdsvej,101,,9400
+51957,Strandvejen,72,,4000
+51958,Hovedgaden,104,st.,9000
+51959,Parkvej,61,,2100
+51960,Østergade,84,,1050
+51961,Bakkevej,29,,2800
+51962,Storgade,83,,7400
+51963,Storgade,138,,1050
+51964,Hovedgaden,134,,7100
+51965,Birkevej,106,1. tv.,2400
+51966,Nørregade,110,,5000
+51967,Skolegade,9,,4800
+51968,Nørregade,70,2. th.,8260
+51969,Østergade,100,,6000
+51970,Vestergade,81,,4800
+51971,Banegårdsvej,49,3. th.,8000
+51972,Bakkevej,57,3. th.,9200
+51973,Banegårdsvej,114,3. th.,9400
+51974,Møllevej,100,2. th.,8260
+51975,Østergade,77,,7000
+51976,Møllevej,126,3. th.,2300
+51977,Parkvej,6,,7400
+51978,Nørregade,140,,3000
+51979,Lærkevej,68,,3600
+51980,Fasanvej,92,,4700
+51981,Skovvej,68,2. th.,1050
+51982,Egevej,123,,9400
+51983,Parkvej,111,,4700
+51984,Kirkevej,105,,3400
+51985,Banegårdsvej,26,1. tv.,2200
+51986,Lærkevej,81,st.,2100
+51987,Østergade,114,,2300
+51988,Parkvej,110,,3600
+51989,Banegårdsvej,64,,4600
+51990,Strandvejen,10,,7400
+51991,Vestergade,49,,5000
+51992,Parkvej,140,,8000
+51993,Kirkevej,99,,2800
+51994,Egevej,59,,8600
+51995,Egevej,58,,2200
+51996,Møllevej,96,2. th.,2500
+51997,Fasanvej,65,,9000
+51998,Rosenvænget,63,3. th.,9000
+51999,Hovedgaden,135,,2630
+52000,Birkevej,121,,7400
+52001,Kirkevej,97,,6700
+52002,Hovedgaden,33,3. th.,2100
+52003,Strandvejen,107,,4200
+52004,Storgade,97,,3400
+52005,Birkevej,27,3. th.,2800
+52006,Strandvejen,18,,4200
+52007,Vestergade,133,,7100
+52008,Hovedgaden,37,1. tv.,8000
+52009,Solbakken,57,,2200
+52010,Parkvej,132,1. tv.,2100
+52011,Skovvej,106,,2750
+52012,Nørregade,14,,8200
+52013,Søndergade,124,1. tv.,2800
+52014,Skolegade,67,2. tv.,8700
+52015,Søndergade,7,,6000
+52016,Storgade,83,,2630
+52017,Skovvej,81,,2100
+52018,Hovedgaden,26,,4600
+52019,Engvej,139,,4800
+52020,Nørregade,94,,7000
+52021,Møllevej,81,,4200
+52022,Hovedgaden,114,2. tv.,9200
+52023,Rosenvænget,139,,6400
+52024,Rosenvænget,127,,8000
+52025,Kirkevej,112,st.,8700
+52026,Hovedgaden,68,,2900
+52027,Bakkevej,137,,8000
+52028,Rosenvænget,37,,3400
+52029,Engvej,52,st.,2700
+52030,Havnegade,43,,2200
+52031,Havnegade,96,,9000
+52032,Parkvej,135,st.,8200
+52033,Havnegade,131,1. th.,2100
+52034,Havnegade,66,,2700
+52035,Lærkevej,13,,8200
+52036,Møllevej,45,,2100
+52037,Storgade,15,,2100
+52038,Fasanvej,38,,8200
+52039,Vestergade,23,1. th.,2630
+52040,Møllevej,101,,8200
+52041,Engvej,79,,2650
+52042,Kirkevej,3,,3400
+52043,Kirkevej,14,,7100
+52044,Strandvejen,131,,9000
+52045,Solbakken,18,,4000
+52046,Parkvej,63,2. tv.,8260
+52047,Solbakken,69,,9000
+52048,Strandvejen,103,,2750
+52049,Vestergade,63,,5000
+52050,Fasanvej,20,,2600
+52051,Møllevej,99,,6400
+52052,Egevej,56,,5200
+52053,Skovvej,116,1. tv.,2500
+52054,Parkvej,95,3. th.,2200
+52055,Skolegade,75,,4600
+52056,Lærkevej,81,1. tv.,2300
+52057,Møllevej,7,,6400
+52058,Kirkevej,8,2. th.,9800
+52059,Egevej,55,2. th.,2300
+52060,Egevej,94,,3600
+52061,Kirkevej,107,1. tv.,2600
+52062,Engvej,110,,9200
+52063,Strandvejen,79,,3600
+52064,Kirkevej,121,1. tv.,2400
+52065,Hovedgaden,93,st.,9000
+52066,Møllevej,41,,7000
+52067,Birkevej,81,,7100
+52068,Skovvej,1,,4000
+52069,Skovvej,34,2. th.,1050
+52070,Østergade,22,,5200
+52071,Møllevej,43,3. th.,2450
+52072,Skolegade,66,,3000
+52073,Solbakken,17,,2100
+52074,Skolegade,129,,1050
+52075,Parkvej,105,,5000
+52076,Søndergade,37,2. tv.,8200
+52077,Østergade,72,,2600
+52078,Parkvej,25,,2650
+52079,Hovedgaden,2,,2200
+52080,Strandvejen,105,,5200
+52081,Skolegade,55,,7500
+52082,Østergade,45,,3400
+52083,Nørregade,59,,3600
+52084,Skovvej,132,1. tv.,8260
+52085,Rosenvænget,71,1. tv.,2200
+52086,Rosenvænget,73,,8000
+52087,Banegårdsvej,135,2. tv.,8200
+52088,Fasanvej,10,,2900
+52089,Solbakken,35,,2750
+52090,Østergade,91,1. th.,2100
+52091,Storgade,73,1. tv.,8260
+52092,Parkvej,27,3. th.,2700
+52093,Engvej,23,,3000
+52094,Skolegade,25,,9000
+52095,Birkevej,29,,3600
+52096,Vestergade,63,,3600
+52097,Nørregade,129,,9900
+52098,Parkvej,22,,2300
+52099,Parkvej,32,,4000
+52100,Egevej,124,,4000
+52101,Nørregade,129,,2500
+52102,Hovedgaden,96,1. th.,2750
+52103,Fasanvej,112,1. tv.,2650
+52104,Bakkevej,36,,2500
+52105,Lærkevej,126,,5000
+52106,Bakkevej,74,,8260
+52107,Skovvej,41,,4000
+52108,Skolegade,32,1. tv.,8800
+52109,Birkevej,115,,4600
+52110,Skolegade,78,,4800
+52111,Skovvej,27,1. th.,9000
+52112,Søndergade,25,3. th.,8000
+52113,Strandvejen,93,2. tv.,2600
+52114,Skovvej,128,,2900
+52115,Vestergade,138,,2100
+52116,Østergade,13,,4600
+52117,Bakkevej,46,,6000
+52118,Møllevej,60,,8260
+52119,Skovvej,50,st.,8700
+52120,Østergade,89,,3000
+52121,Bakkevej,22,,8000
+52122,Søndergade,20,,2100
+52123,Kirkevej,70,,4800
+52124,Bakkevej,19,,8600
+52125,Strandvejen,42,,4200
+52126,Bakkevej,27,,3000
+52127,Egevej,14,2. tv.,2200
+52128,Vestergade,26,1. tv.,2900
+52129,Kirkevej,127,,6700
+52130,Egevej,122,1. tv.,2630
+52131,Nørregade,123,,8700
+52132,Banegårdsvej,124,,3600
+52133,Engvej,47,,8200
+52134,Skovvej,132,st.,8000
+52135,Egevej,82,2. th.,2100
+52136,Egevej,7,2. th.,2630
+52137,Møllevej,42,,3600
+52138,Fasanvej,138,1. tv.,1050
+52139,Rosenvænget,130,,6700
+52140,Egevej,72,3. th.,9900
+52141,Parkvej,60,,7100
+52142,Søndergade,88,,2300
+52143,Storgade,98,,2100
+52144,Nørregade,106,1. th.,2450
+52145,Skovvej,84,,7400
+52146,Havnegade,83,,5000
+52147,Søndergade,90,3. th.,8200
+52148,Vestergade,34,,8700
+52149,Engvej,62,,5000
+52150,Havnegade,126,st.,8000
+52151,Strandvejen,134,,7100
+52152,Fasanvej,75,,4000
+52153,Østergade,29,,7500
+52154,Søndergade,81,,2900
+52155,Bakkevej,77,3. th.,9000
+52156,Storgade,42,,4700
+52157,Banegårdsvej,83,,4700
+52158,Skolegade,104,,7100
+52159,Kirkevej,117,1. th.,2450
+52160,Vestergade,63,,2650
+52161,Solbakken,53,,5000
+52162,Rosenvænget,55,,2400
+52163,Søndergade,100,,2650
+52164,Hovedgaden,110,,3400
+52165,Møllevej,107,,4000
+52166,Søndergade,1,,8200
+52167,Storgade,7,,7000
+52168,Søndergade,99,,3000
+52169,Egevej,67,,8000
+52170,Hovedgaden,41,,9400
+52171,Havnegade,128,,6000
+52172,Birkevej,126,,3000
+52173,Skovvej,17,,4000
+52174,Hovedgaden,25,,2600
+52175,Nørregade,114,2. tv.,2500
+52176,Storgade,116,st.,2500
+52177,Lærkevej,26,,8700
+52178,Kirkevej,139,,5200
+52179,Nørregade,60,2. th.,2450
+52180,Nørregade,106,,2100
+52181,Birkevej,115,1. th.,2300
+52182,Hovedgaden,92,,9400
+52183,Banegårdsvej,20,2. th.,2700
+52184,Fasanvej,36,2. tv.,9000
+52185,Møllevej,3,,4600
+52186,Vestergade,105,1. th.,2630
+52187,Vestergade,139,2. th.,9400
+52188,Skovvej,72,,2100
+52189,Skolegade,124,,9200
+52190,Solbakken,112,,6700
+52191,Birkevej,125,2. th.,2200
+52192,Egevej,107,,9200
+52193,Storgade,60,,8700
+52194,Søndergade,103,,5000
+52195,Havnegade,69,2. th.,8600
+52196,Søndergade,64,,5700
+52197,Storgade,124,,7500
+52198,Fasanvej,30,,8700
+52199,Storgade,115,2. tv.,2200
+52200,Vestergade,67,1. tv.,8200
+52201,Østergade,113,,8700
+52202,Engvej,3,st.,2300
+52203,Strandvejen,46,3. th.,8000
+52204,Strandvejen,140,,2600
+52205,Vestergade,138,st.,8000
+52206,Rosenvænget,140,1. th.,2400
+52207,Hovedgaden,75,,8700
+52208,Nørregade,137,1. tv.,2400
+52209,Parkvej,3,,2450
+52210,Nørregade,132,,2300
+52211,Kirkevej,102,2. th.,2300
+52212,Solbakken,136,2. tv.,2500
+52213,Fasanvej,98,,2650
+52214,Strandvejen,8,,2900
+52215,Nørregade,91,2. th.,8800
+52216,Havnegade,123,,9000
+52217,Birkevej,23,,2500
+52218,Engvej,21,,4200
+52219,Bakkevej,37,1. tv.,8700
+52220,Vestergade,89,1. tv.,9000
+52221,Kirkevej,39,,4200
+52222,Birkevej,10,,9000
+52223,Havnegade,118,3. th.,8800
+52224,Skolegade,95,1. th.,2200
+52225,Skolegade,71,3. th.,2450
+52226,Vestergade,21,,2400
+52227,Nørregade,123,,4800
+52228,Fasanvej,64,,4700
+52229,Møllevej,75,,6700
+52230,Søndergade,104,,7400
+52231,Nørregade,33,,8600
+52232,Lærkevej,13,,8000
+52233,Havnegade,116,2. tv.,2100
+52234,Havnegade,112,,4200
+52235,Skolegade,104,,2100
+52236,Nørregade,69,,4000
+52237,Havnegade,35,,9900
+52238,Storgade,88,,5200
+52239,Fasanvej,3,,6700
+52240,Strandvejen,132,1. th.,1050
+52241,Egevej,16,,4700
+52242,Bakkevej,96,,5000
+52243,Rosenvænget,3,,2600
+52244,Engvej,5,,7000
+52245,Østergade,37,2. tv.,2500
+52246,Nørregade,1,,9900
+52247,Møllevej,46,,2800
+52248,Hovedgaden,90,,5700
+52249,Havnegade,60,,2200
+52250,Rosenvænget,9,,9900
+52251,Østergade,95,2. th.,2900
+52252,Nørregade,99,,3400
+52253,Østergade,69,,4000
+52254,Strandvejen,44,,2100
+52255,Egevej,45,,2600
+52256,Skovvej,57,,8260
+52257,Nørregade,76,,4000
+52258,Østergade,127,,9000
+52259,Vestergade,33,,4800
+52260,Bakkevej,102,2. tv.,2100
+52261,Skovvej,69,,8260
+52262,Nørregade,85,2. th.,2300
+52263,Kirkevej,127,3. th.,8000
+52264,Søndergade,48,,2500
+52265,Birkevej,79,,7500
+52266,Østergade,70,,2900
+52267,Nørregade,62,,4800
+52268,Bakkevej,122,,9000
+52269,Fasanvej,55,,2800
+52270,Bakkevej,5,,8000
+52271,Storgade,115,,2500
+52272,Solbakken,102,,7400
+52273,Strandvejen,131,,3400
+52274,Kirkevej,107,,2200
+52275,Skovvej,20,2. tv.,8600
+52276,Strandvejen,7,,1050
+52277,Bakkevej,8,,2750
+52278,Østergade,79,2. th.,2300
+52279,Solbakken,94,2. th.,9000
+52280,Søndergade,70,2. tv.,8600
+52281,Rosenvænget,76,,5700
+52282,Hovedgaden,56,,8000
+52283,Østergade,139,3. th.,8000
+52284,Skovvej,127,st.,2650
+52285,Møllevej,20,,4000
+52286,Skolegade,10,,4000
+52287,Parkvej,67,,2400
+52288,Rosenvænget,108,2. tv.,2800
+52289,Lærkevej,2,2. th.,2100
+52290,Søndergade,131,,3600
+52291,Søndergade,4,,8600
+52292,Skolegade,15,,3000
+52293,Storgade,101,,2800
+52294,Storgade,56,,2630
+52295,Bakkevej,6,,6000
+52296,Skolegade,133,,5200
+52297,Skolegade,128,1. tv.,2100
+52298,Rosenvænget,10,1. tv.,2650
+52299,Søndergade,108,,9400
+52300,Fasanvej,10,,2400
+52301,Skovvej,133,,9000
+52302,Birkevej,66,,3600
+52303,Skovvej,73,,5700
+52304,Nørregade,136,,7500
+52305,Fasanvej,54,,4000
+52306,Hovedgaden,1,,2750
+52307,Rosenvænget,131,2. tv.,2300
+52308,Engvej,106,3. th.,9000
+52309,Strandvejen,71,,6700
+52310,Hovedgaden,19,,6400
+52311,Lærkevej,63,2. th.,8800
+52312,Bakkevej,88,,9800
+52313,Bakkevej,96,,4000
+52314,Kirkevej,123,,5200
+52315,Nørregade,121,,2450
+52316,Møllevej,48,,2200
+52317,Parkvej,29,,2500
+52318,Engvej,25,,4000
+52319,Rosenvænget,31,,1050
+52320,Skovvej,43,,7500
+52321,Strandvejen,59,,6700
+52322,Parkvej,39,1. tv.,2770
+52323,Kirkevej,41,2. tv.,2900
+52324,Skovvej,52,,2400
+52325,Kirkevej,40,,8600
+52326,Rosenvænget,23,,7400
+52327,Storgade,72,,9000
+52328,Møllevej,74,,2900
+52329,Nørregade,62,,5000
+52330,Skovvej,114,2. tv.,2400
+52331,Strandvejen,32,2. th.,8000
+52332,Kirkevej,30,2. th.,2100
+52333,Møllevej,126,st.,2400
+52334,Banegårdsvej,90,,2600
+52335,Vestergade,115,,2500
+52336,Lærkevej,110,st.,2300
+52337,Hovedgaden,51,,1050
+52338,Lærkevej,139,1. tv.,8700
+52339,Skolegade,43,,7500
+52340,Havnegade,14,3. th.,2450
+52341,Parkvej,46,,6700
+52342,Lærkevej,84,,4800
+52343,Bakkevej,94,3. th.,2200
+52344,Nørregade,25,,4200
+52345,Rosenvænget,89,st.,2900
+52346,Vestergade,52,,2300
+52347,Solbakken,112,1. tv.,2900
+52348,Hovedgaden,23,,8200
+52349,Kirkevej,39,,5200
+52350,Fasanvej,107,,8700
+52351,Fasanvej,47,,8000
+52352,Parkvej,77,,6700
+52353,Skovvej,140,,4000
+52354,Kirkevej,126,,4000
+52355,Østergade,69,,5000
+52356,Hovedgaden,3,2. tv.,2400
+52357,Solbakken,81,,5200
+52358,Parkvej,135,,6700
+52359,Egevej,2,1. th.,8600
+52360,Rosenvænget,108,,2300
+52361,Egevej,62,,2200
+52362,Strandvejen,92,,4000
+52363,Kirkevej,44,st.,9200
+52364,Birkevej,47,1. tv.,8260
+52365,Birkevej,76,st.,2800
+52366,Parkvej,112,,8600
+52367,Egevej,90,,5000
+52368,Vestergade,4,2. tv.,9000
+52369,Egevej,3,,2200
+52370,Lærkevej,91,,7500
+52371,Storgade,56,,4000
+52372,Banegårdsvej,5,,4600
+52373,Havnegade,4,,8800
+52374,Egevej,33,,3400
+52375,Rosenvænget,88,,6700
+52376,Søndergade,84,1. tv.,2100
+52377,Solbakken,2,,4000
+52378,Hovedgaden,27,1. tv.,2900
+52379,Birkevej,135,,2900
+52380,Vestergade,97,1. th.,2400
+52381,Rosenvænget,131,1. tv.,2100
+52382,Skolegade,135,st.,2900
+52383,Fasanvej,110,2. tv.,8000
+52384,Banegårdsvej,77,,7500
+52385,Solbakken,60,,8800
+52386,Østergade,40,,8700
+52387,Solbakken,63,,7500
+52388,Fasanvej,134,,7000
+52389,Østergade,51,,4700
+52390,Bakkevej,36,1. th.,8000
+52391,Vestergade,96,,7400
+52392,Skolegade,123,,4800
+52393,Banegårdsvej,55,,7000
+52394,Skovvej,94,3. th.,2400
+52395,Storgade,60,,6000
+52396,Storgade,22,,2200
+52397,Havnegade,36,,2100
+52398,Rosenvænget,50,,2770
+52399,Bakkevej,112,2. th.,2750
+52400,Søndergade,77,,6700
+52401,Parkvej,26,,2300
+52402,Skovvej,113,1. th.,2200
+52403,Rosenvænget,124,2. tv.,2650
+52404,Søndergade,98,,4200
+52405,Fasanvej,60,,7000
+52406,Solbakken,76,1. th.,2100
+52407,Lærkevej,95,,5000
+52408,Storgade,71,,2400
+52409,Vestergade,80,,2300
+52410,Søndergade,133,,4200
+52411,Engvej,19,3. th.,2300
+52412,Havnegade,105,3. th.,8600
+52413,Nørregade,23,,6000
+52414,Strandvejen,101,,8700
+52415,Skolegade,26,,8600
+52416,Kirkevej,99,,4000
+52417,Vestergade,95,,7100
+52418,Birkevej,5,,2100
+52419,Lærkevej,32,,2200
+52420,Kirkevej,39,,2900
+52421,Strandvejen,67,,5000
+52422,Søndergade,30,1. tv.,9900
+52423,Søndergade,56,,2200
+52424,Birkevej,135,2. th.,2200
+52425,Vestergade,124,,3400
+52426,Søndergade,56,,6700
+52427,Kirkevej,49,,3000
+52428,Birkevej,120,,2400
+52429,Skovvej,79,,2630
+52430,Søndergade,100,,3600
+52431,Skovvej,40,2. th.,2100
+52432,Fasanvej,38,,1050
+52433,Egevej,106,,6700
+52434,Solbakken,7,,6000
+52435,Hovedgaden,126,,5700
+52436,Hovedgaden,63,,8200
+52437,Strandvejen,85,,4600
+52438,Kirkevej,2,,9000
+52439,Banegårdsvej,131,,8000
+52440,Fasanvej,78,,2900
+52441,Skolegade,102,,8800
+52442,Storgade,23,st.,2800
+52443,Skovvej,76,2. tv.,1050
+52444,Fasanvej,123,,2630
+52445,Parkvej,138,,6000
+52446,Banegårdsvej,65,,6000
+52447,Engvej,135,,7400
+52448,Skolegade,48,2. tv.,2400
+52449,Vestergade,93,,3400
+52450,Vestergade,73,,2900
+52451,Møllevej,37,,2700
+52452,Strandvejen,138,,4700
+52453,Parkvej,89,2. tv.,9000
+52454,Rosenvænget,13,,2800
+52455,Birkevej,123,2. tv.,2600
+52456,Storgade,75,,3400
+52457,Lærkevej,104,,8600
+52458,Kirkevej,36,2. tv.,2650
+52459,Skolegade,29,,4600
+52460,Søndergade,91,,2800
+52461,Storgade,123,,4700
+52462,Lærkevej,90,,5000
+52463,Birkevej,112,,4000
+52464,Strandvejen,121,1. tv.,2600
+52465,Egevej,139,,8200
+52466,Lærkevej,109,1. tv.,8800
+52467,Vestergade,9,,2630
+52468,Lærkevej,16,,3000
+52469,Rosenvænget,93,,4700
+52470,Skovvej,21,,6000
+52471,Østergade,77,1. tv.,2450
+52472,Solbakken,89,,2400
+52473,Solbakken,62,,2700
+52474,Lærkevej,77,,5000
+52475,Hovedgaden,65,st.,2900
+52476,Engvej,87,,7400
+52477,Hovedgaden,125,st.,8800
+52478,Havnegade,2,,5200
+52479,Rosenvænget,123,2. tv.,2800
+52480,Skolegade,16,2. tv.,1050
+52481,Birkevej,120,,2300
+52482,Strandvejen,136,,1050
+52483,Engvej,16,,7000
+52484,Lærkevej,49,,6000
+52485,Søndergade,83,,5000
+52486,Strandvejen,121,1. th.,8000
+52487,Strandvejen,93,,1050
+52488,Engvej,1,2. tv.,8700
+52489,Nørregade,53,,3600
+52490,Banegårdsvej,11,,2750
+52491,Vestergade,51,,2900
+52492,Hovedgaden,1,1. th.,1050
+52493,Fasanvej,40,,5000
+52494,Søndergade,107,,2800
+52495,Lærkevej,55,,6000
+52496,Kirkevej,109,,7500
+52497,Parkvej,134,2. th.,8000
+52498,Rosenvænget,17,st.,8800
+52499,Fasanvej,61,,2630
+52500,Egevej,14,2. tv.,9000
+52501,Banegårdsvej,3,,9000
+52502,Bakkevej,79,,2900
+52503,Strandvejen,140,2. tv.,8260
+52504,Havnegade,67,,2750
+52505,Birkevej,109,,1050
+52506,Banegårdsvej,3,,8000
+52507,Hovedgaden,117,,2300
+52508,Egevej,57,st.,8000
+52509,Lærkevej,10,,2900
+52510,Rosenvænget,91,,4800
+52511,Fasanvej,60,,4600
+52512,Skolegade,114,2. tv.,2630
+52513,Fasanvej,99,,5200
+52514,Storgade,29,1. tv.,2770
+52515,Birkevej,6,,9800
+52516,Storgade,138,,2900
+52517,Skovvej,134,st.,1050
+52518,Bakkevej,37,,8700
+52519,Vestergade,105,,3600
+52520,Solbakken,76,,3400
+52521,Fasanvej,22,,8200
+52522,Solbakken,28,1. th.,2800
+52523,Skovvej,82,,8000
+52524,Havnegade,51,1. tv.,2450
+52525,Østergade,87,,4700
+52526,Kirkevej,92,,7500
+52527,Strandvejen,124,1. tv.,2100
+52528,Hovedgaden,44,,7100
+52529,Strandvejen,61,,2650
+52530,Storgade,136,1. th.,8700
+52531,Lærkevej,94,,3000
+52532,Bakkevej,71,,4700
+52533,Parkvej,15,,7400
+52534,Egevej,39,,3000
+52535,Kirkevej,109,3. th.,2400
+52536,Birkevej,129,,6000
+52537,Strandvejen,127,,3600
+52538,Egevej,36,st.,2300
+52539,Østergade,87,,3400
+52540,Møllevej,21,2. tv.,8200
+52541,Bakkevej,42,,7400
+52542,Storgade,36,,2500
+52543,Møllevej,82,,4600
+52544,Fasanvej,88,,7100
+52545,Kirkevej,126,,2100
+52546,Lærkevej,20,,2200
+52547,Strandvejen,78,,2600
+52548,Egevej,133,,5700
+52549,Østergade,124,1. th.,2600
+52550,Hovedgaden,96,,2100
+52551,Engvej,116,,5200
+52552,Østergade,4,,6700
+52553,Vestergade,75,,6700
+52554,Rosenvænget,80,,8600
+52555,Kirkevej,72,2. tv.,2750
+52556,Søndergade,44,,1050
+52557,Rosenvænget,30,,2630
+52558,Havnegade,127,st.,9000
+52559,Banegårdsvej,89,,5700
+52560,Parkvej,84,,9800
+52561,Skovvej,93,,2630
+52562,Lærkevej,11,,4000
+52563,Søndergade,131,,4000
+52564,Hovedgaden,107,,7400
+52565,Østergade,9,,2800
+52566,Engvej,63,,8700
+52567,Bakkevej,100,st.,2650
+52568,Strandvejen,136,,8000
+52569,Vestergade,9,,3400
+52570,Banegårdsvej,3,,2200
+52571,Vestergade,104,,9000
+52572,Parkvej,29,,2300
+52573,Kirkevej,90,1. th.,9000
+52574,Storgade,96,,2600
+52575,Havnegade,21,3. th.,8800
+52576,Storgade,85,2. tv.,2300
+52577,Havnegade,64,1. th.,2200
+52578,Parkvej,133,,9000
+52579,Egevej,87,,6700
+52580,Kirkevej,42,,4000
+52581,Birkevej,46,,4600
+52582,Strandvejen,70,,4700
+52583,Vestergade,103,,6000
+52584,Skovvej,140,1. th.,2100
+52585,Østergade,115,,4800
+52586,Storgade,31,st.,9200
+52587,Egevej,57,,2700
+52588,Egevej,38,3. th.,2100
+52589,Storgade,56,,2100
+52590,Kirkevej,115,st.,2630
+52591,Møllevej,2,2. th.,8700
+52592,Møllevej,7,,2100
+52593,Vestergade,38,,7100
+52594,Parkvej,80,3. th.,2300
+52595,Bakkevej,115,,5000
+52596,Fasanvej,134,,8200
+52597,Østergade,3,,7500
+52598,Solbakken,41,,8000
+52599,Hovedgaden,116,st.,8200
+52600,Vestergade,51,,4000
+52601,Søndergade,56,,2300
+52602,Havnegade,66,2. th.,9000
+52603,Nørregade,37,,8600
+52604,Fasanvej,59,,2400
+52605,Havnegade,41,,2450
+52606,Egevej,11,,4200
+52607,Engvej,101,,6000
+52608,Skovvej,60,,2750
+52609,Engvej,46,2. th.,2500
+52610,Møllevej,109,,2630
+52611,Bakkevej,100,st.,2500
+52612,Fasanvej,4,,2400
+52613,Søndergade,91,2. th.,8200
+52614,Søndergade,93,,4000
+52615,Kirkevej,68,,5200
+52616,Strandvejen,114,,7400
+52617,Skovvej,36,,8000
+52618,Egevej,26,2. tv.,2900
+52619,Østergade,18,,7100
+52620,Parkvej,46,,9000
+52621,Skovvej,53,,2900
+52622,Birkevej,83,,4600
+52623,Hovedgaden,13,,4000
+52624,Vestergade,4,,9000
+52625,Banegårdsvej,9,2. tv.,2900
+52626,Hovedgaden,8,,8700
+52627,Parkvej,7,,4600
+52628,Fasanvej,87,,2100
+52629,Parkvej,140,st.,2400
+52630,Solbakken,52,,6700
+52631,Nørregade,50,1. tv.,2900
+52632,Strandvejen,105,2. tv.,2650
+52633,Hovedgaden,88,,5000
+52634,Møllevej,123,,8200
+52635,Storgade,58,,2100
+52636,Hovedgaden,65,,2900
+52637,Parkvej,57,,7100
+52638,Møllevej,93,,2630
+52639,Rosenvænget,136,2. tv.,2400
+52640,Egevej,75,,6700
+52641,Søndergade,118,2. tv.,8700
+52642,Møllevej,132,,9000
+52643,Nørregade,25,st.,8200
+52644,Egevej,100,,5200
+52645,Hovedgaden,20,,2900
+52646,Vestergade,103,,3400
+52647,Storgade,47,,7500
+52648,Engvej,27,,2300
+52649,Havnegade,57,,4600
+52650,Lærkevej,51,,6000
+52651,Østergade,67,,6700
+52652,Skovvej,113,,4200
+52653,Banegårdsvej,7,2. tv.,2600
+52654,Havnegade,127,,8000
+52655,Bakkevej,88,,7000
+52656,Strandvejen,98,,2300
+52657,Birkevej,29,1. th.,8260
+52658,Søndergade,128,,2100
+52659,Møllevej,133,,2400
+52660,Banegårdsvej,104,,7100
+52661,Søndergade,30,,4600
+52662,Storgade,73,,8200
+52663,Lærkevej,63,1. tv.,2300
+52664,Fasanvej,74,,8260
+52665,Egevej,63,,7400
+52666,Kirkevej,107,2. tv.,2300
+52667,Banegårdsvej,130,,3400
+52668,Havnegade,118,,9000
+52669,Søndergade,71,1. th.,8800
+52670,Søndergade,78,,7000
+52671,Nørregade,139,,2100
+52672,Banegårdsvej,116,2. th.,1050
+52673,Strandvejen,24,,2400
+52674,Egevej,138,,2300
+52675,Solbakken,38,,8260
+52676,Parkvej,64,1. tv.,2500
+52677,Søndergade,22,1. th.,2650
+52678,Østergade,68,st.,2800
+52679,Bakkevej,138,1. tv.,2900
+52680,Storgade,110,,1050
+52681,Møllevej,46,1. th.,9400
+52682,Storgade,83,,8600
+52683,Birkevej,80,,2200
+52684,Birkevej,87,,9000
+52685,Havnegade,21,1. tv.,2200
+52686,Birkevej,72,,3600
+52687,Banegårdsvej,105,,2100
+52688,Kirkevej,80,,2450
+52689,Banegårdsvej,42,,2200
+52690,Nørregade,18,,2900
+52691,Nørregade,89,,8200
+52692,Vestergade,67,1. tv.,2750
+52693,Havnegade,42,,5000
+52694,Birkevej,35,1. th.,2200
+52695,Engvej,131,1. th.,1050
+52696,Skolegade,43,,2200
+52697,Banegårdsvej,89,,7100
+52698,Skovvej,50,,2500
+52699,Skolegade,56,,2200
+52700,Strandvejen,5,,4800
+52701,Søndergade,30,,5000
+52702,Hovedgaden,12,,3000
+52703,Nørregade,55,,8200
+52704,Hovedgaden,10,,2900
+52705,Engvej,135,st.,9200
+52706,Skovvej,121,1. th.,2800
+52707,Egevej,107,,4700
+52708,Bakkevej,7,,2200
+52709,Egevej,9,,2600
+52710,Østergade,105,,2300
+52711,Solbakken,78,2. tv.,8800
+52712,Søndergade,86,,3400
+52713,Skovvej,98,,1050
+52714,Hovedgaden,4,3. th.,2500
+52715,Banegårdsvej,51,,7400
+52716,Rosenvænget,39,,5700
+52717,Vestergade,116,2. tv.,9400
+52718,Søndergade,42,,2200
+52719,Fasanvej,83,,5700
+52720,Strandvejen,15,,2100
+52721,Lærkevej,68,3. th.,2200
+52722,Banegårdsvej,60,,4600
+52723,Egevej,13,,3000
+52724,Skolegade,76,,2900
+52725,Østergade,54,,2600
+52726,Rosenvænget,113,st.,8000
+52727,Banegårdsvej,7,,8200
+52728,Banegårdsvej,140,2. tv.,2100
+52729,Kirkevej,80,st.,2300
+52730,Møllevej,101,,4200
+52731,Bakkevej,68,,7400
+52732,Birkevej,101,,1050
+52733,Havnegade,13,,7000
+52734,Strandvejen,61,,2750
+52735,Parkvej,87,2. th.,8200
+52736,Møllevej,25,,6700
+52737,Engvej,74,,3400
+52738,Egevej,61,,2900
+52739,Engvej,138,,2630
+52740,Havnegade,52,,2100
+52741,Banegårdsvej,135,,3000
+52742,Skovvej,5,,7000
+52743,Havnegade,81,2. tv.,8700
+52744,Søndergade,36,,6700
+52745,Østergade,19,,7400
+52746,Østergade,56,,4200
+52747,Havnegade,50,,2100
+52748,Hovedgaden,53,,2800
+52749,Skovvej,114,,9900
+52750,Lærkevej,115,1. th.,8800
+52751,Banegårdsvej,137,,9000
+52752,Skolegade,53,1. tv.,8000
+52753,Vestergade,112,1. th.,2630
+52754,Rosenvænget,96,2. tv.,2400
+52755,Solbakken,62,2. tv.,2300
+52756,Bakkevej,25,,2200
+52757,Bakkevej,34,,5700
+52758,Lærkevej,57,,6000
+52759,Skovvej,16,1. th.,8600
+52760,Egevej,98,2. th.,8700
+52761,Engvej,26,2. tv.,8700
+52762,Hovedgaden,26,,8600
+52763,Fasanvej,1,,5000
+52764,Søndergade,33,,2200
+52765,Skovvej,17,,5000
+52766,Hovedgaden,4,3. th.,2450
+52767,Storgade,132,,8200
+52768,Bakkevej,56,,5700
+52769,Havnegade,14,,2650
+52770,Storgade,56,,2630
+52771,Hovedgaden,7,,3400
+52772,Banegårdsvej,71,,8000
+52773,Birkevej,35,,4600
+52774,Vestergade,12,,4200
+52775,Strandvejen,140,,9000
+52776,Fasanvej,50,,2750
+52777,Skolegade,77,,8800
+52778,Søndergade,112,,8800
+52779,Skolegade,82,,7100
+52780,Engvej,81,,3000
+52781,Vestergade,35,,8000
+52782,Kirkevej,8,2. tv.,8200
+52783,Egevej,31,,5000
+52784,Kirkevej,55,,7500
+52785,Banegårdsvej,53,,2600
+52786,Bakkevej,113,,4800
+52787,Kirkevej,8,,2700
+52788,Kirkevej,137,,8000
+52789,Egevej,29,,1050
+52790,Havnegade,50,,8200
+52791,Skolegade,135,,2200
+52792,Skolegade,87,,2500
+52793,Nørregade,36,2. tv.,8600
+52794,Bakkevej,56,2. tv.,2450
+52795,Rosenvænget,118,2. tv.,2500
+52796,Storgade,49,1. th.,2500
+52797,Havnegade,71,,5200
+52798,Havnegade,99,,2630
+52799,Parkvej,140,,8200
+52800,Banegårdsvej,58,3. th.,1050
+52801,Skolegade,60,,3400
+52802,Hovedgaden,52,2. th.,2750
+52803,Solbakken,16,,9000
+52804,Rosenvænget,94,,2700
+52805,Søndergade,53,2. th.,2300
+52806,Havnegade,65,st.,2500
+52807,Hovedgaden,109,,3400
+52808,Vestergade,72,1. tv.,9000
+52809,Hovedgaden,9,,5000
+52810,Lærkevej,71,2. tv.,9400
+52811,Bakkevej,61,,7000
+52812,Søndergade,116,,4700
+52813,Strandvejen,10,,4600
+52814,Skolegade,136,,4600
+52815,Østergade,28,2. tv.,2700
+52816,Parkvej,138,st.,1050
+52817,Egevej,54,2. th.,2500
+52818,Banegårdsvej,76,,2750
+52819,Fasanvej,109,,2200
+52820,Solbakken,10,,8600
+52821,Møllevej,56,,2400
+52822,Birkevej,4,,7100
+52823,Møllevej,50,,2500
+52824,Nørregade,42,,2100
+52825,Havnegade,55,,2800
+52826,Havnegade,72,2. th.,2750
+52827,Skovvej,56,,8000
+52828,Solbakken,86,st.,2750
+52829,Bakkevej,50,,2600
+52830,Egevej,93,,8000
+52831,Skovvej,128,2. th.,2300
+52832,Vestergade,65,2. th.,1050
+52833,Østergade,137,2. tv.,2600
+52834,Birkevej,37,,2100
+52835,Lærkevej,60,,4000
+52836,Hovedgaden,53,st.,8800
+52837,Møllevej,60,,2630
+52838,Østergade,48,,8700
+52839,Skovvej,128,,1050
+52840,Søndergade,18,,2100
+52841,Strandvejen,124,3. th.,2300
+52842,Vestergade,91,,2450
+52843,Skovvej,136,,5000
+52844,Vestergade,73,,9000
+52845,Havnegade,124,,5700
+52846,Strandvejen,46,1. th.,2200
+52847,Engvej,106,3. th.,2500
+52848,Lærkevej,17,,2100
+52849,Skovvej,15,,7400
+52850,Parkvej,1,,2450
+52851,Engvej,44,,9000
+52852,Nørregade,80,,3400
+52853,Lærkevej,106,,8260
+52854,Skovvej,20,,7400
+52855,Egevej,31,,6700
+52856,Strandvejen,4,,2200
+52857,Havnegade,47,,4000
+52858,Storgade,103,,2500
+52859,Parkvej,56,,2300
+52860,Rosenvænget,29,,7000

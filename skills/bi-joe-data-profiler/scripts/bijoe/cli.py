@@ -11,7 +11,7 @@ from typing import Any, Dict, List, Optional
 
 from . import SCHEMA_VERSION, __version__, descriptions, wiki
 from .connectors import ConnectorError, available, open_connector, plugin_errors
-from . import beam
+from . import beam, distribution, pii, themes
 from .profiler import profile_dataset
 
 
@@ -40,6 +40,7 @@ def cmd_profile(args: argparse.Namespace) -> int:
         results, relationships = profile_dataset(
             conn, tables, args.sample_rows, include_values=not args.no_values,
             progress=lambda name: _say(f"  - {name}"),
+            mask=pii.parse_forced(args.mask),
         )
         connector_name, source_type = conn.name, conn.source_type
 
@@ -62,6 +63,8 @@ def cmd_profile(args: argparse.Namespace) -> int:
             "purpose": args.purpose,
             "audience": args.audience,
             "focus": args.focus,
+            "theme": themes.resolve(args.theme),
+            "mask": args.mask,
         },
         "tables": results,
         "relationships": relationships,
@@ -106,6 +109,8 @@ def _range(c: Dict[str, Any]) -> str:
 
 def _flags(c: Dict[str, Any]) -> str:
     flags = []
+    if c.get("pii"):
+        flags.append(f"PERSONAL DATA ({c['pii']['class']}): values masked, never shown")
     if c.get("primary_key"):
         flags.append("PK")
     if c.get("all_values_unique") and not c.get("missing_count"):
@@ -119,6 +124,39 @@ def _flags(c: Dict[str, Any]) -> str:
     if c.get("whitespace_padded_count"):
         flags.append(f"{c['whitespace_padded_count']} padded")
     return "; ".join(flags)
+
+
+def _n(x: Any) -> str:
+    return distribution._fmt(float(x), 0.01 if abs(float(x)) < 100 else 1.0)
+
+
+def _distribution_markdown(t: Dict[str, Any]) -> List[str]:
+    out = []
+    for c in t["columns"]:
+        d = c.get("distribution")
+        if not d or d.get("kind") == "none":
+            continue
+        parts = [d["kind"] + (f" by {d['unit']}" if d.get("unit") else ""), f"shape: {d['shape']}"]
+        if d.get("median") is not None:
+            parts.append(f"median {_n(d['median'])}, middle half {_n(d['q1'])} to {_n(d['q3'])}")
+        o = d.get("outliers")
+        if o:
+            parts.append("outliers: " + ", ".join(
+                x for x in (f"{o['below']:,} below {_n(o['low_fence'])}" if o["below"] else "",
+                            f"{o['above']:,} above {_n(o['high_fence'])}" if o["above"] else "") if x))
+        if d.get("gap_runs"):
+            parts.append(f"{d['gap_runs']} gap(s) with no rows")
+        if d["kind"] == "categories":
+            top = d["bins"][0]
+            parts.append(f"most frequent: {top['label']} {top['pct']:g}%")
+        elif d.get("top_share_pct") and d["top_share_pct"] >= 20:
+            parts.append(f"most common value holds {d['top_share_pct']:g}% of rows")
+        if d.get("sampled"):
+            parts.append("from the sample")
+        out.append(f"- {c['name']}: " + "; ".join(parts))
+    if not out:
+        return []
+    return ["", "### Distributions (measured)"] + out
 
 
 def _keys_markdown(t: Dict[str, Any]) -> List[str]:
@@ -181,6 +219,7 @@ def evidence_markdown(profile: Dict[str, Any], table_filter: Optional[str] = Non
                 row += f" {cell(c.get('comment', ''))} |"
             out.append(row)
         out += _keys_markdown(t)
+        out += _distribution_markdown(t)
         mine = [r for r in rels if table_filter is None or table_filter.lower() in
                 (r["from_table"].lower(), r["to_table"].lower())]
         if mine and (table_filter or t is profile["tables"][-1]):
@@ -215,7 +254,11 @@ def _report(problems: List[tuple]) -> Dict[str, int]:
 
 def cmd_check(args: argparse.Namespace) -> int:
     out_dir = Path(args.dir)
-    counts = _report(descriptions.lint(wiki.load_profile(out_dir), descriptions.load(out_dir)))
+    problems = descriptions.lint(wiki.load_profile(out_dir), descriptions.load(out_dir))
+    for rel, what in pii.scan_wiki(out_dir):
+        problems.append(("error", rel, f"looks like it contains {what}; personal data must never be saved in the wiki. "
+                         "Remove it, and re-run profile with --mask Table.Column for the column it came from"))
+    counts = _report(problems)
     return 1 if counts["error"] or (args.strict and (counts["warning"] or counts["todo"])) else 0
 
 
@@ -227,7 +270,11 @@ def cmd_render(args: argparse.Namespace) -> int:
     if counts["error"] and not args.force:
         _say("Not rendered: fix the errors first (or pass --force).")
         return 1
+    if args.theme:
+        profile.setdefault("settings", {})["theme"] = themes.resolve(args.theme)
+        wiki.save_profile(out_dir, profile)
     written = wiki.render(out_dir, profile, data)
+    _say(f"Theme: {wiki.current_theme()}")
     _say(f"Wrote {len(written)} page(s). Start at {written[0]}")
     return 0
 
@@ -261,6 +308,8 @@ def build_parser() -> argparse.ArgumentParser:
     pr.add_argument("--purpose", help="why the profile is being made, in the user's words")
     pr.add_argument("--audience", help="who will read it, in the user's words")
     pr.add_argument("--focus", help="what matters most to the user, in their words")
+    pr.add_argument("--mask", help="comma-separated Table.Column names to mask as personal data, on top of what is detected automatically")
+    pr.add_argument("--theme", help=f"colour theme of the tables: {', '.join(themes.names())}, or 'light' (default: light-gray)")
     pr.set_defaults(func=cmd_profile)
 
     ev = sub.add_parser("evidence", help="print the facts to base descriptions on")
@@ -276,6 +325,7 @@ def build_parser() -> argparse.ArgumentParser:
     rd = sub.add_parser("render", help="rebuild the wiki pages from profile.json + descriptions.json")
     rd.add_argument("dir")
     rd.add_argument("--force", action="store_true", help="render even if the check finds errors")
+    rd.add_argument("--theme", help=f"switch the colour theme: {', '.join(themes.names())}, or 'light'; it is remembered for later renders")
     rd.set_defaults(func=cmd_render)
 
     co = sub.add_parser("connectors", help="list available data connectors")
@@ -292,7 +342,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     args = build_parser().parse_args(argv)
     try:
         return args.func(args)
-    except (ConnectorError, FileNotFoundError) as exc:
+    except (ConnectorError, FileNotFoundError, ValueError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
 

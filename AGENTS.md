@@ -16,9 +16,14 @@ Ignore its YAML header, then follow the workflow and the guides it links to:
    grounded in evidence, labelled with their source, nothing invented. Add
    [BEAM✲ annotations](skills/bi-joe-data-profiler/references/beam-annotations-guide.md)
    with a reason for each one.
-4. Run `check`, then `render`, then hand over the link to `<dir>/index.md`.
+4. Run `check`, then `render`, then hand over the link to `<dir>/index.md`. If the user
+   asks for light or dark colours (or runs `/theme`), use `render <dir> --theme dark|light-gray|light-blue`.
 
 If you can't run Python, use the [manual method](skills/bi-joe-data-profiler/references/manual-profiling.md).
+
+**Personal data:** the engine masks it before you see it. Never ask for, copy or write real
+personal details. If a column looks personal and is not masked, re-run `profile` with
+`--mask Table.Column`.
 
 ## Working on this repo
 - The engine is in `skills/bi-joe-data-profiler/scripts/bijoe/`. Its core uses the

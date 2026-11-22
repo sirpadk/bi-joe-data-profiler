@@ -36,8 +36,12 @@ Each data story gives the table's name and a description:
 **See a real example:** [`examples/shoe_company`](examples/shoe_company/index.md) was
 built from [`sample/shoe_company.xlsx`](sample/shoe_company.xlsx).
 
-> Status: early MVP. Coming next: column-level stories, data-quality findings,
-> relationships between tables, and schema-only (DDL) input.
+> **Status: alpha (0.1.0a1).** It works end to end on CSV, Excel and SQLite, and the wiki
+> has data stories with a column matrix, measured keys and relationships, distributions,
+> BEAM✲ annotations, three colour themes, hover help and masking of personal data. Expect
+> rough edges and changes to the output format. Live databases (SQL Server, PostgreSQL and
+> others) are built but not yet tested on real servers. Still to come: schema-only (DDL)
+> input, data-quality findings and faster profiling on very large tables.
 
 ## Use it with Claude
 

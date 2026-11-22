@@ -164,6 +164,24 @@ column names, to decide what a row is.
   evidence says so). Describe what is measured as measured, and say when it is a sample.
 - **Keys may have data issues.** Do not assume a key is clean because it is named like one.
 
+### Use the Distributions
+
+`bijoe evidence` also prints **Distributions (measured)** for the columns that deserve one:
+the shape, the median and middle half, outliers, gaps and the most common value. Keys, names and
+other personal data are not charted. Use it the same way as the keys: to say something true that
+the name alone does not.
+
+- A shape is a finding, not decoration. "Most discounts are 0, with a second group at 20" is worth
+  more than the range. Right-skewed amounts say the average misleads, and two peaks often mean two
+  groups in one column.
+- **Outliers and gaps** go in `ai_notes` or an open question when they look wrong: an amount 50
+  times the median, a month with no rows in a date column that otherwise runs every month.
+- A flat date histogram with a gap may mean a data load failed. Say what is measured and ask.
+- One dominant value (half or more of the rows) often means a default or a stand-in. Ask what it is.
+- Do not call something an outlier because it looks big. Report the count and the limit the
+  engine measured.
+- Shapes are measured on the rows that were read. If the evidence says "from the sample", say so.
+
 ## 4. Pick the Source, in This Order
 
 | Priority | When | `source` | What you do |

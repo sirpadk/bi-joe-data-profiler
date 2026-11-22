@@ -38,12 +38,25 @@ Two rules matter more than anything else here:
    evidence isn't enough, write `More context needed.` See
    [writing descriptions](references/writing-descriptions.md).
 
+3. **Personal data is never saved or shown.** The engine reads the raw values in memory, measures
+   them, and masks personal data before anything is written: names, emails, phone numbers,
+   addresses, national ID numbers (CPR, SSN), birth dates, bank and card numbers. Those columns show
+   a lock and `masked` instead of values, so you will never see them. Counts, gaps and lengths are
+   still measured. Never ask the user to paste personal data, never copy it from anywhere, and never
+   write a real person's details in a description, a note or an example. If you think a column is
+   personal and the engine did not mask it (no lock in its Data Type cell), run `profile` again with
+   `--mask Table.Column`. `check` fails if it finds anything that looks like personal data in the wiki.
+
 Layout principles that apply to everything you write:
 
 - **Plan for 100 tables.** A database can have hundreds of tables, so the landing page
   stays high-level. The dataset summary talks about the data as a whole, with no table
   names, columns or relationships. Per-table detail belongs on the data stories, and
   the connections are shown in diagrams.
+- **Hover text explains itself.** Every BEAM✲ code and every profiling or variation label in the
+  tables has a `title` tooltip written by the engine (codes from `beam-annotations.md`, labels from
+  `MEASURE_HELP` in `wiki.py`). Never write these yourself, and keep new codes in the reference
+  page so they get tooltips too.
 - **Title Case for every heading, title, table label and column header** in the wiki.
 - **Paired information (label and value) goes in a simple two-column HTML table with
   inline CSS** instead of a Markdown table, so there is no empty header row. Links inside
@@ -71,8 +84,9 @@ python <skill-dir>/scripts/run_bijoe.py profile "<source>" --out "<out-dir>" \
   file, or a database URL.
 - `--purpose`, `--audience` and `--focus` record the user's interview answers in their
   own words, so they travel with the profile.
-- `--no-values` stops example values being recorded. Use it whenever the user says the
-  data is sensitive.
+- `--no-values` stops all example values being recorded, not only personal ones. Use it whenever
+  the user says the data is sensitive. `--mask Table.Column,...` adds columns to mask on top of what
+  the engine detects by itself.
 - Run `python <skill-dir>/scripts/run_bijoe.py connectors` to see which sources are ready.
   Excel needs `pip install openpyxl`. Databases need `pip install sqlalchemy` plus the
   database's driver. Ask the user before you install anything.
@@ -95,7 +109,8 @@ to produce the same files by hand. Say clearly that the numbers are approximate.
    - For each table, write a `description` (what the thing is, in one or two short
      sentences of plain business language, no backticks) and a `grain` built on it
      ("One row for each person who is a customer"). Read the whole dataset first, use the
-     measured keys in the evidence to decide the grain, and never state the obvious.
+     measured keys in the evidence to decide the grain, use the measured distributions (shape,
+     outliers, gaps) for what is notable, and never state the obvious.
    - Write `dataset.summary` last: a few sentences about the data as a whole.
    - Leave entries with `"source": "system_metadata"` exactly as they are. Technical
      detail and data-quality observations belong in `ai_notes` (names are allowed
@@ -109,6 +124,24 @@ to produce the same files by hand. Say clearly that the numbers are approximate.
    - For each **warning**, either fix it or tell the user why it is fine.
    - Repeat until the check is clean.
 4. Run `python <skill-dir>/scripts/run_bijoe.py render "<out-dir>"`.
+
+### Theme (Light or Dark)
+The tables in the wiki are coloured with a theme, written inline because GitHub strips style
+blocks. Three are built in:
+
+| Theme | Name for `--theme` |
+|---|---|
+| Light: Gray with Color (default) | `light-gray` (or `light`) |
+| Light: Light Blue with Color | `light-blue` |
+| Dark: Charcoal and Neon Edge | `dark` |
+
+- Pick one when profiling with `--theme <name>`, or switch an existing wiki with
+  `python <skill-dir>/scripts/run_bijoe.py render "<out-dir>" --theme <name>`. The choice is
+  remembered in `profile.json`, so later renders keep it.
+- **React to `/theme`.** When the user runs `/theme`, says they use dark or light mode, or
+  asks for a different look, re-render the wiki with the matching theme and tell them which
+  one you used. If they only say "light", use `light-gray` and mention that `light-blue` exists.
+  Never ask them about themes during the setup interview unless they bring it up.
 
 ### 4. Hand over
 Tell the user, in language that matches who they are:
