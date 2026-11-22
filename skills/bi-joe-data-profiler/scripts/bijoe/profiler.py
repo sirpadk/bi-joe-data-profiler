@@ -443,7 +443,7 @@ def _key_names(table: str, column: str) -> List[str]:
     col = _norm(column)
     names = {col}
     if col in ("id", "key", "code", "no", "number"):
-        t = _norm(table)
+        t = _norm(table.rsplit(".", 1)[-1])  # Sales.Customer -> customer
         names |= {t + col, t.rstrip("s") + col}
     return [n for n in names if len(n) >= 3]
 

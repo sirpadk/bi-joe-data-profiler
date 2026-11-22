@@ -61,3 +61,9 @@ def test_check_fails_when_personal_data_is_in_the_wiki(tmp_path):
     page.write_text(page.read_text(encoding="utf-8") + "\nContact: anne@example.dk\n", encoding="utf-8")
     assert main(["check", str(out)]) == 1
     assert pii.scan_text("CPR 010203-1234") and pii.scan_text("DK5000400440116243") and not pii.scan_text("Order 12345-6789")
+
+
+def test_flags_and_secrets():
+    assert pii.classify("EmailPromotion", "integer", {"0": 1, "1": 1, "2": 1}.keys()) is None  # a small code, not an address
+    assert pii.classify("PasswordHash", "text", ["x"] * 5)["class"] == "credential"
+    assert pii.classify("au_id", "text", ["172-32-1176", "213-46-8915", "238-95-7766"])["class"] == "national id"

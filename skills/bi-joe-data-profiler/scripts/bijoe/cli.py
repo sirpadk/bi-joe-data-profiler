@@ -302,7 +302,7 @@ def build_parser() -> argparse.ArgumentParser:
     pr.add_argument("--name", help="dataset name shown in the wiki (default: from the source)")
     pr.add_argument("--connector", help="force a connector instead of auto-detecting (see `bijoe connectors`)")
     pr.add_argument("--tables", help="comma-separated list of tables to profile (default: all)")
-    pr.add_argument("--schema", help="database schema to read (database sources only)")
+    pr.add_argument("--schema", help="database schema(s) to read: one name, a comma-separated list, or 'all' for every non-system schema (database sources only)")
     pr.add_argument("--sample-rows", type=int, default=100_000, help="max rows per table used for statistics (default: 100000)")
     pr.add_argument("--no-values", action="store_true", help="do not record example values (use for sensitive data)")
     pr.add_argument("--purpose", help="why the profile is being made, in the user's words")

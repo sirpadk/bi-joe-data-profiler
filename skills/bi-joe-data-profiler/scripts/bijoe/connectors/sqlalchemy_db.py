@@ -46,7 +46,10 @@ class SqlAlchemyConnector(Connector):
         import sqlalchemy as sa
 
         self._sa = sa
-        self.schema: Optional[str] = options.get("schema")
+        # schema: one name, a comma-separated list, or "all" (every non-system schema). With several
+        # schemas the tables are named Schema.Table so equal names in different schemas stay apart.
+        self.schema_option: Optional[str] = options.get("schema")
+        self._where: Dict[str, Any] = {}  # table name as shown -> (schema, table)
         try:
             self._engine = sa.create_engine(source)
             self._insp = sa.inspect(self._engine)
@@ -54,18 +57,39 @@ class SqlAlchemyConnector(Connector):
             raise ConnectorError(f"Could not connect: {type(exc).__name__}: {exc}") from exc
         self._tables: Dict[str, Any] = {}
 
+    def _schemas(self) -> List[Optional[str]]:
+        option = (self.schema_option or "").strip()
+        if not option:
+            return [None]
+        if option.lower() in ("all", "*"):
+            skip = {"sys", "information_schema", "guest", "pg_catalog", "pg_toast"}
+            names = [n for n in self._insp.get_schema_names()
+                     if n.lower() not in skip and not n.lower().startswith(("db_", "pg_temp", "pg_toast_temp"))]
+            return names or [None]
+        return [n.strip() for n in option.split(",") if n.strip()]
+
     def _table(self, table: str):
         if table not in self._tables:
-            self._tables[table] = self._sa.Table(
-                table, self._sa.MetaData(), autoload_with=self._engine, schema=self.schema
-            )
+            schema, name = self._where.get(table, (None, table))
+            self._tables[table] = self._sa.Table(name, self._sa.MetaData(), autoload_with=self._engine, schema=schema)
         return self._tables[table]
 
     def list_tables(self) -> List[str]:
-        return list(self._insp.get_table_names(schema=self.schema))
+        schemas = self._schemas()
+        out: List[str] = []
+        for schema in schemas:
+            for name in self._insp.get_table_names(schema=schema):
+                shown = f"{schema}.{name}" if len(schemas) > 1 else name
+                self._where[shown] = (schema, name)
+                out.append(shown)
+        return out
 
     def describe_table(self, table: str) -> TableInfo:
-        insp, schema = self._insp, self.schema
+        insp = self._insp
+        if not self._where:
+            self.list_tables()
+        schema, table_name = self._where.get(table, (None, table))
+        shown, table = table, table_name
         try:
             pk = set(insp.get_pk_constraint(table, schema=schema).get("constrained_columns") or [])
         except Exception:
@@ -91,12 +115,16 @@ class SqlAlchemyConnector(Connector):
             )
         sa = self._sa
         with self._engine.connect() as conn:
-            count = conn.execute(sa.select(sa.func.count()).select_from(self._table(table))).scalar()
+            count = conn.execute(sa.select(sa.func.count()).select_from(self._table(shown))).scalar()
         details = {"schema": schema} if schema else {}
-        return TableInfo(name=table, columns=columns, comment=comment or None, row_count=count, details=details)
+        return TableInfo(name=shown, columns=columns, comment=comment or None, row_count=count, details=details)
 
     def iter_rows(self, table: str, limit: Optional[int] = None) -> Iterator[Sequence[Any]]:
-        stmt = self._sa.select(self._table(table))
+        sa = self._sa
+        # Types the driver cannot read (SQL Server hierarchyid, geography, geometry...) are fetched as text.
+        columns = [sa.cast(c, sa.String).label(c.name) if isinstance(c.type, sa.types.NullType) else c
+                   for c in self._table(table).columns]
+        stmt = sa.select(*columns)
         if limit is not None:
             stmt = stmt.limit(limit)
         with self._engine.connect() as conn:
@@ -105,6 +133,13 @@ class SqlAlchemyConnector(Connector):
                 yield tuple(row)
 
     def display_source(self) -> str:
+        if "odbc_connect=" in self.source:  # SQL Server: show the server and database, never a password
+            from urllib.parse import unquote_plus
+            text = unquote_plus(self.source.split("odbc_connect=", 1)[1])
+            part = lambda key: (re.search(rf"(?i)(?:^|;){key}=([^;]*)", text) or [None, ""])[1].strip("{}")
+            server, database = part("SERVER"), part("DATABASE")
+            if server:
+                return f"mssql://{server}/{database}" if database else f"mssql://{server}"
         try:
             return self._sa.engine.make_url(self.source).render_as_string(hide_password=True)
         except Exception:

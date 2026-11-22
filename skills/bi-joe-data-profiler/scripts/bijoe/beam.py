@@ -281,7 +281,7 @@ def source_code(table: Dict[str, Any], dataset: Dict[str, Any]) -> str:
         return f"{{{d.get('file', dataset.get('source', ''))}: {d['sheet']}}}"
     if d.get("file"):
         return f"{{{d['file']}}}"
-    if d.get("schema"):
+    if d.get("schema") and not table["name"].startswith(f"{d['schema']}."):  # already qualified: Sales.Customer
         return f"{{{d['schema']}.{table['name']}}}"
     return f"{{{table['name']}}}"
 

@@ -35,6 +35,7 @@ NAME_HINTS: Dict[str, Tuple[str, ...]] = {
     "birth date": ("birth", "dob", "foedsel"),
     "bank or card number": ("iban", "bankaccount", "kontonummer", "creditcard", "cardnumber", "ccnumber"),
     "ip address": ("ipaddress",),
+    "credential": ("password", "passwd", "passwordhash", "passwordsalt", "apikey", "secretkey", "clientsecret"),
 }
 _ID_ENDINGS = ("id", "key", "ref", "code", "flag", "optin", "consent")
 
@@ -97,6 +98,12 @@ def classify(name: str, inferred_type: str, values: Iterable[str]) -> Optional[D
     if inferred_type in ("boolean", "binary", "empty"):
         return None
     norm = _norm(name)
+    try:
+        few = inferred_type in ("integer", "decimal") and len(values) <= 20  # a flag or a code, not a person's number
+    except TypeError:
+        few = False
+    if few:
+        return None
     ids = norm.endswith(_ID_ENDINGS)
     if not ids:
         for kind, hints in NAME_HINTS.items():

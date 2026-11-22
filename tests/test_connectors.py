@@ -49,3 +49,13 @@ def test_sqlalchemy_generic_and_password_hidden(shop_sqlite):
 
     c._sa, c.source = sqlalchemy, "postgresql://joe:s3cret@host/db"
     assert "s3cret" not in c.display_source()
+
+
+def test_sql_server_url_is_shown_without_secrets():
+    from bijoe.connectors.sqlalchemy_db import SqlAlchemyConnector
+    from urllib.parse import quote_plus
+    odbc = r"DRIVER={ODBC Driver 18 for SQL Server};SERVER=host\inst;DATABASE=pubs;UID=joe;PWD=hunter2;Trusted_Connection=no"
+    c = SqlAlchemyConnector.__new__(SqlAlchemyConnector)
+    c.source = "mssql+pyodbc:///?odbc_connect=" + quote_plus(odbc)
+    shown = c.display_source()
+    assert shown == "mssql://host\inst/pubs" and "hunter2" not in shown
