@@ -1,7 +1,7 @@
 {
   "bijoe_version": "0.1.0a1",
   "schema_version": 2,
-  "generated_at": "2026-11-22T20:13:24+00:00",
+  "generated_at": "2026-11-22T22:15:39+00:00",
   "dataset": {
     "name": "AdventureWorks2025",
     "source": "mssql://localhost/AdventureWorks2025",
@@ -157,6 +157,7 @@
           "2025-11-14T13:01:07.887000"
         ]
       ],
+      "profile_seconds": 0.049,
       "slug": "dbo-awbuildversion"
     },
     {
@@ -734,6 +735,7 @@
         "closest_combinations": [],
         "identifier_pairs": []
       },
+      "profile_seconds": 0.075,
       "slug": "dbo-databaselog"
     },
     {
@@ -867,6 +869,7 @@
           "all_values_unique": false
         }
       ],
+      "profile_seconds": 0.028,
       "slug": "dbo-errorlog"
     },
     {
@@ -1119,6 +1122,7 @@
         "closest_combinations": [],
         "identifier_pairs": []
       },
+      "profile_seconds": 0.036,
       "slug": "humanresources-department"
     },
     {
@@ -2493,6 +2497,7 @@
           }
         ]
       },
+      "profile_seconds": 0.101,
       "slug": "humanresources-employee"
     },
     {
@@ -3409,6 +3414,7 @@
           }
         ]
       },
+      "profile_seconds": 0.3,
       "slug": "humanresources-employeedepartmenthistory"
     },
     {
@@ -4272,6 +4278,7 @@
         "closest_combinations": [],
         "identifier_pairs": []
       },
+      "profile_seconds": 0.155,
       "slug": "humanresources-employeepayhistory"
     },
     {
@@ -4734,6 +4741,7 @@
           }
         ]
       },
+      "profile_seconds": 0.193,
       "slug": "humanresources-jobcandidate"
     },
     {
@@ -4965,6 +4973,7 @@
         "closest_combinations": [],
         "identifier_pairs": []
       },
+      "profile_seconds": 0.038,
       "slug": "humanresources-shift"
     },
     {
@@ -5769,6 +5778,7 @@
           }
         ]
       },
+      "profile_seconds": 2.127,
       "slug": "person-address"
     },
     {
@@ -6008,6 +6018,7 @@
           }
         ]
       },
+      "profile_seconds": 0.041,
       "slug": "person-addresstype"
     },
     {
@@ -6212,6 +6223,7 @@
           }
         ]
       },
+      "profile_seconds": 0.361,
       "slug": "person-businessentity"
     },
     {
@@ -6698,6 +6710,7 @@
           }
         ]
       },
+      "profile_seconds": 0.596,
       "slug": "person-businessentityaddress"
     },
     {
@@ -7261,6 +7274,7 @@
           }
         ]
       },
+      "profile_seconds": 0.152,
       "slug": "person-businessentitycontact"
     },
     {
@@ -7438,6 +7452,7 @@
         "closest_combinations": [],
         "identifier_pairs": []
       },
+      "profile_seconds": 0.03,
       "slug": "person-contacttype"
     },
     {
@@ -7624,6 +7639,7 @@
         "closest_combinations": [],
         "identifier_pairs": []
       },
+      "profile_seconds": 0.036,
       "slug": "person-countryregion"
     },
     {
@@ -8025,6 +8041,7 @@
           }
         ]
       },
+      "profile_seconds": 0.478,
       "slug": "person-emailaddress"
     },
     {
@@ -8384,6 +8401,7 @@
           }
         ]
       },
+      "profile_seconds": 0.862,
       "slug": "person-password"
     },
     {
@@ -9253,6 +9271,7 @@
           }
         ]
       },
+      "profile_seconds": 0.902,
       "slug": "person-person"
     },
     {
@@ -9627,6 +9646,7 @@
           }
         ]
       },
+      "profile_seconds": 1.443,
       "slug": "person-personphone"
     },
     {
@@ -9778,6 +9798,7 @@
         "closest_combinations": [],
         "identifier_pairs": []
       },
+      "profile_seconds": 0.042,
       "slug": "person-phonenumbertype"
     },
     {
@@ -10611,6 +10632,7 @@
           }
         ]
       },
+      "profile_seconds": 0.098,
       "slug": "person-stateprovince"
     },
     {
@@ -11654,6 +11676,7 @@
           }
         ]
       },
+      "profile_seconds": 0.257,
       "slug": "production-billofmaterials"
     },
     {
@@ -11831,6 +11854,7 @@
         "closest_combinations": [],
         "identifier_pairs": []
       },
+      "profile_seconds": 0.051,
       "slug": "production-culture"
     },
     {
@@ -12998,6 +13022,7 @@
           }
         ]
       },
+      "profile_seconds": 0.119,
       "slug": "production-document"
     },
     {
@@ -13175,6 +13200,7 @@
         "closest_combinations": [],
         "identifier_pairs": []
       },
+      "profile_seconds": 0.024,
       "slug": "production-illustration"
     },
     {
@@ -13578,6 +13604,7 @@
         "closest_combinations": [],
         "identifier_pairs": []
       },
+      "profile_seconds": 0.054,
       "slug": "production-location"
     },
     {
@@ -15996,6 +16023,7 @@
           }
         ]
       },
+      "profile_seconds": 0.229,
       "slug": "production-product"
     },
     {
@@ -16217,6 +16245,7 @@
           }
         ]
       },
+      "profile_seconds": 0.057,
       "slug": "production-productcategory"
     },
     {
@@ -17030,6 +17059,7 @@
         "closest_combinations": [],
         "identifier_pairs": []
       },
+      "profile_seconds": 0.268,
       "slug": "production-productcosthistory"
     },
     {
@@ -17370,6 +17400,7 @@
           }
         ]
       },
+      "profile_seconds": 0.059,
       "slug": "production-productdescription"
     },
     {
@@ -17596,6 +17627,7 @@
         ],
         "identifier_pairs": []
       },
+      "profile_seconds": 0.412,
       "slug": "production-productdocument"
     },
     {
@@ -18573,6 +18605,7 @@
           }
         ]
       },
+      "profile_seconds": 0.244,
       "slug": "production-productinventory"
     },
     {
@@ -19372,6 +19405,7 @@
         "closest_combinations": [],
         "identifier_pairs": []
       },
+      "profile_seconds": 0.184,
       "slug": "production-productlistpricehistory"
     },
     {
@@ -20032,6 +20066,7 @@
           }
         ]
       },
+      "profile_seconds": 0.038,
       "slug": "production-productmodel"
     },
     {
@@ -20247,6 +20282,7 @@
           }
         ]
       },
+      "profile_seconds": 0.102,
       "slug": "production-productmodelillustration"
     },
     {
@@ -20514,6 +20550,7 @@
           }
         ]
       },
+      "profile_seconds": 0.168,
       "slug": "production-productmodelproductdescriptionculture"
     },
     {
@@ -21032,6 +21069,7 @@
         "closest_combinations": [],
         "identifier_pairs": []
       },
+      "profile_seconds": 0.088,
       "slug": "production-productphoto"
     },
     {
@@ -21458,6 +21496,7 @@
           }
         ]
       },
+      "profile_seconds": 0.307,
       "slug": "production-productproductphoto"
     },
     {
@@ -21957,6 +21996,7 @@
           }
         ]
       },
+      "profile_seconds": 0.237,
       "slug": "production-productreview"
     },
     {
@@ -22262,6 +22302,7 @@
           }
         ]
       },
+      "profile_seconds": 0.068,
       "slug": "production-productsubcategory"
     },
     {
@@ -22439,6 +22480,7 @@
         "closest_combinations": [],
         "identifier_pairs": []
       },
+      "profile_seconds": 0.031,
       "slug": "production-scrapreason"
     },
     {
@@ -23502,6 +23544,7 @@
           }
         ]
       },
+      "profile_seconds": 2.831,
       "slug": "production-transactionhistory"
     },
     {
@@ -24801,6 +24844,7 @@
           }
         ]
       },
+      "profile_seconds": 2.128,
       "slug": "production-transactionhistoryarchive"
     },
     {
@@ -24978,6 +25022,7 @@
         "closest_combinations": [],
         "identifier_pairs": []
       },
+      "profile_seconds": 0.038,
       "slug": "production-unitmeasure"
     },
     {
@@ -26396,6 +26441,7 @@
           }
         ]
       },
+      "profile_seconds": 2.239,
       "slug": "production-workorder"
     },
     {
@@ -27915,6 +27961,7 @@
           }
         ]
       },
+      "profile_seconds": 3.296,
       "slug": "production-workorderrouting"
     },
     {
@@ -29583,6 +29630,7 @@
           }
         ]
       },
+      "profile_seconds": 0.411,
       "slug": "purchasing-productvendor"
     },
     {
@@ -31350,6 +31398,7 @@
           }
         ]
       },
+      "profile_seconds": 0.739,
       "slug": "purchasing-purchaseorderdetail"
     },
     {
@@ -33162,6 +33211,7 @@
           }
         ]
       },
+      "profile_seconds": 0.454,
       "slug": "purchasing-purchaseorderheader"
     },
     {
@@ -33511,6 +33561,7 @@
           }
         ]
       },
+      "profile_seconds": 0.026,
       "slug": "purchasing-shipmethod"
     },
     {
@@ -34136,6 +34187,7 @@
           }
         ]
       },
+      "profile_seconds": 0.045,
       "slug": "purchasing-vendor"
     },
     {
@@ -34561,6 +34613,7 @@
           }
         ]
       },
+      "profile_seconds": 0.101,
       "slug": "sales-countryregioncurrency"
     },
     {
@@ -35325,6 +35378,7 @@
           }
         ]
       },
+      "profile_seconds": 0.281,
       "slug": "sales-creditcard"
     },
     {
@@ -35501,6 +35555,7 @@
         "closest_combinations": [],
         "identifier_pairs": []
       },
+      "profile_seconds": 0.024,
       "slug": "sales-currency"
     },
     {
@@ -36549,6 +36604,7 @@
           }
         ]
       },
+      "profile_seconds": 0.413,
       "slug": "sales-currencyrate"
     },
     {
@@ -37080,6 +37136,7 @@
           }
         ]
       },
+      "profile_seconds": 1.016,
       "slug": "sales-customer"
     },
     {
@@ -37388,6 +37445,7 @@
           }
         ]
       },
+      "profile_seconds": 0.311,
       "slug": "sales-personcreditcard"
     },
     {
@@ -38714,6 +38772,7 @@
           }
         ]
       },
+      "profile_seconds": 6.367,
       "slug": "sales-salesorderdetail"
     },
     {
@@ -41189,6 +41248,7 @@
           }
         ]
       },
+      "profile_seconds": 6.859,
       "slug": "sales-salesorderheader"
     },
     {
@@ -41519,6 +41579,7 @@
           }
         ]
       },
+      "profile_seconds": 0.918,
       "slug": "sales-salesorderheadersalesreason"
     },
     {
@@ -42546,6 +42607,7 @@
           }
         ]
       },
+      "profile_seconds": 0.31,
       "slug": "sales-salesperson"
     },
     {
@@ -43140,6 +43202,7 @@
           }
         ]
       },
+      "profile_seconds": 0.215,
       "slug": "sales-salespersonquotahistory"
     },
     {
@@ -43384,6 +43447,7 @@
         "closest_combinations": [],
         "identifier_pairs": []
       },
+      "profile_seconds": 0.025,
       "slug": "sales-salesreason"
     },
     {
@@ -43932,6 +43996,7 @@
           }
         ]
       },
+      "profile_seconds": 0.183,
       "slug": "sales-salestaxrate"
     },
     {
@@ -44517,6 +44582,7 @@
           }
         ]
       },
+      "profile_seconds": 0.111,
       "slug": "sales-salesterritory"
     },
     {
@@ -45437,6 +45503,7 @@
           }
         ]
       },
+      "profile_seconds": 0.216,
       "slug": "sales-salesterritoryhistory"
     },
     {
@@ -45731,6 +45798,7 @@
           }
         ]
       },
+      "profile_seconds": 0.251,
       "slug": "sales-shoppingcartitem"
     },
     {
@@ -46843,6 +46911,7 @@
           }
         ]
       },
+      "profile_seconds": 0.043,
       "slug": "sales-specialoffer"
     },
     {
@@ -47251,6 +47320,7 @@
           }
         ]
       },
+      "profile_seconds": 0.29,
       "slug": "sales-specialofferproduct"
     },
     {
@@ -47611,6 +47681,7 @@
           }
         ]
       },
+      "profile_seconds": 0.287,
       "slug": "sales-store"
     }
   ],
@@ -49265,5 +49336,12 @@
       "coverage_pct": 100.0,
       "sampled": false
     }
-  ]
+  ],
+  "timings": {
+    "total_seconds": 42.308,
+    "connect_seconds": 0.327,
+    "list_seconds": 0.02,
+    "tables_seconds": 41.574,
+    "relationships_seconds": 0.387
+  }
 }
