@@ -135,7 +135,7 @@ relationships:
   - "Sales.SalesPerson.BusinessEntityID -> Person.Person.BusinessEntityID: 17/17 values found (100%)"
   - "Sales.SalesPersonQuotaHistory.BusinessEntityID -> Person.Person.BusinessEntityID: 163/163 values found (100%)"
   - "Sales.SalesTerritoryHistory.BusinessEntityID -> Person.Person.BusinessEntityID: 17/17 values found (100%)"
-generated_at: "2026-11-22T19:17:45+00:00"
+generated_at: "2026-11-22T20:13:24+00:00"
 ```
 
 </div>

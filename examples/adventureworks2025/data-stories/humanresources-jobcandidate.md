@@ -112,7 +112,7 @@ relationships:
   - "HumanResources.JobCandidate.BusinessEntityID -> Person.Person.BusinessEntityID: 2/2 values found (100%)"
   - "HumanResources.JobCandidate.BusinessEntityID -> Person.PersonPhone.BusinessEntityID: 2/2 values found (100%)"
   - "HumanResources.JobCandidate.BusinessEntityID -> Sales.SalesPerson.BusinessEntityID: 1/2 values found (50%)"
-generated_at: "2026-11-22T19:17:45+00:00"
+generated_at: "2026-11-22T20:13:24+00:00"
 ```
 
 </div>

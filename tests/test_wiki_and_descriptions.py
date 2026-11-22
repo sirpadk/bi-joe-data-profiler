@@ -331,7 +331,7 @@ def test_column_matrix_follows_the_modelstormer_layout(shop_csv, tmp_path):
     assert matrix_row(story, "Missing", "Variation")[2] == "empty ×1"
     assert matrix_row(story, "Change", "Variation") == ["—"] * 5
     sample = [r for r in rows if r["group"] == "Sample Data"]
-    assert [strip(c) for _, c in sample[0]["cells"]][:2] == ["1", "Ann"]
+    assert [strip(c) for _, c in sample[0]["cells"]][:2] == ["1", "••••"]  # "name" in a customers table is a person's name: masked
     assert "## Sample Rows" not in story
 
 

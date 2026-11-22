@@ -117,7 +117,7 @@ relationships:
   - "HumanResources.EmployeeDepartmentHistory.BusinessEntityID -> Person.PersonPhone.BusinessEntityID: 296/296 values found (100%)"
   - "HumanResources.EmployeeDepartmentHistory.DepartmentID -> HumanResources.Department.DepartmentID: 296/296 values found (100%)"
   - "HumanResources.EmployeeDepartmentHistory.ShiftID -> HumanResources.Shift.ShiftID: 296/296 values found (100%)"
-generated_at: "2026-11-22T19:17:45+00:00"
+generated_at: "2026-11-22T20:13:24+00:00"
 ```
 
 </div>

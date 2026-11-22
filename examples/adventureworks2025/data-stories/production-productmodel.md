@@ -101,7 +101,7 @@ relationships:
   - "Production.ProductModel.Name -> Production.Product.Name: 69/128 values found (53.91%)"
   - "Production.ProductModelIllustration.ProductModelID -> Production.ProductModel.ProductModelID: 7/7 values found (100%)"
   - "Production.ProductModelProductDescriptionCulture.ProductModelID -> Production.ProductModel.ProductModelID: 762/762 values found (100%)"
-generated_at: "2026-11-22T19:17:45+00:00"
+generated_at: "2026-11-22T20:13:24+00:00"
 ```
 
 </div>

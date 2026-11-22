@@ -76,3 +76,12 @@ def test_scan_ignores_decimals_guids_and_coordinates_but_finds_card_numbers():
     assert pii.scan_text("card 4111111111111111 expires 12/26") == ["a card number"]
     assert pii.scan_text("card 4111 1111 1111 1111") == ["a card number"]
     assert pii.scan_text("card 4111-1111-1111-1111.") == ["a card number"]
+
+
+def test_person_names_by_role_and_by_table():
+    for col in ("ReviewerName", "AuthorName", "customer_name", "EmployeeName", "CardholderName"):
+        assert pii.classify(col, "text", ["x"] * 5)["class"] == "person name", col
+    assert pii.classify("Name", "text", ["a", "b", "c"], table="Sales.Customers")["class"] == "person name"
+    assert pii.classify("Name", "text", ["a", "b", "c"], table="Production.Product") is None  # not a table about people
+    for col in ("CompanyName", "ProductName", "StoreName", "ReviewerID", "FileName"):
+        assert pii.classify(col, "text", ["x"] * 5) is None, col

@@ -88,7 +88,7 @@ evidence:
   - "Table comment stored in the source system"
 relationships:
   - "Production.ProductSubcategory.ProductCategoryID -> Production.ProductCategory.ProductCategoryID: 37/37 values found (100%)"
-generated_at: "2026-11-22T19:17:45+00:00"
+generated_at: "2026-11-22T20:13:24+00:00"
 ```
 
 </div>

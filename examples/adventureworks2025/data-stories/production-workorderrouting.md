@@ -118,7 +118,7 @@ relationships:
   - "Production.WorkOrderRouting.ProductID -> Production.Product.ProductID: 67131/67131 values found (100%)"
   - "Production.WorkOrderRouting.ProductID -> Production.ProductProductPhoto.ProductID: 67131/67131 values found (100%)"
   - "Production.WorkOrderRouting.LocationID -> Production.Location.LocationID: 67131/67131 values found (100%)"
-generated_at: "2026-11-22T19:17:45+00:00"
+generated_at: "2026-11-22T20:13:24+00:00"
 ```
 
 </div>

@@ -1,7 +1,7 @@
 {
   "bijoe_version": "0.1.0a1",
   "schema_version": 2,
-  "generated_at": "2026-11-22T19:17:45+00:00",
+  "generated_at": "2026-11-22T20:13:24+00:00",
   "dataset": {
     "name": "AdventureWorks2025",
     "source": "mssql://localhost/AdventureWorks2025",
@@ -21568,34 +21568,17 @@
           "blank_count": 0,
           "distinct_count": 4,
           "all_values_unique": true,
-          "min_length": 4,
-          "max_length": 12,
-          "min_value": "David",
-          "min_count": 1,
-          "max_value": "Laura Norman",
-          "max_count": 1,
-          "rare_value": {
-            "value": "David",
-            "count": 1
+          "pii": {
+            "class": "person name",
+            "reason": "the column name"
           },
-          "top_values": [
-            {
-              "value": "John Smith",
-              "count": 1
-            },
-            {
-              "value": "David",
-              "count": 1
-            },
-            {
-              "value": "Jill",
-              "count": 1
-            },
-            {
-              "value": "Laura Norman",
-              "count": 1
-            }
-          ]
+          "distribution": {
+            "kind": "none",
+            "reason": "personal data",
+            "top_share_pct": 25.0
+          },
+          "min_length": 4,
+          "max_length": 12
         },
         {
           "name": "ReviewDate",
@@ -21898,7 +21881,7 @@
         [
           "1",
           "709",
-          "John Smith",
+          "••••",
           "2024-09-17",
           "••••",
           "5",
@@ -21908,7 +21891,7 @@
         [
           "2",
           "937",
-          "David",
+          "••••",
           "2024-11-12",
           "••••",
           "4",
@@ -21918,7 +21901,7 @@
         [
           "3",
           "937",
-          "Jill",
+          "••••",
           "2024-11-14",
           "••••",
           "2",
@@ -21928,7 +21911,7 @@
         [
           "4",
           "798",
-          "Laura Norman",
+          "••••",
           "2024-11-14",
           "••••",
           "5",

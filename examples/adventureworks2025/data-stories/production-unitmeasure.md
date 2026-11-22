@@ -100,7 +100,7 @@ relationships:
   - "Production.Product.SizeUnitMeasureCode -> Production.UnitMeasure.UnitMeasureCode: 176/176 values found (100%)"
   - "Production.Product.WeightUnitMeasureCode -> Production.UnitMeasure.UnitMeasureCode: 205/205 values found (100%)"
   - "Purchasing.ProductVendor.UnitMeasureCode -> Production.UnitMeasure.UnitMeasureCode: 460/460 values found (100%)"
-generated_at: "2026-11-22T19:17:45+00:00"
+generated_at: "2026-11-22T20:13:24+00:00"
 ```
 
 </div>

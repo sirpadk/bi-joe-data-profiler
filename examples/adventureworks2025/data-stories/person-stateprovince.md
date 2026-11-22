@@ -105,7 +105,7 @@ relationships:
   - "Person.StateProvince.CountryRegionCode -> Person.CountryRegion.CountryRegionCode: 181/181 values found (100%)"
   - "Person.StateProvince.TerritoryID -> Sales.SalesTerritory.TerritoryID: 181/181 values found (100%)"
   - "Sales.SalesTaxRate.StateProvinceID -> Person.StateProvince.StateProvinceID: 29/29 values found (100%)"
-generated_at: "2026-11-22T19:17:45+00:00"
+generated_at: "2026-11-22T20:13:24+00:00"
 ```
 
 </div>

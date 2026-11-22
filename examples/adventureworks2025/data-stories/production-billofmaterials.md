@@ -96,7 +96,7 @@ evidence:
   - "Table comment stored in the source system"
 relationships:
   - "Production.BillOfMaterials.UnitMeasureCode -> Production.UnitMeasure.UnitMeasureCode: 2679/2679 values found (100%)"
-generated_at: "2026-11-22T19:17:45+00:00"
+generated_at: "2026-11-22T20:13:24+00:00"
 ```
 
 </div>

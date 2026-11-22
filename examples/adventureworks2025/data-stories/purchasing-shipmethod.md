@@ -98,7 +98,7 @@ evidence:
 relationships:
   - "Purchasing.PurchaseOrderHeader.ShipMethodID -> Purchasing.ShipMethod.ShipMethodID: 4012/4012 values found (100%)"
   - "Sales.SalesOrderHeader.ShipMethodID -> Purchasing.ShipMethod.ShipMethodID: 31465/31465 values found (100%)"
-generated_at: "2026-11-22T19:17:45+00:00"
+generated_at: "2026-11-22T20:13:24+00:00"
 ```
 
 </div>

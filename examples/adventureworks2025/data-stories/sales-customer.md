@@ -102,7 +102,7 @@ evidence:
 relationships:
   - "Sales.Customer.TerritoryID -> Sales.SalesTerritory.TerritoryID: 19820/19820 values found (100%)"
   - "Sales.SalesOrderHeader.CustomerID -> Sales.Customer.CustomerID: 31465/31465 values found (100%)"
-generated_at: "2026-11-22T19:17:45+00:00"
+generated_at: "2026-11-22T20:13:24+00:00"
 ```
 
 </div>

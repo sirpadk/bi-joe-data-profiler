@@ -100,7 +100,7 @@ relationships:
   - "Person.BusinessEntityContact.BusinessEntityID -> Person.BusinessEntity.BusinessEntityID: 909/909 values found (100%)"
   - "Person.BusinessEntityContact.BusinessEntityID -> Sales.Store.BusinessEntityID: 753/909 values found (82.84%)"
   - "Person.BusinessEntityContact.ContactTypeID -> Person.ContactType.ContactTypeID: 909/909 values found (100%)"
-generated_at: "2026-11-22T19:17:45+00:00"
+generated_at: "2026-11-22T20:13:24+00:00"
 ```
 
 </div>

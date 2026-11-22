@@ -106,7 +106,7 @@ relationships:
   - "Person.BusinessEntityAddress.AddressID -> Person.Address.AddressID: 19614/19614 values found (100%)"
   - "Sales.SalesOrderHeader.BillToAddressID -> Person.Address.AddressID: 31465/31465 values found (100%)"
   - "Sales.SalesOrderHeader.ShipToAddressID -> Person.Address.AddressID: 31465/31465 values found (100%)"
-generated_at: "2026-11-22T19:17:45+00:00"
+generated_at: "2026-11-22T20:13:24+00:00"
 ```
 
 </div>

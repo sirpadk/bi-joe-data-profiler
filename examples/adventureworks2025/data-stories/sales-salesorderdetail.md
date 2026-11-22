@@ -113,7 +113,7 @@ relationships:
   - "Sales.SalesOrderDetail.ProductID -> Production.Product.ProductID: 100000/100000 values found (100%)"
   - "Sales.SalesOrderDetail.ProductID -> Production.ProductProductPhoto.ProductID: 100000/100000 values found (100%)"
   - "Sales.SalesOrderDetail.SpecialOfferID -> Sales.SpecialOffer.SpecialOfferID: 100000/100000 values found (100%)"
-generated_at: "2026-11-22T19:17:45+00:00"
+generated_at: "2026-11-22T20:13:24+00:00"
 ```
 
 </div>

@@ -103,7 +103,7 @@ relationships:
   - "Sales.CreditCard.CreditCardID -> Sales.PersonCreditCard.CreditCardID: 19118/19118 values found (100%)"
   - "Sales.PersonCreditCard.CreditCardID -> Sales.CreditCard.CreditCardID: 19118/19118 values found (100%)"
   - "Sales.SalesOrderHeader.CreditCardID -> Sales.CreditCard.CreditCardID: 30334/30334 values found (100%)"
-generated_at: "2026-11-22T19:17:45+00:00"
+generated_at: "2026-11-22T20:13:24+00:00"
 ```
 
 </div>

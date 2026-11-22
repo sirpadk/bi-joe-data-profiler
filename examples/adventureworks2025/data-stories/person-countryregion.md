@@ -100,7 +100,7 @@ relationships:
   - "Sales.CountryRegionCurrency.CountryRegionCode -> Person.CountryRegion.CountryRegionCode: 109/109 values found (100%)"
   - "Sales.SalesTerritory.Name -> Person.CountryRegion.Name: 5/10 values found (50%)"
   - "Sales.SalesTerritory.CountryRegionCode -> Person.CountryRegion.CountryRegionCode: 10/10 values found (100%)"
-generated_at: "2026-11-22T19:17:45+00:00"
+generated_at: "2026-11-22T20:13:24+00:00"
 ```
 
 </div>

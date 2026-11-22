@@ -118,7 +118,7 @@ relationships:
   - "Production.WorkOrder.ProductID -> Production.ProductProductPhoto.ProductID: 72591/72591 values found (100%)"
   - "Production.WorkOrder.ScrapReasonID -> Production.ScrapReason.ScrapReasonID: 729/729 values found (100%)"
   - "Production.WorkOrderRouting.WorkOrderID -> Production.WorkOrder.WorkOrderID: 67131/67131 values found (100%)"
-generated_at: "2026-11-22T19:17:45+00:00"
+generated_at: "2026-11-22T20:13:24+00:00"
 ```
 
 </div>

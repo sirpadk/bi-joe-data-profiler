@@ -144,7 +144,7 @@ relationships:
   - "Sales.SalesOrderHeader.CreditCardID -> Sales.PersonCreditCard.CreditCardID: 30334/30334 values found (100%)"
   - "Sales.SalesOrderHeader.CurrencyRateID -> Sales.CurrencyRate.CurrencyRateID: 13976/13976 values found (100%)"
   - "Sales.SalesOrderHeaderSalesReason.SalesOrderID -> Sales.SalesOrderHeader.SalesOrderID: 27647/27647 values found (100%)"
-generated_at: "2026-11-22T19:17:45+00:00"
+generated_at: "2026-11-22T20:13:24+00:00"
 ```
 
 </div>

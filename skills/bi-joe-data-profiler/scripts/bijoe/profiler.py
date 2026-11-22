@@ -70,8 +70,9 @@ def _to_naive(value: dt.datetime) -> dt.datetime:
 class ColumnStats:
     def __init__(self, name: str, position: int, declared_type: Optional[str] = None,
                  comment: Optional[str] = None, primary_key: bool = False,
-                 nullable: Optional[bool] = None, force_pii: bool = False) -> None:
+                 nullable: Optional[bool] = None, force_pii: bool = False, table: str = "") -> None:
         self.name = name
+        self.table = table
         self.force_pii = force_pii
         self.position = position
         self.declared_type = declared_type
@@ -270,7 +271,7 @@ class ColumnStats:
         personal: Optional[Dict[str, str]] = None
         if non_missing:
             personal = ({"class": "personal data", "reason": "the user asked for it to be masked"} if self.force_pii
-                        else pii_mod.classify(self.name, inferred, self.values.keys()))
+                        else pii_mod.classify(self.name, inferred, self.values.keys(), self.table))
         allowed = COMPATIBLE.get(inferred, {inferred})
         unexpected = {k for k in types if k not in allowed}
         out: Dict[str, Any] = {
@@ -372,7 +373,7 @@ def _profile_table(connector: Connector, table: str, sample_rows: int, include_v
     info = info or connector.describe_table(table)
     stats = [
         ColumnStats(c.name, i + 1, c.declared_type, c.comment, c.primary_key, c.nullable,
-                    force_pii=(table.lower(), c.name.lower()) in mask)
+                    force_pii=(table.lower(), c.name.lower()) in mask, table=table)
         for i, c in enumerate(info.columns)
     ]
     width = len(stats)

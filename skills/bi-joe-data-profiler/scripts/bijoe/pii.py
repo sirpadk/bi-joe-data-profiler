@@ -39,6 +39,18 @@ NAME_HINTS: Dict[str, Tuple[str, ...]] = {
 }
 _ID_ENDINGS = ("id", "key", "ref", "code", "flag", "optin", "consent")
 
+#: a person's role followed by "name" (ReviewerName, CustomerName, AuthorName...)
+_ROLE_NAME = re.compile(
+    r"(reviewer|author|customer|employee|client|patient|member|user|contact|owner|buyer|seller|student|teacher|driver|"
+    r"guest|applicant|candidate|spouse|parent|child|salesperson|representative|supervisor|assignee|requester|"
+    r"recipient|sender|cardholder|holder|payee|payer|beneficiary|insured|policyholder|claimant|person|player|"
+    r"visitor|passenger|traveller|traveler)(s)?name$")
+#: a column called just Name in a table about people
+_PERSON_TABLE = re.compile(
+    r"^(customer|employee|person|people|user|contact|patient|member|author|student|staff|client|applicant|candidate|"
+    r"reviewer|driver|teacher|visitor|passenger|player)s?$")
+_BARE_NAME = {"name", "fullname", "displayname"}
+
 _EMAIL = re.compile(r"^[^@\s]+@[^@\s]+\.[A-Za-z]{2,}$")
 _EMAIL_ANY = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}")
 _US_SSN = re.compile(r"^\d{3}-\d{2}-\d{4}$")
@@ -95,7 +107,7 @@ def _looks_like(kind: str, value: str) -> bool:
     return False
 
 
-def classify(name: str, inferred_type: str, values: Iterable[str]) -> Optional[Dict[str, str]]:
+def classify(name: str, inferred_type: str, values: Iterable[str], table: str = "") -> Optional[Dict[str, str]]:
     """Return {"class": ..., "reason": ...} when the column looks like personal data, else None."""
     if inferred_type in ("boolean", "binary", "empty"):
         return None
@@ -107,6 +119,10 @@ def classify(name: str, inferred_type: str, values: Iterable[str]) -> Optional[D
     if few:
         return None
     ids = norm.endswith(_ID_ENDINGS)
+    if not ids and inferred_type == "text":
+        owner = _norm(table.rsplit(".", 1)[-1])
+        if _ROLE_NAME.search(norm) or (norm in _BARE_NAME and _PERSON_TABLE.match(owner)):
+            return {"class": "person name", "reason": "the column name" if _ROLE_NAME.search(norm) else "the table is about people"}
     if not ids:
         for kind, hints in NAME_HINTS.items():
             if any(h in norm for h in hints):
