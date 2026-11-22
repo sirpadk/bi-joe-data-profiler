@@ -25,6 +25,10 @@ THEMES: Dict[str, Dict[str, Any]] = {
             ("#33290a", "#ffd23f", "#161616", "#ffd23f"),
         ],
         "bar": "#4cc2ff", "bar_warn": "#ff9f43", "bar_gap": "#8a8a8a",
+        "page": "#101010", "link": "#4cc2ff",
+        "mermaid": {"primaryColor": "#1d1d1d", "primaryTextColor": "#eaeaea", "primaryBorderColor": "#8a8a8a",
+                    "lineColor": "#8a8a8a", "secondaryColor": "#242424", "tertiaryColor": "#101010",
+                    "background": "#101010", "mainBkg": "#1d1d1d", "nodeBorder": "#8a8a8a"},
     },
     "light-gray": {
         "title": "Light: Gray with Color",
@@ -38,6 +42,10 @@ THEMES: Dict[str, Dict[str, Any]] = {
             ("#f2dcb6", "#6b4208", "#fcf8f0", None),
         ],
         "bar": "#2f7ea3", "bar_warn": "#d9822b", "bar_gap": "#9aa0a6",
+        "page": "#f4f5f7", "link": "#0b5cad",
+        "mermaid": {"primaryColor": "#e4e7eb", "primaryTextColor": "#1f2328", "primaryBorderColor": "#8b929a",
+                    "lineColor": "#6b7280", "secondaryColor": "#ffffff", "tertiaryColor": "#f4f5f7",
+                    "background": "#f4f5f7", "mainBkg": "#e4e7eb", "nodeBorder": "#8b929a"},
     },
     "light-blue": {
         "title": "Light: Light Blue with Color",
@@ -51,6 +59,10 @@ THEMES: Dict[str, Dict[str, Any]] = {
             ("#d9d0f5", "#3b2a78", "#f6f3ff", None),
         ],
         "bar": "#2b6cb0", "bar_warn": "#d9822b", "bar_gap": "#8aa0b8",
+        "page": "#eaf3fb", "link": "#0b5cad",
+        "mermaid": {"primaryColor": "#d4e6f8", "primaryTextColor": "#14283c", "primaryBorderColor": "#5f93c9",
+                    "lineColor": "#5f93c9", "secondaryColor": "#ffffff", "tertiaryColor": "#eaf3fb",
+                    "background": "#eaf3fb", "mainBkg": "#d4e6f8", "nodeBorder": "#5f93c9"},
     },
 }
 ALIASES = {"light": "light-gray", "gray": "light-gray", "grey": "light-gray", "light-grey": "light-gray",

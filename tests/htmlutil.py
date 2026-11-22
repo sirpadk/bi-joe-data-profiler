@@ -69,4 +69,15 @@ def headings(page: str) -> List[str]:
 def notitle(s: str) -> str:
     """Drop the hover text (title="...") so assertions can focus on links and structure."""
     s = re.sub(r' title="[^"]*"', "", s)
+    s = re.sub(r'(<a [^>]*?) style="color:[^"]*"', lambda m: m.group(1), s)  # theme link colour
     return re.sub(r'(\]\([^)\s"]+) "[^"]*"\)', lambda m: m.group(1) + ")", s)  # Markdown link titles
+
+
+def unframe(page: str) -> str:
+    """The page without the themed wrapper div."""
+    lines = page.rstrip().split("\n")
+    if lines and lines[0].startswith('<div style="background:'):
+        lines = lines[1:]
+    if lines and lines[-1].strip() == "</div>":
+        lines = lines[:-1]
+    return "\n".join(lines).strip("\n") + "\n"

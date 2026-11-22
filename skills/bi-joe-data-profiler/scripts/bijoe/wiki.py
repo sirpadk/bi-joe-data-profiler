@@ -151,6 +151,27 @@ def _entry(descriptions: Dict[str, Any], table: str) -> Dict[str, Any]:
     return entry
 
 
+
+# ---- the page frame and the links ------------------------------------------------------------
+
+def _link(text: str, href: str) -> str:
+    """An HTML link in the theme's link colour."""
+    return f'<a href="{esc(href)}"{beam.link_style()}>{text}</a>'
+
+
+def _frame(body: List[str]) -> List[str]:
+    """Wrap a page in the theme's background and text colour, so the whole page matches its tables
+    whatever the viewer's own light or dark mode is. The blank lines keep Markdown working inside."""
+    t = themes.THEMES[_theme_key]
+    return [f'<div style="background:{t["page"]};color:{t["fg"]};padding:16px 22px;border-radius:8px;">', ""] + body + ["", "</div>"]
+
+
+def _mermaid_init() -> str:
+    """Per-diagram Mermaid settings, so diagrams use the theme's colours (GitHub and most viewers honour them)."""
+    t = themes.THEMES[_theme_key]
+    return "%%{init: " + json.dumps({"theme": "base", "themeVariables": t["mermaid"]}) + "}%%"
+
+
 # ---- HTML tables ------------------------------------------------------------
 
 _theme_key = themes.DEFAULT_THEME
@@ -160,6 +181,7 @@ def set_theme(name: Optional[str]) -> str:
     """Choose the colour theme used by every table written from now on (see themes.py)."""
     global _theme_key
     _theme_key = themes.resolve(name)
+    beam.set_link_color(themes.THEMES[_theme_key]["link"])
     return _theme_key
 
 
@@ -563,7 +585,7 @@ def er_diagram(profile: Dict[str, Any]) -> List[str]:
     """Table-level diagram (Mermaid flowchart) with plain lines, drawn from the measured relationships.
     No cardinality notation on purpose: most readers don't know it."""
     ids: Dict[str, str] = {}
-    lines = ["```mermaid", "flowchart LR"]
+    lines = ["```mermaid", _mermaid_init(), "flowchart LR"]
     for t in profile["tables"]:
         lines.append(f'    {_mermaid_id(t["name"], ids)}["{_mm(t["name"])}"]')
     seen = set()
@@ -632,8 +654,8 @@ def relationship_diagram(table: Dict[str, Any], entry: Dict[str, Any], profile: 
     me = _mermaid_id(name, ids)
     shown = diagram_columns(table, entry, rels)
     body = "<br/>".join("..." if c is None else _mm(c) for c in shown)
-    label = f"<div style='text-align:left'><b>{_mm(name)}</b><br/>──────────<br/>{body}</div>"
-    lines = ["```mermaid", "flowchart LR", f'    {me}["{label}"]']
+    label = f"<div style='text-align:left'><b>{_mm(name)}</b><hr/>{body}</div>"
+    lines = ["```mermaid", _mermaid_init(), "flowchart LR", f'    {me}["{label}"]']
     others, seen = [], set()
     for r in rels:
         other = r["to_table"] if r["from_table"] == name else r["from_table"]
@@ -659,6 +681,13 @@ SOURCE_SHORT = {
     "inferred": "Written by AI from the data. Check before relying on it.",
     "pending": "Not written yet",
 }
+
+
+
+def _nav(prefix: str, ds: Dict[str, Any]) -> str:
+    return (f"{_link('← ' + esc(_display_name(ds['name'])) + ' Overview', prefix + 'index.md')} · "
+            f"{_link('BEAM✲ Annotations', prefix + beam.PAGE)} · "
+            f"{_link('How to Read This Wiki', prefix + HOW_TO_READ)}")
 
 
 def render_story(table: Dict[str, Any], entry: Dict[str, Any], profile: Dict[str, Any]) -> str:
@@ -701,8 +730,7 @@ def render_story(table: Dict[str, Any], entry: Dict[str, Any], profile: Dict[str
         "generated_at": profile["generated_at"],
     })
 
-    out = [f"[← {_display_name(ds['name'])} Overview](../index.md) · [BEAM✲ Annotations](../{beam.PAGE}) · "
-           f"[How to Read This Wiki](../{HOW_TO_READ})", "", f"# {table['name']}", ""]
+    out = [_nav("../", ds), "", f"# {table['name']}", ""]
 
     codes_html = beam.links_html(table_tokens, "table", pre, names)
     if source == "pending":
@@ -727,8 +755,8 @@ def render_story(table: Dict[str, Any], entry: Dict[str, Any], profile: Dict[str
     out += _property_table_html(rows)
 
     out += ["", "## Columns", ""] + columns_matrix(table, entry, profile, pre, show_values)
-    note = ("_BEAM✲ codes in plain text are measured from the data; codes in italics are suggested by AI. "
-            f"Change can't be seen in a single snapshot of the data. [What do the codes mean?]({pre}{beam.PAGE})_")
+    note = ("<i>BEAM✲ codes in plain text are measured from the data; codes in italics are suggested by AI. "
+            f"Change can't be seen in a single snapshot of the data. {_link('What do the codes mean?', pre + beam.PAGE)}</i>")
     out += ["", note]
     if not show_values:
         out += ["", "_Example values and sample rows are hidden: this profile was made without example values._"]
@@ -739,13 +767,132 @@ def render_story(table: Dict[str, Any], entry: Dict[str, Any], profile: Dict[str
 
     notes = (entry.get("ai_notes") or "").strip()
     if notes and source != "pending":
-        out += ["", "## Additional Context (Written by AI)", "", beam.link_prose(notes, pre)]
+        out += ["", "## Additional Context (Written by AI)", "", inline_html(notes, pre)]
     questions = entry.get("open_questions") or []
     if questions:
         out += ["", "## Open Questions for the Data Owner", ""]
-        out.extend(f"- {beam.link_prose(q, pre)}" for q in questions)
+        out.extend(f"- {inline_html(q, pre)}" for q in questions)
     out += meta
-    return "\n".join(out) + "\n"
+    return "\n".join(_frame(out)) + "\n"
+
+
+
+# ---- the list of data stories, and splitting a big database by schema ------------------------
+
+SCHEMAS_DIR = "schemas"
+SPLIT_MIN_TABLES = 20  # fewer tables than this keep a single diagram, whatever the schemas
+
+
+def schema_of(table: Dict[str, Any]) -> Optional[str]:
+    schema = (table.get("details") or {}).get("schema")
+    if schema:
+        return schema
+    return table["name"].split(".", 1)[0] if "." in table["name"] else None
+
+
+def schema_groups(profile: Dict[str, Any]) -> List[Tuple[str, List[Dict[str, Any]]]]:
+    groups: Dict[str, List[Dict[str, Any]]] = {}
+    for t in profile["tables"]:
+        groups.setdefault(schema_of(t) or "(default)", []).append(t)
+    return list(groups.items())
+
+
+def use_schema_split(profile: Dict[str, Any]) -> bool:
+    """A big database with several schemas gets one diagram per schema instead of one unreadable diagram."""
+    return len(profile["tables"]) > SPLIT_MIN_TABLES and len(schema_groups(profile)) >= 2
+
+
+def schema_slug(schema: str) -> str:
+    return slugify(schema, set())
+
+
+def stories_table(tables: List[Dict[str, Any]], descriptions: Dict[str, Any], names: List[str], prefix: str) -> List[str]:
+    """The list of data stories as a themed HTML table. Header cells sit at the bottom of their cell, so a
+    heading that wraps (Sampled Rows) does not push the others up."""
+    t = themes.THEMES[_theme_key]
+    base = f"padding:6px 10px;border:1px solid {t['line']};background:{t['cell']};color:{t['fg']};text-align:left;vertical-align:top;"
+    head = base + f"background:{t['head']};color:{t['head_fg']};font-weight:600;vertical-align:bottom;"
+    num = base.replace("text-align:left", "text-align:right")
+    heads = [("Table", head), ("BEAM✲", head), ("Grain", head), ("Description", head),
+             ("Sampled Rows", head.replace("text-align:left", "text-align:right")),
+             ("Columns", head.replace("text-align:left", "text-align:right"))]
+    out = ['<table style="border-collapse:collapse;margin:8px 0;width:100%;">',
+           "<tr>" + "".join(f'<th style="{st}">{esc(label)}</th>' for label, st in heads) + "</tr>"]
+    for tb in tables:
+        entry = _entry(descriptions, tb["name"])
+        link = _link(esc(tb["name"]), f"{prefix}{tb['slug']}.md")
+        codes = beam.links_html(((entry.get("beam") or {}).get("table")) or [], "table", "", names)
+        grain = inline_html(entry.get("grain") or "") or "<i>pending</i>"
+        desc = "<i>pending</i>" if entry["source"] == "pending" else inline_html(entry["description"])
+        out.append(f'<tr><td style="{base}">{link}</td><td style="{base}">{codes}</td><td style="{base}">{grain}</td>'
+                   f'<td style="{base}">{desc}</td><td style="{num}">{tb.get("profiled_rows", 0):,}</td>'
+                   f'<td style="{num}">{tb.get("column_count", 0):,}</td></tr>')
+    out.append("</table>")
+    return out
+
+
+def schema_overview_diagram(profile: Dict[str, Any]) -> List[str]:
+    ids: Dict[str, str] = {}
+    groups = schema_groups(profile)
+    where = {t["name"]: (schema_of(t) or "(default)") for t in profile["tables"]}
+    lines = ["```mermaid", _mermaid_init(), "flowchart LR"]
+    for schema, group in groups:
+        lines.append(f'    {_mermaid_id("schema:" + schema, ids)}["{_mm(schema)}<br/>{len(group)} tables"]')
+    seen = set()
+    for r in profile.get("relationships") or []:
+        a, b = where.get(r["from_table"]), where.get(r["to_table"])
+        if not a or not b or a == b:
+            continue
+        pair = tuple(sorted((a, b)))
+        if pair not in seen:
+            seen.add(pair)
+            lines.append(f'    {ids["schema:" + pair[0]]} --- {ids["schema:" + pair[1]]}')
+    lines.append("```")
+    return lines
+
+
+def schema_diagram(schema: str, profile: Dict[str, Any]) -> List[str]:
+    """The tables of one schema and how they connect. Tables of other schemas they link to are drawn
+    with a dashed outline."""
+    ids: Dict[str, str] = {}
+    mine = [t["name"] for t in profile["tables"] if (schema_of(t) or "(default)") == schema]
+    mine_set = set(mine)
+    lines = ["```mermaid", _mermaid_init(), "flowchart LR"]
+    for name in mine:
+        lines.append(f'    {_mermaid_id(name, ids)}["{_mm(name)}"]')
+    seen, external = set(), []
+    for r in profile.get("relationships") or []:
+        a, b = r["from_table"], r["to_table"]
+        if a not in mine_set and b not in mine_set:
+            continue
+        for n in (a, b):
+            if n not in mine_set and n not in ids:
+                lines.append(f'    {_mermaid_id(n, ids)}["{_mm(n)}"]')
+                external.append(ids[n])
+        pair = tuple(sorted((ids[a], ids[b])))
+        if pair in seen or pair[0] == pair[1]:
+            continue
+        seen.add(pair)
+        lines.append(f"    {ids[b]} --- {ids[a]}")
+    if external:
+        lines += ["    classDef ext stroke-dasharray:4 3,fill:none", "    class " + ",".join(external) + " ext"]
+    lines.append("```")
+    return lines
+
+
+def render_schema_page(schema: str, group: List[Dict[str, Any]], profile: Dict[str, Any],
+                       descriptions: Dict[str, Any]) -> str:
+    ds = profile["dataset"]
+    names = [t["name"] for t in profile["tables"]]
+    meta = metadata_block({"bijoe": "schema", "schema_version": SCHEMA_VERSION, "dataset": ds["name"],
+                           "schema": schema, "tables": len(group), "generated_at": profile["generated_at"]})
+    out = [_nav("../", ds), "", f"# {esc(schema)}", "",
+           f"<i>{len(group)} tables. Tables with a dashed outline in the diagram belong to another schema.</i>", "",
+           "## Data Stories", ""]
+    out += stories_table(group, descriptions, names, f"../{STORIES_DIR}/")
+    out += ["", "## Data Model", ""] + schema_diagram(schema, profile)
+    out += meta
+    return "\n".join(_frame(out)) + "\n"
 
 
 def render_index(profile: Dict[str, Any], descriptions: Dict[str, Any]) -> str:
@@ -785,20 +932,27 @@ def render_index(profile: Dict[str, Any], descriptions: Dict[str, Any]) -> str:
         ("How to Read", f'<a href="{HOW_TO_READ}">How to Read This Wiki</a> · '
                         f'<a href="{beam.PAGE}">BEAM✲ Annotations</a>'),
     ])
-    out += ["", "## Data Stories", "", STORY_INTRO, "",
-            "| Table | BEAM✲ | Grain | Description | Sampled Rows | Columns |", "|---|---|---|---|---:|---:|"]
-    for t in tables:
-        entry = _entry(descriptions, t["name"])
-        link = f"[{_cell(t['name'])}]({STORIES_DIR}/{t['slug']}.md)"
-        codes = beam.links(((entry.get("beam") or {}).get("table")) or [], "table", "", names)
-        grain = _cell(entry.get("grain") or "_pending_")
-        desc = "_pending_" if entry["source"] == "pending" else _cell(beam.link_prose(entry["description"]))
-        out.append(f"| {link} | {codes} | {grain} | {desc} | {t.get('profiled_rows', 0):,} | "
-                   f"{t.get('column_count', 0):,} |")
-    out += ["", "## Data Model", "", "_How the tables connect, drawn from the measured relationships._", ""]
-    out += er_diagram(profile)
+    split = use_schema_split(profile)
+    out += ["", "## Data Stories", "", f"<i>{esc(STORY_INTRO.strip('_'))}</i>", ""]
+    if split:
+        for schema, group in schema_groups(profile):
+            out += [f"### {esc(schema)} ({len(group)} tables)", ""]
+            out += stories_table(group, descriptions, names, STORIES_DIR + "/")
+            out += [""]
+    else:
+        out += stories_table(tables, descriptions, names, STORIES_DIR + "/")
+    out += ["", "## Data Model", ""]
+    if split:
+        out += ["<i>The schemas and how they connect. Open a schema to see its tables and their relationships.</i>", ""]
+        out += schema_overview_diagram(profile)
+        out += ["", "<i>One diagram per schema:</i>", ""]
+        for schema, group in schema_groups(profile):
+            out.append(f"- {_link(esc(schema), SCHEMAS_DIR + '/' + schema_slug(schema) + '.md')} ({len(group)} tables)")
+    else:
+        out += ["<i>How the tables connect, drawn from the measured relationships.</i>", ""]
+        out += er_diagram(profile)
     out += meta
-    return "\n".join(out) + "\n"
+    return "\n".join(_frame(out)) + "\n"
 
 
 def _is_generated(path: Path) -> bool:
@@ -823,6 +977,20 @@ def render(out_dir: Path, profile: Dict[str, Any], descriptions: Dict[str, Any])
     for old in stories.glob("*.md"):  # remove stories for tables no longer profiled
         if old.name not in keep and _is_generated(old):
             old.unlink()
+    schema_dir = out_dir / SCHEMAS_DIR
+    split = use_schema_split(profile)
+    kept_schemas = set()
+    if split:
+        schema_dir.mkdir(parents=True, exist_ok=True)
+        for schema, group in schema_groups(profile):
+            sp = schema_dir / f"{schema_slug(schema)}.md"
+            sp.write_text(render_schema_page(schema, group, profile, descriptions), encoding="utf-8", newline="\n")
+            written.append(sp)
+            kept_schemas.add(sp.name)
+    if schema_dir.is_dir():  # drop schema pages that are no longer needed
+        for old in schema_dir.glob("*.md"):
+            if old.name not in kept_schemas and 'bijoe: "schema"' in old.read_text(encoding="utf-8"):
+                old.unlink()
     beam.copy_page(out_dir)  # the same reference page in every wiki, never regenerated
     shutil.copyfile(beam.ASSET.parent / HOW_TO_READ, out_dir / HOW_TO_READ)  # static, like the BEAM page
     index = out_dir / "index.md"

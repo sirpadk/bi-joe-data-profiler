@@ -87,7 +87,7 @@ def test_relationship_measured_and_page_copied(shop_csv, tmp_path):
     assert "{orders.csv}" in story
     index = (out / "index.md").read_text(encoding="utf-8")
     model = index.split("## Data Model")[1].split("## Metadata")[0]
-    assert "```mermaid\nflowchart LR" in model
+    assert "```mermaid\n%%{init:" in model and "\nflowchart LR" in model
     assert "    t_customers --- t_orders" in model  # plain line: no cardinality, no column names
     assert "||" not in model and "cust_id" not in model
     assert 'href="beam-annotations.md"' in index and 'href="how-to-read.md"' in index
@@ -119,7 +119,8 @@ def test_suggestions_render_as_links_and_md_is_struck(shop_csv, tmp_path):
     assert "country MD ?: Every customer should have a country." in story  # reasons live there too
     assert "Why the Suggestions" not in story and "Why the suggestions" not in story
     index = (out / "index.md").read_text(encoding="utf-8")
-    assert r"[customers](data-stories/customers.md) | [\[CV\]](beam-annotations.md#t-cv) | One row for each person who is a customer |" in notitle(index)
+    assert '<a href="data-stories/customers.md">customers</a>' in notitle(index)
+    assert '<a href="beam-annotations.md#t-cv">[CV]</a>' in notitle(index) and "One row for each person who is a customer</td>" in index
 
 
 def test_lint_beam(shop_csv, tmp_path):

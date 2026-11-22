@@ -1,0 +1,6932 @@
+{
+  "bijoe_version": "0.1.0a1",
+  "schema_version": 2,
+  "generated_at": "2026-11-22T19:53:18+00:00",
+  "dataset": {
+    "name": "Danish Insurance Company",
+    "source": "insurance_dk/ (10 files)",
+    "source_type": "files",
+    "connector": "csv"
+  },
+  "settings": {
+    "sample_rows": 100000,
+    "include_values": true,
+    "theme": "dark"
+  },
+  "tables": [
+    {
+      "name": "Addresses",
+      "row_count": 2860,
+      "profiled_rows": 2860,
+      "sampled": false,
+      "column_count": 5,
+      "duplicate_rows": 0,
+      "details": {
+        "file": "Addresses.csv",
+        "encoding": "utf-8",
+        "delimiter": ","
+      },
+      "columns": [
+        {
+          "name": "AddressID",
+          "position": 1,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 2860,
+          "all_values_unique": true,
+          "min": 50001,
+          "max": 52860,
+          "mean": 51430.5,
+          "min_value": "50001",
+          "min_count": 1,
+          "max_value": "52860",
+          "max_count": 1,
+          "rare_value": {
+            "value": "50001",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "50001",
+              "count": 1
+            },
+            {
+              "value": "50002",
+              "count": 1
+            },
+            {
+              "value": "50003",
+              "count": 1
+            },
+            {
+              "value": "50004",
+              "count": 1
+            },
+            {
+              "value": "50005",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "Street",
+          "position": 2,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 22,
+          "all_values_unique": false,
+          "pii": {
+            "class": "address",
+            "reason": "the column name"
+          },
+          "distribution": {
+            "kind": "none",
+            "reason": "personal data",
+            "top_share_pct": 5.4
+          },
+          "min_length": 6,
+          "max_length": 12
+        },
+        {
+          "name": "HouseNumber",
+          "position": 3,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 140,
+          "all_values_unique": false,
+          "pii": {
+            "class": "address",
+            "reason": "the column name"
+          },
+          "distribution": {
+            "kind": "none",
+            "reason": "personal data",
+            "top_share_pct": 1.3
+          },
+          "min_length": 1,
+          "max_length": 3
+        },
+        {
+          "name": "Floor",
+          "position": 4,
+          "inferred_type": "text",
+          "missing_count": 2061,
+          "missing_pct": 72.06,
+          "null_count": 0,
+          "blank_count": 2061,
+          "distinct_count": 6,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "2. tv.",
+                "from": "2. tv.",
+                "to": "2. tv.",
+                "count": 149,
+                "pct": 18.65
+              },
+              {
+                "label": "1. tv.",
+                "from": "1. tv.",
+                "to": "1. tv.",
+                "count": 148,
+                "pct": 18.52
+              },
+              {
+                "label": "st.",
+                "from": "st.",
+                "to": "st.",
+                "count": 131,
+                "pct": 16.4
+              },
+              {
+                "label": "1. th.",
+                "from": "1. th.",
+                "to": "1. th.",
+                "count": 130,
+                "pct": 16.27
+              },
+              {
+                "label": "2. th.",
+                "from": "2. th.",
+                "to": "2. th.",
+                "count": 121,
+                "pct": 15.14
+              },
+              {
+                "label": "3. th.",
+                "from": "3. th.",
+                "to": "3. th.",
+                "count": 120,
+                "pct": 15.02
+              }
+            ],
+            "values": 799,
+            "distinct": 6,
+            "shape": "evenly spread",
+            "top_share_pct": 18.6
+          },
+          "min_length": 3,
+          "max_length": 6,
+          "min_value": "1. th.",
+          "min_count": 130,
+          "max_value": "st.",
+          "max_count": 131,
+          "rare_value": {
+            "value": "3. th.",
+            "count": 120
+          },
+          "top_values": [
+            {
+              "value": "2. tv.",
+              "count": 149
+            },
+            {
+              "value": "1. tv.",
+              "count": 148
+            },
+            {
+              "value": "st.",
+              "count": 131
+            },
+            {
+              "value": "1. th.",
+              "count": 130
+            },
+            {
+              "value": "2. th.",
+              "count": 121
+            }
+          ]
+        },
+        {
+          "name": "ZipCode",
+          "position": 5,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 44,
+          "all_values_unique": false,
+          "min": 1050,
+          "max": 9900,
+          "mean": 4889.9476,
+          "min_value": "1050",
+          "min_count": 89,
+          "max_value": "9900",
+          "max_count": 35,
+          "rare_value": {
+            "value": "9800",
+            "count": 22
+          },
+          "top_values": [
+            {
+              "value": "2300",
+              "count": 142
+            },
+            {
+              "value": "8000",
+              "count": 141
+            },
+            {
+              "value": "2200",
+              "count": 124
+            },
+            {
+              "value": "9000",
+              "count": 124
+            },
+            {
+              "value": "2100",
+              "count": 119
+            }
+          ]
+        }
+      ],
+      "sample_rows": [
+        [
+          "50406",
+          "••••",
+          "••••",
+          "",
+          "9000"
+        ],
+        [
+          "51043",
+          "••••",
+          "••••",
+          "",
+          "8000"
+        ],
+        [
+          "51536",
+          "••••",
+          "••••",
+          "",
+          "6000"
+        ],
+        [
+          "51873",
+          "••••",
+          "••••",
+          "",
+          "8260"
+        ],
+        [
+          "51965",
+          "••••",
+          "••••",
+          "1. tv.",
+          "2400"
+        ]
+      ],
+      "keys": {
+        "rows_checked": 2860,
+        "sampled": false,
+        "unique_columns": [
+          "AddressID"
+        ],
+        "unique_combinations": [],
+        "closest_combinations": [
+          {
+            "columns": [
+              "HouseNumber",
+              "ZipCode"
+            ],
+            "distinct": 2198,
+            "rows": 2860
+          }
+        ],
+        "identifier_pairs": [
+          {
+            "a": "AddressID",
+            "b": "HouseNumber",
+            "kind": "many-to-one",
+            "a_distinct": 2860,
+            "b_distinct": 140,
+            "a_with_several_b": 0,
+            "b_with_several_a": 140
+          },
+          {
+            "a": "AddressID",
+            "b": "ZipCode",
+            "kind": "many-to-one",
+            "a_distinct": 2860,
+            "b_distinct": 44,
+            "a_with_several_b": 0,
+            "b_with_several_a": 44
+          },
+          {
+            "a": "HouseNumber",
+            "b": "ZipCode",
+            "kind": "many-to-many",
+            "a_distinct": 140,
+            "b_distinct": 44,
+            "a_with_several_b": 140,
+            "b_with_several_a": 44
+          }
+        ]
+      },
+      "slug": "addresses"
+    },
+    {
+      "name": "ClaimPayments",
+      "row_count": 956,
+      "profiled_rows": 956,
+      "sampled": false,
+      "column_count": 6,
+      "duplicate_rows": 0,
+      "details": {
+        "file": "ClaimPayments.csv",
+        "encoding": "utf-8",
+        "delimiter": ","
+      },
+      "columns": [
+        {
+          "name": "PaymentID",
+          "position": 1,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 956,
+          "all_values_unique": true,
+          "min": 950001,
+          "max": 950956,
+          "mean": 950478.5,
+          "min_value": "950001",
+          "min_count": 1,
+          "max_value": "950956",
+          "max_count": 1,
+          "rare_value": {
+            "value": "950001",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "950001",
+              "count": 1
+            },
+            {
+              "value": "950002",
+              "count": 1
+            },
+            {
+              "value": "950003",
+              "count": 1
+            },
+            {
+              "value": "950004",
+              "count": 1
+            },
+            {
+              "value": "950005",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "ClaimID",
+          "position": 2,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 658,
+          "all_values_unique": false,
+          "min": 900001,
+          "max": 900850,
+          "mean": 900427.7259,
+          "min_value": "900001",
+          "min_count": 1,
+          "max_value": "900850",
+          "max_count": 1,
+          "rare_value": {
+            "value": "900001",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "900006",
+              "count": 3
+            },
+            {
+              "value": "900007",
+              "count": 3
+            },
+            {
+              "value": "900013",
+              "count": 3
+            },
+            {
+              "value": "900020",
+              "count": 3
+            },
+            {
+              "value": "900047",
+              "count": 3
+            }
+          ]
+        },
+        {
+          "name": "CoverageID",
+          "position": 3,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 25,
+          "all_values_unique": false,
+          "min": 1,
+          "max": 28,
+          "mean": 12.0146,
+          "min_value": "1",
+          "min_count": 21,
+          "max_value": "28",
+          "max_count": 8,
+          "rare_value": {
+            "value": "27",
+            "count": 2
+          },
+          "top_values": [
+            {
+              "value": "8",
+              "count": 148
+            },
+            {
+              "value": "7",
+              "count": 103
+            },
+            {
+              "value": "26",
+              "count": 83
+            },
+            {
+              "value": "2",
+              "count": 82
+            },
+            {
+              "value": "9",
+              "count": 65
+            }
+          ]
+        },
+        {
+          "name": "PaymentDate",
+          "position": 4,
+          "inferred_type": "date",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 603,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "time",
+            "unit": "quarter",
+            "bins": [
+              {
+                "label": "2023 Q1",
+                "from": "2023 Q1",
+                "to": "2023 Q1",
+                "count": 27,
+                "pct": 2.82
+              },
+              {
+                "label": "2023 Q2",
+                "from": "2023 Q2",
+                "to": "2023 Q2",
+                "count": 82,
+                "pct": 8.58
+              },
+              {
+                "label": "2023 Q3",
+                "from": "2023 Q3",
+                "to": "2023 Q3",
+                "count": 89,
+                "pct": 9.31
+              },
+              {
+                "label": "2023 Q4",
+                "from": "2023 Q4",
+                "to": "2023 Q4",
+                "count": 58,
+                "pct": 6.07
+              },
+              {
+                "label": "2024 Q1",
+                "from": "2024 Q1",
+                "to": "2024 Q1",
+                "count": 84,
+                "pct": 8.79
+              },
+              {
+                "label": "2024 Q2",
+                "from": "2024 Q2",
+                "to": "2024 Q2",
+                "count": 77,
+                "pct": 8.05
+              },
+              {
+                "label": "2024 Q3",
+                "from": "2024 Q3",
+                "to": "2024 Q3",
+                "count": 83,
+                "pct": 8.68
+              },
+              {
+                "label": "2024 Q4",
+                "from": "2024 Q4",
+                "to": "2024 Q4",
+                "count": 82,
+                "pct": 8.58
+              },
+              {
+                "label": "2025 Q1",
+                "from": "2025 Q1",
+                "to": "2025 Q1",
+                "count": 107,
+                "pct": 11.19
+              },
+              {
+                "label": "2025 Q2",
+                "from": "2025 Q2",
+                "to": "2025 Q2",
+                "count": 70,
+                "pct": 7.32
+              },
+              {
+                "label": "2025 Q3",
+                "from": "2025 Q3",
+                "to": "2025 Q3",
+                "count": 89,
+                "pct": 9.31
+              },
+              {
+                "label": "2025 Q4",
+                "from": "2025 Q4",
+                "to": "2025 Q4",
+                "count": 108,
+                "pct": 11.3
+              }
+            ],
+            "values": 956,
+            "shape": "uniform",
+            "skewness": -0.09,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 11.3
+          },
+          "min": "2023-01-22",
+          "max": "2025-12-31",
+          "value_formats": [
+            "%Y-%m-%d"
+          ],
+          "min_value": "2023-01-22",
+          "min_count": 1,
+          "max_value": "2025-12-31",
+          "max_count": 15,
+          "rare_value": {
+            "value": "2023-01-22",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "2025-12-31",
+              "count": 15
+            },
+            {
+              "value": "2024-04-06",
+              "count": 5
+            },
+            {
+              "value": "2023-12-30",
+              "count": 5
+            },
+            {
+              "value": "2025-01-28",
+              "count": 5
+            },
+            {
+              "value": "2023-05-12",
+              "count": 5
+            }
+          ]
+        },
+        {
+          "name": "AmountDKK",
+          "position": 5,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 560,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "numeric",
+            "bins": [
+              {
+                "label": "0–4,999",
+                "from": 0,
+                "to": 5000,
+                "count": 301,
+                "pct": 31.49
+              },
+              {
+                "label": "5,000–9,999",
+                "from": 5000,
+                "to": 10000,
+                "count": 238,
+                "pct": 24.9
+              },
+              {
+                "label": "10,000–14,999",
+                "from": 10000,
+                "to": 15000,
+                "count": 113,
+                "pct": 11.82
+              },
+              {
+                "label": "15,000–19,999",
+                "from": 15000,
+                "to": 20000,
+                "count": 93,
+                "pct": 9.73
+              },
+              {
+                "label": "20,000–24,999",
+                "from": 20000,
+                "to": 25000,
+                "count": 51,
+                "pct": 5.33
+              },
+              {
+                "label": "25,000–29,999",
+                "from": 25000,
+                "to": 30000,
+                "count": 27,
+                "pct": 2.82
+              },
+              {
+                "label": "30,000–34,999",
+                "from": 30000,
+                "to": 35000,
+                "count": 27,
+                "pct": 2.82
+              },
+              {
+                "label": "35,000–39,999",
+                "from": 35000,
+                "to": 40000,
+                "count": 10,
+                "pct": 1.05
+              },
+              {
+                "label": "above 40,000",
+                "from": 40000,
+                "to": null,
+                "count": 96,
+                "pct": 10.04,
+                "outlier": true
+              }
+            ],
+            "bin_width": 5000,
+            "values": 956,
+            "shape": "right-skewed",
+            "skewness": 6.61,
+            "median": 7990.0,
+            "q1": 4130.0,
+            "q3": 18375.25,
+            "iqr": 14245.25,
+            "outliers": {
+              "below": 0,
+              "above": 96,
+              "low_fence": -17237.875,
+              "high_fence": 39743.125
+            },
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 0.8
+          },
+          "min": 20,
+          "max": 447700,
+          "mean": 18727.0785,
+          "min_value": "20",
+          "min_count": 1,
+          "max_value": "447700",
+          "max_count": 2,
+          "rare_value": {
+            "value": "100",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "5000",
+              "count": 8
+            },
+            {
+              "value": "20367",
+              "count": 6
+            },
+            {
+              "value": "2667",
+              "count": 6
+            },
+            {
+              "value": "9667",
+              "count": 6
+            },
+            {
+              "value": "2833",
+              "count": 6
+            }
+          ]
+        },
+        {
+          "name": "PayeeType",
+          "position": 6,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 4,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Kunde",
+                "from": "Kunde",
+                "to": "Kunde",
+                "count": 515,
+                "pct": 53.87
+              },
+              {
+                "label": "Værksted",
+                "from": "Værksted",
+                "to": "Værksted",
+                "count": 157,
+                "pct": 16.42
+              },
+              {
+                "label": "Leverandør",
+                "from": "Leverandør",
+                "to": "Leverandør",
+                "count": 146,
+                "pct": 15.27
+              },
+              {
+                "label": "Håndværker",
+                "from": "Håndværker",
+                "to": "Håndværker",
+                "count": 138,
+                "pct": 14.44
+              }
+            ],
+            "values": 956,
+            "distinct": 4,
+            "shape": "one dominant value",
+            "top_share_pct": 53.9
+          },
+          "min_length": 5,
+          "max_length": 10,
+          "min_value": "Håndværker",
+          "min_count": 138,
+          "max_value": "Værksted",
+          "max_count": 157,
+          "rare_value": {
+            "value": "Håndværker",
+            "count": 138
+          },
+          "top_values": [
+            {
+              "value": "Kunde",
+              "count": 515
+            },
+            {
+              "value": "Værksted",
+              "count": 157
+            },
+            {
+              "value": "Leverandør",
+              "count": 146
+            },
+            {
+              "value": "Håndværker",
+              "count": 138
+            }
+          ]
+        }
+      ],
+      "sample_rows": [
+        [
+          "950190",
+          "900179",
+          "15",
+          "2025-03-02",
+          "52400",
+          "Kunde"
+        ],
+        [
+          "950331",
+          "900294",
+          "8",
+          "2025-11-30",
+          "18333",
+          "Værksted"
+        ],
+        [
+          "950537",
+          "900486",
+          "8",
+          "2023-12-10",
+          "65300",
+          "Kunde"
+        ],
+        [
+          "950662",
+          "900598",
+          "8",
+          "2025-05-24",
+          "15200",
+          "Kunde"
+        ],
+        [
+          "950836",
+          "900744",
+          "23",
+          "2024-11-08",
+          "9700",
+          "Kunde"
+        ]
+      ],
+      "keys": {
+        "rows_checked": 956,
+        "sampled": false,
+        "unique_columns": [
+          "PaymentID"
+        ],
+        "unique_combinations": [],
+        "closest_combinations": [
+          {
+            "columns": [
+              "ClaimID",
+              "PaymentDate"
+            ],
+            "distinct": 946,
+            "rows": 956
+          },
+          {
+            "columns": [
+              "ClaimID",
+              "CoverageID",
+              "PaymentDate"
+            ],
+            "distinct": 946,
+            "rows": 956
+          },
+          {
+            "columns": [
+              "CoverageID",
+              "PaymentDate"
+            ],
+            "distinct": 912,
+            "rows": 956
+          },
+          {
+            "columns": [
+              "ClaimID",
+              "CoverageID"
+            ],
+            "distinct": 658,
+            "rows": 956
+          }
+        ],
+        "identifier_pairs": [
+          {
+            "a": "PaymentID",
+            "b": "ClaimID",
+            "kind": "many-to-one",
+            "a_distinct": 956,
+            "b_distinct": 658,
+            "a_with_several_b": 0,
+            "b_with_several_a": 206
+          },
+          {
+            "a": "PaymentID",
+            "b": "CoverageID",
+            "kind": "many-to-one",
+            "a_distinct": 956,
+            "b_distinct": 25,
+            "a_with_several_b": 0,
+            "b_with_several_a": 25
+          },
+          {
+            "a": "ClaimID",
+            "b": "CoverageID",
+            "kind": "many-to-one",
+            "a_distinct": 658,
+            "b_distinct": 25,
+            "a_with_several_b": 0,
+            "b_with_several_a": 25
+          }
+        ]
+      },
+      "slug": "claimpayments"
+    },
+    {
+      "name": "Claims",
+      "row_count": 850,
+      "profiled_rows": 850,
+      "sampled": false,
+      "column_count": 9,
+      "duplicate_rows": 0,
+      "details": {
+        "file": "Claims.csv",
+        "encoding": "utf-8",
+        "delimiter": ","
+      },
+      "columns": [
+        {
+          "name": "ClaimID",
+          "position": 1,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 850,
+          "all_values_unique": true,
+          "min": 900001,
+          "max": 900850,
+          "mean": 900425.5,
+          "min_value": "900001",
+          "min_count": 1,
+          "max_value": "900850",
+          "max_count": 1,
+          "rare_value": {
+            "value": "900001",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "900001",
+              "count": 1
+            },
+            {
+              "value": "900002",
+              "count": 1
+            },
+            {
+              "value": "900003",
+              "count": 1
+            },
+            {
+              "value": "900004",
+              "count": 1
+            },
+            {
+              "value": "900005",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "PolicyID",
+          "position": 2,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 775,
+          "all_values_unique": false,
+          "min": 700008,
+          "max": 705628,
+          "mean": 702539.2953,
+          "min_value": "700008",
+          "min_count": 1,
+          "max_value": "705628",
+          "max_count": 1,
+          "rare_value": {
+            "value": "700008",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "702395",
+              "count": 3
+            },
+            {
+              "value": "702667",
+              "count": 3
+            },
+            {
+              "value": "703111",
+              "count": 3
+            },
+            {
+              "value": "703990",
+              "count": 3
+            },
+            {
+              "value": "700270",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "name": "LossDate",
+          "position": 3,
+          "inferred_type": "date",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 592,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "time",
+            "unit": "quarter",
+            "bins": [
+              {
+                "label": "2023 Q1",
+                "from": "2023 Q1",
+                "to": "2023 Q1",
+                "count": 68,
+                "pct": 8.0
+              },
+              {
+                "label": "2023 Q2",
+                "from": "2023 Q2",
+                "to": "2023 Q2",
+                "count": 77,
+                "pct": 9.06
+              },
+              {
+                "label": "2023 Q3",
+                "from": "2023 Q3",
+                "to": "2023 Q3",
+                "count": 54,
+                "pct": 6.35
+              },
+              {
+                "label": "2023 Q4",
+                "from": "2023 Q4",
+                "to": "2023 Q4",
+                "count": 68,
+                "pct": 8.0
+              },
+              {
+                "label": "2024 Q1",
+                "from": "2024 Q1",
+                "to": "2024 Q1",
+                "count": 73,
+                "pct": 8.59
+              },
+              {
+                "label": "2024 Q2",
+                "from": "2024 Q2",
+                "to": "2024 Q2",
+                "count": 67,
+                "pct": 7.88
+              },
+              {
+                "label": "2024 Q3",
+                "from": "2024 Q3",
+                "to": "2024 Q3",
+                "count": 70,
+                "pct": 8.24
+              },
+              {
+                "label": "2024 Q4",
+                "from": "2024 Q4",
+                "to": "2024 Q4",
+                "count": 86,
+                "pct": 10.12
+              },
+              {
+                "label": "2025 Q1",
+                "from": "2025 Q1",
+                "to": "2025 Q1",
+                "count": 75,
+                "pct": 8.82
+              },
+              {
+                "label": "2025 Q2",
+                "from": "2025 Q2",
+                "to": "2025 Q2",
+                "count": 66,
+                "pct": 7.76
+              },
+              {
+                "label": "2025 Q3",
+                "from": "2025 Q3",
+                "to": "2025 Q3",
+                "count": 81,
+                "pct": 9.53
+              },
+              {
+                "label": "2025 Q4",
+                "from": "2025 Q4",
+                "to": "2025 Q4",
+                "count": 65,
+                "pct": 7.65
+              }
+            ],
+            "values": 850,
+            "shape": "uniform",
+            "skewness": -0.06,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 10.1
+          },
+          "min": "2023-01-04",
+          "max": "2025-12-31",
+          "value_formats": [
+            "%Y-%m-%d"
+          ],
+          "min_value": "2023-01-04",
+          "min_count": 1,
+          "max_value": "2025-12-31",
+          "max_count": 1,
+          "rare_value": {
+            "value": "2023-01-04",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "2025-05-31",
+              "count": 4
+            },
+            {
+              "value": "2025-09-03",
+              "count": 4
+            },
+            {
+              "value": "2025-09-08",
+              "count": 4
+            },
+            {
+              "value": "2023-01-12",
+              "count": 4
+            },
+            {
+              "value": "2025-06-14",
+              "count": 4
+            }
+          ]
+        },
+        {
+          "name": "ReportedDate",
+          "position": 4,
+          "inferred_type": "date",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 589,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "time",
+            "unit": "quarter",
+            "bins": [
+              {
+                "label": "2023 Q1",
+                "from": "2023 Q1",
+                "to": "2023 Q1",
+                "count": 62,
+                "pct": 7.29
+              },
+              {
+                "label": "2023 Q2",
+                "from": "2023 Q2",
+                "to": "2023 Q2",
+                "count": 81,
+                "pct": 9.53
+              },
+              {
+                "label": "2023 Q3",
+                "from": "2023 Q3",
+                "to": "2023 Q3",
+                "count": 55,
+                "pct": 6.47
+              },
+              {
+                "label": "2023 Q4",
+                "from": "2023 Q4",
+                "to": "2023 Q4",
+                "count": 66,
+                "pct": 7.76
+              },
+              {
+                "label": "2024 Q1",
+                "from": "2024 Q1",
+                "to": "2024 Q1",
+                "count": 72,
+                "pct": 8.47
+              },
+              {
+                "label": "2024 Q2",
+                "from": "2024 Q2",
+                "to": "2024 Q2",
+                "count": 69,
+                "pct": 8.12
+              },
+              {
+                "label": "2024 Q3",
+                "from": "2024 Q3",
+                "to": "2024 Q3",
+                "count": 69,
+                "pct": 8.12
+              },
+              {
+                "label": "2024 Q4",
+                "from": "2024 Q4",
+                "to": "2024 Q4",
+                "count": 82,
+                "pct": 9.65
+              },
+              {
+                "label": "2025 Q1",
+                "from": "2025 Q1",
+                "to": "2025 Q1",
+                "count": 81,
+                "pct": 9.53
+              },
+              {
+                "label": "2025 Q2",
+                "from": "2025 Q2",
+                "to": "2025 Q2",
+                "count": 65,
+                "pct": 7.65
+              },
+              {
+                "label": "2025 Q3",
+                "from": "2025 Q3",
+                "to": "2025 Q3",
+                "count": 77,
+                "pct": 9.06
+              },
+              {
+                "label": "2025 Q4",
+                "from": "2025 Q4",
+                "to": "2025 Q4",
+                "count": 71,
+                "pct": 8.35
+              }
+            ],
+            "values": 850,
+            "shape": "uniform",
+            "skewness": -0.06,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 9.6
+          },
+          "min": "2023-01-06",
+          "max": "2025-12-31",
+          "value_formats": [
+            "%Y-%m-%d"
+          ],
+          "min_value": "2023-01-06",
+          "min_count": 1,
+          "max_value": "2025-12-31",
+          "max_count": 3,
+          "rare_value": {
+            "value": "2023-01-06",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "2025-03-10",
+              "count": 4
+            },
+            {
+              "value": "2024-05-15",
+              "count": 4
+            },
+            {
+              "value": "2025-05-06",
+              "count": 4
+            },
+            {
+              "value": "2024-03-29",
+              "count": 4
+            },
+            {
+              "value": "2025-09-03",
+              "count": 4
+            }
+          ]
+        },
+        {
+          "name": "ClaimCause",
+          "position": 5,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 25,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Rudeskade",
+                "from": "Rudeskade",
+                "to": "Rudeskade",
+                "count": 141,
+                "pct": 16.59
+              },
+              {
+                "label": "Vandskade",
+                "from": "Vandskade",
+                "to": "Vandskade",
+                "count": 98,
+                "pct": 11.53
+              },
+              {
+                "label": "Skade på andres bil",
+                "from": "Skade på andres bil",
+                "to": "Skade på andres bil",
+                "count": 77,
+                "pct": 9.06
+              },
+              {
+                "label": "Kollision",
+                "from": "Kollision",
+                "to": "Kollision",
+                "count": 65,
+                "pct": 7.65
+              },
+              {
+                "label": "Sygdom hos dyret",
+                "from": "Sygdom hos dyret",
+                "to": "Sygdom hos dyret",
+                "count": 63,
+                "pct": 7.41
+              },
+              {
+                "label": "Indbrud",
+                "from": "Indbrud",
+                "to": "Indbrud",
+                "count": 54,
+                "pct": 6.35
+              },
+              {
+                "label": "Tyveri",
+                "from": "Tyveri",
+                "to": "Tyveri",
+                "count": 40,
+                "pct": 4.71
+              },
+              {
+                "label": "Sygdom under rejsen",
+                "from": "Sygdom under rejsen",
+                "to": "Sygdom under rejsen",
+                "count": 38,
+                "pct": 4.47
+              },
+              {
+                "label": "Storm eller hærværk",
+                "from": "Storm eller hærværk",
+                "to": "Storm eller hærværk",
+                "count": 32,
+                "pct": 3.76
+              },
+              {
+                "label": "Rejseafbrydelse",
+                "from": "Rejseafbrydelse",
+                "to": "Rejseafbrydelse",
+                "count": 31,
+                "pct": 3.65
+              },
+              {
+                "label": "Other (15 values)",
+                "from": null,
+                "to": null,
+                "count": 211,
+                "pct": 24.82,
+                "other_group": true
+              }
+            ],
+            "values": 850,
+            "distinct": 25,
+            "shape": "mixed",
+            "top_share_pct": 16.6
+          },
+          "min_length": 5,
+          "max_length": 23,
+          "min_value": "Arbejdsulykke",
+          "min_count": 5,
+          "max_value": "Vejhjælp",
+          "max_count": 31,
+          "rare_value": {
+            "value": "Ledningsbrud",
+            "count": 3
+          },
+          "top_values": [
+            {
+              "value": "Rudeskade",
+              "count": 141
+            },
+            {
+              "value": "Vandskade",
+              "count": 98
+            },
+            {
+              "value": "Skade på andres bil",
+              "count": 77
+            },
+            {
+              "value": "Kollision",
+              "count": 65
+            },
+            {
+              "value": "Sygdom hos dyret",
+              "count": 63
+            }
+          ]
+        },
+        {
+          "name": "ClaimStatus",
+          "position": 6,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 3,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Afsluttet",
+                "from": "Afsluttet",
+                "to": "Afsluttet",
+                "count": 714,
+                "pct": 84.0
+              },
+              {
+                "label": "Afvist",
+                "from": "Afvist",
+                "to": "Afvist",
+                "count": 95,
+                "pct": 11.18
+              },
+              {
+                "label": "Åben",
+                "from": "Åben",
+                "to": "Åben",
+                "count": 41,
+                "pct": 4.82
+              }
+            ],
+            "values": 850,
+            "distinct": 3,
+            "shape": "one dominant value",
+            "top_share_pct": 84.0
+          },
+          "min_length": 4,
+          "max_length": 9,
+          "min_value": "Afsluttet",
+          "min_count": 714,
+          "max_value": "Åben",
+          "max_count": 41,
+          "rare_value": {
+            "value": "Åben",
+            "count": 41
+          },
+          "top_values": [
+            {
+              "value": "Afsluttet",
+              "count": 714
+            },
+            {
+              "value": "Afvist",
+              "count": 95
+            },
+            {
+              "value": "Åben",
+              "count": 41
+            }
+          ]
+        },
+        {
+          "name": "ClosedDate",
+          "position": 7,
+          "inferred_type": "date",
+          "missing_count": 41,
+          "missing_pct": 4.82,
+          "null_count": 0,
+          "blank_count": 41,
+          "distinct_count": 560,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "time",
+            "unit": "quarter",
+            "bins": [
+              {
+                "label": "2023 Q1",
+                "from": "2023 Q1",
+                "to": "2023 Q1",
+                "count": 20,
+                "pct": 2.47
+              },
+              {
+                "label": "2023 Q2",
+                "from": "2023 Q2",
+                "to": "2023 Q2",
+                "count": 71,
+                "pct": 8.78
+              },
+              {
+                "label": "2023 Q3",
+                "from": "2023 Q3",
+                "to": "2023 Q3",
+                "count": 69,
+                "pct": 8.53
+              },
+              {
+                "label": "2023 Q4",
+                "from": "2023 Q4",
+                "to": "2023 Q4",
+                "count": 57,
+                "pct": 7.05
+              },
+              {
+                "label": "2024 Q1",
+                "from": "2024 Q1",
+                "to": "2024 Q1",
+                "count": 73,
+                "pct": 9.02
+              },
+              {
+                "label": "2024 Q2",
+                "from": "2024 Q2",
+                "to": "2024 Q2",
+                "count": 69,
+                "pct": 8.53
+              },
+              {
+                "label": "2024 Q3",
+                "from": "2024 Q3",
+                "to": "2024 Q3",
+                "count": 73,
+                "pct": 9.02
+              },
+              {
+                "label": "2024 Q4",
+                "from": "2024 Q4",
+                "to": "2024 Q4",
+                "count": 72,
+                "pct": 8.9
+              },
+              {
+                "label": "2025 Q1",
+                "from": "2025 Q1",
+                "to": "2025 Q1",
+                "count": 80,
+                "pct": 9.89
+              },
+              {
+                "label": "2025 Q2",
+                "from": "2025 Q2",
+                "to": "2025 Q2",
+                "count": 72,
+                "pct": 8.9
+              },
+              {
+                "label": "2025 Q3",
+                "from": "2025 Q3",
+                "to": "2025 Q3",
+                "count": 74,
+                "pct": 9.15
+              },
+              {
+                "label": "2025 Q4",
+                "from": "2025 Q4",
+                "to": "2025 Q4",
+                "count": 79,
+                "pct": 9.77
+              }
+            ],
+            "values": 809,
+            "shape": "uniform",
+            "skewness": -0.08,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 9.9
+          },
+          "min": "2023-01-22",
+          "max": "2025-12-31",
+          "value_formats": [
+            "%Y-%m-%d"
+          ],
+          "min_value": "2023-01-22",
+          "min_count": 1,
+          "max_value": "2025-12-31",
+          "max_count": 12,
+          "rare_value": {
+            "value": "2023-01-22",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "2025-12-31",
+              "count": 12
+            },
+            {
+              "value": "2023-12-30",
+              "count": 5
+            },
+            {
+              "value": "2025-08-21",
+              "count": 4
+            },
+            {
+              "value": "2023-12-23",
+              "count": 4
+            },
+            {
+              "value": "2025-10-27",
+              "count": 4
+            }
+          ]
+        },
+        {
+          "name": "EstimatedLossDKK",
+          "position": 8,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 678,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "numeric",
+            "bins": [
+              {
+                "label": "0–4,999",
+                "from": 0,
+                "to": 5000,
+                "count": 244,
+                "pct": 28.71
+              },
+              {
+                "label": "5,000–9,999",
+                "from": 5000,
+                "to": 10000,
+                "count": 145,
+                "pct": 17.06
+              },
+              {
+                "label": "10,000–14,999",
+                "from": 10000,
+                "to": 15000,
+                "count": 109,
+                "pct": 12.82
+              },
+              {
+                "label": "15,000–19,999",
+                "from": 15000,
+                "to": 20000,
+                "count": 72,
+                "pct": 8.47
+              },
+              {
+                "label": "20,000–24,999",
+                "from": 20000,
+                "to": 25000,
+                "count": 60,
+                "pct": 7.06
+              },
+              {
+                "label": "25,000–29,999",
+                "from": 25000,
+                "to": 30000,
+                "count": 27,
+                "pct": 3.18
+              },
+              {
+                "label": "30,000–34,999",
+                "from": 30000,
+                "to": 35000,
+                "count": 25,
+                "pct": 2.94
+              },
+              {
+                "label": "35,000–39,999",
+                "from": 35000,
+                "to": 40000,
+                "count": 23,
+                "pct": 2.71
+              },
+              {
+                "label": "40,000–44,999",
+                "from": 40000,
+                "to": 45000,
+                "count": 10,
+                "pct": 1.18
+              },
+              {
+                "label": "45,000–49,999",
+                "from": 45000,
+                "to": 50000,
+                "count": 13,
+                "pct": 1.53
+              },
+              {
+                "label": "50,000–54,999",
+                "from": 50000,
+                "to": 55000,
+                "count": 10,
+                "pct": 1.18
+              },
+              {
+                "label": "55,000–59,999",
+                "from": 55000,
+                "to": 60000,
+                "count": 19,
+                "pct": 2.24
+              },
+              {
+                "label": "above 60,000",
+                "from": 60000,
+                "to": null,
+                "count": 93,
+                "pct": 10.94,
+                "outlier": true
+              }
+            ],
+            "bin_width": 5000,
+            "values": 850,
+            "shape": "right-skewed",
+            "skewness": 8.67,
+            "median": 11450.0,
+            "q1": 4262.5,
+            "q3": 26150.0,
+            "iqr": 21887.5,
+            "outliers": {
+              "below": 0,
+              "above": 93,
+              "low_fence": -28568.75,
+              "high_fence": 58981.25
+            },
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 0.6
+          },
+          "min": 420,
+          "max": 895400,
+          "mean": 25590.7765,
+          "min_value": "420",
+          "min_count": 1,
+          "max_value": "895400",
+          "max_count": 1,
+          "rare_value": {
+            "value": "1000",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "13400",
+              "count": 5
+            },
+            {
+              "value": "19300",
+              "count": 4
+            },
+            {
+              "value": "1470",
+              "count": 4
+            },
+            {
+              "value": "3440",
+              "count": 4
+            },
+            {
+              "value": "6600",
+              "count": 4
+            }
+          ]
+        },
+        {
+          "name": "ReportedVia",
+          "position": 9,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 3,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Selvbetjening på web",
+                "from": "Selvbetjening på web",
+                "to": "Selvbetjening på web",
+                "count": 426,
+                "pct": 50.12
+              },
+              {
+                "label": "Telefon",
+                "from": "Telefon",
+                "to": "Telefon",
+                "count": 290,
+                "pct": 34.12
+              },
+              {
+                "label": "App",
+                "from": "App",
+                "to": "App",
+                "count": 134,
+                "pct": 15.76
+              }
+            ],
+            "values": 850,
+            "distinct": 3,
+            "shape": "one dominant value",
+            "top_share_pct": 50.1
+          },
+          "min_length": 3,
+          "max_length": 20,
+          "min_value": "App",
+          "min_count": 134,
+          "max_value": "Telefon",
+          "max_count": 290,
+          "rare_value": {
+            "value": "App",
+            "count": 134
+          },
+          "top_values": [
+            {
+              "value": "Selvbetjening på web",
+              "count": 426
+            },
+            {
+              "value": "Telefon",
+              "count": 290
+            },
+            {
+              "value": "App",
+              "count": 134
+            }
+          ]
+        }
+      ],
+      "sample_rows": [
+        [
+          "900094",
+          "700589",
+          "2024-09-22",
+          "2024-09-25",
+          "Vandskade",
+          "Afsluttet",
+          "2024-12-30",
+          "89800",
+          "Selvbetjening på web"
+        ],
+        [
+          "900432",
+          "702580",
+          "2024-02-22",
+          "2024-02-22",
+          "Sygdom hos dyret",
+          "Afsluttet",
+          "2024-05-18",
+          "7010",
+          "Selvbetjening på web"
+        ],
+        [
+          "900438",
+          "702608",
+          "2025-09-17",
+          "2025-09-18",
+          "Rudeskade",
+          "Afsluttet",
+          "2025-11-25",
+          "2460",
+          "Selvbetjening på web"
+        ],
+        [
+          "900456",
+          "702694",
+          "2023-11-25",
+          "2023-11-27",
+          "Skade på andres bil",
+          "Afsluttet",
+          "2024-02-21",
+          "15500",
+          "App"
+        ],
+        [
+          "900689",
+          "704044",
+          "2023-11-04",
+          "2023-11-05",
+          "Svamp",
+          "Afsluttet",
+          "2023-11-24",
+          "105700",
+          "Selvbetjening på web"
+        ]
+      ],
+      "keys": {
+        "rows_checked": 850,
+        "sampled": false,
+        "unique_columns": [
+          "ClaimID"
+        ],
+        "unique_combinations": [
+          {
+            "columns": [
+              "PolicyID",
+              "LossDate"
+            ],
+            "rows": 850
+          },
+          {
+            "columns": [
+              "PolicyID",
+              "ReportedDate"
+            ],
+            "rows": 850
+          },
+          {
+            "columns": [
+              "PolicyID",
+              "ClosedDate"
+            ],
+            "rows": 850
+          }
+        ],
+        "closest_combinations": [],
+        "identifier_pairs": [
+          {
+            "a": "ClaimID",
+            "b": "PolicyID",
+            "kind": "many-to-one",
+            "a_distinct": 850,
+            "b_distinct": 775,
+            "a_with_several_b": 0,
+            "b_with_several_a": 71
+          }
+        ]
+      },
+      "slug": "claims"
+    },
+    {
+      "name": "Coverages",
+      "row_count": 29,
+      "profiled_rows": 29,
+      "sampled": false,
+      "column_count": 6,
+      "duplicate_rows": 0,
+      "details": {
+        "file": "Coverages.csv",
+        "encoding": "utf-8",
+        "delimiter": ","
+      },
+      "columns": [
+        {
+          "name": "CoverageID",
+          "position": 1,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 29,
+          "all_values_unique": true,
+          "min": 1,
+          "max": 29,
+          "mean": 15.0,
+          "min_value": "1",
+          "min_count": 1,
+          "max_value": "29",
+          "max_count": 1,
+          "rare_value": {
+            "value": "1",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "1",
+              "count": 1
+            },
+            {
+              "value": "2",
+              "count": 1
+            },
+            {
+              "value": "3",
+              "count": 1
+            },
+            {
+              "value": "4",
+              "count": 1
+            },
+            {
+              "value": "5",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "ProductID",
+          "position": 2,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 6,
+          "all_values_unique": false,
+          "min": 1,
+          "max": 6,
+          "mean": 3.1724,
+          "min_value": "1",
+          "min_count": 6,
+          "max_value": "6",
+          "max_count": 4,
+          "rare_value": {
+            "value": "4",
+            "count": 3
+          },
+          "top_values": [
+            {
+              "value": "1",
+              "count": 6
+            },
+            {
+              "value": "2",
+              "count": 6
+            },
+            {
+              "value": "3",
+              "count": 6
+            },
+            {
+              "value": "5",
+              "count": 4
+            },
+            {
+              "value": "6",
+              "count": 4
+            }
+          ]
+        },
+        {
+          "name": "CoverageName",
+          "position": 3,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 26,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Other (26 values)",
+                "from": null,
+                "to": null,
+                "count": 29,
+                "pct": 100.0,
+                "other_group": true
+              }
+            ],
+            "values": 29,
+            "distinct": 26,
+            "shape": "mixed",
+            "top_share_pct": 10.3
+          },
+          "min_length": 3,
+          "max_length": 23,
+          "min_value": "Ansvar",
+          "min_count": 3,
+          "max_value": "Vejhjælp",
+          "max_count": 1,
+          "rare_value": {
+            "value": "Bagage",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "Ansvar",
+              "count": 3
+            },
+            {
+              "value": "Brand og eksplosion",
+              "count": 2
+            },
+            {
+              "value": "Tyveri og indbrud",
+              "count": 1
+            },
+            {
+              "value": "Vand- og ledningsskade",
+              "count": 1
+            },
+            {
+              "value": "Udvidet dækning",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "CoverageType",
+          "position": 4,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 2,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Standard",
+                "from": "Standard",
+                "to": "Standard",
+                "count": 17,
+                "pct": 58.62
+              },
+              {
+                "label": "Tilvalg",
+                "from": "Tilvalg",
+                "to": "Tilvalg",
+                "count": 12,
+                "pct": 41.38
+              }
+            ],
+            "values": 29,
+            "distinct": 2,
+            "shape": "one dominant value",
+            "top_share_pct": 58.6
+          },
+          "min_length": 7,
+          "max_length": 8,
+          "min_value": "Standard",
+          "min_count": 17,
+          "max_value": "Tilvalg",
+          "max_count": 12,
+          "rare_value": {
+            "value": "Tilvalg",
+            "count": 12
+          },
+          "top_values": [
+            {
+              "value": "Standard",
+              "count": 17
+            },
+            {
+              "value": "Tilvalg",
+              "count": 12
+            }
+          ]
+        },
+        {
+          "name": "BaseAnnualPremiumDKK",
+          "position": 5,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 26,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "numeric",
+            "bins": [
+              {
+                "label": "0–499",
+                "from": 0,
+                "to": 500,
+                "count": 16,
+                "pct": 55.17
+              },
+              {
+                "label": "500–999",
+                "from": 500,
+                "to": 1000,
+                "count": 5,
+                "pct": 17.24
+              },
+              {
+                "label": "1,000–1,499",
+                "from": 1000,
+                "to": 1500,
+                "count": 3,
+                "pct": 10.34
+              },
+              {
+                "label": "1,500–1,999",
+                "from": 1500,
+                "to": 2000,
+                "count": 2,
+                "pct": 6.9
+              },
+              {
+                "label": "2,000–2,499",
+                "from": 2000,
+                "to": 2500,
+                "count": 2,
+                "pct": 6.9
+              },
+              {
+                "label": "2,500–2,999",
+                "from": 2500,
+                "to": 3000,
+                "count": 0,
+                "pct": 0.0
+              },
+              {
+                "label": "above 3,000",
+                "from": 3000,
+                "to": null,
+                "count": 1,
+                "pct": 3.45,
+                "outlier": true
+              }
+            ],
+            "bin_width": 500,
+            "values": 29,
+            "shape": "right-skewed",
+            "skewness": 2.2,
+            "median": 410.0,
+            "q1": 260.0,
+            "q3": 1250.0,
+            "iqr": 990.0,
+            "outliers": {
+              "below": 0,
+              "above": 1,
+              "low_fence": -1225.0,
+              "high_fence": 2735.0
+            },
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 6.9
+          },
+          "min": 90,
+          "max": 4200,
+          "mean": 816.8966,
+          "min_value": "90",
+          "min_count": 1,
+          "max_value": "4200",
+          "max_count": 1,
+          "rare_value": {
+            "value": "1250",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "260",
+              "count": 2
+            },
+            {
+              "value": "2100",
+              "count": 2
+            },
+            {
+              "value": "360",
+              "count": 2
+            },
+            {
+              "value": "380",
+              "count": 1
+            },
+            {
+              "value": "520",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "DefaultDeductibleDKK",
+          "position": 6,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 9,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "discrete",
+            "bins": [
+              {
+                "label": "0",
+                "from": 0.0,
+                "to": 0.0,
+                "count": 15,
+                "pct": 51.72
+              },
+              {
+                "label": "500",
+                "from": 500.0,
+                "to": 500.0,
+                "count": 2,
+                "pct": 6.9
+              },
+              {
+                "label": "750",
+                "from": 750.0,
+                "to": 750.0,
+                "count": 1,
+                "pct": 3.45
+              },
+              {
+                "label": "1,000",
+                "from": 1000.0,
+                "to": 1000.0,
+                "count": 2,
+                "pct": 6.9
+              },
+              {
+                "label": "1,500",
+                "from": 1500.0,
+                "to": 1500.0,
+                "count": 2,
+                "pct": 6.9
+              },
+              {
+                "label": "2,500",
+                "from": 2500.0,
+                "to": 2500.0,
+                "count": 2,
+                "pct": 6.9
+              },
+              {
+                "label": "3,000",
+                "from": 3000.0,
+                "to": 3000.0,
+                "count": 2,
+                "pct": 6.9
+              },
+              {
+                "label": "3,500",
+                "from": 3500.0,
+                "to": 3500.0,
+                "count": 2,
+                "pct": 6.9
+              },
+              {
+                "label": "5,000",
+                "from": 5000.0,
+                "to": 5000.0,
+                "count": 1,
+                "pct": 3.45
+              }
+            ],
+            "bin_width": null,
+            "values": 29,
+            "shape": "one dominant value",
+            "skewness": 1.23,
+            "median": 0.0,
+            "q1": 0.0,
+            "q3": 1500.0,
+            "iqr": 1500.0,
+            "outliers": {
+              "below": 0,
+              "above": 1,
+              "low_fence": -2250.0,
+              "high_fence": 3750.0
+            },
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 51.7
+          },
+          "min": 0,
+          "max": 5000,
+          "mean": 1025.8621,
+          "min_value": "0",
+          "min_count": 15,
+          "max_value": "5000",
+          "max_count": 1,
+          "rare_value": {
+            "value": "5000",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "0",
+              "count": 15
+            },
+            {
+              "value": "1500",
+              "count": 2
+            },
+            {
+              "value": "2500",
+              "count": 2
+            },
+            {
+              "value": "1000",
+              "count": 2
+            },
+            {
+              "value": "3500",
+              "count": 2
+            }
+          ]
+        }
+      ],
+      "sample_rows": [
+        [
+          "6",
+          "1",
+          "Cykeldækning",
+          "Tilvalg",
+          "260",
+          "1000"
+        ],
+        [
+          "7",
+          "2",
+          "Ansvar",
+          "Standard",
+          "1400",
+          "0"
+        ],
+        [
+          "9",
+          "2",
+          "Delkasko",
+          "Standard",
+          "2100",
+          "3500"
+        ],
+        [
+          "19",
+          "4",
+          "Død",
+          "Standard",
+          "360",
+          "0"
+        ],
+        [
+          "25",
+          "5",
+          "Rejseansvar",
+          "Tilvalg",
+          "90",
+          "0"
+        ]
+      ],
+      "keys": {
+        "rows_checked": 29,
+        "sampled": false,
+        "unique_columns": [
+          "CoverageID"
+        ],
+        "unique_combinations": [],
+        "closest_combinations": [],
+        "identifier_pairs": [
+          {
+            "a": "CoverageID",
+            "b": "ProductID",
+            "kind": "many-to-one",
+            "a_distinct": 29,
+            "b_distinct": 6,
+            "a_with_several_b": 0,
+            "b_with_several_a": 6
+          }
+        ]
+      },
+      "slug": "coverages"
+    },
+    {
+      "name": "Customers",
+      "row_count": 3000,
+      "profiled_rows": 3000,
+      "sampled": false,
+      "column_count": 12,
+      "duplicate_rows": 0,
+      "details": {
+        "file": "Customers.csv",
+        "encoding": "utf-8",
+        "delimiter": ","
+      },
+      "columns": [
+        {
+          "name": "CustomerID",
+          "position": 1,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 3000,
+          "all_values_unique": true,
+          "min": 100001,
+          "max": 103000,
+          "mean": 101500.5,
+          "min_value": "100001",
+          "min_count": 1,
+          "max_value": "103000",
+          "max_count": 1,
+          "rare_value": {
+            "value": "100001",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "100001",
+              "count": 1
+            },
+            {
+              "value": "100002",
+              "count": 1
+            },
+            {
+              "value": "100003",
+              "count": 1
+            },
+            {
+              "value": "100004",
+              "count": 1
+            },
+            {
+              "value": "100005",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "FirstName",
+          "position": 2,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 40,
+          "all_values_unique": false,
+          "pii": {
+            "class": "person name",
+            "reason": "the column name"
+          },
+          "distribution": {
+            "kind": "none",
+            "reason": "personal data",
+            "top_share_pct": 3.4
+          },
+          "min_length": 3,
+          "max_length": 9
+        },
+        {
+          "name": "LastName",
+          "position": 3,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 24,
+          "all_values_unique": false,
+          "pii": {
+            "class": "person name",
+            "reason": "the column name"
+          },
+          "distribution": {
+            "kind": "none",
+            "reason": "personal data",
+            "top_share_pct": 5.1
+          },
+          "min_length": 5,
+          "max_length": 12
+        },
+        {
+          "name": "BirthDate",
+          "position": 4,
+          "inferred_type": "date",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 2760,
+          "all_values_unique": false,
+          "pii": {
+            "class": "birth date",
+            "reason": "the column name"
+          },
+          "distribution": {
+            "kind": "time",
+            "unit": "decade",
+            "bins": [
+              {
+                "label": "1930s",
+                "from": "1930s",
+                "to": "1930s",
+                "count": 9,
+                "pct": 0.3
+              },
+              {
+                "label": "1940s",
+                "from": "1940s",
+                "to": "1940s",
+                "count": 56,
+                "pct": 1.87
+              },
+              {
+                "label": "1950s",
+                "from": "1950s",
+                "to": "1950s",
+                "count": 208,
+                "pct": 6.93
+              },
+              {
+                "label": "1960s",
+                "from": "1960s",
+                "to": "1960s",
+                "count": 455,
+                "pct": 15.17
+              },
+              {
+                "label": "1970s",
+                "from": "1970s",
+                "to": "1970s",
+                "count": 742,
+                "pct": 24.73
+              },
+              {
+                "label": "1980s",
+                "from": "1980s",
+                "to": "1980s",
+                "count": 742,
+                "pct": 24.73
+              },
+              {
+                "label": "1990s",
+                "from": "1990s",
+                "to": "1990s",
+                "count": 528,
+                "pct": 17.6
+              },
+              {
+                "label": "2000s",
+                "from": "2000s",
+                "to": "2000s",
+                "count": 260,
+                "pct": 8.67
+              }
+            ],
+            "values": 3000,
+            "shape": "symmetric",
+            "skewness": -0.19,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 24.7
+          },
+          "min_value": "1937",
+          "max_value": "2007"
+        },
+        {
+          "name": "Gender",
+          "position": 5,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 2,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "K",
+                "from": "K",
+                "to": "K",
+                "count": 1529,
+                "pct": 50.97
+              },
+              {
+                "label": "M",
+                "from": "M",
+                "to": "M",
+                "count": 1471,
+                "pct": 49.03
+              }
+            ],
+            "values": 3000,
+            "distinct": 2,
+            "shape": "one dominant value",
+            "top_share_pct": 51.0
+          },
+          "min_length": 1,
+          "max_length": 1,
+          "min_value": "K",
+          "min_count": 1529,
+          "max_value": "M",
+          "max_count": 1471,
+          "rare_value": {
+            "value": "M",
+            "count": 1471
+          },
+          "top_values": [
+            {
+              "value": "K",
+              "count": 1529
+            },
+            {
+              "value": "M",
+              "count": 1471
+            }
+          ]
+        },
+        {
+          "name": "Email",
+          "position": 6,
+          "inferred_type": "text",
+          "missing_count": 82,
+          "missing_pct": 2.73,
+          "null_count": 0,
+          "blank_count": 82,
+          "distinct_count": 2629,
+          "all_values_unique": false,
+          "pii": {
+            "class": "email",
+            "reason": "the column name"
+          },
+          "distribution": {
+            "kind": "none",
+            "reason": "personal data",
+            "top_share_pct": 0.1
+          },
+          "min_length": 17,
+          "max_length": 36
+        },
+        {
+          "name": "Phone",
+          "position": 7,
+          "inferred_type": "integer",
+          "missing_count": 240,
+          "missing_pct": 8.0,
+          "null_count": 0,
+          "blank_count": 240,
+          "distinct_count": 2760,
+          "all_values_unique": true,
+          "pii": {
+            "class": "phone",
+            "reason": "the column name"
+          },
+          "distribution": {
+            "kind": "none",
+            "reason": "personal data",
+            "top_share_pct": 0.0
+          },
+          "min_length": 8,
+          "max_length": 8
+        },
+        {
+          "name": "AddressID",
+          "position": 8,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 2773,
+          "all_values_unique": false,
+          "min": 50001,
+          "max": 52773,
+          "mean": 51331.502,
+          "min_value": "50001",
+          "min_count": 1,
+          "max_value": "52773",
+          "max_count": 1,
+          "rare_value": {
+            "value": "50001",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "50144",
+              "count": 5
+            },
+            {
+              "value": "50004",
+              "count": 4
+            },
+            {
+              "value": "50062",
+              "count": 4
+            },
+            {
+              "value": "50113",
+              "count": 4
+            },
+            {
+              "value": "50127",
+              "count": 4
+            }
+          ]
+        },
+        {
+          "name": "SignupDate",
+          "position": 9,
+          "inferred_type": "date",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 2406,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "time",
+            "unit": "year",
+            "bins": [
+              {
+                "label": "2008",
+                "from": "2008",
+                "to": "2008",
+                "count": 137,
+                "pct": 4.57
+              },
+              {
+                "label": "2009",
+                "from": "2009",
+                "to": "2009",
+                "count": 154,
+                "pct": 5.13
+              },
+              {
+                "label": "2010",
+                "from": "2010",
+                "to": "2010",
+                "count": 152,
+                "pct": 5.07
+              },
+              {
+                "label": "2011",
+                "from": "2011",
+                "to": "2011",
+                "count": 166,
+                "pct": 5.53
+              },
+              {
+                "label": "2012",
+                "from": "2012",
+                "to": "2012",
+                "count": 136,
+                "pct": 4.53
+              },
+              {
+                "label": "2013",
+                "from": "2013",
+                "to": "2013",
+                "count": 148,
+                "pct": 4.93
+              },
+              {
+                "label": "2014",
+                "from": "2014",
+                "to": "2014",
+                "count": 175,
+                "pct": 5.83
+              },
+              {
+                "label": "2015",
+                "from": "2015",
+                "to": "2015",
+                "count": 162,
+                "pct": 5.4
+              },
+              {
+                "label": "2016",
+                "from": "2016",
+                "to": "2016",
+                "count": 137,
+                "pct": 4.57
+              },
+              {
+                "label": "2017",
+                "from": "2017",
+                "to": "2017",
+                "count": 163,
+                "pct": 5.43
+              },
+              {
+                "label": "2018",
+                "from": "2018",
+                "to": "2018",
+                "count": 155,
+                "pct": 5.17
+              },
+              {
+                "label": "2019",
+                "from": "2019",
+                "to": "2019",
+                "count": 137,
+                "pct": 4.57
+              },
+              {
+                "label": "2020",
+                "from": "2020",
+                "to": "2020",
+                "count": 152,
+                "pct": 5.07
+              },
+              {
+                "label": "2021",
+                "from": "2021",
+                "to": "2021",
+                "count": 165,
+                "pct": 5.5
+              },
+              {
+                "label": "2022",
+                "from": "2022",
+                "to": "2022",
+                "count": 161,
+                "pct": 5.37
+              },
+              {
+                "label": "2023",
+                "from": "2023",
+                "to": "2023",
+                "count": 261,
+                "pct": 8.7
+              },
+              {
+                "label": "2024",
+                "from": "2024",
+                "to": "2024",
+                "count": 234,
+                "pct": 7.8
+              },
+              {
+                "label": "2025",
+                "from": "2025",
+                "to": "2025",
+                "count": 205,
+                "pct": 6.83
+              }
+            ],
+            "values": 3000,
+            "shape": "uniform",
+            "skewness": -0.12,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 8.7
+          },
+          "min": "2008-01-06",
+          "max": "2025-10-31",
+          "value_formats": [
+            "%Y-%m-%d"
+          ],
+          "min_value": "2008-01-06",
+          "min_count": 1,
+          "max_value": "2025-10-31",
+          "max_count": 1,
+          "rare_value": {
+            "value": "2008-01-06",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "2011-08-14",
+              "count": 4
+            },
+            {
+              "value": "2013-08-22",
+              "count": 4
+            },
+            {
+              "value": "2015-06-27",
+              "count": 4
+            },
+            {
+              "value": "2018-02-04",
+              "count": 4
+            },
+            {
+              "value": "2014-12-23",
+              "count": 4
+            }
+          ]
+        },
+        {
+          "name": "CustomerStatus",
+          "position": 10,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 2,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Aktiv",
+                "from": "Aktiv",
+                "to": "Aktiv",
+                "count": 2541,
+                "pct": 84.7
+              },
+              {
+                "label": "Opsagt",
+                "from": "Opsagt",
+                "to": "Opsagt",
+                "count": 459,
+                "pct": 15.3
+              }
+            ],
+            "values": 3000,
+            "distinct": 2,
+            "shape": "one dominant value",
+            "top_share_pct": 84.7
+          },
+          "min_length": 5,
+          "max_length": 6,
+          "min_value": "Aktiv",
+          "min_count": 2541,
+          "max_value": "Opsagt",
+          "max_count": 459,
+          "rare_value": {
+            "value": "Opsagt",
+            "count": 459
+          },
+          "top_values": [
+            {
+              "value": "Aktiv",
+              "count": 2541
+            },
+            {
+              "value": "Opsagt",
+              "count": 459
+            }
+          ]
+        },
+        {
+          "name": "ChurnDate",
+          "position": 11,
+          "inferred_type": "date",
+          "missing_count": 2541,
+          "missing_pct": 84.7,
+          "null_count": 0,
+          "blank_count": 2541,
+          "distinct_count": 370,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "time",
+            "unit": "quarter",
+            "bins": [
+              {
+                "label": "2023 Q1",
+                "from": "2023 Q1",
+                "to": "2023 Q1",
+                "count": 35,
+                "pct": 7.63
+              },
+              {
+                "label": "2023 Q2",
+                "from": "2023 Q2",
+                "to": "2023 Q2",
+                "count": 27,
+                "pct": 5.88
+              },
+              {
+                "label": "2023 Q3",
+                "from": "2023 Q3",
+                "to": "2023 Q3",
+                "count": 42,
+                "pct": 9.15
+              },
+              {
+                "label": "2023 Q4",
+                "from": "2023 Q4",
+                "to": "2023 Q4",
+                "count": 44,
+                "pct": 9.59
+              },
+              {
+                "label": "2024 Q1",
+                "from": "2024 Q1",
+                "to": "2024 Q1",
+                "count": 41,
+                "pct": 8.93
+              },
+              {
+                "label": "2024 Q2",
+                "from": "2024 Q2",
+                "to": "2024 Q2",
+                "count": 34,
+                "pct": 7.41
+              },
+              {
+                "label": "2024 Q3",
+                "from": "2024 Q3",
+                "to": "2024 Q3",
+                "count": 37,
+                "pct": 8.06
+              },
+              {
+                "label": "2024 Q4",
+                "from": "2024 Q4",
+                "to": "2024 Q4",
+                "count": 43,
+                "pct": 9.37
+              },
+              {
+                "label": "2025 Q1",
+                "from": "2025 Q1",
+                "to": "2025 Q1",
+                "count": 33,
+                "pct": 7.19
+              },
+              {
+                "label": "2025 Q2",
+                "from": "2025 Q2",
+                "to": "2025 Q2",
+                "count": 44,
+                "pct": 9.59
+              },
+              {
+                "label": "2025 Q3",
+                "from": "2025 Q3",
+                "to": "2025 Q3",
+                "count": 39,
+                "pct": 8.5
+              },
+              {
+                "label": "2025 Q4",
+                "from": "2025 Q4",
+                "to": "2025 Q4",
+                "count": 40,
+                "pct": 8.71
+              }
+            ],
+            "values": 459,
+            "shape": "uniform",
+            "skewness": -0.02,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 9.6
+          },
+          "min": "2023-01-09",
+          "max": "2025-12-29",
+          "value_formats": [
+            "%Y-%m-%d"
+          ],
+          "min_value": "2023-01-09",
+          "min_count": 1,
+          "max_value": "2025-12-29",
+          "max_count": 2,
+          "rare_value": {
+            "value": "2023-01-09",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "2023-12-31",
+              "count": 4
+            },
+            {
+              "value": "2025-09-10",
+              "count": 3
+            },
+            {
+              "value": "2023-12-06",
+              "count": 3
+            },
+            {
+              "value": "2024-12-06",
+              "count": 3
+            },
+            {
+              "value": "2023-10-24",
+              "count": 3
+            }
+          ]
+        },
+        {
+          "name": "MarketingConsent",
+          "position": 12,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 2,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Ja",
+                "from": "Ja",
+                "to": "Ja",
+                "count": 1859,
+                "pct": 61.97
+              },
+              {
+                "label": "Nej",
+                "from": "Nej",
+                "to": "Nej",
+                "count": 1141,
+                "pct": 38.03
+              }
+            ],
+            "values": 3000,
+            "distinct": 2,
+            "shape": "one dominant value",
+            "top_share_pct": 62.0
+          },
+          "min_length": 2,
+          "max_length": 3,
+          "min_value": "Ja",
+          "min_count": 1859,
+          "max_value": "Nej",
+          "max_count": 1141,
+          "rare_value": {
+            "value": "Nej",
+            "count": 1141
+          },
+          "top_values": [
+            {
+              "value": "Ja",
+              "count": 1859
+            },
+            {
+              "value": "Nej",
+              "count": 1141
+            }
+          ]
+        }
+      ],
+      "sample_rows": [
+        [
+          "100137",
+          "••••",
+          "••••",
+          "••••",
+          "M",
+          "••••",
+          "••••",
+          "50129",
+          "2018-03-15",
+          "Aktiv",
+          "",
+          "Ja"
+        ],
+        [
+          "100445",
+          "••••",
+          "••••",
+          "••••",
+          "K",
+          "••••",
+          "••••",
+          "50419",
+          "2013-08-18",
+          "Opsagt",
+          "2023-05-10",
+          "Nej"
+        ],
+        [
+          "101771",
+          "••••",
+          "••••",
+          "••••",
+          "M",
+          "••••",
+          "••••",
+          "51639",
+          "2010-09-17",
+          "Aktiv",
+          "",
+          "Ja"
+        ],
+        [
+          "102368",
+          "••••",
+          "••••",
+          "••••",
+          "M",
+          "••••",
+          "••••",
+          "52185",
+          "2024-10-31",
+          "Aktiv",
+          "",
+          "Ja"
+        ],
+        [
+          "102484",
+          "••••",
+          "••••",
+          "••••",
+          "M",
+          "••••",
+          "••••",
+          "52297",
+          "2024-11-08",
+          "Aktiv",
+          "",
+          "Ja"
+        ]
+      ],
+      "keys": {
+        "rows_checked": 3000,
+        "sampled": false,
+        "unique_columns": [
+          "CustomerID",
+          "Phone"
+        ],
+        "unique_combinations": [
+          {
+            "columns": [
+              "AddressID",
+              "BirthDate"
+            ],
+            "rows": 3000
+          },
+          {
+            "columns": [
+              "AddressID",
+              "SignupDate"
+            ],
+            "rows": 3000
+          }
+        ],
+        "closest_combinations": [
+          {
+            "columns": [
+              "AddressID",
+              "ChurnDate"
+            ],
+            "distinct": 2824,
+            "rows": 3000
+          }
+        ],
+        "identifier_pairs": [
+          {
+            "a": "CustomerID",
+            "b": "AddressID",
+            "kind": "many-to-one",
+            "a_distinct": 3000,
+            "b_distinct": 2773,
+            "a_with_several_b": 0,
+            "b_with_several_a": 192
+          }
+        ]
+      },
+      "slug": "customers"
+    },
+    {
+      "name": "Policies",
+      "row_count": 5640,
+      "profiled_rows": 5640,
+      "sampled": false,
+      "column_count": 11,
+      "duplicate_rows": 0,
+      "details": {
+        "file": "Policies.csv",
+        "encoding": "utf-8",
+        "delimiter": ","
+      },
+      "columns": [
+        {
+          "name": "PolicyID",
+          "position": 1,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 5640,
+          "all_values_unique": true,
+          "min": 700001,
+          "max": 705640,
+          "mean": 702820.5,
+          "min_value": "700001",
+          "min_count": 1,
+          "max_value": "705640",
+          "max_count": 1,
+          "rare_value": {
+            "value": "700001",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "700001",
+              "count": 1
+            },
+            {
+              "value": "700002",
+              "count": 1
+            },
+            {
+              "value": "700003",
+              "count": 1
+            },
+            {
+              "value": "700004",
+              "count": 1
+            },
+            {
+              "value": "700005",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "PolicyNumber",
+          "position": 2,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 5640,
+          "all_values_unique": true,
+          "min_length": 14,
+          "max_length": 14,
+          "min_value": "DK-2008-100001",
+          "min_count": 1,
+          "max_value": "DK-2025-105638",
+          "max_count": 1,
+          "rare_value": {
+            "value": "DK-2008-100001",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "DK-2008-100001",
+              "count": 1
+            },
+            {
+              "value": "DK-2017-100002",
+              "count": 1
+            },
+            {
+              "value": "DK-2015-100003",
+              "count": 1
+            },
+            {
+              "value": "DK-2015-100004",
+              "count": 1
+            },
+            {
+              "value": "DK-2015-100005",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "CustomerID",
+          "position": 3,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 3000,
+          "all_values_unique": false,
+          "min": 100001,
+          "max": 103000,
+          "mean": 101501.9466,
+          "min_value": "100001",
+          "min_count": 2,
+          "max_value": "103000",
+          "max_count": 2,
+          "rare_value": {
+            "value": "100002",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "100295",
+              "count": 6
+            },
+            {
+              "value": "100615",
+              "count": 6
+            },
+            {
+              "value": "101113",
+              "count": 6
+            },
+            {
+              "value": "101445",
+              "count": 6
+            },
+            {
+              "value": "102222",
+              "count": 6
+            }
+          ]
+        },
+        {
+          "name": "ProductID",
+          "position": 4,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 6,
+          "all_values_unique": false,
+          "min": 1,
+          "max": 6,
+          "mean": 2.5821,
+          "min_value": "1",
+          "min_count": 1683,
+          "max_value": "6",
+          "max_count": 343,
+          "rare_value": {
+            "value": "6",
+            "count": 343
+          },
+          "top_values": [
+            {
+              "value": "1",
+              "count": 1683
+            },
+            {
+              "value": "2",
+              "count": 1617
+            },
+            {
+              "value": "3",
+              "count": 922
+            },
+            {
+              "value": "4",
+              "count": 553
+            },
+            {
+              "value": "5",
+              "count": 522
+            }
+          ]
+        },
+        {
+          "name": "InsuredAddressID",
+          "position": 5,
+          "inferred_type": "integer",
+          "missing_count": 3035,
+          "missing_pct": 53.81,
+          "null_count": 0,
+          "blank_count": 3035,
+          "distinct_count": 2047,
+          "all_values_unique": false,
+          "min": 50001,
+          "max": 52860,
+          "mean": 51382.4917,
+          "min_value": "50001",
+          "min_count": 1,
+          "max_value": "52860",
+          "max_count": 1,
+          "rare_value": {
+            "value": "50001",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "50004",
+              "count": 6
+            },
+            {
+              "value": "50144",
+              "count": 6
+            },
+            {
+              "value": "50114",
+              "count": 5
+            },
+            {
+              "value": "50212",
+              "count": 5
+            },
+            {
+              "value": "50035",
+              "count": 4
+            }
+          ]
+        },
+        {
+          "name": "StartDate",
+          "position": 6,
+          "inferred_type": "date",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 3537,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "time",
+            "unit": "year",
+            "bins": [
+              {
+                "label": "2008",
+                "from": "2008",
+                "to": "2008",
+                "count": 138,
+                "pct": 2.45
+              },
+              {
+                "label": "2009",
+                "from": "2009",
+                "to": "2009",
+                "count": 165,
+                "pct": 2.93
+              },
+              {
+                "label": "2010",
+                "from": "2010",
+                "to": "2010",
+                "count": 175,
+                "pct": 3.1
+              },
+              {
+                "label": "2011",
+                "from": "2011",
+                "to": "2011",
+                "count": 196,
+                "pct": 3.48
+              },
+              {
+                "label": "2012",
+                "from": "2012",
+                "to": "2012",
+                "count": 180,
+                "pct": 3.19
+              },
+              {
+                "label": "2013",
+                "from": "2013",
+                "to": "2013",
+                "count": 202,
+                "pct": 3.58
+              },
+              {
+                "label": "2014",
+                "from": "2014",
+                "to": "2014",
+                "count": 230,
+                "pct": 4.08
+              },
+              {
+                "label": "2015",
+                "from": "2015",
+                "to": "2015",
+                "count": 238,
+                "pct": 4.22
+              },
+              {
+                "label": "2016",
+                "from": "2016",
+                "to": "2016",
+                "count": 227,
+                "pct": 4.02
+              },
+              {
+                "label": "2017",
+                "from": "2017",
+                "to": "2017",
+                "count": 263,
+                "pct": 4.66
+              },
+              {
+                "label": "2018",
+                "from": "2018",
+                "to": "2018",
+                "count": 281,
+                "pct": 4.98
+              },
+              {
+                "label": "2019",
+                "from": "2019",
+                "to": "2019",
+                "count": 256,
+                "pct": 4.54
+              },
+              {
+                "label": "2020",
+                "from": "2020",
+                "to": "2020",
+                "count": 308,
+                "pct": 5.46
+              },
+              {
+                "label": "2021",
+                "from": "2021",
+                "to": "2021",
+                "count": 369,
+                "pct": 6.54
+              },
+              {
+                "label": "2022",
+                "from": "2022",
+                "to": "2022",
+                "count": 383,
+                "pct": 6.79
+              },
+              {
+                "label": "2023",
+                "from": "2023",
+                "to": "2023",
+                "count": 549,
+                "pct": 9.73
+              },
+              {
+                "label": "2024",
+                "from": "2024",
+                "to": "2024",
+                "count": 606,
+                "pct": 10.74
+              },
+              {
+                "label": "2025",
+                "from": "2025",
+                "to": "2025",
+                "count": 874,
+                "pct": 15.5
+              }
+            ],
+            "values": 5640,
+            "shape": "left-skewed",
+            "skewness": -0.57,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 15.5
+          },
+          "min": "2008-01-06",
+          "max": "2025-12-31",
+          "value_formats": [
+            "%Y-%m-%d"
+          ],
+          "min_value": "2008-01-06",
+          "min_count": 1,
+          "max_value": "2025-12-31",
+          "max_count": 3,
+          "rare_value": {
+            "value": "2008-01-06",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "2025-12-26",
+              "count": 9
+            },
+            {
+              "value": "2025-10-21",
+              "count": 8
+            },
+            {
+              "value": "2025-10-26",
+              "count": 8
+            },
+            {
+              "value": "2023-09-29",
+              "count": 7
+            },
+            {
+              "value": "2025-09-06",
+              "count": 7
+            }
+          ]
+        },
+        {
+          "name": "EndDate",
+          "position": 7,
+          "inferred_type": "date",
+          "missing_count": 4595,
+          "missing_pct": 81.47,
+          "null_count": 0,
+          "blank_count": 4595,
+          "distinct_count": 543,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "time",
+            "unit": "quarter",
+            "bins": [
+              {
+                "label": "2023 Q1",
+                "from": "2023 Q1",
+                "to": "2023 Q1",
+                "count": 71,
+                "pct": 6.79
+              },
+              {
+                "label": "2023 Q2",
+                "from": "2023 Q2",
+                "to": "2023 Q2",
+                "count": 55,
+                "pct": 5.26
+              },
+              {
+                "label": "2023 Q3",
+                "from": "2023 Q3",
+                "to": "2023 Q3",
+                "count": 107,
+                "pct": 10.24
+              },
+              {
+                "label": "2023 Q4",
+                "from": "2023 Q4",
+                "to": "2023 Q4",
+                "count": 98,
+                "pct": 9.38
+              },
+              {
+                "label": "2024 Q1",
+                "from": "2024 Q1",
+                "to": "2024 Q1",
+                "count": 78,
+                "pct": 7.46
+              },
+              {
+                "label": "2024 Q2",
+                "from": "2024 Q2",
+                "to": "2024 Q2",
+                "count": 67,
+                "pct": 6.41
+              },
+              {
+                "label": "2024 Q3",
+                "from": "2024 Q3",
+                "to": "2024 Q3",
+                "count": 75,
+                "pct": 7.18
+              },
+              {
+                "label": "2024 Q4",
+                "from": "2024 Q4",
+                "to": "2024 Q4",
+                "count": 110,
+                "pct": 10.53
+              },
+              {
+                "label": "2025 Q1",
+                "from": "2025 Q1",
+                "to": "2025 Q1",
+                "count": 80,
+                "pct": 7.66
+              },
+              {
+                "label": "2025 Q2",
+                "from": "2025 Q2",
+                "to": "2025 Q2",
+                "count": 95,
+                "pct": 9.09
+              },
+              {
+                "label": "2025 Q3",
+                "from": "2025 Q3",
+                "to": "2025 Q3",
+                "count": 105,
+                "pct": 10.05
+              },
+              {
+                "label": "2025 Q4",
+                "from": "2025 Q4",
+                "to": "2025 Q4",
+                "count": 104,
+                "pct": 9.95
+              }
+            ],
+            "values": 1045,
+            "shape": "uniform",
+            "skewness": -0.09,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 10.5
+          },
+          "min": "2023-01-09",
+          "max": "2025-12-29",
+          "value_formats": [
+            "%Y-%m-%d"
+          ],
+          "min_value": "2023-01-09",
+          "min_count": 1,
+          "max_value": "2025-12-29",
+          "max_count": 3,
+          "rare_value": {
+            "value": "2023-01-09",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "2024-12-06",
+              "count": 7
+            },
+            {
+              "value": "2024-11-05",
+              "count": 7
+            },
+            {
+              "value": "2025-05-16",
+              "count": 7
+            },
+            {
+              "value": "2024-09-10",
+              "count": 6
+            },
+            {
+              "value": "2023-10-19",
+              "count": 6
+            }
+          ]
+        },
+        {
+          "name": "PolicyStatus",
+          "position": 8,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 2,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Aktiv",
+                "from": "Aktiv",
+                "to": "Aktiv",
+                "count": 4595,
+                "pct": 81.47
+              },
+              {
+                "label": "Opsagt",
+                "from": "Opsagt",
+                "to": "Opsagt",
+                "count": 1045,
+                "pct": 18.53
+              }
+            ],
+            "values": 5640,
+            "distinct": 2,
+            "shape": "one dominant value",
+            "top_share_pct": 81.5
+          },
+          "min_length": 5,
+          "max_length": 6,
+          "min_value": "Aktiv",
+          "min_count": 4595,
+          "max_value": "Opsagt",
+          "max_count": 1045,
+          "rare_value": {
+            "value": "Opsagt",
+            "count": 1045
+          },
+          "top_values": [
+            {
+              "value": "Aktiv",
+              "count": 4595
+            },
+            {
+              "value": "Opsagt",
+              "count": 1045
+            }
+          ]
+        },
+        {
+          "name": "CancellationReason",
+          "position": 9,
+          "inferred_type": "text",
+          "missing_count": 4595,
+          "missing_pct": 81.47,
+          "null_count": 0,
+          "blank_count": 4595,
+          "distinct_count": 7,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Fandt en billigere pris",
+                "from": "Fandt en billigere pris",
+                "to": "Fandt en billigere pris",
+                "count": 375,
+                "pct": 35.89
+              },
+              {
+                "label": "Skiftet til et andet selskab",
+                "from": "Skiftet til et andet selskab",
+                "to": "Skiftet til et andet selskab",
+                "count": 266,
+                "pct": 25.45
+              },
+              {
+                "label": "Ikke længere behov",
+                "from": "Ikke længere behov",
+                "to": "Ikke længere behov",
+                "count": 151,
+                "pct": 14.45
+              },
+              {
+                "label": "Fraflyttet",
+                "from": "Fraflyttet",
+                "to": "Fraflyttet",
+                "count": 89,
+                "pct": 8.52
+              },
+              {
+                "label": "Solgt bil eller bolig",
+                "from": "Solgt bil eller bolig",
+                "to": "Solgt bil eller bolig",
+                "count": 86,
+                "pct": 8.23
+              },
+              {
+                "label": "Utilfreds med skadebehandling",
+                "from": "Utilfreds med skadebehandling",
+                "to": "Utilfreds med skadebehandling",
+                "count": 60,
+                "pct": 5.74
+              },
+              {
+                "label": "Dødsfald",
+                "from": "Dødsfald",
+                "to": "Dødsfald",
+                "count": 18,
+                "pct": 1.72
+              }
+            ],
+            "values": 1045,
+            "distinct": 7,
+            "shape": "mixed",
+            "top_share_pct": 35.9
+          },
+          "min_length": 8,
+          "max_length": 29,
+          "min_value": "Dødsfald",
+          "min_count": 18,
+          "max_value": "Utilfreds med skadebehandling",
+          "max_count": 60,
+          "rare_value": {
+            "value": "Dødsfald",
+            "count": 18
+          },
+          "top_values": [
+            {
+              "value": "Fandt en billigere pris",
+              "count": 375
+            },
+            {
+              "value": "Skiftet til et andet selskab",
+              "count": 266
+            },
+            {
+              "value": "Ikke længere behov",
+              "count": 151
+            },
+            {
+              "value": "Fraflyttet",
+              "count": 89
+            },
+            {
+              "value": "Solgt bil eller bolig",
+              "count": 86
+            }
+          ]
+        },
+        {
+          "name": "PaymentFrequency",
+          "position": 10,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 4,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Månedlig",
+                "from": "Månedlig",
+                "to": "Månedlig",
+                "count": 3048,
+                "pct": 54.04
+              },
+              {
+                "label": "Årlig",
+                "from": "Årlig",
+                "to": "Årlig",
+                "count": 1439,
+                "pct": 25.51
+              },
+              {
+                "label": "Kvartalsvis",
+                "from": "Kvartalsvis",
+                "to": "Kvartalsvis",
+                "count": 844,
+                "pct": 14.96
+              },
+              {
+                "label": "Halvårlig",
+                "from": "Halvårlig",
+                "to": "Halvårlig",
+                "count": 309,
+                "pct": 5.48
+              }
+            ],
+            "values": 5640,
+            "distinct": 4,
+            "shape": "one dominant value",
+            "top_share_pct": 54.0
+          },
+          "min_length": 5,
+          "max_length": 11,
+          "min_value": "Halvårlig",
+          "min_count": 309,
+          "max_value": "Årlig",
+          "max_count": 1439,
+          "rare_value": {
+            "value": "Halvårlig",
+            "count": 309
+          },
+          "top_values": [
+            {
+              "value": "Månedlig",
+              "count": 3048
+            },
+            {
+              "value": "Årlig",
+              "count": 1439
+            },
+            {
+              "value": "Kvartalsvis",
+              "count": 844
+            },
+            {
+              "value": "Halvårlig",
+              "count": 309
+            }
+          ]
+        },
+        {
+          "name": "SalesChannel",
+          "position": 11,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 4,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Web",
+                "from": "Web",
+                "to": "Web",
+                "count": 2400,
+                "pct": 42.55
+              },
+              {
+                "label": "Telefon",
+                "from": "Telefon",
+                "to": "Telefon",
+                "count": 1200,
+                "pct": 21.28
+              },
+              {
+                "label": "Rådgiver",
+                "from": "Rådgiver",
+                "to": "Rådgiver",
+                "count": 1112,
+                "pct": 19.72
+              },
+              {
+                "label": "Partner",
+                "from": "Partner",
+                "to": "Partner",
+                "count": 928,
+                "pct": 16.45
+              }
+            ],
+            "values": 5640,
+            "distinct": 4,
+            "shape": "concentrated",
+            "top_share_pct": 42.6
+          },
+          "min_length": 3,
+          "max_length": 8,
+          "min_value": "Partner",
+          "min_count": 928,
+          "max_value": "Web",
+          "max_count": 2400,
+          "rare_value": {
+            "value": "Partner",
+            "count": 928
+          },
+          "top_values": [
+            {
+              "value": "Web",
+              "count": 2400
+            },
+            {
+              "value": "Telefon",
+              "count": 1200
+            },
+            {
+              "value": "Rådgiver",
+              "count": 1112
+            },
+            {
+              "value": "Partner",
+              "count": 928
+            }
+          ]
+        }
+      ],
+      "sample_rows": [
+        [
+          "700174",
+          "DK-2022-100174",
+          "100095",
+          "2",
+          "",
+          "2022-03-19",
+          "2023-12-06",
+          "Opsagt",
+          "Ikke længere behov",
+          "Månedlig",
+          "Web"
+        ],
+        [
+          "702454",
+          "DK-2012-102454",
+          "101305",
+          "4",
+          "",
+          "2012-03-24",
+          "",
+          "Aktiv",
+          "",
+          "Årlig",
+          "Web"
+        ],
+        [
+          "702467",
+          "DK-2022-102467",
+          "101312",
+          "3",
+          "51217",
+          "2022-02-28",
+          "",
+          "Aktiv",
+          "",
+          "Årlig",
+          "Partner"
+        ],
+        [
+          "702847",
+          "DK-2024-102847",
+          "101516",
+          "5",
+          "",
+          "2024-09-24",
+          "",
+          "Aktiv",
+          "",
+          "Månedlig",
+          "Partner"
+        ],
+        [
+          "703693",
+          "DK-2017-103693",
+          "101970",
+          "1",
+          "51823",
+          "2017-05-01",
+          "",
+          "Aktiv",
+          "",
+          "Månedlig",
+          "Telefon"
+        ]
+      ],
+      "keys": {
+        "rows_checked": 5640,
+        "sampled": false,
+        "unique_columns": [
+          "PolicyID",
+          "PolicyNumber"
+        ],
+        "unique_combinations": [
+          {
+            "columns": [
+              "CustomerID",
+              "ProductID",
+              "StartDate"
+            ],
+            "rows": 5640
+          },
+          {
+            "columns": [
+              "CustomerID",
+              "InsuredAddressID",
+              "StartDate"
+            ],
+            "rows": 5640
+          }
+        ],
+        "closest_combinations": [
+          {
+            "columns": [
+              "CustomerID",
+              "StartDate"
+            ],
+            "distinct": 5638,
+            "rows": 5640
+          },
+          {
+            "columns": [
+              "CustomerID",
+              "StartDate",
+              "EndDate"
+            ],
+            "distinct": 5638,
+            "rows": 5640
+          },
+          {
+            "columns": [
+              "CustomerID",
+              "ProductID",
+              "EndDate"
+            ],
+            "distinct": 5587,
+            "rows": 5640
+          },
+          {
+            "columns": [
+              "CustomerID",
+              "ProductID"
+            ],
+            "distinct": 5579,
+            "rows": 5640
+          },
+          {
+            "columns": [
+              "CustomerID",
+              "ProductID",
+              "InsuredAddressID"
+            ],
+            "distinct": 5579,
+            "rows": 5640
+          }
+        ],
+        "identifier_pairs": [
+          {
+            "a": "PolicyID",
+            "b": "PolicyNumber",
+            "kind": "one-to-one",
+            "a_distinct": 5640,
+            "b_distinct": 5640,
+            "a_with_several_b": 0,
+            "b_with_several_a": 0
+          },
+          {
+            "a": "PolicyID",
+            "b": "CustomerID",
+            "kind": "many-to-one",
+            "a_distinct": 5640,
+            "b_distinct": 3000,
+            "a_with_several_b": 0,
+            "b_with_several_a": 1753
+          },
+          {
+            "a": "PolicyID",
+            "b": "ProductID",
+            "kind": "many-to-one",
+            "a_distinct": 5640,
+            "b_distinct": 6,
+            "a_with_several_b": 0,
+            "b_with_several_a": 6
+          },
+          {
+            "a": "PolicyID",
+            "b": "InsuredAddressID",
+            "kind": "many-to-one",
+            "a_distinct": 2605,
+            "b_distinct": 2047,
+            "a_with_several_b": 0,
+            "b_with_several_a": 486
+          },
+          {
+            "a": "PolicyNumber",
+            "b": "CustomerID",
+            "kind": "many-to-one",
+            "a_distinct": 5640,
+            "b_distinct": 3000,
+            "a_with_several_b": 0,
+            "b_with_several_a": 1753
+          },
+          {
+            "a": "PolicyNumber",
+            "b": "ProductID",
+            "kind": "many-to-one",
+            "a_distinct": 5640,
+            "b_distinct": 6,
+            "a_with_several_b": 0,
+            "b_with_several_a": 6
+          },
+          {
+            "a": "PolicyNumber",
+            "b": "InsuredAddressID",
+            "kind": "many-to-one",
+            "a_distinct": 2605,
+            "b_distinct": 2047,
+            "a_with_several_b": 0,
+            "b_with_several_a": 486
+          },
+          {
+            "a": "CustomerID",
+            "b": "ProductID",
+            "kind": "many-to-many",
+            "a_distinct": 3000,
+            "b_distinct": 6,
+            "a_with_several_b": 1738,
+            "b_with_several_a": 6
+          },
+          {
+            "a": "CustomerID",
+            "b": "InsuredAddressID",
+            "kind": "many-to-many",
+            "a_distinct": 2142,
+            "b_distinct": 2047,
+            "a_with_several_b": 35,
+            "b_with_several_a": 110
+          },
+          {
+            "a": "ProductID",
+            "b": "InsuredAddressID",
+            "kind": "many-to-many",
+            "a_distinct": 2,
+            "b_distinct": 2047,
+            "a_with_several_b": 2,
+            "b_with_several_a": 454
+          }
+        ]
+      },
+      "slug": "policies"
+    },
+    {
+      "name": "PolicyCoverages",
+      "row_count": 20787,
+      "profiled_rows": 20787,
+      "sampled": false,
+      "column_count": 5,
+      "duplicate_rows": 0,
+      "details": {
+        "file": "PolicyCoverages.csv",
+        "encoding": "utf-8",
+        "delimiter": ","
+      },
+      "columns": [
+        {
+          "name": "PolicyID",
+          "position": 1,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 5640,
+          "all_values_unique": false,
+          "min": 700001,
+          "max": 705640,
+          "mean": 702826.5927,
+          "min_value": "700001",
+          "min_count": 3,
+          "max_value": "705640",
+          "max_count": 5,
+          "rare_value": {
+            "value": "700009",
+            "count": 2
+          },
+          "top_values": [
+            {
+              "value": "700028",
+              "count": 6
+            },
+            {
+              "value": "700043",
+              "count": 6
+            },
+            {
+              "value": "700059",
+              "count": 6
+            },
+            {
+              "value": "700061",
+              "count": 6
+            },
+            {
+              "value": "700067",
+              "count": 6
+            }
+          ]
+        },
+        {
+          "name": "CoverageID",
+          "position": 2,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 29,
+          "all_values_unique": false,
+          "min": 1,
+          "max": 29,
+          "mean": 10.3699,
+          "min_value": "1",
+          "min_count": 1683,
+          "max_value": "29",
+          "max_count": 108,
+          "rare_value": {
+            "value": "29",
+            "count": 108
+          },
+          "top_values": [
+            {
+              "value": "1",
+              "count": 1683
+            },
+            {
+              "value": "2",
+              "count": 1683
+            },
+            {
+              "value": "3",
+              "count": 1683
+            },
+            {
+              "value": "4",
+              "count": 1683
+            },
+            {
+              "value": "7",
+              "count": 1617
+            }
+          ]
+        },
+        {
+          "name": "SumInsuredDKK",
+          "position": 3,
+          "inferred_type": "integer",
+          "missing_count": 1125,
+          "missing_pct": 5.41,
+          "null_count": 0,
+          "blank_count": 1125,
+          "distinct_count": 5832,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "numeric",
+            "bins": [
+              {
+                "label": "0–499,999",
+                "from": 0,
+                "to": 500000,
+                "count": 6195,
+                "pct": 31.51
+              },
+              {
+                "label": "500,000–999,999",
+                "from": 500000,
+                "to": 1000000,
+                "count": 3302,
+                "pct": 16.79
+              },
+              {
+                "label": "1,000,000–1,499,999",
+                "from": 1000000,
+                "to": 1500000,
+                "count": 1309,
+                "pct": 6.66
+              },
+              {
+                "label": "1,500,000–1,999,999",
+                "from": 1500000,
+                "to": 2000000,
+                "count": 530,
+                "pct": 2.7
+              },
+              {
+                "label": "2,000,000–2,499,999",
+                "from": 2000000,
+                "to": 2500000,
+                "count": 466,
+                "pct": 2.37
+              },
+              {
+                "label": "2,500,000–2,999,999",
+                "from": 2500000,
+                "to": 3000000,
+                "count": 480,
+                "pct": 2.44
+              },
+              {
+                "label": "3,000,000–3,499,999",
+                "from": 3000000,
+                "to": 3500000,
+                "count": 481,
+                "pct": 2.45
+              },
+              {
+                "label": "3,500,000–3,999,999",
+                "from": 3500000,
+                "to": 4000000,
+                "count": 442,
+                "pct": 2.25
+              },
+              {
+                "label": "4,000,000–4,499,999",
+                "from": 4000000,
+                "to": 4500000,
+                "count": 459,
+                "pct": 2.33
+              },
+              {
+                "label": "4,500,000–4,999,999",
+                "from": 4500000,
+                "to": 5000000,
+                "count": 437,
+                "pct": 2.22
+              },
+              {
+                "label": "5,000,000–5,499,999",
+                "from": 5000000,
+                "to": 5500000,
+                "count": 1221,
+                "pct": 6.21
+              },
+              {
+                "label": "5,500,000–5,999,999",
+                "from": 5500000,
+                "to": 6000000,
+                "count": 671,
+                "pct": 3.41
+              },
+              {
+                "label": "6,000,000–6,499,999",
+                "from": 6000000,
+                "to": 6500000,
+                "count": 239,
+                "pct": 1.22
+              },
+              {
+                "label": "6,500,000–6,999,999",
+                "from": 6500000,
+                "to": 7000000,
+                "count": 258,
+                "pct": 1.31
+              },
+              {
+                "label": "7,000,000–7,499,999",
+                "from": 7000000,
+                "to": 7500000,
+                "count": 271,
+                "pct": 1.38
+              },
+              {
+                "label": "7,500,000–7,999,999",
+                "from": 7500000,
+                "to": 8000000,
+                "count": 262,
+                "pct": 1.33
+              },
+              {
+                "label": "8,000,000–8,499,999",
+                "from": 8000000,
+                "to": 8500000,
+                "count": 267,
+                "pct": 1.36
+              },
+              {
+                "label": "8,500,000–8,999,999",
+                "from": 8500000,
+                "to": 9000000,
+                "count": 268,
+                "pct": 1.36
+              },
+              {
+                "label": "9,000,000–9,499,999",
+                "from": 9000000,
+                "to": 9500000,
+                "count": 253,
+                "pct": 1.29
+              },
+              {
+                "label": "9,500,000–9,999,999",
+                "from": 9500000,
+                "to": 10000000,
+                "count": 1851,
+                "pct": 9.41
+              }
+            ],
+            "bin_width": 500000,
+            "values": 19662,
+            "shape": "bimodal",
+            "skewness": 0.99,
+            "median": 1053000.0,
+            "q1": 394000.0,
+            "q3": 5088500.0,
+            "iqr": 4694500.0,
+            "outliers": null,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 8.2
+          },
+          "min": 5000,
+          "max": 10000000,
+          "mean": 2975483.1655,
+          "min_value": "5000",
+          "min_count": 4,
+          "max_value": "10000000",
+          "max_count": 1617,
+          "rare_value": {
+            "value": "1022000",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "10000000",
+              "count": 1617
+            },
+            {
+              "value": "5000000",
+              "count": 522
+            },
+            {
+              "value": "14000",
+              "count": 64
+            },
+            {
+              "value": "18000",
+              "count": 61
+            },
+            {
+              "value": "38000",
+              "count": 59
+            }
+          ]
+        },
+        {
+          "name": "DeductibleDKK",
+          "position": 4,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 15,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "numeric",
+            "bins": [
+              {
+                "label": "0–499",
+                "from": 0,
+                "to": 500,
+                "count": 10881,
+                "pct": 52.35
+              },
+              {
+                "label": "500–999",
+                "from": 500,
+                "to": 1000,
+                "count": 863,
+                "pct": 4.15
+              },
+              {
+                "label": "1,000–1,499",
+                "from": 1000,
+                "to": 1500,
+                "count": 804,
+                "pct": 3.87
+              },
+              {
+                "label": "1,500–1,999",
+                "from": 1500,
+                "to": 2000,
+                "count": 2912,
+                "pct": 14.01
+              },
+              {
+                "label": "2,000–2,499",
+                "from": 2000,
+                "to": 2500,
+                "count": 643,
+                "pct": 3.09
+              },
+              {
+                "label": "2,500–2,999",
+                "from": 2500,
+                "to": 3000,
+                "count": 1200,
+                "pct": 5.77
+              },
+              {
+                "label": "3,000–3,499",
+                "from": 3000,
+                "to": 3500,
+                "count": 977,
+                "pct": 4.7
+              },
+              {
+                "label": "3,500–3,999",
+                "from": 3500,
+                "to": 4000,
+                "count": 1597,
+                "pct": 7.68
+              },
+              {
+                "label": "4,000–4,499",
+                "from": 4000,
+                "to": 4500,
+                "count": 0,
+                "pct": 0.0,
+                "gap": true
+              },
+              {
+                "label": "4,500–4,999",
+                "from": 4500,
+                "to": 5000,
+                "count": 249,
+                "pct": 1.2
+              },
+              {
+                "label": "5,000–5,499",
+                "from": 5000,
+                "to": 5500,
+                "count": 600,
+                "pct": 2.89
+              },
+              {
+                "label": "5,500–5,999",
+                "from": 5500,
+                "to": 6000,
+                "count": 0,
+                "pct": 0.0
+              },
+              {
+                "label": "above 6,000",
+                "from": 6000,
+                "to": null,
+                "count": 61,
+                "pct": 0.29,
+                "outlier": true
+              }
+            ],
+            "bin_width": 500,
+            "values": 20787,
+            "shape": "one dominant value",
+            "skewness": 1.23,
+            "median": 0.0,
+            "q1": 0.0,
+            "q3": 2250.0,
+            "iqr": 2250.0,
+            "outliers": {
+              "below": 0,
+              "above": 61,
+              "low_fence": -3375.0,
+              "high_fence": 5625.0
+            },
+            "gap_runs": 1,
+            "gap_bins": 1,
+            "top_share_pct": 52.3
+          },
+          "min": 0,
+          "max": 7500,
+          "mean": 1125.4029,
+          "min_value": "0",
+          "min_count": 10881,
+          "max_value": "7500",
+          "max_count": 61,
+          "rare_value": {
+            "value": "1125",
+            "count": 44
+          },
+          "top_values": [
+            {
+              "value": "0",
+              "count": 10881
+            },
+            {
+              "value": "1500",
+              "count": 2912
+            },
+            {
+              "value": "3500",
+              "count": 1277
+            },
+            {
+              "value": "2500",
+              "count": 1200
+            },
+            {
+              "value": "3000",
+              "count": 977
+            }
+          ]
+        },
+        {
+          "name": "AnnualPremiumDKK",
+          "position": 5,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 3211,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "numeric",
+            "bins": [
+              {
+                "label": "0–199",
+                "from": 0,
+                "to": 200,
+                "count": 1489,
+                "pct": 7.16
+              },
+              {
+                "label": "200–399",
+                "from": 200,
+                "to": 400,
+                "count": 6222,
+                "pct": 29.93
+              },
+              {
+                "label": "400–599",
+                "from": 400,
+                "to": 600,
+                "count": 4148,
+                "pct": 19.95
+              },
+              {
+                "label": "600–799",
+                "from": 600,
+                "to": 800,
+                "count": 1267,
+                "pct": 6.1
+              },
+              {
+                "label": "800–999",
+                "from": 800,
+                "to": 1000,
+                "count": 588,
+                "pct": 2.83
+              },
+              {
+                "label": "1,000–1,199",
+                "from": 1000,
+                "to": 1200,
+                "count": 727,
+                "pct": 3.5
+              },
+              {
+                "label": "1,200–1,399",
+                "from": 1200,
+                "to": 1400,
+                "count": 1302,
+                "pct": 6.26
+              },
+              {
+                "label": "1,400–1,599",
+                "from": 1400,
+                "to": 1600,
+                "count": 1222,
+                "pct": 5.88
+              },
+              {
+                "label": "1,600–1,799",
+                "from": 1600,
+                "to": 1800,
+                "count": 885,
+                "pct": 4.26
+              },
+              {
+                "label": "1,800–1,999",
+                "from": 1800,
+                "to": 2000,
+                "count": 723,
+                "pct": 3.48
+              },
+              {
+                "label": "2,000–2,199",
+                "from": 2000,
+                "to": 2200,
+                "count": 592,
+                "pct": 2.85
+              },
+              {
+                "label": "2,200–2,399",
+                "from": 2200,
+                "to": 2400,
+                "count": 395,
+                "pct": 1.9
+              },
+              {
+                "label": "2,400–2,599",
+                "from": 2400,
+                "to": 2600,
+                "count": 262,
+                "pct": 1.26
+              },
+              {
+                "label": "2,600–2,799",
+                "from": 2600,
+                "to": 2800,
+                "count": 133,
+                "pct": 0.64
+              },
+              {
+                "label": "2,800–2,999",
+                "from": 2800,
+                "to": 3000,
+                "count": 52,
+                "pct": 0.25
+              },
+              {
+                "label": "above 3,000",
+                "from": 3000,
+                "to": null,
+                "count": 780,
+                "pct": 3.75,
+                "outlier": true
+              }
+            ],
+            "bin_width": 200,
+            "values": 20787,
+            "shape": "right-skewed",
+            "skewness": 2.2,
+            "median": 495.0,
+            "q1": 330.0,
+            "q3": 1380.0,
+            "iqr": 1050.0,
+            "outliers": {
+              "below": 0,
+              "above": 780,
+              "low_fence": -1245.0,
+              "high_fence": 2955.0
+            },
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 0.3
+          },
+          "min": 68,
+          "max": 6752,
+          "mean": 933.3851,
+          "min_value": "68",
+          "min_count": 1,
+          "max_value": "6752",
+          "max_count": 1,
+          "rare_value": {
+            "value": "1000",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "410",
+              "count": 56
+            },
+            {
+              "value": "357",
+              "count": 55
+            },
+            {
+              "value": "397",
+              "count": 47
+            },
+            {
+              "value": "349",
+              "count": 46
+            },
+            {
+              "value": "411",
+              "count": 46
+            }
+          ]
+        }
+      ],
+      "sample_rows": [
+        [
+          "700200",
+          "3",
+          "1167000",
+          "2250",
+          "386"
+        ],
+        [
+          "701608",
+          "13",
+          "2237000",
+          "0",
+          "2446"
+        ],
+        [
+          "703068",
+          "11",
+          "",
+          "0",
+          "324"
+        ],
+        [
+          "703479",
+          "13",
+          "3675000",
+          "0",
+          "1972"
+        ],
+        [
+          "705253",
+          "1",
+          "1178000",
+          "0",
+          "421"
+        ]
+      ],
+      "keys": {
+        "rows_checked": 20787,
+        "sampled": false,
+        "unique_columns": [],
+        "unique_combinations": [
+          {
+            "columns": [
+              "PolicyID",
+              "CoverageID"
+            ],
+            "rows": 20787
+          }
+        ],
+        "closest_combinations": [],
+        "identifier_pairs": [
+          {
+            "a": "PolicyID",
+            "b": "CoverageID",
+            "kind": "many-to-many",
+            "a_distinct": 5640,
+            "b_distinct": 29,
+            "a_with_several_b": 5640,
+            "b_with_several_a": 29
+          }
+        ]
+      },
+      "slug": "policycoverages"
+    },
+    {
+      "name": "PostalCodes",
+      "row_count": 44,
+      "profiled_rows": 44,
+      "sampled": false,
+      "column_count": 3,
+      "duplicate_rows": 0,
+      "details": {
+        "file": "PostalCodes.csv",
+        "encoding": "utf-8",
+        "delimiter": ","
+      },
+      "columns": [
+        {
+          "name": "ZipCode",
+          "position": 1,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 44,
+          "all_values_unique": true,
+          "min": 1050,
+          "max": 9900,
+          "mean": 5249.0909,
+          "min_value": "1050",
+          "min_count": 1,
+          "max_value": "9900",
+          "max_count": 1,
+          "rare_value": {
+            "value": "1050",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "1050",
+              "count": 1
+            },
+            {
+              "value": "2100",
+              "count": 1
+            },
+            {
+              "value": "2200",
+              "count": 1
+            },
+            {
+              "value": "2300",
+              "count": 1
+            },
+            {
+              "value": "2400",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "City",
+          "position": 2,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 44,
+          "all_values_unique": true,
+          "min_length": 4,
+          "max_length": 14,
+          "min_value": "Aalborg",
+          "min_count": 1,
+          "max_value": "Viby J",
+          "max_count": 1,
+          "rare_value": {
+            "value": "Aalborg",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "København K",
+              "count": 1
+            },
+            {
+              "value": "København Ø",
+              "count": 1
+            },
+            {
+              "value": "København N",
+              "count": 1
+            },
+            {
+              "value": "København S",
+              "count": 1
+            },
+            {
+              "value": "København NV",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "Region",
+          "position": 3,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 5,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Hovedstaden",
+                "from": "Hovedstaden",
+                "to": "Hovedstaden",
+                "count": 18,
+                "pct": 40.91
+              },
+              {
+                "label": "Syddanmark",
+                "from": "Syddanmark",
+                "to": "Syddanmark",
+                "count": 8,
+                "pct": 18.18
+              },
+              {
+                "label": "Midtjylland",
+                "from": "Midtjylland",
+                "to": "Midtjylland",
+                "count": 8,
+                "pct": 18.18
+              },
+              {
+                "label": "Sjælland",
+                "from": "Sjælland",
+                "to": "Sjælland",
+                "count": 5,
+                "pct": 11.36
+              },
+              {
+                "label": "Nordjylland",
+                "from": "Nordjylland",
+                "to": "Nordjylland",
+                "count": 5,
+                "pct": 11.36
+              }
+            ],
+            "values": 44,
+            "distinct": 5,
+            "shape": "mixed",
+            "top_share_pct": 40.9
+          },
+          "min_length": 8,
+          "max_length": 11,
+          "min_value": "Hovedstaden",
+          "min_count": 18,
+          "max_value": "Syddanmark",
+          "max_count": 8,
+          "rare_value": {
+            "value": "Nordjylland",
+            "count": 5
+          },
+          "top_values": [
+            {
+              "value": "Hovedstaden",
+              "count": 18
+            },
+            {
+              "value": "Syddanmark",
+              "count": 8
+            },
+            {
+              "value": "Midtjylland",
+              "count": 8
+            },
+            {
+              "value": "Sjælland",
+              "count": 5
+            },
+            {
+              "value": "Nordjylland",
+              "count": 5
+            }
+          ]
+        }
+      ],
+      "sample_rows": [
+        [
+          "2650",
+          "Hvidovre",
+          "Hovedstaden"
+        ],
+        [
+          "5700",
+          "Svendborg",
+          "Syddanmark"
+        ],
+        [
+          "7100",
+          "Vejle",
+          "Syddanmark"
+        ],
+        [
+          "8600",
+          "Silkeborg",
+          "Midtjylland"
+        ],
+        [
+          "9000",
+          "Aalborg",
+          "Nordjylland"
+        ]
+      ],
+      "keys": {
+        "rows_checked": 44,
+        "sampled": false,
+        "unique_columns": [
+          "ZipCode",
+          "City"
+        ],
+        "unique_combinations": [],
+        "closest_combinations": [],
+        "identifier_pairs": []
+      },
+      "slug": "postalcodes"
+    },
+    {
+      "name": "PremiumInvoices",
+      "row_count": 90962,
+      "profiled_rows": 90962,
+      "sampled": false,
+      "column_count": 9,
+      "duplicate_rows": 0,
+      "details": {
+        "file": "PremiumInvoices.csv",
+        "encoding": "utf-8",
+        "delimiter": ","
+      },
+      "columns": [
+        {
+          "name": "InvoiceID",
+          "position": 1,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 90962,
+          "all_values_unique": true,
+          "min": 800001,
+          "max": 890962,
+          "mean": 845481.5,
+          "min_value": "800001",
+          "min_count": 1,
+          "max_value": "890962",
+          "max_count": 1,
+          "rare_value": {
+            "value": "800001",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "800001",
+              "count": 1
+            },
+            {
+              "value": "800002",
+              "count": 1
+            },
+            {
+              "value": "800003",
+              "count": 1
+            },
+            {
+              "value": "800004",
+              "count": 1
+            },
+            {
+              "value": "800005",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "PolicyID",
+          "position": 2,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 5594,
+          "all_values_unique": false,
+          "min": 700001,
+          "max": 705640,
+          "mean": 702515.9688,
+          "min_value": "700001",
+          "min_count": 6,
+          "max_value": "705640",
+          "max_count": 21,
+          "rare_value": {
+            "value": "700003",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "700002",
+              "count": 36
+            },
+            {
+              "value": "700006",
+              "count": 36
+            },
+            {
+              "value": "700014",
+              "count": 36
+            },
+            {
+              "value": "700017",
+              "count": 36
+            },
+            {
+              "value": "700018",
+              "count": 36
+            }
+          ]
+        },
+        {
+          "name": "InvoiceDate",
+          "position": 3,
+          "inferred_type": "date",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 913,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "time",
+            "unit": "quarter",
+            "bins": [
+              {
+                "label": "2023 Q1",
+                "from": "2023 Q1",
+                "to": "2023 Q1",
+                "count": 9164,
+                "pct": 10.07
+              },
+              {
+                "label": "2023 Q2",
+                "from": "2023 Q2",
+                "to": "2023 Q2",
+                "count": 7087,
+                "pct": 7.79
+              },
+              {
+                "label": "2023 Q3",
+                "from": "2023 Q3",
+                "to": "2023 Q3",
+                "count": 7133,
+                "pct": 7.84
+              },
+              {
+                "label": "2023 Q4",
+                "from": "2023 Q4",
+                "to": "2023 Q4",
+                "count": 7248,
+                "pct": 7.97
+              },
+              {
+                "label": "2024 Q1",
+                "from": "2024 Q1",
+                "to": "2024 Q1",
+                "count": 7328,
+                "pct": 8.06
+              },
+              {
+                "label": "2024 Q2",
+                "from": "2024 Q2",
+                "to": "2024 Q2",
+                "count": 7506,
+                "pct": 8.25
+              },
+              {
+                "label": "2024 Q3",
+                "from": "2024 Q3",
+                "to": "2024 Q3",
+                "count": 7618,
+                "pct": 8.37
+              },
+              {
+                "label": "2024 Q4",
+                "from": "2024 Q4",
+                "to": "2024 Q4",
+                "count": 7749,
+                "pct": 8.52
+              },
+              {
+                "label": "2025 Q1",
+                "from": "2025 Q1",
+                "to": "2025 Q1",
+                "count": 7900,
+                "pct": 8.68
+              },
+              {
+                "label": "2025 Q2",
+                "from": "2025 Q2",
+                "to": "2025 Q2",
+                "count": 8140,
+                "pct": 8.95
+              },
+              {
+                "label": "2025 Q3",
+                "from": "2025 Q3",
+                "to": "2025 Q3",
+                "count": 8299,
+                "pct": 9.12
+              },
+              {
+                "label": "2025 Q4",
+                "from": "2025 Q4",
+                "to": "2025 Q4",
+                "count": 5790,
+                "pct": 6.37
+              }
+            ],
+            "values": 90962,
+            "shape": "uniform",
+            "skewness": -0.07,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 10.1
+          },
+          "min": "2023-01-01",
+          "max": "2025-12-17",
+          "value_formats": [
+            "%Y-%m-%d"
+          ],
+          "min_value": "2023-01-01",
+          "min_count": 2291,
+          "max_value": "2025-12-17",
+          "max_count": 3,
+          "rare_value": {
+            "value": "2023-01-05",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "2025-10-18",
+              "count": 2783
+            },
+            {
+              "value": "2025-11-17",
+              "count": 2779
+            },
+            {
+              "value": "2025-09-17",
+              "count": 2757
+            },
+            {
+              "value": "2025-06-17",
+              "count": 2716
+            },
+            {
+              "value": "2025-08-18",
+              "count": 2684
+            }
+          ]
+        },
+        {
+          "name": "DueDate",
+          "position": 4,
+          "inferred_type": "date",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 913,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "time",
+            "unit": "quarter",
+            "bins": [
+              {
+                "label": "2023 Q1",
+                "from": "2023 Q1",
+                "to": "2023 Q1",
+                "count": 6852,
+                "pct": 7.53
+              },
+              {
+                "label": "2023 Q2",
+                "from": "2023 Q2",
+                "to": "2023 Q2",
+                "count": 7022,
+                "pct": 7.72
+              },
+              {
+                "label": "2023 Q3",
+                "from": "2023 Q3",
+                "to": "2023 Q3",
+                "count": 7103,
+                "pct": 7.81
+              },
+              {
+                "label": "2023 Q4",
+                "from": "2023 Q4",
+                "to": "2023 Q4",
+                "count": 7213,
+                "pct": 7.93
+              },
+              {
+                "label": "2024 Q1",
+                "from": "2024 Q1",
+                "to": "2024 Q1",
+                "count": 7294,
+                "pct": 8.02
+              },
+              {
+                "label": "2024 Q2",
+                "from": "2024 Q2",
+                "to": "2024 Q2",
+                "count": 7470,
+                "pct": 8.21
+              },
+              {
+                "label": "2024 Q3",
+                "from": "2024 Q3",
+                "to": "2024 Q3",
+                "count": 7564,
+                "pct": 8.32
+              },
+              {
+                "label": "2024 Q4",
+                "from": "2024 Q4",
+                "to": "2024 Q4",
+                "count": 7712,
+                "pct": 8.48
+              },
+              {
+                "label": "2025 Q1",
+                "from": "2025 Q1",
+                "to": "2025 Q1",
+                "count": 7832,
+                "pct": 8.61
+              },
+              {
+                "label": "2025 Q2",
+                "from": "2025 Q2",
+                "to": "2025 Q2",
+                "count": 8063,
+                "pct": 8.86
+              },
+              {
+                "label": "2025 Q3",
+                "from": "2025 Q3",
+                "to": "2025 Q3",
+                "count": 8260,
+                "pct": 9.08
+              },
+              {
+                "label": "2025 Q4",
+                "from": "2025 Q4",
+                "to": "2025 Q4",
+                "count": 8577,
+                "pct": 9.43
+              }
+            ],
+            "values": 90962,
+            "shape": "uniform",
+            "skewness": -0.07,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 9.4
+          },
+          "min": "2023-01-15",
+          "max": "2025-12-31",
+          "value_formats": [
+            "%Y-%m-%d"
+          ],
+          "min_value": "2023-01-15",
+          "min_count": 2291,
+          "max_value": "2025-12-31",
+          "max_count": 3,
+          "rare_value": {
+            "value": "2023-01-19",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "2025-11-01",
+              "count": 2783
+            },
+            {
+              "value": "2025-12-01",
+              "count": 2779
+            },
+            {
+              "value": "2025-10-01",
+              "count": 2757
+            },
+            {
+              "value": "2025-07-01",
+              "count": 2716
+            },
+            {
+              "value": "2025-09-01",
+              "count": 2684
+            }
+          ]
+        },
+        {
+          "name": "PeriodStart",
+          "position": 5,
+          "inferred_type": "date",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 925,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "time",
+            "unit": "quarter",
+            "bins": [
+              {
+                "label": "2023 Q1",
+                "from": "2023 Q1",
+                "to": "2023 Q1",
+                "count": 6852,
+                "pct": 7.53
+              },
+              {
+                "label": "2023 Q2",
+                "from": "2023 Q2",
+                "to": "2023 Q2",
+                "count": 7022,
+                "pct": 7.72
+              },
+              {
+                "label": "2023 Q3",
+                "from": "2023 Q3",
+                "to": "2023 Q3",
+                "count": 7103,
+                "pct": 7.81
+              },
+              {
+                "label": "2023 Q4",
+                "from": "2023 Q4",
+                "to": "2023 Q4",
+                "count": 7213,
+                "pct": 7.93
+              },
+              {
+                "label": "2024 Q1",
+                "from": "2024 Q1",
+                "to": "2024 Q1",
+                "count": 7294,
+                "pct": 8.02
+              },
+              {
+                "label": "2024 Q2",
+                "from": "2024 Q2",
+                "to": "2024 Q2",
+                "count": 7470,
+                "pct": 8.21
+              },
+              {
+                "label": "2024 Q3",
+                "from": "2024 Q3",
+                "to": "2024 Q3",
+                "count": 7564,
+                "pct": 8.32
+              },
+              {
+                "label": "2024 Q4",
+                "from": "2024 Q4",
+                "to": "2024 Q4",
+                "count": 7712,
+                "pct": 8.48
+              },
+              {
+                "label": "2025 Q1",
+                "from": "2025 Q1",
+                "to": "2025 Q1",
+                "count": 7832,
+                "pct": 8.61
+              },
+              {
+                "label": "2025 Q2",
+                "from": "2025 Q2",
+                "to": "2025 Q2",
+                "count": 8063,
+                "pct": 8.86
+              },
+              {
+                "label": "2025 Q3",
+                "from": "2025 Q3",
+                "to": "2025 Q3",
+                "count": 8260,
+                "pct": 9.08
+              },
+              {
+                "label": "2025 Q4",
+                "from": "2025 Q4",
+                "to": "2025 Q4",
+                "count": 8577,
+                "pct": 9.43
+              }
+            ],
+            "values": 90962,
+            "shape": "uniform",
+            "skewness": -0.08,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 9.4
+          },
+          "min": "2023-01-01",
+          "max": "2025-12-31",
+          "value_formats": [
+            "%Y-%m-%d"
+          ],
+          "min_value": "2023-01-01",
+          "min_count": 2272,
+          "max_value": "2025-12-31",
+          "max_count": 3,
+          "rare_value": {
+            "value": "2023-01-04",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "2025-11-01",
+              "count": 2783
+            },
+            {
+              "value": "2025-12-01",
+              "count": 2779
+            },
+            {
+              "value": "2025-10-01",
+              "count": 2757
+            },
+            {
+              "value": "2025-07-01",
+              "count": 2716
+            },
+            {
+              "value": "2025-09-01",
+              "count": 2684
+            }
+          ]
+        },
+        {
+          "name": "PeriodEnd",
+          "position": 6,
+          "inferred_type": "date",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 559,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "time",
+            "unit": "quarter",
+            "bins": [
+              {
+                "label": "2023 Q1",
+                "from": "2023 Q1",
+                "to": "2023 Q1",
+                "count": 6163,
+                "pct": 6.78
+              },
+              {
+                "label": "2023 Q2",
+                "from": "2023 Q2",
+                "to": "2023 Q2",
+                "count": 6681,
+                "pct": 7.34
+              },
+              {
+                "label": "2023 Q3",
+                "from": "2023 Q3",
+                "to": "2023 Q3",
+                "count": 6886,
+                "pct": 7.57
+              },
+              {
+                "label": "2023 Q4",
+                "from": "2023 Q4",
+                "to": "2023 Q4",
+                "count": 7052,
+                "pct": 7.75
+              },
+              {
+                "label": "2024 Q1",
+                "from": "2024 Q1",
+                "to": "2024 Q1",
+                "count": 7255,
+                "pct": 7.98
+              },
+              {
+                "label": "2024 Q2",
+                "from": "2024 Q2",
+                "to": "2024 Q2",
+                "count": 7427,
+                "pct": 8.16
+              },
+              {
+                "label": "2024 Q3",
+                "from": "2024 Q3",
+                "to": "2024 Q3",
+                "count": 7533,
+                "pct": 8.28
+              },
+              {
+                "label": "2024 Q4",
+                "from": "2024 Q4",
+                "to": "2024 Q4",
+                "count": 7708,
+                "pct": 8.47
+              },
+              {
+                "label": "2025 Q1",
+                "from": "2025 Q1",
+                "to": "2025 Q1",
+                "count": 7796,
+                "pct": 8.57
+              },
+              {
+                "label": "2025 Q2",
+                "from": "2025 Q2",
+                "to": "2025 Q2",
+                "count": 8024,
+                "pct": 8.82
+              },
+              {
+                "label": "2025 Q3",
+                "from": "2025 Q3",
+                "to": "2025 Q3",
+                "count": 8185,
+                "pct": 9.0
+              },
+              {
+                "label": "2025 Q4",
+                "from": "2025 Q4",
+                "to": "2025 Q4",
+                "count": 8553,
+                "pct": 9.4
+              },
+              {
+                "label": "2026 Q1",
+                "from": "2026 Q1",
+                "to": "2026 Q1",
+                "count": 815,
+                "pct": 0.9
+              },
+              {
+                "label": "2026 Q2",
+                "from": "2026 Q2",
+                "to": "2026 Q2",
+                "count": 384,
+                "pct": 0.42
+              },
+              {
+                "label": "2026 Q3",
+                "from": "2026 Q3",
+                "to": "2026 Q3",
+                "count": 265,
+                "pct": 0.29
+              },
+              {
+                "label": "2026 Q4",
+                "from": "2026 Q4",
+                "to": "2026 Q4",
+                "count": 235,
+                "pct": 0.26
+              }
+            ],
+            "values": 90962,
+            "shape": "symmetric",
+            "skewness": -0.04,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 9.4
+          },
+          "min": "2023-01-09",
+          "max": "2026-11-30",
+          "value_formats": [
+            "%Y-%m-%d"
+          ],
+          "min_value": "2023-01-09",
+          "min_count": 1,
+          "max_value": "2026-11-30",
+          "max_count": 111,
+          "rare_value": {
+            "value": "2023-01-09",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "2025-12-31",
+              "count": 2896
+            },
+            {
+              "value": "2025-10-31",
+              "count": 2782
+            },
+            {
+              "value": "2025-11-30",
+              "count": 2777
+            },
+            {
+              "value": "2025-09-30",
+              "count": 2756
+            },
+            {
+              "value": "2025-06-30",
+              "count": 2713
+            }
+          ]
+        },
+        {
+          "name": "AmountDKK",
+          "position": 7,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 2324,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "numeric",
+            "bins": [
+              {
+                "label": "0–99",
+                "from": 0,
+                "to": 100,
+                "count": 7022,
+                "pct": 7.72
+              },
+              {
+                "label": "100–199",
+                "from": 100,
+                "to": 200,
+                "count": 29888,
+                "pct": 32.86
+              },
+              {
+                "label": "200–299",
+                "from": 200,
+                "to": 300,
+                "count": 10330,
+                "pct": 11.36
+              },
+              {
+                "label": "300–399",
+                "from": 300,
+                "to": 400,
+                "count": 10061,
+                "pct": 11.06
+              },
+              {
+                "label": "400–499",
+                "from": 400,
+                "to": 500,
+                "count": 12066,
+                "pct": 13.26
+              },
+              {
+                "label": "500–599",
+                "from": 500,
+                "to": 600,
+                "count": 9633,
+                "pct": 10.59
+              },
+              {
+                "label": "600–699",
+                "from": 600,
+                "to": 700,
+                "count": 3330,
+                "pct": 3.66
+              },
+              {
+                "label": "700–799",
+                "from": 700,
+                "to": 800,
+                "count": 1179,
+                "pct": 1.3
+              },
+              {
+                "label": "800–899",
+                "from": 800,
+                "to": 900,
+                "count": 522,
+                "pct": 0.57
+              },
+              {
+                "label": "900–999",
+                "from": 900,
+                "to": 1000,
+                "count": 502,
+                "pct": 0.55
+              },
+              {
+                "label": "1,000–1,099",
+                "from": 1000,
+                "to": 1100,
+                "count": 44,
+                "pct": 0.05
+              },
+              {
+                "label": "above 1,100",
+                "from": 1100,
+                "to": null,
+                "count": 6385,
+                "pct": 7.02,
+                "outlier": true
+              }
+            ],
+            "bin_width": 100,
+            "values": 90962,
+            "shape": "right-skewed",
+            "skewness": 5.78,
+            "median": 280.0,
+            "q1": 148.0,
+            "q3": 490.0,
+            "iqr": 342.0,
+            "outliers": {
+              "below": 0,
+              "above": 6385,
+              "low_fence": -365.0,
+              "high_fence": 1003.0
+            },
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 0.7
+          },
+          "min": 2,
+          "max": 9524,
+          "mean": 464.3061,
+          "min_value": "2",
+          "min_count": 1,
+          "max_value": "9524",
+          "max_count": 3,
+          "rare_value": {
+            "value": "1000",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "134",
+              "count": 593
+            },
+            {
+              "value": "158",
+              "count": 585
+            },
+            {
+              "value": "147",
+              "count": 551
+            },
+            {
+              "value": "138",
+              "count": 550
+            },
+            {
+              "value": "161",
+              "count": 523
+            }
+          ]
+        },
+        {
+          "name": "PaidDate",
+          "position": 8,
+          "inferred_type": "date",
+          "missing_count": 1455,
+          "missing_pct": 1.6,
+          "null_count": 0,
+          "blank_count": 1455,
+          "distinct_count": 1096,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "time",
+            "unit": "quarter",
+            "bins": [
+              {
+                "label": "2023 Q1",
+                "from": "2023 Q1",
+                "to": "2023 Q1",
+                "count": 8715,
+                "pct": 9.74
+              },
+              {
+                "label": "2023 Q2",
+                "from": "2023 Q2",
+                "to": "2023 Q2",
+                "count": 6940,
+                "pct": 7.75
+              },
+              {
+                "label": "2023 Q3",
+                "from": "2023 Q3",
+                "to": "2023 Q3",
+                "count": 7055,
+                "pct": 7.88
+              },
+              {
+                "label": "2023 Q4",
+                "from": "2023 Q4",
+                "to": "2023 Q4",
+                "count": 7145,
+                "pct": 7.98
+              },
+              {
+                "label": "2024 Q1",
+                "from": "2024 Q1",
+                "to": "2024 Q1",
+                "count": 7159,
+                "pct": 8.0
+              },
+              {
+                "label": "2024 Q2",
+                "from": "2024 Q2",
+                "to": "2024 Q2",
+                "count": 7425,
+                "pct": 8.3
+              },
+              {
+                "label": "2024 Q3",
+                "from": "2024 Q3",
+                "to": "2024 Q3",
+                "count": 7474,
+                "pct": 8.35
+              },
+              {
+                "label": "2024 Q4",
+                "from": "2024 Q4",
+                "to": "2024 Q4",
+                "count": 7639,
+                "pct": 8.53
+              },
+              {
+                "label": "2025 Q1",
+                "from": "2025 Q1",
+                "to": "2025 Q1",
+                "count": 7777,
+                "pct": 8.69
+              },
+              {
+                "label": "2025 Q2",
+                "from": "2025 Q2",
+                "to": "2025 Q2",
+                "count": 7966,
+                "pct": 8.9
+              },
+              {
+                "label": "2025 Q3",
+                "from": "2025 Q3",
+                "to": "2025 Q3",
+                "count": 8170,
+                "pct": 9.13
+              },
+              {
+                "label": "2025 Q4",
+                "from": "2025 Q4",
+                "to": "2025 Q4",
+                "count": 6042,
+                "pct": 6.75
+              }
+            ],
+            "values": 89507,
+            "shape": "uniform",
+            "skewness": -0.07,
+            "gap_runs": 0,
+            "gap_bins": 0,
+            "top_share_pct": 9.7
+          },
+          "min": "2023-01-01",
+          "max": "2025-12-31",
+          "value_formats": [
+            "%Y-%m-%d"
+          ],
+          "min_value": "2023-01-01",
+          "min_count": 155,
+          "max_value": "2025-12-31",
+          "max_count": 5,
+          "rare_value": {
+            "value": "2023-01-16",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "2025-11-20",
+              "count": 210
+            },
+            {
+              "value": "2025-10-24",
+              "count": 205
+            },
+            {
+              "value": "2025-06-21",
+              "count": 205
+            },
+            {
+              "value": "2025-10-31",
+              "count": 201
+            },
+            {
+              "value": "2025-11-18",
+              "count": 201
+            }
+          ]
+        },
+        {
+          "name": "InvoiceStatus",
+          "position": 9,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 3,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Betalt",
+                "from": "Betalt",
+                "to": "Betalt",
+                "count": 89507,
+                "pct": 98.4
+              },
+              {
+                "label": "Forfalden",
+                "from": "Forfalden",
+                "to": "Forfalden",
+                "count": 1410,
+                "pct": 1.55
+              },
+              {
+                "label": "Åben",
+                "from": "Åben",
+                "to": "Åben",
+                "count": 45,
+                "pct": 0.05
+              }
+            ],
+            "values": 90962,
+            "distinct": 3,
+            "shape": "one dominant value",
+            "top_share_pct": 98.4
+          },
+          "min_length": 4,
+          "max_length": 9,
+          "min_value": "Betalt",
+          "min_count": 89507,
+          "max_value": "Åben",
+          "max_count": 45,
+          "rare_value": {
+            "value": "Åben",
+            "count": 45
+          },
+          "top_values": [
+            {
+              "value": "Betalt",
+              "count": 89507
+            },
+            {
+              "value": "Forfalden",
+              "count": 1410
+            },
+            {
+              "value": "Åben",
+              "count": 45
+            }
+          ]
+        }
+      ],
+      "sample_rows": [
+        [
+          "834380",
+          "701883",
+          "2025-11-17",
+          "2025-12-01",
+          "2025-12-01",
+          "2025-12-31",
+          "207",
+          "2025-11-28",
+          "Betalt"
+        ],
+        [
+          "841469",
+          "702235",
+          "2023-06-17",
+          "2023-07-01",
+          "2023-07-01",
+          "2023-07-31",
+          "509",
+          "2023-06-19",
+          "Betalt"
+        ],
+        [
+          "854022",
+          "702920",
+          "2023-02-15",
+          "2023-03-01",
+          "2023-03-01",
+          "2023-03-31",
+          "154",
+          "2023-02-19",
+          "Betalt"
+        ],
+        [
+          "876692",
+          "704168",
+          "2023-12-18",
+          "2024-01-01",
+          "2024-01-01",
+          "2024-01-31",
+          "129",
+          "2023-12-31",
+          "Betalt"
+        ],
+        [
+          "882999",
+          "704696",
+          "2023-10-09",
+          "2023-10-23",
+          "2023-10-23",
+          "2024-03-31",
+          "1426",
+          "2023-10-09",
+          "Betalt"
+        ]
+      ],
+      "keys": {
+        "rows_checked": 50000,
+        "sampled": true,
+        "unique_columns": [
+          "InvoiceID"
+        ],
+        "unique_combinations": [
+          {
+            "columns": [
+              "PolicyID",
+              "InvoiceDate"
+            ],
+            "rows": 50000
+          },
+          {
+            "columns": [
+              "PolicyID",
+              "DueDate"
+            ],
+            "rows": 50000
+          },
+          {
+            "columns": [
+              "PolicyID",
+              "PeriodStart"
+            ],
+            "rows": 50000
+          },
+          {
+            "columns": [
+              "PolicyID",
+              "PeriodEnd"
+            ],
+            "rows": 50000
+          }
+        ],
+        "closest_combinations": [
+          {
+            "columns": [
+              "PolicyID",
+              "PaidDate"
+            ],
+            "distinct": 49774,
+            "rows": 50000
+          }
+        ],
+        "identifier_pairs": [
+          {
+            "a": "InvoiceID",
+            "b": "PolicyID",
+            "kind": "many-to-one",
+            "a_distinct": 50000,
+            "b_distinct": 2664,
+            "a_with_several_b": 0,
+            "b_with_several_a": 2547
+          }
+        ]
+      },
+      "slug": "premiuminvoices"
+    },
+    {
+      "name": "Products",
+      "row_count": 6,
+      "profiled_rows": 6,
+      "sampled": false,
+      "column_count": 3,
+      "duplicate_rows": 0,
+      "details": {
+        "file": "Products.csv",
+        "encoding": "utf-8",
+        "delimiter": ","
+      },
+      "columns": [
+        {
+          "name": "ProductID",
+          "position": 1,
+          "inferred_type": "integer",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 6,
+          "all_values_unique": true,
+          "min": 1,
+          "max": 6,
+          "mean": 3.5,
+          "min_value": "1",
+          "min_count": 1,
+          "max_value": "6",
+          "max_count": 1,
+          "rare_value": {
+            "value": "1",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "1",
+              "count": 1
+            },
+            {
+              "value": "2",
+              "count": 1
+            },
+            {
+              "value": "3",
+              "count": 1
+            },
+            {
+              "value": "4",
+              "count": 1
+            },
+            {
+              "value": "5",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "ProductName",
+          "position": 2,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 6,
+          "all_values_unique": true,
+          "min_length": 13,
+          "max_length": 17,
+          "min_value": "Bilforsikring",
+          "min_count": 1,
+          "max_value": "Ulykkesforsikring",
+          "max_count": 1,
+          "rare_value": {
+            "value": "Bilforsikring",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "Indboforsikring",
+              "count": 1
+            },
+            {
+              "value": "Bilforsikring",
+              "count": 1
+            },
+            {
+              "value": "Husforsikring",
+              "count": 1
+            },
+            {
+              "value": "Ulykkesforsikring",
+              "count": 1
+            },
+            {
+              "value": "Rejseforsikring",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "name": "ProductCategory",
+          "position": 3,
+          "inferred_type": "text",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "null_count": 0,
+          "blank_count": 0,
+          "distinct_count": 4,
+          "all_values_unique": false,
+          "distribution": {
+            "kind": "categories",
+            "bins": [
+              {
+                "label": "Other (4 values)",
+                "from": null,
+                "to": null,
+                "count": 6,
+                "pct": 100.0,
+                "other_group": true
+              }
+            ],
+            "values": 6,
+            "distinct": 4,
+            "shape": "concentrated",
+            "top_share_pct": 33.3
+          },
+          "min_length": 3,
+          "max_length": 6,
+          "min_value": "Bil",
+          "min_count": 1,
+          "max_value": "Person",
+          "max_count": 2,
+          "rare_value": {
+            "value": "Bil",
+            "count": 1
+          },
+          "top_values": [
+            {
+              "value": "Bolig",
+              "count": 2
+            },
+            {
+              "value": "Person",
+              "count": 2
+            },
+            {
+              "value": "Bil",
+              "count": 1
+            },
+            {
+              "value": "Dyr",
+              "count": 1
+            }
+          ]
+        }
+      ],
+      "sample_rows": [
+        [
+          "1",
+          "Indboforsikring",
+          "Bolig"
+        ],
+        [
+          "3",
+          "Husforsikring",
+          "Bolig"
+        ],
+        [
+          "4",
+          "Ulykkesforsikring",
+          "Person"
+        ],
+        [
+          "5",
+          "Rejseforsikring",
+          "Person"
+        ],
+        [
+          "6",
+          "Dyreforsikring",
+          "Dyr"
+        ]
+      ],
+      "keys": {
+        "rows_checked": 6,
+        "sampled": false,
+        "unique_columns": [
+          "ProductID",
+          "ProductName"
+        ],
+        "unique_combinations": [],
+        "closest_combinations": [],
+        "identifier_pairs": []
+      },
+      "slug": "products"
+    }
+  ],
+  "relationships": [
+    {
+      "from_table": "Addresses",
+      "from_column": "ZipCode",
+      "to_table": "PostalCodes",
+      "to_column": "ZipCode",
+      "matched_values": 2860,
+      "checked_values": 2860,
+      "coverage_pct": 100.0,
+      "sampled": false
+    },
+    {
+      "from_table": "ClaimPayments",
+      "from_column": "ClaimID",
+      "to_table": "Claims",
+      "to_column": "ClaimID",
+      "matched_values": 956,
+      "checked_values": 956,
+      "coverage_pct": 100.0,
+      "sampled": false
+    },
+    {
+      "from_table": "ClaimPayments",
+      "from_column": "CoverageID",
+      "to_table": "Coverages",
+      "to_column": "CoverageID",
+      "matched_values": 956,
+      "checked_values": 956,
+      "coverage_pct": 100.0,
+      "sampled": false
+    },
+    {
+      "from_table": "Claims",
+      "from_column": "PolicyID",
+      "to_table": "Policies",
+      "to_column": "PolicyID",
+      "matched_values": 850,
+      "checked_values": 850,
+      "coverage_pct": 100.0,
+      "sampled": false
+    },
+    {
+      "from_table": "Coverages",
+      "from_column": "ProductID",
+      "to_table": "Products",
+      "to_column": "ProductID",
+      "matched_values": 29,
+      "checked_values": 29,
+      "coverage_pct": 100.0,
+      "sampled": false
+    },
+    {
+      "from_table": "Customers",
+      "from_column": "AddressID",
+      "to_table": "Addresses",
+      "to_column": "AddressID",
+      "matched_values": 3000,
+      "checked_values": 3000,
+      "coverage_pct": 100.0,
+      "sampled": false
+    },
+    {
+      "from_table": "Policies",
+      "from_column": "CustomerID",
+      "to_table": "Customers",
+      "to_column": "CustomerID",
+      "matched_values": 5640,
+      "checked_values": 5640,
+      "coverage_pct": 100.0,
+      "sampled": false
+    },
+    {
+      "from_table": "Policies",
+      "from_column": "ProductID",
+      "to_table": "Products",
+      "to_column": "ProductID",
+      "matched_values": 5640,
+      "checked_values": 5640,
+      "coverage_pct": 100.0,
+      "sampled": false
+    },
+    {
+      "from_table": "Policies",
+      "from_column": "InsuredAddressID",
+      "to_table": "Addresses",
+      "to_column": "AddressID",
+      "matched_values": 2605,
+      "checked_values": 2605,
+      "coverage_pct": 100.0,
+      "sampled": false
+    },
+    {
+      "from_table": "PolicyCoverages",
+      "from_column": "PolicyID",
+      "to_table": "Policies",
+      "to_column": "PolicyID",
+      "matched_values": 20787,
+      "checked_values": 20787,
+      "coverage_pct": 100.0,
+      "sampled": false
+    },
+    {
+      "from_table": "PolicyCoverages",
+      "from_column": "CoverageID",
+      "to_table": "Coverages",
+      "to_column": "CoverageID",
+      "matched_values": 20787,
+      "checked_values": 20787,
+      "coverage_pct": 100.0,
+      "sampled": false
+    },
+    {
+      "from_table": "PremiumInvoices",
+      "from_column": "PolicyID",
+      "to_table": "Policies",
+      "to_column": "PolicyID",
+      "matched_values": 90962,
+      "checked_values": 90962,
+      "coverage_pct": 100.0,
+      "sampled": false
+    }
+  ]
+}

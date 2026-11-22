@@ -1,0 +1,2969 @@
+{
+  "_how_to_fill": "Fill each entry following references/writing-descriptions.md in the bi-joe-data-profiler skill. source: system_metadata | user_documentation | inferred | pending. When source is inferred, confidence (high|medium|low) and evidence are required. The description is plain business language that says more than the name does. A column name may appear in plain text where it helps, never in backticks. grain builds on it ('One row for each ...'). Suggest BEAM annotations in beam{} following references/beam-annotations-guide.md. Then run: bijoe check <dir> and bijoe render <dir>.",
+  "dataset": {
+    "summary": "Operational data of a company that manufactures and sells bicycles, parts and accessories. It covers its customers and stores, sales and purchasing, production work, products and employees. The orders and transactions run from the middle of 2022 to the middle of 2025.",
+    "source": "inferred",
+    "evidence": [
+      "Product categories are Bikes, Components, Clothing and Accessories (4 categories, 37 subcategories)",
+      "Sales orders (31,465) run from 2022-05-30 to 2025-06-29 and purchase orders (4,012) from 2022-04-15 to 2025-09-21",
+      "Work orders start between 2022-06-02 and 2025-06-01",
+      "Employees were hired between 2006 and 2013 (290 rows)",
+      "71 tables in 6 schemas: dbo, HumanResources, Person, Production, Purchasing and Sales"
+    ]
+  },
+  "tables": {
+    "dbo.AWBuildVersion": {
+      "description": "Current version number of the AdventureWorks 2025 sample database.",
+      "grain": "One row for each recorded version of this sample database; the table holds a single row, so it only describes the version that is installed",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "The column Database Version has a space in its name, so it must be quoted in queries. VersionDate (2025-10-06) and ModifiedDate (2025-11-14) are different dates, although the source comments describe both in nearly the same words.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "Only one row and one key (SystemInformationID), with no validity dates or version history, so only the current value is kept.",
+        "columns": {
+          "Database Version": {
+            "codes": [
+              "MD"
+            ],
+            "why": "The version number is the whole purpose of the table, so every row needs it."
+          }
+        }
+      }
+    },
+    "dbo.DatabaseLog": {
+      "description": "Audit table tracking all DDL changes made to the AdventureWorks database. Data is captured by the database trigger ddlDatabaseTriggerLog.",
+      "grain": "One row for each change made to the structure of the database, such as creating a table or index, with the exact statement that was run",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "All 927 rows were posted within about four minutes on 2025-11-14 (13:01 to 13:05), and 58% are CREATE_EXTENDED_PROPERTY events, which fits the one-off creation of this sample database and its documentation rather than ongoing activity. DatabaseUser is dbo in every row. XmlEvent holds 584 distinct values for 927 rows, so several changes share one event record.",
+      "beam": {
+        "table": [
+          "DE"
+        ],
+        "table_why": "One time column (PostTime) and each row is finished once the change has happened: 927 rows, none updated later.",
+        "columns": {
+          "PostTime": {
+            "codes": [
+              "MD",
+              "[when]"
+            ],
+            "why": "The moment the change happened; every row has one."
+          },
+          "DatabaseUser": {
+            "codes": [
+              "[who]"
+            ],
+            "why": "The user who ran the change; the value is dbo in all 927 rows."
+          },
+          "Event": {
+            "codes": [
+              "DC",
+              "[what]"
+            ],
+            "why": "The kind of change decides whether Schema and Object are filled: they are empty in 1.19% and 2.37% of rows, which fits events that are not about one object."
+          },
+          "Object": {
+            "codes": [
+              "[what]"
+            ],
+            "why": "The object that was changed."
+          }
+        }
+      }
+    },
+    "dbo.ErrorLog": {
+      "description": "Audit table tracking errors in the the AdventureWorks database that are caught by the CATCH block of a TRY...CATCH construct. Data is inserted by stored procedure dbo.uspLogError when it is executed from inside the CATCH block of a TRY...CATCH construct.",
+      "grain": "One row for each error that was caught and logged by the database's error handling, with the time, user, error number and message",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "The table has 0 rows, so no value, range or distribution could be measured. Everything here is based on the column names and the source system comment.",
+      "beam": {
+        "table": [
+          "DE"
+        ],
+        "table_why": "Column design only, because the table is empty: a single ErrorTime and no later milestone columns, which is how a log of finished events looks.",
+        "columns": {
+          "ErrorTime": {
+            "codes": [
+              "MD",
+              "[when]"
+            ],
+            "why": "The moment the error happened; the column is required."
+          }
+        }
+      }
+    },
+    "HumanResources.Department": {
+      "description": "Lookup table containing the departments within the Adventure Works Cycles company.",
+      "grain": "One row for each department of the company; the 16 departments are placed into 6 department groups",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each DepartmentID with no validity dates, so only the current department list is held.",
+        "columns": {
+          "DepartmentID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each department."
+          },
+          "Name": {
+            "codes": [
+              "MD"
+            ],
+            "why": "Required for every department; unique across the 16 rows."
+          },
+          "GroupName": {
+            "codes": [
+              "MD"
+            ],
+            "why": "Every department belongs to a group (6 groups, none missing)."
+          }
+        }
+      }
+    },
+    "HumanResources.Employee": {
+      "description": "Employee information such as salary, department, and title.",
+      "grain": "One row for each person who works or has worked for the company; all 290 rows are marked as currently active",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "OrganizationNode has a database type the engine could not read (shown as NULL), but its values look like paths such as /1/1/ and give the position in the reporting hierarchy; one employee has none (0.34%), which fits the top of the hierarchy. CurrentFlag is true for all 290 rows, so the table holds no former employees. ModifiedDate is a date for 287 rows and a date with time for 3.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each BusinessEntityID, with no validity dates or version columns, so only current values are kept. Earlier jobs and pay are in separate history tables.",
+        "columns": {
+          "BusinessEntityID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "Identifies the employee and is the same number as the person's row in the person tables (measured: 290 of 290 found)."
+          },
+          "NationalIDNumber": {
+            "codes": [
+              "NK"
+            ],
+            "why": "A government-issued number people use to identify an employee; unique across 290 rows. Values are masked."
+          },
+          "HireDate": {
+            "codes": [
+              "FV",
+              "MD",
+              "[when]"
+            ],
+            "why": "A hire date should not change, and every employee has one."
+          },
+          "BirthDate": {
+            "codes": [
+              "FV"
+            ],
+            "why": "A date of birth should not change."
+          },
+          "VacationHours": {
+            "codes": [
+              "SA",
+              "[hours]"
+            ],
+            "why": "A balance of hours available now, so it cannot be added up over time. The source comment says the unit is hours."
+          },
+          "SickLeaveHours": {
+            "codes": [
+              "SA",
+              "[hours]"
+            ],
+            "why": "A balance of hours available now, so it cannot be added up over time. The source comment says the unit is hours."
+          }
+        }
+      }
+    },
+    "HumanResources.EmployeeDepartmentHistory": {
+      "description": "Employee department transfers.",
+      "grain": "One row for each period an employee spent in a department on a given shift; an employee and a start date together identify a row",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "EndDate is empty in 97.97% of rows (290 of 296), which matches one current assignment for each of the 290 employees; the other 6 rows are earlier assignments that ended between 2009 and 2013. A shift is stored on each assignment, so a change of shift inside the same department would be a new row.",
+      "beam": {
+        "table": [
+          "HV"
+        ],
+        "table_why": "The same BusinessEntityID repeats (296 rows for 290 employees) with a StartDate and an EndDate, so earlier assignments are kept.",
+        "columns": {
+          "BusinessEntityID": {
+            "codes": [
+              "[HumanResources.Employee]"
+            ],
+            "why": "Measured relationship: 296 of 296 values found in the employee table."
+          },
+          "DepartmentID": {
+            "codes": [
+              "[HumanResources.Department]"
+            ],
+            "why": "Measured relationship: 296 of 296 values found."
+          },
+          "ShiftID": {
+            "codes": [
+              "[HumanResources.Shift]"
+            ],
+            "why": "Measured relationship: 296 of 296 values found."
+          },
+          "StartDate": {
+            "codes": [
+              "MD",
+              "[when]"
+            ],
+            "why": "The first day in the department; every row has one."
+          }
+        }
+      }
+    },
+    "HumanResources.EmployeePayHistory": {
+      "description": "Employee pay history.",
+      "grain": "One row for each pay rate that takes effect for an employee on a given date; an employee and the rate change date together identify a row",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "Which currency is Rate in?",
+        "PayFrequency says salary is paid monthly or every two weeks, but Rate is described as hourly. Is the rate of a salaried employee converted to an hourly amount?"
+      ],
+      "ai_notes": "The comment on Rate calls it an hourly rate, and the values (6.50 to 125.50, median 14) fit an hourly amount. 14 values are above the upper limit of 41.19 measured for outliers. PayFrequency has only the values 1 (180 rows) and 2 (136 rows), described in the source as monthly and every two weeks.",
+      "beam": {
+        "table": [
+          "HV"
+        ],
+        "table_why": "BusinessEntityID repeats (316 rows for 290 employees), each row with the date its rate took effect, so earlier rates are kept.",
+        "columns": {
+          "BusinessEntityID": {
+            "codes": [
+              "[HumanResources.Employee]"
+            ],
+            "why": "Measured relationship: 316 of 316 values found."
+          },
+          "RateChangeDate": {
+            "codes": [
+              "MD",
+              "[when]"
+            ],
+            "why": "The date the rate starts; part of the key and never empty."
+          },
+          "Rate": {
+            "codes": [
+              "NA",
+              "[per hour]"
+            ],
+            "why": "A rate, so it cannot be added up. The source comment calls it an hourly rate."
+          }
+        }
+      }
+    },
+    "HumanResources.JobCandidate": {
+      "description": "Résumés submitted to Human Resources by job applicants.",
+      "grain": "One row for each résumé submitted by a job applicant; the few applicants who were hired also carry the number of the employee they became",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "Only 2 of 13 rows (15.38%) have a BusinessEntityID, which matches the source comment that it is filled when the applicant was hired. Resume is XML in a Microsoft résumé schema and may hold personal details. 11 of 13 rows share the same ModifiedDate (2007-06-23).",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each JobCandidateID with no dates beyond the last-changed date, so only the current state of the application is held.",
+        "columns": {
+          "BusinessEntityID": {
+            "codes": [
+              "[HumanResources.Employee]"
+            ],
+            "why": "Filled only for hired applicants; both values found in the employee table (2 of 2)."
+          },
+          "Resume": {
+            "codes": [
+              "MD"
+            ],
+            "why": "Required, and every one of the 13 résumés is different."
+          }
+        }
+      }
+    },
+    "HumanResources.Shift": {
+      "description": "Work shift lookup table.",
+      "grain": "One row for each work shift, defined by a start time and an end time; the three 8-hour shifts together cover the whole day",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "Three rows, one per ShiftID, with no dates or versions.",
+        "columns": {
+          "ShiftID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each shift."
+          },
+          "Name": {
+            "codes": [
+              "MD"
+            ],
+            "why": "Required; the values are Day, Evening and Night."
+          }
+        }
+      }
+    },
+    "Person.Address": {
+      "description": "Street address information for customers, employees, and vendors.",
+      "grain": "One row for each street address, with the city, state or province and postal code it belongs to",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "PostalCode is stored as text; 120 values have leading zeros, so it must not be converted to a number. SpatialLocation is a geography value the engine could not read as a type; it was masked because its coordinates showed up as a possible card number in the checks. AddressLine2 is empty in 98.15% of rows. ModifiedDate is a date for most rows, but 1,851 rows carry the same date and time (2024-12-20 10:09:29), which looks like one bulk update.",
+      "beam": {
+        "table": [
+          "CV",
+          "RP"
+        ],
+        "table_why": "One row for each AddressID with no validity dates. Sales orders point to this table twice, as billing address and as shipping address (BillToAddressID and ShipToAddressID, both found 100%), so one table plays two roles.",
+        "columns": {
+          "AddressID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each address."
+          },
+          "AddressLine1": {
+            "codes": [
+              "MD"
+            ],
+            "why": "An address needs a street line; none is missing. Values are masked."
+          },
+          "City": {
+            "codes": [
+              "MD"
+            ],
+            "why": "Never empty in 19,614 rows."
+          },
+          "PostalCode": {
+            "codes": [
+              "MD"
+            ],
+            "why": "Never empty in 19,614 rows."
+          },
+          "StateProvinceID": {
+            "codes": [
+              "[Person.StateProvince]"
+            ],
+            "why": "Measured relationship: 19,614 of 19,614 values found."
+          }
+        }
+      }
+    },
+    "Person.AddressType": {
+      "description": "Types of addresses stored in the Address table.",
+      "grain": "One row for each purpose an address can have for a person, store or vendor, such as billing, shipping or home",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "Six rows, one per AddressTypeID, with no dates or versions.",
+        "columns": {
+          "AddressTypeID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each address type."
+          }
+        }
+      }
+    },
+    "Person.BusinessEntity": {
+      "description": "Source of the ID that connects vendors, customers, and employees with address and contact information.",
+      "grain": "One row for each identifier issued to a person, a store or a vendor, so that they can all share address and contact tables; no other facts are held",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "20,777 identifiers equals 19,972 people plus 701 stores plus 104 vendors (the row counts of those tables), so each identifier belongs to exactly one of the three kinds. The ModifiedDate values all fall within about 30 minutes on 2017-12-13.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each BusinessEntityID with no descriptive columns, dates that change or versions.",
+        "columns": {
+          "BusinessEntityID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The shared identifier that the person, store, vendor and employee tables all reuse (measured: every value in those tables is found here)."
+          }
+        }
+      }
+    },
+    "Person.BusinessEntityAddress": {
+      "description": "Cross-reference table mapping customers, vendors, and employees to their addresses.",
+      "grain": "One row for each address that a person, store or vendor has for one purpose, such as billing or shipping; an entity and an address type together identify a row",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "Only 3 of the 6 address types are used (2, 3 and 5). 18,774 rows use type 2. ModifiedDate is a date for 19,324 rows and a date with time for 290.",
+      "beam": {
+        "table": [
+          "MV"
+        ],
+        "table_why": "A link between BusinessEntityID and AddressID with an address type: 35 entities have more than one address (19,579 entities, 19,614 rows).",
+        "columns": {
+          "BusinessEntityID": {
+            "codes": [
+              "[Person.BusinessEntity]"
+            ],
+            "why": "Measured relationship: 19,614 of 19,614 values found."
+          },
+          "AddressID": {
+            "codes": [
+              "[Person.Address]"
+            ],
+            "why": "Measured relationship: 19,614 of 19,614 values found; each address is used by one row only."
+          },
+          "AddressTypeID": {
+            "codes": [
+              "[Person.AddressType]"
+            ],
+            "why": "Measured relationship: 19,614 of 19,614 values found."
+          }
+        }
+      }
+    },
+    "Person.BusinessEntityContact": {
+      "description": "Cross-reference table mapping stores, vendors, and employees to people",
+      "grain": "One row for each person who acts as a contact of a given type for a store or vendor; a person appears only once",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "753 of the 909 rows (82.84%) have a BusinessEntityID that is a store; the other rows presumably belong to vendors. PersonID is unique across all rows, so no person is a contact for two entities. The relationship from PersonID to the person table was not detected by the engine, but its source comment names the person table.",
+      "beam": {
+        "table": [
+          "MV"
+        ],
+        "table_why": "A link between BusinessEntityID (the store or vendor) and PersonID with a contact type; 82 entities have more than one contact (805 entities, 909 rows).",
+        "columns": {
+          "BusinessEntityID": {
+            "codes": [
+              "[Person.BusinessEntity]"
+            ],
+            "why": "Measured relationship: 909 of 909 values found."
+          },
+          "ContactTypeID": {
+            "codes": [
+              "[Person.ContactType]"
+            ],
+            "why": "Measured relationship: 909 of 909 values found."
+          }
+        }
+      }
+    },
+    "Person.ContactType": {
+      "description": "Lookup table containing the types of business entity contacts.",
+      "grain": "One row for each role a contact person can have at a store or vendor, such as Accounting Manager or Export Administrator",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "Twenty rows, one per ContactTypeID, with no dates or versions.",
+        "columns": {
+          "ContactTypeID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each contact type."
+          }
+        }
+      }
+    },
+    "Person.CountryRegion": {
+      "description": "Lookup table containing the ISO standard codes for countries and regions.",
+      "grain": "One row for each country or region, identified by its two-letter ISO code",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "The engine's type detection read one of the 238 codes as a boolean (a two-letter code that looks like a yes or no value). The column is text, and the code must not be converted.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each code with no dates or versions.",
+        "columns": {
+          "CountryRegionCode": {
+            "codes": [
+              "NK"
+            ],
+            "why": "The two-letter ISO code that people use to identify a country; unique across 238 rows."
+          }
+        }
+      }
+    },
+    "Person.EmailAddress": {
+      "description": "Where to send a person email.",
+      "grain": "One row for each e-mail address of a person; every person has exactly one, because the number of rows equals the number of people",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "19,972 rows, the same as the person table. The declared key is the pair BusinessEntityID and EmailAddressID, but each of them is unique on its own.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each person with no validity dates, so only the current address is kept.",
+        "columns": {
+          "EmailAddressID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The identifier of the e-mail address row itself; unique and one-to-one with the person."
+          },
+          "BusinessEntityID": {
+            "codes": [
+              "[Person.Person]"
+            ],
+            "why": "Measured relationship: 19,972 of 19,972 values found."
+          },
+          "EmailAddress": {
+            "codes": [
+              "MD"
+            ],
+            "why": "The point of the table; never empty. Values are masked."
+          }
+        }
+      }
+    },
+    "Person.Password": {
+      "description": "One way hashed authentication information",
+      "grain": "One row for each person who has sign-in credentials, holding a salted hash of the password and the salt",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "The hash and the salt are security data and are masked by the engine. The source comment on PasswordHash says it is the password for the e-mail account.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each person (BusinessEntityID unique, 19,972 rows) with no history, so only the current credential is kept.",
+        "columns": {
+          "BusinessEntityID": {
+            "codes": [
+              "[Person.Person]"
+            ],
+            "why": "Measured relationship: 19,972 of 19,972 values found."
+          },
+          "PasswordHash": {
+            "codes": [
+              "MD"
+            ],
+            "why": "Required for every row; unique. Values are masked."
+          },
+          "PasswordSalt": {
+            "codes": [
+              "MD"
+            ],
+            "why": "Required for every row; unique. Values are masked."
+          }
+        }
+      }
+    },
+    "Person.Person": {
+      "description": "Human beings involved with AdventureWorks: employees, customer contacts, and vendor contacts.",
+      "grain": "One row for each human being known to the company, whether employee, customer, store contact or vendor contact; PersonType tells which",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "PersonType is IN (individual customer) for 18,484 of 19,972 rows, SC (store contact) for 753, GC for 289 and EM (employee) for 273, according to the values and the source comment. Title is empty for 94.95% of rows and Suffix for 99.73%. NameStyle is false in every row. Demographics is XML with a survey; AdditionalContactInfo is XML and is filled for only 10 rows. The Person table's ModifiedDate has one date that covers 44.2% of rows.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each BusinessEntityID with no validity dates or version columns.",
+        "columns": {
+          "BusinessEntityID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The identifier shared with the business entity table; unique."
+          },
+          "FirstName": {
+            "codes": [
+              "MD"
+            ],
+            "why": "Never empty in 19,972 rows. Values are masked."
+          },
+          "LastName": {
+            "codes": [
+              "MD"
+            ],
+            "why": "Never empty in 19,972 rows. Values are masked."
+          },
+          "PersonType": {
+            "codes": [
+              "MD"
+            ],
+            "why": "Never empty; 6 different values, 92.55% of them IN."
+          }
+        }
+      }
+    },
+    "Person.PersonPhone": {
+      "description": "Telephone number and type of a person.",
+      "grain": "One row for each telephone number of a person, with the type of number (cell, home or work); each person has exactly one number",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "BusinessEntityID is unique across 19,972 rows and there are no validity dates, so only one current number is kept for each person.",
+        "columns": {
+          "BusinessEntityID": {
+            "codes": [
+              "[Person.Person]"
+            ],
+            "why": "Measured relationship: 19,972 of 19,972 values found."
+          },
+          "PhoneNumberTypeID": {
+            "codes": [
+              "[Person.PhoneNumberType]"
+            ],
+            "why": "Measured relationship: 19,972 of 19,972 values found."
+          },
+          "PhoneNumber": {
+            "codes": [
+              "MD"
+            ],
+            "why": "The point of the table; never empty. Values are masked."
+          }
+        }
+      }
+    },
+    "Person.PhoneNumberType": {
+      "description": "Type of phone number of a person.",
+      "grain": "One row for each kind of telephone number a person can have; the three kinds are cell, home and work",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "Three rows, one per PhoneNumberTypeID, with no dates or versions.",
+        "columns": {
+          "PhoneNumberTypeID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each phone number type."
+          }
+        }
+      }
+    },
+    "Person.StateProvince": {
+      "description": "State and province lookup table.",
+      "grain": "One row for each state or province of a country or region, with the sales territory it belongs to",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "StateProvinceCode is text and 9 values have leading zeros, so it must not be converted to a number. 96 of 181 rows are in one country (FR), which is more than half. For 8 rows IsOnlyStateProvinceFlag is true: the code is not available and the country code is used.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each StateProvinceID with no dates or versions.",
+        "columns": {
+          "StateProvinceID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each state or province."
+          },
+          "StateProvinceCode": {
+            "codes": [
+              "NK"
+            ],
+            "why": "The code people use for a state or province; unique across 181 rows."
+          },
+          "CountryRegionCode": {
+            "codes": [
+              "[Person.CountryRegion]"
+            ],
+            "why": "Measured relationship: 181 of 181 values found."
+          },
+          "TerritoryID": {
+            "codes": [
+              "[Sales.SalesTerritory]"
+            ],
+            "why": "Measured relationship: 181 of 181 values found."
+          }
+        }
+      }
+    },
+    "Production.BillOfMaterials": {
+      "description": "Items required to make bicycles and bicycle subassemblies. It identifies the heirarchical relationship between a parent product and its components.",
+      "grain": "One row for each component used in a parent product during a period, with the quantity needed; the parent, the component and the start date together identify a row",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "EndDate is empty in 92.57% of rows, so most component lines are still in use. All start and end dates fall in 2021. 96.23% of the quantities are in unit EA. The engine did not detect ProductAssemblyID and ComponentID as relationships, but the source comments name the product table for both.",
+      "beam": {
+        "table": [
+          "HM"
+        ],
+        "table_why": "Parent (ProductAssemblyID) and child (ComponentID) are both products, BOMLevel gives the depth, and 103 rows with BOMLevel 0 have no parent: a parent and child hierarchy of products.",
+        "columns": {
+          "ProductAssemblyID": {
+            "codes": [
+              "[Production.Product]"
+            ],
+            "why": "The parent product. Empty for the top level (103 rows, equal to the number of rows with BOMLevel 0)."
+          },
+          "ComponentID": {
+            "codes": [
+              "[Production.Product]"
+            ],
+            "why": "The product used as a component."
+          },
+          "UnitMeasureCode": {
+            "codes": [
+              "[Production.UnitMeasure]"
+            ],
+            "why": "Measured relationship: 2,679 of 2,679 values found."
+          },
+          "StartDate": {
+            "codes": [
+              "MD",
+              "[when]"
+            ],
+            "why": "Required; part of the unique combination."
+          }
+        }
+      }
+    },
+    "Production.Culture": {
+      "description": "Lookup table containing the languages in which some AdventureWorks data is stored.",
+      "grain": "One row for each language (with an optional country) in which product descriptions are stored; one row is the neutral language",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "CultureID is empty (12.5%, one row of 8) in the profile. That row is the invariant language, whose code is blank text; it is not a missing value. Codes are padded with spaces to 6 characters.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "Eight rows, one per CultureID, with no dates or versions.",
+        "columns": {
+          "CultureID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier (a short language code) for each language."
+          }
+        }
+      }
+    },
+    "Production.Document": {
+      "description": "Product maintenance documents.",
+      "grain": "One row for each folder or document in the product maintenance document tree, placed in the tree by DocumentNode",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "Does FolderFlag true mean a folder? The source comment says 1 is a document, but the rows with true have no file and no file extension."
+      ],
+      "ai_notes": "FolderFlag appears reversed against its comment (0 = folder, 1 = document): the 4 rows with FolderFlag true are the same number as the rows with no FileExtension (33.33%) and no Document file (33.33%), which looks like folders. DocumentNode has a type the engine could not read (shown as NULL); the values look like tree paths such as /1/1/. FileExtension is .doc for all 8 rows that have one.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each DocumentNode with no validity dates; Revision and ChangeNumber show the current version only.",
+        "columns": {
+          "DocumentNode": {
+            "codes": [
+              "BK"
+            ],
+            "why": "Position of the item in the document tree; unique across 12 rows."
+          },
+          "Title": {
+            "codes": [
+              "MD"
+            ],
+            "why": "Never empty; unique."
+          }
+        }
+      }
+    },
+    "Production.Illustration": {
+      "description": "Bicycle assembly diagrams.",
+      "grain": "One row for each drawing that shows how part of a bicycle is assembled, stored as XML",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "Diagram is XML text exported from a drawing program, between 16,441 and 41,804 characters per row. IllustrationID runs from 3 to 7, so 2 identifiers in the range are not present.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "Five rows, one per IllustrationID, with no dates or versions.",
+        "columns": {
+          "IllustrationID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each illustration."
+          }
+        }
+      }
+    },
+    "Production.Location": {
+      "description": "Product inventory and manufacturing locations.",
+      "grain": "One row for each place in the factory where products are made or stored, with the hourly cost and the working hours it has available",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "Do the 7 locations with a cost rate and an availability of 0 hold stock only, with no manufacturing?",
+        "In which currency is CostRate?"
+      ],
+      "ai_notes": "7 of 14 rows have a CostRate of 0.00 and 7 have an Availability of 0.00. This looks like places where stock is kept but no manufacturing takes place, but the data does not say so.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each LocationID with no dates or versions.",
+        "columns": {
+          "LocationID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each location."
+          },
+          "CostRate": {
+            "codes": [
+              "NA"
+            ],
+            "why": "An hourly rate, which cannot be added up."
+          },
+          "Availability": {
+            "codes": [
+              "SA",
+              "[hours]"
+            ],
+            "why": "A capacity level, not to be added over time. The source comment says it is in hours."
+          }
+        }
+      }
+    },
+    "Production.Product": {
+      "description": "Products sold or used in the manfacturing of sold products.",
+      "grain": "One row for each product, whether a finished item the company sells, a part it makes itself or a part it buys",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "Why is DiscontinuedDate empty for every product, while SellEndDate is filled for 19.44% of them?",
+        "In which currency are StandardCost and ListPrice?"
+      ],
+      "ai_notes": "200 products have both a StandardCost and a ListPrice of 0.0000. Size is text with both numbers and codes (such as 44 and S), and is empty for 58.13% of rows. DaysToManufacture is 0 for 246 rows. 55 prices lie above the outlier limit of 1,412.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each ProductID with start and end dates of selling but no history of earlier values; price and cost history is in separate tables.",
+        "columns": {
+          "ProductID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each product."
+          },
+          "ProductNumber": {
+            "codes": [
+              "NK"
+            ],
+            "why": "The code people use for a product, such as AR-5381; unique across 504 rows."
+          },
+          "Name": {
+            "codes": [
+              "MD"
+            ],
+            "why": "Never empty; unique."
+          },
+          "FinishedGoodsFlag": {
+            "codes": [
+              "DC"
+            ],
+            "why": "ProductSubcategoryID and ProductModelID are empty in 209 rows, the same number as the rows where this flag is false (209), so the flag appears to decide whether they apply."
+          },
+          "StandardCost": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A cost of one unit, which cannot be added up."
+          },
+          "ListPrice": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A unit price, which is always non-additive."
+          },
+          "ProductSubcategoryID": {
+            "codes": [
+              "[Production.ProductSubcategory]"
+            ],
+            "why": "Measured relationship: 295 of 295 values found."
+          },
+          "ProductModelID": {
+            "codes": [
+              "[Production.ProductModel]"
+            ],
+            "why": "Measured relationship: 295 of 295 values found."
+          },
+          "SizeUnitMeasureCode": {
+            "codes": [
+              "[Production.UnitMeasure]"
+            ],
+            "why": "Measured relationship: 176 of 176 values found."
+          },
+          "WeightUnitMeasureCode": {
+            "codes": [
+              "[Production.UnitMeasure]"
+            ],
+            "why": "Measured relationship: 205 of 205 values found."
+          },
+          "DiscontinuedDate": {
+            "codes": [
+              "?"
+            ],
+            "why": "Empty in all 504 rows."
+          }
+        }
+      }
+    },
+    "Production.ProductCategory": {
+      "description": "High-level product categorization.",
+      "grain": "One row for each top-level product category; the four categories are Bikes, Components, Clothing and Accessories",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "Four rows, one per ProductCategoryID, with no dates or versions.",
+        "columns": {
+          "ProductCategoryID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each category."
+          }
+        }
+      }
+    },
+    "Production.ProductCostHistory": {
+      "description": "Changes in the cost of a product over time.",
+      "grain": "One row for each standard cost a product had during a period; a product and a start date together identify a row",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "In which currency is StandardCost?"
+      ],
+      "ai_notes": "EndDate is empty in 49.37% of rows (195 of 395), the same count as the rows with the latest StartDate, so those rows hold the current cost. Only products with a ProductID from 707 to 999 appear (293 products).",
+      "beam": {
+        "table": [
+          "HV"
+        ],
+        "table_why": "ProductID repeats (395 rows, 293 products), each row with a StartDate and an EndDate.",
+        "columns": {
+          "ProductID": {
+            "codes": [
+              "[Production.Product]"
+            ],
+            "why": "Measured relationship: 395 of 395 values found."
+          },
+          "StartDate": {
+            "codes": [
+              "MD",
+              "[when]"
+            ],
+            "why": "Required; part of the key."
+          },
+          "StandardCost": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A unit cost, which cannot be added up."
+          }
+        }
+      }
+    },
+    "Production.ProductDescription": {
+      "description": "Product descriptions in several languages.",
+      "grain": "One row for each piece of description text for a product, written in one language; the product model and the language are in a separate link table",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "762 descriptions equal 127 product models times 6 languages. Some texts are the same in more than one row (733 distinct values in 762 rows).",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each ProductDescriptionID with no dates or versions.",
+        "columns": {
+          "ProductDescriptionID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each description."
+          },
+          "Description": {
+            "codes": [
+              "MD"
+            ],
+            "why": "Never empty."
+          }
+        }
+      }
+    },
+    "Production.ProductDocument": {
+      "description": "Cross-reference table mapping products to related product documents.",
+      "grain": "One row for each document that is linked to a product; a product can have several documents and a document can serve several products",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "DocumentNode has a type the engine could not read (shown as NULL). Because of that, the engine found no unique combination of columns, although the declared key is ProductID with DocumentNode.",
+      "beam": {
+        "table": [
+          "MV"
+        ],
+        "table_why": "A link between ProductID and DocumentNode with no other columns; the product 506 appears twice, and the document /2/1/ is linked to 10 rows.",
+        "columns": {
+          "ProductID": {
+            "codes": [
+              "[Production.Product]"
+            ],
+            "why": "Measured relationship: 32 of 32 values found."
+          },
+          "DocumentNode": {
+            "codes": [
+              "[Production.Document]"
+            ],
+            "why": "Measured relationship: 32 of 32 values found."
+          }
+        }
+      }
+    },
+    "Production.ProductInventory": {
+      "description": "Product inventory information.",
+      "grain": "One row for each product stored in a location, with the shelf, the bin and the quantity on hand; a product and a location together identify a row",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "Shelf is N/A for 27.13% of rows (290), and Bin is 0 for 328 rows, so a shelf and bin are often not recorded. Quantity runs from 0 to 924, and the middle half lies between 140 and 481. 432 of the 504 products appear in this table.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each product and location pair, with no date column that would make it a series, so only the current stock is held.",
+        "columns": {
+          "ProductID": {
+            "codes": [
+              "[Production.Product]"
+            ],
+            "why": "Measured relationship: 1,069 of 1,069 values found."
+          },
+          "LocationID": {
+            "codes": [
+              "[Production.Location]"
+            ],
+            "why": "Measured relationship: 1,069 of 1,069 values found."
+          },
+          "Quantity": {
+            "codes": [
+              "SA"
+            ],
+            "why": "A stock level, which cannot be added up over time (it can be added across locations at one moment)."
+          }
+        }
+      }
+    },
+    "Production.ProductListPriceHistory": {
+      "description": "Changes in the list price of a product over time.",
+      "grain": "One row for each list price a product had during a period; a product and a start date together identify a row",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "In which currency is ListPrice?"
+      ],
+      "ai_notes": "The row count, the number of products and the share of rows with no EndDate (49.37%) are the same as in the cost history table, which suggests the two histories were created together.",
+      "beam": {
+        "table": [
+          "HV"
+        ],
+        "table_why": "ProductID repeats (395 rows, 293 products), each row with a StartDate and an EndDate.",
+        "columns": {
+          "ProductID": {
+            "codes": [
+              "[Production.Product]"
+            ],
+            "why": "Measured relationship: 395 of 395 values found."
+          },
+          "StartDate": {
+            "codes": [
+              "MD",
+              "[when]"
+            ],
+            "why": "Required; part of the key."
+          },
+          "ListPrice": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A unit price, which is always non-additive."
+          }
+        }
+      }
+    },
+    "Production.ProductModel": {
+      "description": "Product model classification.",
+      "grain": "One row for each product model, a design shared by one or more products, with catalogue and manufacturing instructions in XML where they exist",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "CatalogDescription is filled for only 6 rows (95.31% empty) and Instructions for 9 rows (92.97% empty). 119 different models are used by products.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each ProductModelID with no dates or versions.",
+        "columns": {
+          "ProductModelID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each product model."
+          },
+          "Name": {
+            "codes": [
+              "MD"
+            ],
+            "why": "Never empty; unique across 128 rows."
+          }
+        }
+      }
+    },
+    "Production.ProductModelIllustration": {
+      "description": "Cross-reference table mapping product models and illustrations.",
+      "grain": "One row for each illustration that belongs to a product model; a model and an illustration together identify a row",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "",
+      "beam": {
+        "table": [
+          "MV"
+        ],
+        "table_why": "A link between ProductModelID and IllustrationID with no other columns; 7 rows for 5 models and 4 illustrations.",
+        "columns": {
+          "ProductModelID": {
+            "codes": [
+              "[Production.ProductModel]"
+            ],
+            "why": "Measured relationship: 7 of 7 values found."
+          },
+          "IllustrationID": {
+            "codes": [
+              "[Production.Illustration]"
+            ],
+            "why": "Measured relationship: 7 of 7 values found."
+          }
+        }
+      }
+    },
+    "Production.ProductModelProductDescriptionCulture": {
+      "description": "Cross-reference table mapping product descriptions and the language the description is written in.",
+      "grain": "One row for each description text a product model has in one language; a model and a language together identify a row",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "762 rows equal 127 models times 6 languages. The link from CultureID to the language table was not detected by the engine (the values are padded with spaces), but its source comment names the language table.",
+      "beam": {
+        "table": [
+          "MV"
+        ],
+        "table_why": "A link between ProductModelID, ProductDescriptionID and CultureID with no other columns; each description is used once.",
+        "columns": {
+          "ProductModelID": {
+            "codes": [
+              "[Production.ProductModel]"
+            ],
+            "why": "Measured relationship: 762 of 762 values found."
+          },
+          "ProductDescriptionID": {
+            "codes": [
+              "[Production.ProductDescription]"
+            ],
+            "why": "Measured relationship: 762 of 762 values found."
+          }
+        }
+      }
+    },
+    "Production.ProductPhoto": {
+      "description": "Product images.",
+      "grain": "One row for each product picture, held as a small thumbnail and a large image together with their file names",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "The pictures are binary images and the engine records only their size. One picture is a stand-in named no_image_available.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each ProductPhotoID with no dates or versions.",
+        "columns": {
+          "ProductPhotoID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each picture."
+          }
+        }
+      }
+    },
+    "Production.ProductProductPhoto": {
+      "description": "Cross-reference table mapping products and product photos.",
+      "grain": "One row for each product with the photo that is its main picture",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "346 of 504 products share the same photo (ProductPhotoID 1), which may be a default picture.",
+      "beam": {
+        "table": [
+          "MV"
+        ],
+        "table_why": "A link between ProductID and ProductPhotoID built to allow several photos per product, but ProductID is unique in all 504 rows and Primary is true in every row.",
+        "columns": {
+          "ProductID": {
+            "codes": [
+              "[Production.Product]"
+            ],
+            "why": "Measured relationship: 504 of 504 values found."
+          },
+          "ProductPhotoID": {
+            "codes": [
+              "[Production.ProductPhoto]"
+            ],
+            "why": "Measured relationship: 504 of 504 values found."
+          }
+        }
+      }
+    },
+    "Production.ProductReview": {
+      "description": "Customer reviews of products they have purchased.",
+      "grain": "One row for each review a customer wrote about a product",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "Only 4 reviews exist, for 3 products, so no distribution is reliable. Ratings are 2, 4, 5 and 5. The reviewer's e-mail is masked.",
+      "beam": {
+        "table": [
+          "DE"
+        ],
+        "table_why": "One ReviewDate for each row, and a review is finished once written.",
+        "columns": {
+          "ProductID": {
+            "codes": [
+              "[Production.Product]",
+              "[what]"
+            ],
+            "why": "Measured relationship: 4 of 4 values found."
+          },
+          "ReviewerName": {
+            "codes": [
+              "[who]"
+            ],
+            "why": "The person who wrote the review. Values are masked."
+          },
+          "ReviewDate": {
+            "codes": [
+              "MD",
+              "[when]"
+            ],
+            "why": "Required; never empty."
+          },
+          "Rating": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A score on a scale from 1 to 5, which cannot be added up."
+          }
+        }
+      }
+    },
+    "Production.ProductSubcategory": {
+      "description": "Product subcategories. See ProductCategory table.",
+      "grain": "One row for each product subcategory, such as Mountain Bikes or Handlebars, that belongs to one product category",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each ProductSubcategoryID with no dates or versions.",
+        "columns": {
+          "ProductSubcategoryID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each subcategory."
+          },
+          "ProductCategoryID": {
+            "codes": [
+              "[Production.ProductCategory]"
+            ],
+            "why": "Measured relationship: 37 of 37 values found."
+          }
+        }
+      }
+    },
+    "Production.ScrapReason": {
+      "description": "Manufacturing failure reasons lookup table.",
+      "grain": "One row for each reason a manufactured item can fail inspection and be scrapped, such as incorrect color",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "Sixteen rows, one per ScrapReasonID, with no dates or versions.",
+        "columns": {
+          "ScrapReasonID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each reason."
+          }
+        }
+      }
+    },
+    "Production.TransactionHistory": {
+      "description": "Record of each purchase order, sales order, or work order transaction year to date.",
+      "grain": "One row for each transaction that moved a product: a line on a sales order, purchase order or work order, shown by TransactionType",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "In which currency is ActualCost, and is it per item or per line?"
+      ],
+      "ai_notes": "Statistics come from the first 100,000 of 113,443 rows. ActualCost is 0 for exactly the same number of rows as work order transactions (27,587), so work orders carry no cost here. The dates (from 2024-07-30 to 2025-05-01) start the day after the archive table ends (2024-07-29), so the two tables together form one history.",
+      "beam": {
+        "table": [
+          "DE"
+        ],
+        "table_why": "One TransactionDate for each row and each transaction is finished once it has happened.",
+        "columns": {
+          "TransactionDate": {
+            "codes": [
+              "MD",
+              "[when]"
+            ],
+            "why": "Required; never empty."
+          },
+          "ProductID": {
+            "codes": [
+              "[Production.Product]",
+              "[what]"
+            ],
+            "why": "Measured relationship: 100,000 of 100,000 values found (sampled)."
+          },
+          "ReferenceOrderID": {
+            "codes": [
+              "DD"
+            ],
+            "why": "The order number belongs to a sales, purchase or work order depending on TransactionType, and there is no single table it points to."
+          },
+          "ReferenceOrderLineID": {
+            "codes": [
+              "GD"
+            ],
+            "why": "Together with ReferenceOrderID it was unique in the rows measured."
+          },
+          "TransactionType": {
+            "codes": [
+              "[how]"
+            ],
+            "why": "Says which kind of order the transaction came from: S sales, W work, P purchase."
+          },
+          "Quantity": {
+            "codes": [
+              "FA"
+            ],
+            "why": "A count of items that can be added up."
+          },
+          "ActualCost": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A cost of one unit, which cannot be added up."
+          }
+        }
+      }
+    },
+    "Production.TransactionHistoryArchive": {
+      "description": "Transactions for previous years.",
+      "grain": "One row for each older transaction that moved a product: a line on a sales order, purchase order or work order, shown by TransactionType",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "In which currency is ActualCost?"
+      ],
+      "ai_notes": "Uniqueness of key combinations was measured on the first 50,000 rows only. The dates run from 2022-04-15 to 2024-07-29 and continue in the current transaction history table. 46.6% of the rows have an ActualCost of 0, the same as the work order share (41,589 rows).",
+      "beam": {
+        "table": [
+          "DE"
+        ],
+        "table_why": "One TransactionDate for each row and each transaction is finished once it has happened.",
+        "columns": {
+          "TransactionDate": {
+            "codes": [
+              "MD",
+              "[when]"
+            ],
+            "why": "Required; never empty."
+          },
+          "ProductID": {
+            "codes": [
+              "[Production.Product]",
+              "[what]"
+            ],
+            "why": "Measured relationship: 89,253 of 89,253 values found."
+          },
+          "ReferenceOrderID": {
+            "codes": [
+              "DD"
+            ],
+            "why": "The order number belongs to a sales, purchase or work order depending on TransactionType, and there is no single table it points to."
+          },
+          "ReferenceOrderLineID": {
+            "codes": [
+              "GD"
+            ],
+            "why": "Together with ReferenceOrderID it was unique in the rows measured."
+          },
+          "TransactionType": {
+            "codes": [
+              "[how]"
+            ],
+            "why": "Says which kind of order the transaction came from: S sales, W work, P purchase."
+          },
+          "Quantity": {
+            "codes": [
+              "FA"
+            ],
+            "why": "A count of items that can be added up."
+          },
+          "ActualCost": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A cost of one unit, which cannot be added up."
+          }
+        }
+      }
+    },
+    "Production.UnitMeasure": {
+      "description": "Unit of measure lookup table.",
+      "grain": "One row for each unit used to measure a quantity, size or weight, such as box, bottle, inch or pound, identified by a short code",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "Codes are padded with spaces to 3 characters (23 of 38).",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each code with no dates or versions.",
+        "columns": {
+          "UnitMeasureCode": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier (a short code) for each unit."
+          }
+        }
+      }
+    },
+    "Production.WorkOrder": {
+      "description": "A manufacturing job to make a quantity of one product, with its start, due and end dates, how many items were finished and put into stock, and how many were scrapped and why.",
+      "grain": "One row for each manufacturing job for one product",
+      "source": "inferred",
+      "confidence": "high",
+      "evidence": [
+        "WorkOrderID unique and never missing across 72,591 rows",
+        "ProductID found in the product table for 72,591 of 72,591 rows (100%)",
+        "OrderQty, StockedQty and ScrappedQty are whole numbers; ScrappedQty is 0 in 71,862 rows (99%)",
+        "ScrapReasonID is filled in 729 rows (1%), the same number as the rows with a scrapped quantity above 0 (72,591 - 71,862 = 729), and found in the scrap reason table",
+        "StartDate, EndDate and DueDate range from 2022-06-02 to 2025-06-16",
+        "Transaction history tables name W as 'WorkOrder' for TransactionType"
+      ],
+      "open_questions": [
+        "Is StockedQty always OrderQty minus ScrappedQty?",
+        "EndDate is filled in every row, even for the latest orders. Is a work order that is not yet finished given an expected end date?"
+      ],
+      "ai_notes": "The first 50,000 rows were used for the key measurement. The source system has no comment for this table, so the description is inferred. OrderQty and StockedQty have the same most common values and counts, which suggests that stocked items are the ordered items minus the scrapped ones.",
+      "beam": {
+        "table": [
+          "EE"
+        ],
+        "table_why": "Several milestone dates for one process (StartDate, EndDate, DueDate) in a table with one row for each job.",
+        "columns": {
+          "ProductID": {
+            "codes": [
+              "[Production.Product]",
+              "[what]"
+            ],
+            "why": "Measured relationship: 72,591 of 72,591 values found."
+          },
+          "OrderQty": {
+            "codes": [
+              "FA"
+            ],
+            "why": "A count of items that can be added up."
+          },
+          "StockedQty": {
+            "codes": [
+              "FA"
+            ],
+            "why": "A count of items that can be added up."
+          },
+          "ScrappedQty": {
+            "codes": [
+              "FA"
+            ],
+            "why": "A count of items that can be added up."
+          },
+          "ScrapReasonID": {
+            "codes": [
+              "[Production.ScrapReason]",
+              "[why]"
+            ],
+            "why": "Measured relationship: 729 of 729 values found; it explains why items were scrapped."
+          },
+          "StartDate": {
+            "codes": [
+              "[when]"
+            ],
+            "why": "When work on the order started."
+          }
+        }
+      }
+    },
+    "Production.WorkOrderRouting": {
+      "description": "The steps a manufacturing job goes through: for each work order and product, one operation at a location, with the planned and the actual dates, the hours used and the planned and actual cost.",
+      "grain": "One row for each operation a product goes through at a location within a work order, in the order given by OperationSequence",
+      "source": "inferred",
+      "confidence": "medium",
+      "evidence": [
+        "WorkOrderID found in the work order table for 67,131 of 67,131 rows (100%)",
+        "ProductID and LocationID found in the product and location tables (100%)",
+        "OperationSequence has values 1 to 7, and each one matches one location: 1 with 10 (9,567 rows), 2 with 20 (5,923), 3 with 30 (1,490), 6 with 50 (30,107), 7 with 60 (18,554)",
+        "ScheduledStartDate/ScheduledEndDate and ActualStartDate/ActualEndDate are all dates from 2022-06-02 to 2025-06-27",
+        "PlannedCost and ActualCost have 7 values each, matching the number of locations"
+      ],
+      "open_questions": [
+        "Is ActualCost really measured, or is it copied from PlannedCost?",
+        "In which currency are PlannedCost and ActualCost?"
+      ],
+      "ai_notes": "Key combinations were measured on the first 50,000 rows only. The engine found WorkOrderID with LocationID unique in those rows; the declared key flagged in the source is WorkOrderID, ProductID and OperationSequence, and the grain follows it. PlannedCost and ActualCost have the same distinct counts and the same most common values, so actual cost may be a copy of the plan.",
+      "beam": {
+        "table": [
+          "EE"
+        ],
+        "table_why": "Scheduled and actual start and end dates for each step of one process, one row for each step.",
+        "columns": {
+          "WorkOrderID": {
+            "codes": [
+              "[Production.WorkOrder]"
+            ],
+            "why": "Measured relationship: 67,131 of 67,131 values found."
+          },
+          "ProductID": {
+            "codes": [
+              "[Production.Product]",
+              "[what]"
+            ],
+            "why": "Measured relationship: 67,131 of 67,131 values found."
+          },
+          "LocationID": {
+            "codes": [
+              "[Production.Location]",
+              "[where]"
+            ],
+            "why": "Measured relationship: 67,131 of 67,131 values found."
+          },
+          "OperationSequence": {
+            "codes": [
+              "GD"
+            ],
+            "why": "The step number that, with the work order and the product, makes a row unique (declared key)."
+          },
+          "ActualResourceHrs": {
+            "codes": [
+              "FA",
+              "[hours]"
+            ],
+            "why": "A number of hours that can be added up; the column name states the unit."
+          },
+          "PlannedCost": {
+            "codes": [
+              "FA"
+            ],
+            "why": "An amount that can be added up."
+          },
+          "ActualCost": {
+            "codes": [
+              "FA"
+            ],
+            "why": "An amount that can be added up."
+          }
+        }
+      }
+    },
+    "Purchasing.ProductVendor": {
+      "description": "Cross-reference table mapping vendors with the products they supply.",
+      "grain": "One row for each product that a vendor supplies, with that vendor's price, lead time and order quantity limits; a product and a vendor together identify a row",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "MinOrderQty and MaxOrderQty: are the source comments swapped by mistake?",
+        "In which currency are StandardPrice and LastReceiptCost?"
+      ],
+      "ai_notes": "The source comments for MinOrderQty and MaxOrderQty are swapped: MinOrderQty has a median of 1 and MaxOrderQty a median of 5, so the names are the right way round and the comments are wrong. 265 of the 504 products and 86 of the 104 vendors appear. OnOrderQty is empty in 66.3% of rows.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each product and vendor pair with no dates that keep earlier prices; only the latest prices are held.",
+        "columns": {
+          "ProductID": {
+            "codes": [
+              "[Production.Product]"
+            ],
+            "why": "Measured relationship: 460 of 460 values found."
+          },
+          "BusinessEntityID": {
+            "codes": [
+              "[Purchasing.Vendor]"
+            ],
+            "why": "Measured relationship: 460 of 460 values found."
+          },
+          "UnitMeasureCode": {
+            "codes": [
+              "[Production.UnitMeasure]"
+            ],
+            "why": "Measured relationship: 460 of 460 values found."
+          },
+          "AverageLeadTime": {
+            "codes": [
+              "NA",
+              "[days]"
+            ],
+            "why": "An average, which cannot be added up. The source comment states the unit is days."
+          },
+          "StandardPrice": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A unit price, which is always non-additive."
+          },
+          "LastReceiptCost": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A unit price, which is always non-additive."
+          },
+          "OnOrderQty": {
+            "codes": [
+              "SA"
+            ],
+            "why": "A quantity on order at one moment, so it cannot be added up over time."
+          },
+          "MinOrderQty": {
+            "codes": [
+              "?"
+            ],
+            "why": "The source comment describes this column as the maximum quantity, which the values contradict."
+          },
+          "MaxOrderQty": {
+            "codes": [
+              "?"
+            ],
+            "why": "The source comment describes this column as the minimum quantity, which the values contradict."
+          }
+        }
+      }
+    },
+    "Purchasing.PurchaseOrderDetail": {
+      "description": "Individual products associated with a specific purchase order. See PurchaseOrderHeader.",
+      "grain": "One row for each product line on a purchase order, which is one product ordered from the vendor with a quantity and a price",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "In which currency are UnitPrice and LineTotal?"
+      ],
+      "ai_notes": "RejectedQty is 0 in 93.6% of rows. OrderQty has two groups (a typical 3 and a typical 550), which suggests two different kinds of purchased products. ReceivedQty is a decimal while OrderQty is a whole number.",
+      "beam": {
+        "table": [
+          "DE"
+        ],
+        "table_why": "A line of an order, finished once quantities are received; one due date and amounts for each row.",
+        "columns": {
+          "PurchaseOrderID": {
+            "codes": [
+              "[Purchasing.PurchaseOrderHeader]"
+            ],
+            "why": "Measured relationship: 8,845 of 8,845 values found."
+          },
+          "ProductID": {
+            "codes": [
+              "[Production.Product]",
+              "[what]"
+            ],
+            "why": "Measured relationship: 8,845 of 8,845 values found."
+          },
+          "DueDate": {
+            "codes": [
+              "[when]"
+            ],
+            "why": "When the product is expected."
+          },
+          "OrderQty": {
+            "codes": [
+              "FA"
+            ],
+            "why": "A count of items that can be added up."
+          },
+          "UnitPrice": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A unit price, which is always non-additive."
+          },
+          "LineTotal": {
+            "codes": [
+              "FA",
+              "DF=OrderQty * UnitPrice"
+            ],
+            "why": "An amount that can be added up. The source comment says it is calculated as OrderQty times UnitPrice."
+          },
+          "ReceivedQty": {
+            "codes": [
+              "FA"
+            ],
+            "why": "A count of items that can be added up."
+          },
+          "RejectedQty": {
+            "codes": [
+              "FA"
+            ],
+            "why": "A count of items that can be added up."
+          },
+          "StockedQty": {
+            "codes": [
+              "FA",
+              "DF=ReceivedQty - RejectedQty"
+            ],
+            "why": "A count that can be added up. The source comment says it is ReceivedQty minus RejectedQty."
+          }
+        }
+      }
+    },
+    "Purchasing.PurchaseOrderHeader": {
+      "description": "General purchase order information. See PurchaseOrderDetail.",
+      "grain": "One row for each purchase order an employee places with a vendor",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "In which currency are SubTotal, TaxAmt, Freight and TotalDue?"
+      ],
+      "ai_notes": "Status is 4 (complete) for 91.9% of orders. ShipDate is described as the estimated shipping date from the vendor. TaxAmt is about 8% of SubTotal and Freight about 2.5% in the most common rows. The engine did not detect relationships from EmployeeID and VendorID, but their source comments name the employee and vendor tables.",
+      "beam": {
+        "table": [
+          "EE"
+        ],
+        "table_why": "Several dates for one process (OrderDate and ShipDate) and a Status that moves from pending to complete.",
+        "columns": {
+          "PurchaseOrderID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each purchase order; unique across 4,012 rows."
+          },
+          "EmployeeID": {
+            "codes": [
+              "[who]"
+            ],
+            "why": "The employee who created the order (comment); 12 different employees."
+          },
+          "VendorID": {
+            "codes": [
+              "[who]"
+            ],
+            "why": "The vendor the order is placed with; 86 different vendors."
+          },
+          "ShipMethodID": {
+            "codes": [
+              "[Purchasing.ShipMethod]",
+              "[how]"
+            ],
+            "why": "Measured relationship: 4,012 of 4,012 values found."
+          },
+          "OrderDate": {
+            "codes": [
+              "MD",
+              "[when]"
+            ],
+            "why": "When the order was created; never empty."
+          },
+          "SubTotal": {
+            "codes": [
+              "FA"
+            ],
+            "why": "An order amount that can be added up."
+          },
+          "TaxAmt": {
+            "codes": [
+              "FA"
+            ],
+            "why": "An amount that can be added up."
+          },
+          "Freight": {
+            "codes": [
+              "FA"
+            ],
+            "why": "An amount that can be added up."
+          },
+          "TotalDue": {
+            "codes": [
+              "FA",
+              "DF=SubTotal + TaxAmt + Freight"
+            ],
+            "why": "An amount that can be added up. The source comment says it is the subtotal plus tax plus freight."
+          }
+        }
+      }
+    },
+    "Purchasing.ShipMethod": {
+      "description": "Shipping company lookup table.",
+      "grain": "One row for each shipping option a carrier offers, with a base charge and a charge for each pound",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "In which currency are ShipBase and ShipRate?"
+      ],
+      "ai_notes": "",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "Five rows, one per ShipMethodID, with no dates or versions.",
+        "columns": {
+          "ShipMethodID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each shipping method."
+          },
+          "ShipBase": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A price, which cannot be added up."
+          },
+          "ShipRate": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A rate, which cannot be added up."
+          }
+        }
+      }
+    },
+    "Purchasing.Vendor": {
+      "description": "Companies from whom Adventure Works Cycles purchases parts or other goods.",
+      "grain": "One row for each company the business buys goods or parts from, with its credit rating and whether it is preferred",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "CreditRating is 1 (superior) for 80.8% of vendors. 4 vendors are inactive and 11 are not preferred. PurchasingWebServiceURL is empty for 94.23% of rows (98 of 104).",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each BusinessEntityID with no dates or versions.",
+        "columns": {
+          "BusinessEntityID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The identifier shared with the business entity table; unique across 104 rows."
+          },
+          "AccountNumber": {
+            "codes": [
+              "NK"
+            ],
+            "why": "The account number used with a vendor, such as ADVANCED0001; unique."
+          },
+          "Name": {
+            "codes": [
+              "MD"
+            ],
+            "why": "Never empty; unique."
+          },
+          "CreditRating": {
+            "codes": [
+              "MD"
+            ],
+            "why": "Never empty; 1 to 5."
+          }
+        }
+      }
+    },
+    "Sales.CountryRegionCurrency": {
+      "description": "Cross-reference table mapping ISO currency codes to a country or region.",
+      "grain": "One row for each currency that is used in a country or region; a country and a currency together identify a row",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "EUR appears in 12 rows, one for each country that uses it. As in the country table, one of the country codes is read as a boolean by the engine's type detection; it is text.",
+      "beam": {
+        "table": [
+          "MV"
+        ],
+        "table_why": "A link between CountryRegionCode and CurrencyCode with no other columns; 109 rows for 96 countries and 97 currencies.",
+        "columns": {
+          "CountryRegionCode": {
+            "codes": [
+              "[Person.CountryRegion]"
+            ],
+            "why": "Measured relationship: 109 of 109 values found."
+          },
+          "CurrencyCode": {
+            "codes": [
+              "[Sales.Currency]"
+            ],
+            "why": "Measured relationship: 109 of 109 values found."
+          }
+        }
+      }
+    },
+    "Sales.CreditCard": {
+      "description": "Customer credit card information.",
+      "grain": "One row for each payment card that customers have on file, with its type and expiry month and year",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "The card expiry years (2005 to 2008) are older than the order dates (2022 to 2025). Is this test data?"
+      ],
+      "ai_notes": "ExpYear runs only from 2005 to 2008, so every card has already expired compared with the order dates (2022 to 2025). The card numbers are masked by the engine.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each CreditCardID with no dates or versions.",
+        "columns": {
+          "CreditCardID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each card."
+          },
+          "CardNumber": {
+            "codes": [
+              "NK"
+            ],
+            "why": "The number printed on a card, unique across 19,118 rows. Values are masked."
+          },
+          "CardType": {
+            "codes": [
+              "MD"
+            ],
+            "why": "Never empty; 4 different values."
+          }
+        }
+      }
+    },
+    "Sales.Currency": {
+      "description": "Lookup table containing standard ISO currencies.",
+      "grain": "One row for each currency, identified by its three-letter ISO code",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "",
+      "beam": {
+        "table": [
+          "CV",
+          "RP"
+        ],
+        "table_why": "One row for each code with no dates or versions. Exchange rates point to it twice, as the currency converted from and the one converted to (both found 100%).",
+        "columns": {
+          "CurrencyCode": {
+            "codes": [
+              "NK"
+            ],
+            "why": "The three-letter ISO code that people use for a currency; unique across 105 rows."
+          }
+        }
+      }
+    },
+    "Sales.CurrencyRate": {
+      "description": "Currency exchange rates.",
+      "grain": "One row for each target currency on each day, with the average and the end-of-day exchange rate from the source currency, which is always USD in this data",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "FromCurrencyCode has a single value (USD) in all rows. The rates are in two groups (bimodal): values around 1 and values of several units or more, and 2,194 values lie above the outlier limit of 19.1.",
+      "beam": {
+        "table": [
+          "RE"
+        ],
+        "table_why": "A date (CurrencyRateDate) that repeats once for each target currency, with a rate level on each day: ToCurrencyCode with the date was unique.",
+        "columns": {
+          "CurrencyRateDate": {
+            "codes": [
+              "MD",
+              "[when]"
+            ],
+            "why": "The day of the rate; never empty."
+          },
+          "FromCurrencyCode": {
+            "codes": [
+              "[Sales.Currency]"
+            ],
+            "why": "Measured relationship: 13,532 of 13,532 values found; always USD."
+          },
+          "ToCurrencyCode": {
+            "codes": [
+              "[Sales.Currency]"
+            ],
+            "why": "Measured relationship: 13,532 of 13,532 values found; 14 different currencies."
+          },
+          "AverageRate": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A rate, which cannot be added up."
+          },
+          "EndOfDayRate": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A rate, which cannot be added up."
+          }
+        }
+      }
+    },
+    "Sales.Customer": {
+      "description": "Current customer information. Also see the Person and Store tables.",
+      "grain": "One row for each customer account, which belongs either to an individual person or to a store that buys for resale",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "Why do 701 customers have no sales order?"
+      ],
+      "ai_notes": "PersonID is empty for 3.54% of rows and StoreID for 93.26%: 1,336 rows have a store, for 701 different stores, so a store can have more than one customer row. A person appears at most once. 19,119 of the 19,820 customers have placed an order. The engine did not detect relationships from PersonID and StoreID, but their source comments name the person and store tables.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each CustomerID with no dates or versions.",
+        "columns": {
+          "CustomerID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each customer; sales orders use it (measured: 31,465 of 31,465 values found)."
+          },
+          "AccountNumber": {
+            "codes": [
+              "NK"
+            ],
+            "why": "The account number assigned by accounting, such as AW00000001; unique across 19,820 rows."
+          },
+          "TerritoryID": {
+            "codes": [
+              "[Sales.SalesTerritory]"
+            ],
+            "why": "Measured relationship: 19,820 of 19,820 values found."
+          }
+        }
+      }
+    },
+    "Sales.PersonCreditCard": {
+      "description": "Cross-reference table mapping people to their credit card information in the CreditCard table.",
+      "grain": "One row for each payment card that a person owns; every person and every card appears at most once",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "",
+      "beam": {
+        "table": [
+          "MV"
+        ],
+        "table_why": "A link between BusinessEntityID and CreditCardID with no other columns. Both columns are unique in this data, so it behaves one to one.",
+        "columns": {
+          "BusinessEntityID": {
+            "codes": [
+              "[Person.Person]"
+            ],
+            "why": "Measured relationship: 19,118 of 19,118 values found."
+          },
+          "CreditCardID": {
+            "codes": [
+              "[Sales.CreditCard]"
+            ],
+            "why": "Measured relationship: 19,118 of 19,118 values found."
+          }
+        }
+      }
+    },
+    "Sales.SalesOrderDetail": {
+      "description": "Individual products associated with a specific sales order. See SalesOrderHeader.",
+      "grain": "One row for each product sold on a sales order, with its quantity, price and discount; an order and a product together were unique in the rows measured",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "Is UnitPriceDiscount an amount or a fraction of the unit price (values are 0 to 0.35)?",
+        "In which currency are UnitPrice and LineTotal?"
+      ],
+      "ai_notes": "Statistics come from the first 100,000 of 121,317 rows. Those rows reach SalesOrderID 68516, but the order header table goes up to 75123, so the latest orders are not in the sample. UnitPriceDiscount is 0 in 97.1% of rows. Its comment says it is an amount, but the values (0 to 0.35) look like fractions of the price.",
+      "beam": {
+        "table": [
+          "DE"
+        ],
+        "table_why": "A line of an order, finished once the sale is made; amounts and quantities with the dates held on the order header.",
+        "columns": {
+          "SalesOrderID": {
+            "codes": [
+              "[Sales.SalesOrderHeader]"
+            ],
+            "why": "Measured relationship: 100,000 of 100,000 values found (sampled)."
+          },
+          "ProductID": {
+            "codes": [
+              "[Production.Product]",
+              "[what]"
+            ],
+            "why": "Measured relationship: 100,000 of 100,000 values found (sampled)."
+          },
+          "SpecialOfferID": {
+            "codes": [
+              "[Sales.SpecialOffer]",
+              "[why]"
+            ],
+            "why": "Measured relationship: 100,000 of 100,000 values found (sampled); the promotion behind the price."
+          },
+          "OrderQty": {
+            "codes": [
+              "FA"
+            ],
+            "why": "A count of items that can be added up."
+          },
+          "UnitPrice": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A unit price, which is always non-additive."
+          },
+          "UnitPriceDiscount": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A discount rate, which cannot be added up."
+          },
+          "LineTotal": {
+            "codes": [
+              "FA",
+              "DF=UnitPrice * (1 - UnitPriceDiscount) * OrderQty"
+            ],
+            "why": "An amount that can be added up. The source comment gives the calculation."
+          }
+        }
+      }
+    },
+    "Sales.SalesOrderHeader": {
+      "description": "General sales order information.",
+      "grain": "One row for each sales order a customer places, either online or through a sales person",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "Comment is empty for every order. Is it unused?",
+        "Orders with no CurrencyRateID (55.58%): were they paid in the base currency?",
+        "In which currency are SubTotal, TaxAmt, Freight and TotalDue?"
+      ],
+      "ai_notes": "Status is 5 in all rows, so every order in the table is shipped. ShipMethodID is 1 for the 27,659 online orders and 5 for the other 3,806, which are the same counts as OnlineOrderFlag. CurrencyRateID is empty for 55.58% of orders. The comment on CustomerID names the business entity of the customer, but the measured relationship is with Customer.CustomerID. CreditCardID is empty for 3.59%. Orders run from 2022-05-30 to 2025-06-29.",
+      "beam": {
+        "table": [
+          "EE"
+        ],
+        "table_why": "Three dates for one process (OrderDate, DueDate and ShipDate) with a Status, one row for each order.",
+        "columns": {
+          "SalesOrderID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each order; unique across 31,465 rows."
+          },
+          "SalesOrderNumber": {
+            "codes": [
+              "NK"
+            ],
+            "why": "The order number people use, such as SO43659; unique."
+          },
+          "OnlineOrderFlag": {
+            "codes": [
+              "DC"
+            ],
+            "why": "SalesPersonID and PurchaseOrderNumber are both empty for 87.9% of rows, the same share as online orders (87.9%), so the flag appears to decide whether they apply."
+          },
+          "CustomerID": {
+            "codes": [
+              "[Sales.Customer]",
+              "[who]"
+            ],
+            "why": "Measured relationship: 31,465 of 31,465 values found."
+          },
+          "SalesPersonID": {
+            "codes": [
+              "[who]"
+            ],
+            "why": "The sales person who created the order; empty for online orders."
+          },
+          "TerritoryID": {
+            "codes": [
+              "[Sales.SalesTerritory]",
+              "[where]"
+            ],
+            "why": "Measured relationship: 31,465 of 31,465 values found."
+          },
+          "BillToAddressID": {
+            "codes": [
+              "[Person.Address]"
+            ],
+            "why": "Measured relationship: 31,465 of 31,465 values found; the billing address."
+          },
+          "ShipToAddressID": {
+            "codes": [
+              "[Person.Address]"
+            ],
+            "why": "Measured relationship: 31,465 of 31,465 values found; the shipping address."
+          },
+          "ShipMethodID": {
+            "codes": [
+              "[Purchasing.ShipMethod]",
+              "[how]"
+            ],
+            "why": "Measured relationship: 31,465 of 31,465 values found."
+          },
+          "CreditCardID": {
+            "codes": [
+              "[Sales.CreditCard]"
+            ],
+            "why": "Measured relationship: 30,334 of 30,334 values found."
+          },
+          "CurrencyRateID": {
+            "codes": [
+              "[Sales.CurrencyRate]"
+            ],
+            "why": "Measured relationship: 13,976 of 13,976 values found."
+          },
+          "OrderDate": {
+            "codes": [
+              "MD",
+              "[when]"
+            ],
+            "why": "When the order was created; never empty."
+          },
+          "SubTotal": {
+            "codes": [
+              "FA"
+            ],
+            "why": "An order amount that can be added up."
+          },
+          "TaxAmt": {
+            "codes": [
+              "FA"
+            ],
+            "why": "An amount that can be added up."
+          },
+          "Freight": {
+            "codes": [
+              "FA"
+            ],
+            "why": "An amount that can be added up."
+          },
+          "TotalDue": {
+            "codes": [
+              "FA",
+              "DF=SubTotal + TaxAmt + Freight"
+            ],
+            "why": "An amount that can be added up. The source comment says it is the subtotal plus tax plus freight."
+          },
+          "Comment": {
+            "codes": [
+              "?"
+            ],
+            "why": "Empty in all 31,465 rows."
+          }
+        }
+      }
+    },
+    "Sales.SalesOrderHeaderSalesReason": {
+      "description": "Cross-reference table mapping sales orders to sales reason codes.",
+      "grain": "One row for each reason that a customer gave for one sales order; an order can have several reasons",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "23,012 of the 31,465 orders (73%) have at least one reason. Only 7 of the 10 reasons are used, and reason 1 accounts for 17,473 rows.",
+      "beam": {
+        "table": [
+          "MV"
+        ],
+        "table_why": "A link between SalesOrderID and SalesReasonID with no other columns; 27,647 rows for 23,012 orders.",
+        "columns": {
+          "SalesOrderID": {
+            "codes": [
+              "[Sales.SalesOrderHeader]"
+            ],
+            "why": "Measured relationship: 27,647 of 27,647 values found."
+          },
+          "SalesReasonID": {
+            "codes": [
+              "[Sales.SalesReason]"
+            ],
+            "why": "Measured relationship: 27,647 of 27,647 values found."
+          }
+        }
+      }
+    },
+    "Sales.SalesPerson": {
+      "description": "Sales representative current information.",
+      "grain": "One row for each sales representative with the sales quota, bonus, commission and sales totals; each one is also an employee",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "Why do 3 of 17 sales people have no territory and no quota?",
+        "In which currency are the quota, bonus and sales totals?"
+      ],
+      "ai_notes": "TerritoryID and SalesQuota are both empty for 17.65% (3 of 17). SalesQuota has only two values (250,000 for 11 people, 300,000 for 3). SalesYTD is unique for every person.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each BusinessEntityID with no dates or versions; earlier quotas and territories are kept in separate history tables.",
+        "columns": {
+          "BusinessEntityID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The identifier shared with the employee table; measured relationship: 17 of 17 values found."
+          },
+          "TerritoryID": {
+            "codes": [
+              "[Sales.SalesTerritory]"
+            ],
+            "why": "Measured relationship: 14 of 14 values found."
+          },
+          "SalesQuota": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A target set for a person, which cannot be added up over time."
+          },
+          "CommissionPct": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A percentage, which cannot be added up."
+          },
+          "SalesYTD": {
+            "codes": [
+              "FA"
+            ],
+            "why": "A stored total of sales for the year to date, not an event; it can be added across people but not across time."
+          },
+          "SalesLastYear": {
+            "codes": [
+              "FA"
+            ],
+            "why": "A stored total of sales for the previous year, not an event; it can be added across people but not across time."
+          }
+        }
+      }
+    },
+    "Sales.SalesPersonQuotaHistory": {
+      "description": "Sales performance tracking.",
+      "grain": "One row for each quarterly sales quota set for a sales representative; a person and a quota date together identify a row",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "Is a quota as small as 1,000 real, or a placeholder?",
+        "In which currency is SalesQuota?"
+      ],
+      "ai_notes": "The smallest SalesQuota is 1,000 and the largest 1,898,000; one value lies above the outlier limit of 1,662,500. The quota dates run from 2022-05-30 to 2025-02-28.",
+      "beam": {
+        "table": [
+          "RE"
+        ],
+        "table_why": "A QuotaDate every three months that repeats for each sales person, with a quota level for the period (12 dates, 17 people, 163 rows).",
+        "columns": {
+          "BusinessEntityID": {
+            "codes": [
+              "[Sales.SalesPerson]"
+            ],
+            "why": "Measured relationship: 163 of 163 values found."
+          },
+          "QuotaDate": {
+            "codes": [
+              "MD",
+              "[when]"
+            ],
+            "why": "The date the quota applies from; never empty."
+          },
+          "SalesQuota": {
+            "codes": [
+              "FA"
+            ],
+            "why": "A quota amount that can be added up across people for one period."
+          }
+        }
+      }
+    },
+    "Sales.SalesReason": {
+      "description": "Lookup table of customer purchase reasons.",
+      "grain": "One row for each reason a customer can give for buying, such as price or a magazine advertisement, grouped by reason type",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "Ten rows, one per SalesReasonID, with no dates or versions.",
+        "columns": {
+          "SalesReasonID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each reason."
+          }
+        }
+      }
+    },
+    "Sales.SalesTaxRate": {
+      "description": "Tax rate lookup table.",
+      "grain": "One row for each tax rate that applies in a state or province, for a type of tax; some states have several rates",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "Is TaxRate a percentage?"
+      ],
+      "ai_notes": "TaxRate runs from 5.0 to 19.6. The unit is not given in the source comments; the values are probably percentages. 13 of 29 rows are named Canadian GST.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each SalesTaxRateID with no dates or versions.",
+        "columns": {
+          "SalesTaxRateID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each tax rate."
+          },
+          "StateProvinceID": {
+            "codes": [
+              "[Person.StateProvince]"
+            ],
+            "why": "Measured relationship: 29 of 29 values found; 26 different states or provinces."
+          },
+          "TaxRate": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A rate, which cannot be added up."
+          }
+        }
+      }
+    },
+    "Sales.SalesTerritory": {
+      "description": "Sales territory lookup table.",
+      "grain": "One row for each sales territory, a geographic area such as Northwest or Central that belongs to one country or region and one of three regional groups",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "CostYTD and CostLastYear are 0 in every row. Are costs not tracked?",
+        "In which currency are the sales totals?"
+      ],
+      "ai_notes": "The CountryRegionCode relationship was not detected by the engine, but its source comment names the country table. Half of the territories are in the US (5 of 10).",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each TerritoryID with no dates or versions.",
+        "columns": {
+          "TerritoryID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each territory."
+          },
+          "CountryRegionCode": {
+            "codes": [
+              "[Person.CountryRegion]"
+            ],
+            "why": "The country or region the territory lies in; 6 different values."
+          },
+          "SalesYTD": {
+            "codes": [
+              "SA"
+            ],
+            "why": "A stored total of sales for the year to date, which cannot be added up over time."
+          },
+          "SalesLastYear": {
+            "codes": [
+              "SA"
+            ],
+            "why": "A stored total of sales for the previous year, which cannot be added up over time."
+          },
+          "CostYTD": {
+            "codes": [
+              "?"
+            ],
+            "why": "Zero in all 10 rows."
+          },
+          "CostLastYear": {
+            "codes": [
+              "?"
+            ],
+            "why": "Zero in all 10 rows."
+          }
+        }
+      }
+    },
+    "Sales.SalesTerritoryHistory": {
+      "description": "Sales representative transfers to other sales territories.",
+      "grain": "One row for each period a sales representative was assigned to a territory; a person, a territory and a start date together identify a row",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "EndDate is empty in 76.47% of rows (13 of 17), which matches current assignments.",
+      "beam": {
+        "table": [
+          "HV"
+        ],
+        "table_why": "BusinessEntityID repeats (17 rows for 14 people), each with a StartDate and an EndDate.",
+        "columns": {
+          "BusinessEntityID": {
+            "codes": [
+              "[Sales.SalesPerson]"
+            ],
+            "why": "Foreign key declared in the source system (flagged FK in the measurements)."
+          },
+          "TerritoryID": {
+            "codes": [
+              "[Sales.SalesTerritory]"
+            ],
+            "why": "Foreign key declared in the source system (flagged FK in the measurements); the territory the person was assigned to."
+          },
+          "StartDate": {
+            "codes": [
+              "MD",
+              "[when]"
+            ],
+            "why": "Required; part of the key."
+          }
+        }
+      }
+    },
+    "Sales.ShoppingCartItem": {
+      "description": "Contains online customer orders until the order is submitted or cancelled.",
+      "grain": "One row for each product placed in an online shopping cart, with its quantity; a cart can hold several items",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "With only 3 rows (2 carts), Quantity and ProductID happen to be unique, which is chance and not a key. The source comment says the table holds online orders until they are submitted or cancelled, so the content may be temporary. ShoppingCartID is stored as text although its values are numbers.",
+      "beam": {
+        "table": [
+          "DE"
+        ],
+        "table_why": "A single DateCreated for each row, and the row is not changed afterwards. The table holds only 3 rows, so this is based on the column design.",
+        "columns": {
+          "ProductID": {
+            "codes": [
+              "[Production.Product]",
+              "[what]"
+            ],
+            "why": "Measured relationship: 3 of 3 values found."
+          },
+          "Quantity": {
+            "codes": [
+              "FA"
+            ],
+            "why": "A count of items that can be added up."
+          },
+          "DateCreated": {
+            "codes": [
+              "MD",
+              "[when]"
+            ],
+            "why": "When the item was added; never empty."
+          }
+        }
+      }
+    },
+    "Sales.SpecialOffer": {
+      "description": "Sale discounts lookup table.",
+      "grain": "One row for each special offer, with its discount percentage, the quantity range it applies to and the dates it is valid",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "MinQty and MaxQty: are they quantities, as the offer names suggest, and not discount percentages as the source comments say?"
+      ],
+      "ai_notes": "Offer names such as Volume Discount 11 to 14 match MinQty 11 and MaxQty 14, so the two columns look like quantities and their source comments seem wrong. MaxQty is empty in 75% of rows (12 of 16), and DiscountPct is stored as a fraction (0.15 for 15%).",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each SpecialOfferID with a start and end date for the offer itself, not for earlier versions.",
+        "columns": {
+          "SpecialOfferID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The source system's identifier for each offer."
+          },
+          "Description": {
+            "codes": [
+              "MD"
+            ],
+            "why": "Never empty; unique."
+          },
+          "DiscountPct": {
+            "codes": [
+              "NA"
+            ],
+            "why": "A percentage, which cannot be added up."
+          },
+          "MinQty": {
+            "codes": [
+              "?"
+            ],
+            "why": "The source comment calls it a discount percent, but the values (0 to 61) and the offer names show a quantity."
+          },
+          "MaxQty": {
+            "codes": [
+              "?"
+            ],
+            "why": "The source comment calls it a discount percent, but the values (14 to 60) and the offer names show a quantity."
+          }
+        }
+      }
+    },
+    "Sales.SpecialOfferProduct": {
+      "description": "Cross-reference table mapping products to special offer discounts.",
+      "grain": "One row for each product that a special offer applies to; an offer and a product together identify a row",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [],
+      "ai_notes": "Offer 1 appears in 295 rows, one for every product listed; its name in the offer table is No Discount.",
+      "beam": {
+        "table": [
+          "MV"
+        ],
+        "table_why": "A link between SpecialOfferID and ProductID with no other columns; 538 rows for 15 offers and 295 products.",
+        "columns": {
+          "SpecialOfferID": {
+            "codes": [
+              "[Sales.SpecialOffer]"
+            ],
+            "why": "Foreign key declared in the source system (flagged FK in the measurements)."
+          },
+          "ProductID": {
+            "codes": [
+              "[Production.Product]"
+            ],
+            "why": "Foreign key declared in the source system (flagged FK in the measurements); the product the offer applies to."
+          }
+        }
+      }
+    },
+    "Sales.Store": {
+      "description": "Customers (resellers) of Adventure Works products.",
+      "grain": "One row for each store, a business that buys the company's products for resale, with its assigned sales person",
+      "source": "system_metadata",
+      "confidence": "high",
+      "evidence": [
+        "Table comment stored in the source system"
+      ],
+      "open_questions": [
+        "The names Friendly Bike Shop and Sports Products Store each appear twice. Are they the same business or different stores with the same name?"
+      ],
+      "ai_notes": "Name has 699 different values in 701 rows: Friendly Bike Shop and Sports Products Store each occur twice. Demographics is XML with survey answers and is filled for every store. The engine did not detect the relationship from SalesPersonID, but its source comment names the sales person table.",
+      "beam": {
+        "table": [
+          "CV"
+        ],
+        "table_why": "One row for each BusinessEntityID with no dates or versions.",
+        "columns": {
+          "BusinessEntityID": {
+            "codes": [
+              "BK"
+            ],
+            "why": "The identifier shared with the business entity table; unique across 701 rows."
+          },
+          "Name": {
+            "codes": [
+              "MD"
+            ],
+            "why": "Never empty."
+          }
+        }
+      }
+    }
+  }
+}

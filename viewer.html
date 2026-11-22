@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BI Joe sample reports</title>
+<style>
+  :root { --bg:#eef0f3; --fg:#1f2328; --muted:#59636e; --line:#d1d9e0; --head:#ffffff; --link:#0969da; --code:#eff1f3; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0d1117; --fg:#e6edf3; --muted:#9198a1; --line:#3d444d; --head:#151b23; --link:#4493f8; --code:#1f252d; }
+  }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.55 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  header { position:sticky; top:0; z-index:5; background:var(--head); border-bottom:1px solid var(--line); padding:10px 24px; display:flex; gap:18px; flex-wrap:wrap; align-items:center; font-size:14px; }
+  header strong { margin-right:4px; }
+  header a { color:var(--link); text-decoration:none; }
+  header a:hover { text-decoration:underline; }
+  header .sep { color:var(--muted); }
+  header .right { margin-left:auto; }
+  main { max-width:1180px; margin:0 auto; padding:24px; }
+  h1,h2,h3 { line-height:1.25; }
+  h1 { border-bottom:1px solid var(--line); padding-bottom:.3em; }
+  h2 { border-bottom:1px solid var(--line); padding-bottom:.3em; margin-top:1.8em; }
+  a { color:var(--link); }
+  table:not([style]) { border-collapse:collapse; display:block; overflow-x:auto; max-width:100%; margin:1em 0; }
+  table:not([style]) th, table:not([style]) td { border:1px solid var(--line); padding:6px 12px; vertical-align:top; text-align:left; }
+  table:not([style]) thead th { background:var(--head); }
+  code { background:var(--code); border-radius:4px; padding:.15em .35em; font-size:90%; }
+  pre { background:var(--code); border-radius:6px; padding:12px 16px; overflow:auto; }
+  pre code { background:none; padding:0; }
+  pre.mermaid { background:transparent; text-align:center; }
+  #error { color:#cf222e; white-space:pre-wrap; }
+</style>
+</head>
+<body>
+<header>
+  <strong>BI Joe sample reports</strong>
+  <a href="#examples/shoe_company/index.md">Shoe Company (Excel, 4 tables)</a>
+  <a href="#examples/insurance_dk/index.md">Danish Insurance (CSV, 10 tables, dark theme)</a>
+  <a href="#examples/adventureworks2025/index.md">AdventureWorks2025 (SQL Server, 71 tables)</a>
+  <span class="right"><a id="source" href="https://github.com/sirpadk/bi-joe-data-profiler" target="_blank" rel="noopener">View on GitHub</a></span>
+</header>
+<main id="page"><p>Loading…</p></main>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.0/dist/mermaid.esm.min.mjs";
+
+// Every wiki page carries its own diagram theme, so the viewer only sets the basics.
+mermaid.initialize({ startOnLoad: false, theme: "base", securityLevel: "loose" });
+
+const REPO = "https://github.com/sirpadk/bi-joe-data-profiler/blob/main/";
+const slug = (s) => s.toLowerCase().replace(/<[^>]+>/g, "").replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "-");
+
+const renderer = new marked.Renderer();
+const origCode = renderer.code.bind(renderer);
+renderer.code = (code, info, escaped) => {
+  if ((info || "").trim() === "mermaid") return `<pre class="mermaid">${code.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</pre>`;
+  return origCode(code, info, escaped);
+};
+renderer.heading = (text, level, raw) => `<h${level} id="${slug(raw)}">${text}</h${level}>`;
+marked.setOptions({ renderer, gfm: true, breaks: false });
+
+const page = document.getElementById("page");
+
+async function show() {
+  const [path, anchor] = decodeURIComponent(location.hash.slice(1) || "examples/shoe_company/index.md").split("@");
+  document.getElementById("source").href = REPO + path;
+  document.getElementById("source").textContent = "This page on GitHub";
+  try {
+    const res = await fetch(path);
+    if (!res.ok) throw new Error(`${res.status} ${res.statusText}: ${path}`);
+    page.innerHTML = marked.parse(await res.text());
+    document.title = (page.querySelector("h1")?.textContent || path) + " – BI Joe";
+
+    // Links to other .md pages and in-page anchors stay inside the viewer.
+    page.querySelectorAll("a[href]").forEach((a) => {
+      const href = a.getAttribute("href");
+      if (/^(https?:|mailto:)/i.test(href)) { a.target = "_blank"; a.rel = "noopener"; return; }
+      const u = new URL(href, "http://x/" + path);
+      if (href.startsWith("#") || u.pathname.endsWith(".md")) {
+        const target = href.startsWith("#") ? path : u.pathname.slice(1);
+        a.setAttribute("href", "#" + target + (u.hash ? "@" + u.hash.slice(1) : ""));
+      }
+    });
+
+    await mermaid.run({ querySelector: "pre.mermaid" });
+    if (anchor) document.getElementById(anchor)?.scrollIntoView();
+    else window.scrollTo(0, 0);
+  } catch (e) {
+    page.innerHTML = `<h1>Could not show this page</h1><p id="error">${String(e.message || e)}</p>`;
+  }
+}
+window.addEventListener("hashchange", show);
+show();
+</script>
+</body>
+</html>

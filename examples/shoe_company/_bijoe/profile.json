@@ -1,7 +1,7 @@
 {
-  "bijoe_version": "0.1.0",
+  "bijoe_version": "0.1.0a1",
   "schema_version": 2,
-  "generated_at": "2026-11-22T18:24:51+00:00",
+  "generated_at": "2026-11-22T19:53:11+00:00",
   "dataset": {
     "name": "Shoe Company",
     "source": "shoe_company.xlsx",

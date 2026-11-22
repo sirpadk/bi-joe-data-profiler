@@ -177,8 +177,21 @@ def _html_label(code: Code) -> str:
     return html.escape(text, quote=False)
 
 
+_link_color = ""
+
+
+def set_link_color(color: str) -> None:
+    """Colour of the links written as HTML (the theme sets it, so links read well on its background)."""
+    global _link_color
+    _link_color = color or ""
+
+
+def link_style() -> str:
+    return f' style="color:{_link_color}"' if _link_color else ""
+
+
 def code_html(code: Code, prefix: str = "", italic: bool = False) -> str:
-    link = f'<a href="{prefix}{PAGE}#{code.anchor}"{_title(explain(code, suggested=italic))}>{_html_label(code)}</a>'
+    link = f'<a href="{prefix}{PAGE}#{code.anchor}"{link_style()}{_title(explain(code, suggested=italic))}>{_html_label(code)}</a>'
     return f"<i>{link}</i>" if italic else link
 
 
@@ -228,7 +241,7 @@ def link_prose_html(text: str, prefix: str = "") -> str:
                 return m.group(0)
         if len(codes) == 1:
             return code_html(codes[0], prefix)
-        inner = ", ".join(f'<a href="{prefix}{PAGE}#{c.anchor}"{_title(explain(c))}>{c.text.strip("[]")}</a>' for c in codes)
+        inner = ", ".join(f'<a href="{prefix}{PAGE}#{c.anchor}"{link_style()}{_title(explain(c))}>{c.text.strip("[]")}</a>' for c in codes)
         return f"[{inner}]"
 
     return _PROSE_RE.sub(repl, text)

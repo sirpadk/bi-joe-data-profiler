@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 from typing import Any, Iterator, List, Optional, Sequence
 
-from htmlutil import headings, matrix, matrix_row, property_rows, strip, notitle
+from htmlutil import headings, matrix, matrix_row, property_rows, strip, notitle, unframe
 
 from bijoe import beam, descriptions, wiki
 from bijoe.cli import main
@@ -68,8 +68,8 @@ def test_profile_builds_linked_wiki(shop_csv, tmp_path):
     out = tmp_path / "wiki"
     assert _run("profile", shop_csv, "--out", out, "--purpose", "build a sales dashboard") == 0
     index = _read(out, "index.md")
-    assert index.startswith("# Shop: Data Profile")
-    meta = index.split("## Metadata", 1)[1]
+    assert unframe(index).startswith("# Shop: Data Profile")
+    meta = unframe(index).split("## Metadata", 1)[1]
     assert '```yaml\nbijoe: "data-profile-index"' in meta and meta.rstrip().endswith("```")
     assert property_rows(index)["Purpose"] == "build a sales dashboard"
     for link in re.findall(r"\]\((data-stories/[^)]+)\)", index):
@@ -208,9 +208,11 @@ def test_landing_page_layout(shop_csv, tmp_path):
     # no Markdown property table (it would show an empty header row), no leftovers
     assert "| | |" not in index and "<th></th>" not in index
     assert "One page per table" not in index and "How to read this wiki" not in index.replace("How to Read This Wiki", "")
-    assert "| Table | BEAM✲ | Grain | Description | Sampled Rows | Columns |" in index
-    assert ("| One row for each person who is a customer | A person who has signed up with the shop "
-            "and is known by a customer number. |") in index
+    # the list of data stories is a themed HTML table whose header sits at the bottom of its cell
+    heads = re.findall(r'<th style="[^"]*vertical-align:bottom;[^"]*">([^<]*)</th>', index)
+    assert heads == ["Table", "BEAM✲", "Grain", "Description", "Sampled Rows", "Columns"]
+    assert "One row for each person who is a customer</td>" in index
+    assert "A person who has signed up with the shop and is known by a customer number.</td>" in index
 
 
 def test_story_layout_and_order(shop_csv, tmp_path):
@@ -241,8 +243,8 @@ def test_relationships_section_is_a_diagram_or_na(shop_csv, tmp_path):
     out = _filled_wiki(shop_csv, tmp_path)
     story = _read(out, "data-stories", "orders.md")
     section = story.split("## Relationships (Measured)")[1].split("## Metadata")[0]
-    assert "```mermaid\nflowchart LR" in section
-    assert "<div style='text-align:left'><b>orders</b><br/>──────────<br/>order_id<br/>cust_id<br/>amount<br/>status</div>" in section
+    assert "```mermaid\n%%{init:" in section and "\nflowchart LR" in section
+    assert "<div style='text-align:left'><b>orders</b><hr/>order_id<br/>cust_id<br/>amount<br/>status</div>" in section
     assert 't_customers["customers"]' in section  # linked tables are plain boxes, with no columns
     assert "t_orders --- t_customers" in section and "||" not in section
     assert "- " not in section.replace("──────────", "").split("```")[0]  # no text list
@@ -407,3 +409,44 @@ def test_theme_is_chosen_remembered_and_switchable(shop_csv, tmp_path):
     _run("render", out, "--theme", "light-blue")
     assert "#d4e6f8" in _read(out, "data-stories", "customers.md")
     assert _run("render", out, "--theme", "neon") != 0
+
+
+def _big_profile(n_per_schema=8, schemas=("Sales", "Person", "Production")):
+    tables = []
+    for s in schemas:
+        for i in range(n_per_schema):
+            name = f"{s}.T{i}"
+            tables.append({"name": name, "slug": wiki.slugify(name, set()), "details": {"schema": s},
+                           "profiled_rows": 10, "column_count": 2, "columns": []})
+    rels = [{"from_table": "Sales.T0", "from_column": "a", "to_table": "Person.T0", "to_column": "a",
+             "matched_values": 1, "checked_values": 1, "coverage_pct": 100},
+            {"from_table": "Sales.T1", "from_column": "a", "to_table": "Sales.T2", "to_column": "a",
+             "matched_values": 1, "checked_values": 1, "coverage_pct": 100}]
+    return {"dataset": {"name": "Big", "source": "x", "source_type": "database", "connector": "sqlalchemy"},
+            "tables": tables, "relationships": rels, "generated_at": "2026-01-01T00:00:00+00:00", "bijoe_version": "0",
+            "settings": {}}
+
+
+def test_big_database_is_split_by_schema():
+    profile = _big_profile()
+    assert wiki.use_schema_split(profile) and not wiki.use_schema_split(_big_profile(2))  # 6 tables stay in one diagram
+    overview = "\n".join(wiki.schema_overview_diagram(profile))
+    assert 'Sales<br/>8 tables' in overview and overview.count("---") == 1  # Sales and Person are linked
+    page = "\n".join(wiki.schema_diagram("Sales", profile))
+    assert 't_Person_T0["Person.T0"]' in page and "classDef ext stroke-dasharray" in page  # other schema: dashed
+    assert "Production.T0" not in page  # not linked, not shown
+    index = wiki.render_index(profile, {"dataset": {}, "tables": {}})
+    assert "### Sales (8 tables)" in index and "schemas/sales.md" in index
+    assert index.count("```mermaid") == 1  # the overview only, not a 24-box diagram
+
+
+def test_schema_pages_and_the_whole_page_follow_the_theme(tmp_path):
+    profile = _big_profile()
+    wiki.set_theme("dark")
+    try:
+        page = wiki.render_schema_page("Sales", wiki.schema_groups(profile)[0][1], profile, {"tables": {}})
+        assert page.startswith('<div style="background:#101010;color:#eaeaea;') and page.rstrip().endswith("</div>")
+        assert '"primaryColor": "#1d1d1d"' in page and 'style="color:#4cc2ff"' in page  # diagram and links themed
+        assert 'vertical-align:bottom;' in page  # table headers sit at the bottom
+    finally:
+        wiki.set_theme(None)

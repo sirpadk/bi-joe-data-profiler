@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BI Joe: data profiler</title>
+<style>
+  :root { --bg:#f4f5f7; --fg:#1f2328; --muted:#59636e; --card:#ffffff; --line:#d1d9e0; --link:#0969da; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0d1117; --fg:#e6edf3; --muted:#9198a1; --card:#151b23; --line:#3d444d; --link:#4493f8; } }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.55 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  main { max-width:880px; margin:0 auto; padding:48px 24px; }
+  h1 { margin:0 0 4px; font-size:32px; }
+  p.lead { color:var(--muted); margin:0 0 28px; font-size:18px; }
+  .grid { display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); }
+  a.card { display:block; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:18px 20px; text-decoration:none; color:inherit; }
+  a.card:hover { border-color:var(--link); }
+  a.card b { display:block; font-size:18px; margin-bottom:4px; color:var(--link); }
+  a.card span { color:var(--muted); font-size:14px; }
+  footer { margin-top:32px; color:var(--muted); font-size:14px; }
+  footer a { color:var(--link); }
+</style>
+</head>
+<body>
+<main>
+  <h1>BI Joe: data profiler</h1>
+  <p class="lead">An AI skill that turns any dataset or database into a Markdown wiki of data stories. These are real reports it produced.</p>
+  <div class="grid">
+    <a class="card" href="viewer.html#examples/shoe_company/index.md"><b>Shoe Company</b><span>An Excel workbook, 4 tables. The small one to start with.</span></a>
+    <a class="card" href="viewer.html#examples/insurance_dk/index.md"><b>Danish Insurance Company</b><span>10 CSV files: customers, policies, coverages, claims. Dark theme.</span></a>
+    <a class="card" href="viewer.html#examples/adventureworks2025/index.md"><b>AdventureWorks2025</b><span>A SQL Server database, 71 tables in 6 schemas, written by a fresh agent from the skill alone.</span></a>
+  </div>
+  <footer>All data is made up or from Microsoft's public sample database, and personal data is masked by the engine.
+    <a href="https://github.com/sirpadk/bi-joe-data-profiler">Source, install guide and README on GitHub</a>.</footer>
+</main>
+</body>
+</html>

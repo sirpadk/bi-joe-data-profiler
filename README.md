@@ -9,6 +9,7 @@ with a landing page and one *data story* per table. No data-profiling experience
 
 **In this guide:**
 [What you get](#what-you-get) ·
+[Sample reports](#sample-reports) ·
 [What you need](#what-you-need) ·
 [Install](#install) ·
 [Get started](#get-started-in-five-minutes) ·
@@ -61,8 +62,27 @@ Other things you get:
 - **Three colour themes**: light gray, light blue and dark.
 - **A built-in checker** that flags descriptions that are invented, vague or only repeat the name.
 
-**See a real example:** [`examples/shoe_company`](examples/shoe_company/index.md) was built from
-[`sample/shoe_company.xlsx`](sample/shoe_company.xlsx).
+**See real reports:** [Sample reports](#sample-reports).
+
+## Sample reports
+
+Three finished reports, made by the skill from the data in `sample/` and from a SQL Server sample database.
+
+| Report | Built from | Tables | |
+|---|---|---|---|
+| **Shoe Company** | an Excel workbook, [`sample/shoe_company.xlsx`](sample/shoe_company.xlsx) | 4 | [Open online](https://sirpadk.github.io/bi-joe-data-profiler/viewer.html#examples/shoe_company/index.md) · [files on GitHub](examples/shoe_company/index.md) |
+| **Danish Insurance Company** | 10 CSV files, [`sample/insurance_dk`](sample/insurance_dk) (dark theme) | 10 | [Open online](https://sirpadk.github.io/bi-joe-data-profiler/viewer.html#examples/insurance_dk/index.md) · [files on GitHub](examples/insurance_dk/index.md) |
+| **AdventureWorks2025** | Microsoft's SQL Server sample database, written by a fresh agent from the skill alone | 71 | [Open online](https://sirpadk.github.io/bi-joe-data-profiler/viewer.html#examples/adventureworks2025/index.md) · [files on GitHub](examples/adventureworks2025/index.md) |
+
+- **Open online** shows the report the way it is meant to look: colours, histograms, hover help and diagrams.
+  It is a small viewer page (`viewer.html`) served by GitHub Pages. Start at the
+  [sample reports page](https://sirpadk.github.io/bi-joe-data-profiler/).
+- **Files on GitHub** is the same Markdown, browsed in the repository. GitHub draws the Mermaid diagrams but
+  removes inline colours, so the tables appear without their theme. That is a GitHub limit, not a bug in the report.
+- The data is made up, or Microsoft's public sample data. Personal data is masked by the engine, and the machine
+  name in the connection was replaced with `localhost`.
+- To see one locally: `python -m http.server` in the project folder, then open
+  `http://localhost:8000/viewer.html#examples/shoe_company/index.md`.
 
 ## What you need
 
@@ -412,7 +432,8 @@ you the one thing to do next.
 skills/bi-joe-data-profiler/   the skill: SKILL.md, references/, assets/, scripts/ (the engine)
 AGENTS.md                      instructions for other AI agents
 docs/connector_template.py     starting point for a new connector
-examples/                      a finished wiki
+examples/                      three finished reports (shoe company, insurance, AdventureWorks)
+viewer.html, index.html        the online viewer for the sample reports (GitHub Pages)
 sample/                        test data: shoe company (Excel), Danish insurance company (CSV)
 tests/                         the test suite
 ```
